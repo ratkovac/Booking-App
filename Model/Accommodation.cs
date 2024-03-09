@@ -21,11 +21,11 @@ namespace BookingApp.Model
         public int NumberOfDayCancelReservation { get; set; }
         public User User { get; set; }
 
-        public List<string> Image; /* --> Moguca ispravka <-- */
+        //public List<string> Image; /* --> Moguca ispravka <-- */
 
         public Accommodation() 
         {
-            Image = new List<string>();
+            //Image = new List<string>();
         }
 
         public Accommodation(int id, string name, string location, int maxGuest, int minNumberOfDaysForReservation, User user, int numberOfDayCancelReservation = 1)
@@ -36,7 +36,7 @@ namespace BookingApp.Model
             MaxGuest = maxGuest;
             MinNumberOfDaysForReservation = minNumberOfDaysForReservation;
             NumberOfDayCancelReservation = numberOfDayCancelReservation;
-            Image = new List<string>();
+            //Image = new List<string>();
             User = user;
         }
 

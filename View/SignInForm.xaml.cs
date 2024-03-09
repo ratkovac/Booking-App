@@ -3,6 +3,7 @@ using BookingApp.Repository;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace BookingApp.View
 {
@@ -13,6 +14,8 @@ namespace BookingApp.View
     {
 
         private readonly UserRepository _repository;
+
+
 
         private string _username;
         public string Username
@@ -49,13 +52,32 @@ namespace BookingApp.View
             {
                 if(user.Password == txtPassword.Password)
                 {
-                    CommentsOverview commentsOverview = new CommentsOverview(user);
-                    commentsOverview.Show();
-                    Close();
-                } 
-                else
+                    switch (user.Role)
+                    {
+                        case "Owner":
+                            break;
+                        case "Guest":
+                            break;
+                        case "Guide":
+                            break;
+                        case "Tourist":
+                            break;
+                        case "Driver":
+                            break;
+                        default:
+                            break;
+                    }
+                        //CommentsOverview commentsOverview = new CommentsOverview(user);
+                        //commentsOverview.Show();
+                        //Close();
+                }
+                else if(user.Password != txtPassword.Password)
                 {
                     MessageBox.Show("Wrong password!");
+                }
+                else
+                {
+                    MessageBox.Show("Wrong role!");
                 }
             }
             else
