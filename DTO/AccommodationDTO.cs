@@ -133,7 +133,6 @@ namespace BookingApp.DTO
         }
         public AccommodationDTO(Accommodation accommodation)
         {
-            Id = accommodation.Id;
             name = accommodation.Name;
             location = accommodation.Location;
             type = accommodation.Type;
