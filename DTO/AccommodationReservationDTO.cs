@@ -89,13 +89,12 @@ namespace BookingApp.DTO
             startDate = accommodationReservation.StartDate;
             endDate = accommodationReservation.EndDate;
         }
-
         public AccommodationReservation ToAccommodationReservation()
         {
             AccommodationReservation accommodationReservation = new AccommodationReservation(Id, accommodationId, userId, startDate, endDate);
             return accommodationReservation;
         }
-
+        
         protected virtual void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)

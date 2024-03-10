@@ -45,6 +45,7 @@ namespace BookingApp.Model
                 Id.ToString(),
                 Name,
                 Location,
+                Type.ToString(),
                 Capacity.ToString(),
                 MinReservationDays.ToString(),
                 DaysBeforeCancel.ToString()
@@ -56,7 +57,9 @@ namespace BookingApp.Model
         {
             Id = Convert.ToInt32(values[0]);
             Name = values[1];
-            Location = values[3];
+            Location = values[2];
+            bool success = Enum.TryParse(values[3], out AccommodationType parsedType);
+            Type = parsedType;
             Capacity = Convert.ToInt32(values[4]);
             MinReservationDays = Convert.ToInt32(values[5]);
             DaysBeforeCancel = Convert.ToInt32(values[6]);
