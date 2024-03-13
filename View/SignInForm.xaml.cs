@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using BookingApp.View.Owner;
+using BookingApp.View.Driver;
 
 namespace BookingApp.View
 {
@@ -67,6 +68,9 @@ namespace BookingApp.View
                         case "Tourist":
                             break;
                         case "Driver":
+                            DriverFrontPage driverFrontPage = new DriverFrontPage(user);
+                            driverFrontPage.Show();
+                            Close();
                             break;
                         default:
                             break;

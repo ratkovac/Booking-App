@@ -1,0 +1,23 @@
+﻿<Window x:Class="BookingApp.View.Driver.VehicleRegistrationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Vehicle Registration" Height="Auto" Width="Auto">
+    <Grid>
+        <GroupBox Header="Vehicle Registration" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+            <StackPanel Margin="10">
+                <Label Content="Location (City, Country)"></Label>
+                <TextBox Name="LocationTextBox" Text="" Margin="0 0 0 5"/>
+                <Label x:Name="LocationLabelError"></Label>
+                <Label  Content="MaxCapacity"></Label>
+                <TextBox Name="MaxCapacityTextBox" Margin="0 0 0 5"/>
+                <Label x:Name="MaxCapacityLabelError"></Label>
+                <Label  Content="Languages"></Label>
+                <TextBox Name="LanguagesTextBox"  Margin="0 0 0 5"/>
+                <Label x:Name="LanguagesLabelError"></Label>
+                <Button x:Name="btnAddImage" Content="Add Image" Click="btnAddImage_Click" Margin="0 5 0 5"/>
+                <ListBox Name="ImagesListBox" Margin="0 0 0 5"/>
+                <Button x:Name="btnRegistraterVehicle" Content="Register Vehicle" Click="btnRegistraterVehicle_Click"/>
+            </StackPanel>
+        </GroupBox>
+    </Grid>
+</Window>
