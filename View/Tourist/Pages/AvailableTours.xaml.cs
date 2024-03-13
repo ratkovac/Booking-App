@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using BookingApp.Model;
+using BookingApp.Repository;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
@@ -39,6 +41,7 @@ namespace BookingApp.View.Tourist.Pages
             InitializeComponent();
             DataContext = this;
 
+            tourRepository = new TourRepository();
             ListTour = new ObservableCollection<Tour>(tourRepository.GetAll());
         }
 

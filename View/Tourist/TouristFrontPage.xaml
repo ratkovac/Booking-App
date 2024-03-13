@@ -40,7 +40,7 @@
                 </Style>
             </Menu.Resources>
             <MenuItem Margin="60,20,0,0" Header="Početna" Width="245"/>
-            <MenuItem Margin="170,20,0,0" Header="Prikaz tura" Width="325"/>
+            <MenuItem Margin="170,20,0,0" Header="Prikaz tura" Click="AvailableTours_Click" Width="325"/>
             <MenuItem Margin="170,20,0,0" Header="Vaučeri" Width="225"/>
         </Menu>
         <Menu Margin="0,200,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Height="120" Width="1280"  BorderThickness="0 1 0 1" BorderBrush="White" Background="Transparent">
@@ -77,5 +77,6 @@
                 </Frame.Background>
             </Frame>
         </Grid>
+        <Frame Name="MainFrame" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>

@@ -1,5 +1,8 @@
 ﻿using BookingApp.Model;
+using BookingApp.View.Tourist.Pages;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Navigation;
 
 namespace BookingApp.View.Tourist
 {
@@ -11,6 +14,12 @@ namespace BookingApp.View.Tourist
             InitializeComponent();
             DataContext = this;
             LoggedInUser = user;
+        }
+
+        private void AvailableTours_Click(object sender, RoutedEventArgs e)
+        {
+            AvailableTours availableToursPage = new AvailableTours();
+            MainFrame.Navigate(availableToursPage);
         }
     }
 }
