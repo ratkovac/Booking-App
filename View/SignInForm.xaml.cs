@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using BookingApp.View.Owner;
 
 namespace BookingApp.View
 {
@@ -50,11 +51,14 @@ namespace BookingApp.View
             User user = _repository.GetByUsername(Username);
             if (user != null)
             {
-                if(user.Password == txtPassword.Password)
+                if (user.Password == txtPassword.Password)
                 {
                     switch (user.Role)
                     {
                         case "Owner":
+                            OwnerFrontPage ownerFrontPage = new OwnerFrontPage(user);
+                            ownerFrontPage.Show();
+                            Close();
                             break;
                         case "Guest":
                             break;
@@ -67,11 +71,11 @@ namespace BookingApp.View
                         default:
                             break;
                     }
-                        //CommentsOverview commentsOverview = new CommentsOverview(user);
-                        //commentsOverview.Show();
-                        //Close();
+                    //CommentsOverview commentsOverview = new CommentsOverview(user);
+                    //commentsOverview.Show();
+                    //Close();
                 }
-                else if(user.Password != txtPassword.Password)
+                else if (user.Password != txtPassword.Password)
                 {
                     MessageBox.Show("Wrong password!");
                 }
@@ -84,7 +88,7 @@ namespace BookingApp.View
             {
                 MessageBox.Show("Wrong username!");
             }
-            
+
         }
     }
 }

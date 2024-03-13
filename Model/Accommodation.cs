@@ -1,6 +1,8 @@
-﻿using BookingApp.Serializer;
+﻿using BookingApp.Repository;
+using BookingApp.Serializer;
 using System;
 using System.Collections.Generic;
+using System.IO.Packaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,19 +16,19 @@ namespace BookingApp.Model
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Location { get; set; } /* --> Moguca ispravka <-- */
-        public AccommodationType Type { get; set; }
+        public Location Location { get; set; } /* --> Moguca ispravka <-- */
+        public string Type { get; set; }
         public int Capacity { get; set; }
         public int MinReservationDays { get; set; } 
         public int DaysBeforeCancel { get; set; }
-        public User User { get; set; }
+        //public User User { get; set; }
 
         public Accommodation() 
         {
-
+          
         }
 
-        public Accommodation(int id, string name, string location, AccommodationType type, int capacity, int minReservationDays, int daysBeforeCancel, User user)
+        public Accommodation(int id, string name, Location location, string type, int capacity, int minReservationDays, int daysBeforeCancel)
         {
             Id = id;
             Name = name;
@@ -35,16 +37,16 @@ namespace BookingApp.Model
             Capacity = capacity;
             MinReservationDays = minReservationDays;
             DaysBeforeCancel = daysBeforeCancel;
-            User = user;
         }
 
         public string[] ToCSV()
         {
+            string location = Location.Id.ToString();
             string[] values =
             {
                 Id.ToString(),
                 Name,
-                Location,
+                location,
                 Type.ToString(),
                 Capacity.ToString(),
                 MinReservationDays.ToString(),
@@ -57,9 +59,10 @@ namespace BookingApp.Model
         {
             Id = Convert.ToInt32(values[0]);
             Name = values[1];
-            Location = values[2];
-            bool success = Enum.TryParse(values[3], out AccommodationType parsedType);
-            Type = parsedType;
+            int locationId = Convert.ToInt32(values[2]);
+            LocationRepository locationRepository = new LocationRepository();
+            Location = locationRepository.GetLocationById(locationId);
+            Type = values[3];
             Capacity = Convert.ToInt32(values[4]);
             MinReservationDays = Convert.ToInt32(values[5]);
             DaysBeforeCancel = Convert.ToInt32(values[6]);
