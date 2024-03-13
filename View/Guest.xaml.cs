@@ -29,7 +29,7 @@ namespace BookingApp.View
         private AccommodationRepository AccommodationRepository { get; set; }
         public AccommodationDTO? SelectedAccommodation { get; set; }
         public ObservableCollection<AccommodationDTO> Accommodations { get; set; }
-        public ObservableCollection<string> Locations { get; set; }
+        public ObservableCollection<Location> Locations { get; set; }
         public ICollectionView FilteredAccommodations { get; set; }
         public Guest()
         {
@@ -39,7 +39,7 @@ namespace BookingApp.View
             Accommodations = new ObservableCollection<AccommodationDTO>();
             AccommodationRepository = new AccommodationRepository();
 
-            Locations = new ObservableCollection<string>();
+            Locations = new ObservableCollection<Location>();
 
             FilteredAccommodations = CollectionViewSource.GetDefaultView(Accommodations);
             FilteredAccommodations.Filter = FilterAccommodations;
@@ -90,7 +90,9 @@ namespace BookingApp.View
                 return false;
 
             bool matchesSearchText = string.IsNullOrWhiteSpace(SearchText) || accommodation.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
-            bool matchesLocation = string.IsNullOrWhiteSpace(SelectedLocation) || accommodation.Location.Equals(SelectedLocation, StringComparison.OrdinalIgnoreCase);
+            bool matchesLocation = string.IsNullOrWhiteSpace(SelectedLocation) || accommodation.Location.City.Equals(SelectedLocation, StringComparison.OrdinalIgnoreCase);
+            //proveri metodu iznad
+
 
             return matchesSearchText && matchesLocation;
         }
@@ -98,7 +100,7 @@ namespace BookingApp.View
         public void Update()
         {
             Accommodations.Clear();
-            var allLocations = new HashSet<string>();
+            var allLocations = new HashSet<Location>();
             foreach(Accommodation accommodation in AccommodationRepository.GetAll())
             {
                 Accommodations.Add(new AccommodationDTO(accommodation));
@@ -106,7 +108,7 @@ namespace BookingApp.View
             }
 
             Locations.Clear();
-            foreach(string location in allLocations)
+            foreach(Location location in allLocations)
             {
                 Locations.Add(location);
             }

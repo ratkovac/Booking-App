@@ -10,9 +10,9 @@ using System.Xml.Linq;
 
 namespace BookingApp.Repository
 {
-    internal class AccommodationRepository
+    public class AccommodationRepository
     {
-        private const string FilePath = "../../../Resources/Data/accommodation.csv";
+        private const string FilePath = "../../../Resources/Data/accommodations.csv";
 
         private readonly Serializer<Accommodation> _serializer;
 
@@ -74,11 +74,11 @@ namespace BookingApp.Repository
             AccommodationSubject.NotifyObservers();
             return accommodation;
         }
-        public List<Accommodation> GetByUser(User user)
+        /*public List<Accommodation> GetByUser(User user)
         {
             _accommodations = _serializer.FromCSV(FilePath);
             return _accommodations.FindAll(c => c.User.Id == user.Id);
-        }
+        }*/
 
         public void Subscribe(IObserver observer)
         {

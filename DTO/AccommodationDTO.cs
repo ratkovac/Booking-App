@@ -30,8 +30,42 @@ namespace BookingApp.DTO
                 }
             }
         }
-        private string location;
-        public string Location
+
+        private string city;
+        public string City
+        {
+            get
+            {
+                return city;
+            }
+            set
+            {
+                if (value != city)
+                {
+                    city = value;
+                    OnPropertyChanged("City");
+                }
+            }
+        }
+
+        private string country;
+        public string Country
+        {
+            get
+            {
+                return country;
+            }
+            set
+            {
+                if (value != country)
+                {
+                    country = value;
+                    OnPropertyChanged("Country");
+                }
+            }
+        }
+        private Location location;
+        public Location Location
         {
             get 
             {
@@ -47,8 +81,8 @@ namespace BookingApp.DTO
             }
         }
 
-        private AccommodationType type;
-        public AccommodationType Type
+        private string type;
+        public string Type
         {
             get
             {
@@ -139,11 +173,16 @@ namespace BookingApp.DTO
             capacity = accommodation.Capacity;
             minReservationDays = accommodation.MinReservationDays;
             daysBeforeCancel = accommodation.DaysBeforeCancel;
-            user = accommodation.User;
+            //user = accommodation.User;
         }
+
+        public AccommodationDTO()
+        {
+        }
+
         public Accommodation ToAccommodation()
         {
-            Accommodation accomodation = new Accommodation(Id, name, location, type, capacity, minReservationDays, daysBeforeCancel, user);
+            Accommodation accomodation = new Accommodation(Id, name, location, type, capacity, minReservationDays, daysBeforeCancel);
             return accomodation;
         }
         protected virtual void OnPropertyChanged(string name)
