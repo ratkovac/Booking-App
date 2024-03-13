@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using BookingApp.View.Owner;
+using BookingApp.View.Tourist;
 
 namespace BookingApp.View
 {
@@ -65,6 +66,9 @@ namespace BookingApp.View
                         case "Guide":
                             break;
                         case "Tourist":
+                            TouristFrontPage touristFrontPage = new TouristFrontPage(user);
+                            touristFrontPage.Show();
+                            Close();
                             break;
                         case "Driver":
                             break;
