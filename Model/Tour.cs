@@ -19,28 +19,28 @@ namespace BookingApp.Model
         public float Duration { get; set; }
         public Location Location { get; set; }
         public Language Language { get; set; }
-        public List<CheckPoint> CheckPoints { get; set; }
-        public List<DateTime> TourStartTime { get; set; }
+
+        public static int nextId = 1;
+
 
         public Tour()
         {
 
         }
-        public Tour(string name, string description, int maxGeusts, float duration, Location location, Language language, List<CheckPoint> checkPoints, List<DateTime> tourStartTime)
+        public Tour(string name, string description, int maxGeusts, float duration, Location location, Language language)
         {
+            Id = nextId++;
             Name = name;
             Description = description;
             MaxGuests = maxGeusts;
             Duration = duration;
             Location = location;
             Language = language;
-            CheckPoints = checkPoints;
-            TourStartTime = tourStartTime;
         }
 
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), Name, Description, MaxGuests.ToString(), Duration.ToString(), Location.ToString(), Language.ToString() };
+            string[] csvValues = { Id.ToString(), Name, Description, MaxGuests.ToString(), Duration.ToString() };
             return csvValues;
         }
 
@@ -51,6 +51,7 @@ namespace BookingApp.Model
             Description = values[2];
             MaxGuests = Convert.ToInt32(values[3]);
             Duration = Convert.ToSingle(values[4]);
+
             // Ovde bi trebalo dodati parsiranje za Location i Language ako su kompleksni tipovi podataka
         }
 

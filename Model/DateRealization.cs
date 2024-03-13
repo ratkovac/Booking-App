@@ -7,35 +7,33 @@ using System.Threading.Tasks;
 
 namespace BookingApp.Model
 {
-    public class CheckPoint : ISerializable
+    public class DateRealization : ISerializable
     {
         public int Id { get; set; }
-        public string PointText { get; set; }
+        public DateTime Date { get; set; }
         public int TourId { get; set; }
 
-        public static int nextId = 1;
+        public static int NextId = 1;
 
-        public CheckPoint() { }
-        public CheckPoint(string pointText, int tourId)
+        public DateRealization() { }
+
+        public DateRealization(DateTime date, int tourId)
         {
-            Id = nextId++;
-            //TourId = Tour.nextId;
-            PointText = pointText;
+            Id = NextId++;
+            Date = date;
             TourId = tourId;
         }
 
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), PointText, TourId.ToString() };
-            return csvValues;
+            return new string[] { Id.ToString(), Date.ToString(), TourId.ToString() };
         }
 
         public void FromCSV(string[] values)
         {
             Id = Convert.ToInt32(values[0]);
-            PointText = values[1];
+            Date = Convert.ToDateTime(values[1]);
             TourId = Convert.ToInt32(values[2]);
         }
-    }   
-
+    }
 }

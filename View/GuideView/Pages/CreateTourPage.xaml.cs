@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BookingApp.Model;
+using BookingApp.Repository;
 using Microsoft.VisualBasic;
 
 namespace BookingApp.View.GuideView.Pages
@@ -24,6 +25,10 @@ namespace BookingApp.View.GuideView.Pages
     /// </summary>
     public partial class CreateTourPage : Page
     {
+        private CheckPointRepository checkPointRepository = new CheckPointRepository();
+        private DateRealizationRepository dateRealizationRepository = new DateRealizationRepository();
+        private TourRepository tourRepository = new TourRepository();
+        private LocationRepository locationRepository = new LocationRepository();
 
         private List<Tour> tours = new List<Tour>();
         
@@ -69,33 +74,41 @@ namespace BookingApp.View.GuideView.Pages
             // Create tour object
             Language language = new Language(lang);
             Location location = new Location(city, country);
-            List<CheckPoint> checkPoints = GetCheckPoints(ListCheckPoints);
-            List<DateTime> dates = GetDateAndTimes(ListDates);
-            Tour tour = new Tour(name, description, maxGuests, duration, location, language, checkPoints, dates);
+            Tour tour = new Tour(name, description, maxGuests, duration, location, language);
+
+            locationRepository.Save(location);
+            tourRepository.Save(tour);
+
+            GetCheckPoints(ListCheckPoints, tour.Id);
+            GetDateAndTimes(ListDates, tour.Id);
+
+
 
             ClearFields();
         }
 
         // Extracts CheckPoints from TextBoxes and adds them to a List
-        private List<CheckPoint> GetCheckPoints(List<TextBox> listCheckPoints)
+        private List<CheckPoint> GetCheckPoints(List<TextBox> listCheckPoints, int tourId)
         {
             List<CheckPoint> checkPoints = new List<CheckPoint>();
 
             foreach (TextBox textBox in listCheckPoints)
             {
-                CheckPoint checkPoint = new CheckPoint(textBox.Text);
+                CheckPoint checkPoint = new CheckPoint(textBox.Text, tourId);
                 checkPoints.Add(checkPoint);
+                checkPointRepository.Save(checkPoint);
             }
-            CheckPoint endCheckPoint = new CheckPoint(txtEndCheckPoint.Text);
+            CheckPoint endCheckPoint = new CheckPoint(txtEndCheckPoint.Text, tourId);
             checkPoints.Add(endCheckPoint);
+            checkPointRepository.Save(endCheckPoint);
 
             return checkPoints;
         }
 
         // Extracts DatesAndTimes from TextBoxes and adds them to a List
-        private List<DateTime> GetDateAndTimes(List<TextBox> listDates)
+        private List<DateRealization> GetDateAndTimes(List<TextBox> listDates, int tourId)
         {
-            List<DateTime> dates = new List<DateTime>();
+            List<DateRealization> dates = new List<DateRealization>();
 
             foreach (TextBox textBox in listDates)
             {
@@ -104,9 +117,9 @@ namespace BookingApp.View.GuideView.Pages
                 DateTime parsedDate;
                 if (DateTime.TryParseExact(dateString, "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedDate))
                 {
-
-                    dates.Add(parsedDate);
-                    MessageBox.Show(parsedDate.ToString("dd-MM-yyyy HH:mm"));
+                    DateRealization dateRealization = new DateRealization(parsedDate, tourId);
+                    dates.Add(dateRealization);
+                    dateRealizationRepository.Save(dateRealization);
                 }
                 else
                 {

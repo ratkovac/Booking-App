@@ -18,7 +18,7 @@ namespace BookingApp.Model
         {
             Name = name;
         }
-
+        public Language() { }
         public string[] ToCSV()
         {
             string[] csvValues = { Id.ToString(), Name};
