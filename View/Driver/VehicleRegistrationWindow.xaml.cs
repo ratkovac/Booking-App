@@ -27,11 +27,15 @@ namespace BookingApp.View.Driver
 
         private readonly Serializer<Vehicle> _serializer;
 
-        public VehicleRegistrationWindow()
+        private readonly User LoggedInUser;
+
+        public VehicleRegistrationWindow(User user)
         {
+            LoggedInUser = user;
             InitializeComponent();
             _vehicleRepository = new VehicleRepository();
         }
+        
 
         private void RegisterVehicle_Click(object sender, RoutedEventArgs e)
         {
@@ -124,13 +128,13 @@ namespace BookingApp.View.Driver
                 vehicle.Capacity = int.Parse(MaxCapacityTextBox.Text);
                 vehicle.Language = LanguagesTextBox.Text;
                 vehicle.ImagePaths = ImageList;
-                vehicle.Id = 1;
+                vehicle.User=LoggedInUser;
+                //MessageBox.Show(LoggedInUser.ToString());
                 UserRepository userRepository = new UserRepository();
-                vehicle.User = userRepository.GetByUsername("Zika");
                 List<Vehicle> vehicleList = new List<Vehicle>();
                 vehicleList.Add(vehicle);
                 //MessageBox.Show(VehicleList.Count.ToString());
-                MessageBox.Show(vehicleList[0].ToString());
+                //MessageBox.Show(vehicleList[0].ToString());
                 //MessageBox.Show(vehicle.ToString());
 
                 _vehicleRepository.Save(vehicle);

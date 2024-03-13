@@ -35,7 +35,7 @@ namespace BookingApp.View.Driver
 
         private void btnOpenVehicleRegistration_Click(object sender, RoutedEventArgs e)
         {
-            Driver.VehicleRegistrationWindow vehicleRegistrationWindow = new Driver.VehicleRegistrationWindow();
+            Driver.VehicleRegistrationWindow vehicleRegistrationWindow = new Driver.VehicleRegistrationWindow(LoggedInUser);
             vehicleRegistrationWindow.Show();
             Close();
         }

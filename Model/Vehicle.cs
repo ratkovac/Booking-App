@@ -1,4 +1,5 @@
-﻿using BookingApp.Serializer;
+﻿using BookingApp.Repository;
+using BookingApp.Serializer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,8 @@ namespace BookingApp.Model
             User = user;
         }
 
+        UserRepository userRepository = new UserRepository();
+
         public void FromCSV(string[] values)
         {
             if (values.Length < 5) 
@@ -40,7 +43,7 @@ namespace BookingApp.Model
             Capacity = Convert.ToInt32(values[2]);
             Language = values[3];
             ImagePaths = values.Skip(4).ToList();
-            User = new User();
+            User = userRepository.GetById(int.Parse(values[5]));
         }
         public string[] ToCSV()
         {
@@ -50,7 +53,8 @@ namespace BookingApp.Model
                 Location,
                 Capacity.ToString(),
                 Language,
-                string.Join(",", ImagePaths)
+                string.Join(",", ImagePaths),
+                User.Id.ToString()
             };
             return values;
         }

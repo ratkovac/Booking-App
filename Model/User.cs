@@ -32,5 +32,10 @@ namespace BookingApp.Model
             Password = values[2];
             Role = values[3];
         }
+        public override string ToString()
+        {
+            return $"Id: {Id}, Username: {Username}, Role: {Role}";
+        }
+
     }
 }
