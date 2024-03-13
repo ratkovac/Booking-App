@@ -1,0 +1,78 @@
+﻿<Window x:Class="BookingApp.View.GuideView.TourForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BookingApp.View.GuideView"
+        ResizeMode="NoResize"
+        mc:Ignorable="d"
+        Title="TourForm" Height="750" Width="430">
+    <Grid>
+        <DockPanel>
+            <Grid
+        Height="50"
+        Background="#FF707070"
+        DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button
+            x:Name="BackButton"
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="5"
+            Background="White"
+            Foreground="Black"
+            Click="BackButton_Click"
+            Content="Back"
+            Cursor="Hand"
+            IsEnabled="{Binding ElementName=MainFrame, Path=CanGoBack}"
+            ToolTip="Navigate Back" />
+
+                <Menu Grid.Column="1">
+                    <MenuItem
+                    Name="CreateTourItem"
+                    Height="50"
+                    Click="CreateTourItem_Click"
+                    Cursor="Hand"
+                    Header="Create Tour"
+                    ToolTip="Go to Create Tour Page" />
+                    <MenuItem
+                    Name="TrackTourLive"
+                    Height="50"
+                    Click="TrackTourLive_Click"
+                    Cursor="Hand"
+                    Header="Track Tour Live"
+                    ToolTip="Go to Track Tour Live Page" />
+                </Menu>
+                <Button
+            x:Name="ExitButton"
+            Grid.Row="0"
+            Grid.Column="2"
+            Margin="5"
+            Width="Auto"
+            Height="Auto"
+            Background="White"
+            Foreground="Black"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Click="ExitButton_Click"
+            Cursor="Hand"
+            Content="Exit"
+            ToolTip="Close the application" />
+            </Grid>
+
+            <Frame
+                x:Name="MainFrame"
+                 DockPanel.Dock="Bottom"
+                NavigationUIVisibility="Hidden" >
+                <Frame.Background>
+                    <ImageBrush ImageSource="C:\Users\janic\FAX\SEMESTAR 6\SiMS\sims-ra-2024-group-7-team-a-main\sims-ra-2024-group-7-team-a-main\View\GuideView\GuideImages\mainslika.jpeg"/>
+                </Frame.Background>
+            </Frame>
+        </DockPanel>
+    </Grid>
+</Window>
