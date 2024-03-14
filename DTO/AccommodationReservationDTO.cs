@@ -94,6 +94,7 @@ namespace BookingApp.DTO
             AccommodationReservation accommodationReservation = new AccommodationReservation(Id, accommodationId, userId, startDate, endDate);
             return accommodationReservation;
         }
+        
         protected virtual void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)
