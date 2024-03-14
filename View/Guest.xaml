@@ -41,11 +41,13 @@
 
         <!-- Broj gostiju -->
         <Label Grid.Row="1" Grid.Column="4" Content="Broj gostiju" Margin="0,5,5,5"/>
-        <TextBox x:Name="guestsTextBox" Grid.Row="1" Grid.Column="5" Margin="0,5,5,5" />
+        <TextBox x:Name="guestsTextBox" Grid.Row="1" Grid.Column="5" Margin="0,5,5,5" 
+                 Text="{Binding Capacity, UpdateSourceTrigger=PropertyChanged}"/>
 
         <!-- Broj dana za rezervaciju -->
         <Label Grid.Row="2" Grid.Column="0" Content="Broj dana za rezervaciju" Margin="0,5,5,5"/>
-        <TextBox x:Name="daysTextBox" Grid.Row="2" Grid.Column="1" Margin="0,5,0,5" />
+        <TextBox x:Name="daysTextBox" Grid.Row="2" Grid.Column="1" Margin="0,5,0,5" 
+                 Text="{Binding DaysBeforeCancel, UpdateSourceTrigger=PropertyChanged}" />
 
         <!-- Datum početka -->
         <Label Grid.Row="2" Grid.Column="2" Content="Start Date" Margin="0,5,5,5"/>

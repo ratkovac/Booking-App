@@ -44,7 +44,6 @@ namespace BookingApp.View
             FilteredAccommodations = CollectionViewSource.GetDefaultView(Accommodations);
             FilteredAccommodations.Filter = FilterAccommodations;
 
-
             Update();
         }
 
@@ -84,17 +83,74 @@ namespace BookingApp.View
             }
         }
 
+        private int capacity;
+        public  int Capacity
+        {
+            get
+            {
+                return capacity;
+            }
+            set
+            {
+                if(capacity != value) 
+                {
+                    capacity = value;
+                    OnPropertyChanged("Capacity");
+                    FilteredAccommodations.Refresh();
+                }
+            }
+        }
+
+        private int daysBeforeCancel;
+        public int DaysBeforeCancel
+        {
+            get
+            {
+                return daysBeforeCancel;
+            }
+            set
+            {
+                if(value != daysBeforeCancel)
+                {
+                    daysBeforeCancel = value;
+                    OnPropertyChanged("DaysBeforeCancel");
+                    FilteredAccommodations.Refresh();
+                }
+            }
+        }
+
+        private int minReservationDays;
+        public int MinReservationDays
+        {
+            get
+            {
+                return minReservationDays;
+            }
+            set
+            {
+                if (value != minReservationDays)
+                {
+                    minReservationDays = value;
+                    OnPropertyChanged("MinReservationDays");
+                    FilteredAccommodations.Refresh();
+                }
+            }
+        }
+
         private bool FilterAccommodations(object item)
         {
             if (!(item is AccommodationDTO accommodation))
                 return false;
 
             bool matchesSearchText = string.IsNullOrWhiteSpace(SearchText) || accommodation.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
-            bool matchesLocation = string.IsNullOrWhiteSpace(SelectedLocation) || accommodation.Location.City.Equals(SelectedLocation, StringComparison.OrdinalIgnoreCase);
+            bool matchesLocation = string.IsNullOrWhiteSpace(SelectedLocation) || accommodation.Location.Equals(SelectedLocation, StringComparison.OrdinalIgnoreCase);
+            bool matchesCapacity = (Capacity == 0 || accommodation.Capacity == Capacity);
+            bool matchesDaysBeforeCancel = (DaysBeforeCancel == 0 || accommodation.DaysBeforeCancel == DaysBeforeCancel);
+            bool matchesMinReservationDays = (MinReservationDays == 0 || accommodation.MinReservationDays == MinReservationDays); 
+            //bool matchesLocation = string.IsNullOrWhiteSpace(SelectedLocation) || accommodation.Location.City.Equals(SelectedLocation, StringComparison.OrdinalIgnoreCase);
             //proveri metodu iznad
 
-
-            return matchesSearchText && matchesLocation;
+            return matchesSearchText && matchesLocation && matchesCapacity && matchesDaysBeforeCancel && matchesMinReservationDays;
         }
 
         public void Update()
