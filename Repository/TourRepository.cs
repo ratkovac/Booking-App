@@ -1,5 +1,6 @@
 ﻿using BookingApp.Model;
 using BookingApp.Serializer;
+using CLI.Observer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,13 @@ namespace BookingApp.Repository
         private readonly Serializer<Tour> _serializer;
 
         private List<Tour> _tours;
+        public Subject TourSubject;
 
         public TourRepository()
         {
             _serializer = new Serializer<Tour>();
             _tours = _serializer.FromCSV(FilePath);
+            TourSubject = new Subject();
         }
 
         public List<Tour> GetAll()
@@ -32,6 +35,7 @@ namespace BookingApp.Repository
             tour.Id = NextId();
             _tours = _serializer.FromCSV(FilePath);
             _tours.Add(tour);
+            TourSubject.NotifyObservers();
             _serializer.ToCSV(FilePath, _tours);
             return tour;
         }
@@ -50,8 +54,17 @@ namespace BookingApp.Repository
         {
             _tours = _serializer.FromCSV(FilePath);
             Tour founded = _tours.Find(t => t.Id == tour.Id);
-            _tours.Remove(founded);
+            if (founded != null)
+            {
+                _tours.Remove(founded);
+            }
+            TourSubject.NotifyObservers();
             _serializer.ToCSV(FilePath, _tours);
+
+            //_tours = _serializer.FromCSV(FilePath);
+           // Tour founded = _tours.Find(t => t.Id == tour.Id);
+           // _tours.Remove(founded);
+           // _serializer.ToCSV(FilePath, _tours);
         }
 
         public Tour Update(Tour tour)
@@ -62,7 +75,13 @@ namespace BookingApp.Repository
             _tours.Remove(current);
             _tours.Insert(index, tour); // keep ascending order of ids in file 
             _serializer.ToCSV(FilePath, _tours);
+            TourSubject.NotifyObservers();
             return tour;
+        }
+
+        public void Subscribe(IObserver observer)
+        {
+
         }
     }
 }

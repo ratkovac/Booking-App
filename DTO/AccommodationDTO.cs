@@ -160,6 +160,22 @@ namespace BookingApp.DTO
             }
         }
 
+        private string imagePath;
+        public string ImagePath
+        {
+            get
+            {
+                return imagePath;
+            }
+            set
+            {
+                if (imagePath != value)
+                {
+                    imagePath = value;
+                    OnPropertyChanged("Image path");
+                }
+            }
+        }
         private User user;
         public User User
         {

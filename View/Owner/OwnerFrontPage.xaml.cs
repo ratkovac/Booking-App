@@ -18,7 +18,7 @@ namespace BookingApp.View.Owner
             LoggedInUser = user;
         }
 
-        private void Label_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void NewAccomodation_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             // Dodajte željenu logiku koja treba da se izvrši kada korisnik klikne na Labelu
             AccommodationAdd accommodationAdd = new AccommodationAdd();

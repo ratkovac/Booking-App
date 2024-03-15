@@ -62,7 +62,8 @@ namespace BookingApp.Model
             int locationId = Convert.ToInt32(values[2]);
             LocationRepository locationRepository = new LocationRepository();
             Location = locationRepository.GetLocationById(locationId);
-            Type = (AccommodationType)Enum.Parse(typeof(AccommodationType), values[3]);
+            bool success = Enum.TryParse(values[3], out AccommodationType parsedType);
+            Type = parsedType;
             Capacity = Convert.ToInt32(values[4]);
             MinReservationDays = Convert.ToInt32(values[5]);
             DaysBeforeCancel = Convert.ToInt32(values[6]);

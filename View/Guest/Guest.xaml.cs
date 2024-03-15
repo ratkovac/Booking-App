@@ -188,10 +188,19 @@ namespace BookingApp.View
                 return false;
 
             bool matchesSearchText = string.IsNullOrWhiteSpace(SearchText) || accommodation.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
+<<<<<<< HEAD:View/Guest/Guest.xaml.cs
             bool matchesCapacity = string.IsNullOrWhiteSpace(Capacity) || accommodation.Capacity.ToString().Contains(Capacity, StringComparison.OrdinalIgnoreCase);
             bool matchesDaysBeforeCancel = string.IsNullOrWhiteSpace(DaysBeforeCancel) || accommodation.DaysBeforeCancel.ToString().Contains(DaysBeforeCancel, StringComparison.OrdinalIgnoreCase);
             bool matchesMinReservationDays = string.IsNullOrWhiteSpace(MinReservationDays) || accommodation.MinReservationDays.ToString().Contains(MinReservationDays, StringComparison.OrdinalIgnoreCase);
             bool matchesLocation = string.IsNullOrWhiteSpace(SelectedLocation) || accommodation.Location.ToString().Equals(SelectedLocation, StringComparison.OrdinalIgnoreCase);
+=======
+            //bool matchesLocation = string.IsNullOrWhiteSpace(SelectedLocation) || accommodation.Location.Equals(SelectedLocation, StringComparison.OrdinalIgnoreCase);
+            bool matchesCapacity = (Capacity == 0 || accommodation.Capacity == Capacity);
+            bool matchesDaysBeforeCancel = (DaysBeforeCancel == 0 || accommodation.DaysBeforeCancel == DaysBeforeCancel);
+            bool matchesMinReservationDays = (MinReservationDays == 0 || accommodation.MinReservationDays == MinReservationDays); 
+            bool matchesLocation = string.IsNullOrWhiteSpace(SelectedLocation) || accommodation.Location.City.Equals(SelectedLocation, StringComparison.OrdinalIgnoreCase);
+            //proveri metodu iznad
+>>>>>>> dfb4d4ae8cba5d34c4990390381d7828e48b784e:View/Guest.xaml.cs
 
             return matchesSearchText && matchesLocation && matchesCapacity && matchesDaysBeforeCancel && matchesMinReservationDays;
         }

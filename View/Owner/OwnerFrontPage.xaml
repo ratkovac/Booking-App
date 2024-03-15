@@ -12,7 +12,7 @@
             <ColumnDefinition Width="19*"/>
             <ColumnDefinition Width="781*"/>
         </Grid.ColumnDefinitions>
-        <Label Content="New accomodation" HorizontalAlignment="Left" Height="34" Margin="25,76,0,0" VerticalAlignment="Top" Width="125" Grid.Column="1" MouseLeftButtonDown="Label_MouseLeftButtonDown"/>
+        <Label x:Name="NewAccomodation" Content="New accomodation" HorizontalAlignment="Left" Height="34" Margin="25,76,0,0" VerticalAlignment="Top" Width="125" Grid.Column="1" MouseLeftButtonDown="NewAccomodation_MouseLeftButtonDown"/>
         <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="296,76,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
         <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="296,109,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
     </Grid>
