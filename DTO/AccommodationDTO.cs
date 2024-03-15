@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static BookingApp.Model.AccommodationTypeEnum;
 
 namespace BookingApp.DTO
 {
@@ -78,6 +79,16 @@ namespace BookingApp.DTO
                     location = value;
                     OnPropertyChanged("Location");
                 }
+            }
+        }
+
+        private string displayLocation;
+
+        public string DisplayLocation
+        {
+            get
+            {
+                return $"{Location.City}, {Location.Country}"; 
             }
         }
 
@@ -183,13 +194,14 @@ namespace BookingApp.DTO
         }
         public AccommodationDTO(Accommodation accommodation)
         {
+            Id = accommodation.Id;
             name = accommodation.Name;
             location = accommodation.Location;
             type = accommodation.Type;
             capacity = accommodation.Capacity;
             minReservationDays = accommodation.MinReservationDays;
             daysBeforeCancel = accommodation.DaysBeforeCancel;
-            //user = accommodation.User;
+            user = accommodation.User;
         }
 
         public AccommodationDTO()

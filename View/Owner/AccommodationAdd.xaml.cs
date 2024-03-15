@@ -59,11 +59,11 @@ namespace BookingApp.View.Owner
         public void SetAccommodationType()
         {
             if (Item11.IsSelected == true)
-                accommodationDTO.Type = AccommodationType.Apartment;
+                accommodationDTO.Type = AccommodationTypeEnum.AccommodationType.Apartment;
             if (Item12.IsSelected == true)
-                accommodationDTO.Type = AccommodationType.House;
+                accommodationDTO.Type = AccommodationTypeEnum.AccommodationType.House;
             if (Item13.IsSelected == true)
-                accommodationDTO.Type = AccommodationType.Hut;
+                accommodationDTO.Type = AccommodationTypeEnum.AccommodationType.Hut;
         }
 
         private void AccommodationAdding_Click(object sender, RoutedEventArgs e)

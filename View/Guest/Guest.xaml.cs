@@ -17,6 +17,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static BookingApp.Model.AccommodationTypeEnum;
 
 namespace BookingApp.View
 {
@@ -29,9 +30,10 @@ namespace BookingApp.View
         private AccommodationRepository AccommodationRepository { get; set; }
         public AccommodationDTO? SelectedAccommodation { get; set; }
         public ObservableCollection<AccommodationDTO> Accommodations { get; set; }
-        public ObservableCollection<Location> Locations { get; set; }
+        public ObservableCollection<string> Locations { get; set; }
         public ICollectionView FilteredAccommodations { get; set; }
-        public Guest()
+        public User LoggedInUser { get; set; }
+        public Guest(User loggedInUser)
         {
             InitializeComponent();
             DataContext = this;
@@ -39,12 +41,13 @@ namespace BookingApp.View
             Accommodations = new ObservableCollection<AccommodationDTO>();
             AccommodationRepository = new AccommodationRepository();
 
-            Locations = new ObservableCollection<Location>();
+            Locations = new ObservableCollection<string>();
 
             FilteredAccommodations = CollectionViewSource.GetDefaultView(Accommodations);
             FilteredAccommodations.Filter = FilterAccommodations;
 
             Update();
+            LoggedInUser = loggedInUser;
         }
 
         private string searchText;
@@ -65,26 +68,51 @@ namespace BookingApp.View
             }
         }
 
+        private Location location;
+        public Location Location
+        {
+            get
+            {
+                return location; 
+            }
+            set
+            {
+                if (location != value)
+                {
+                    location = value;
+                    OnPropertyChanged(nameof(Location));
+                    FilteredAccommodations.Refresh();
+                }
+            }
+        }
+
+        private string displayLocation;
+
+        public string DisplayLocation
+        {
+            get
+            {
+                return $"{Location.City}, {Location.Country}";
+            }
+        }
+
         private string selectedLocation;
         public string SelectedLocation
         {
-            get 
-            { 
-                return selectedLocation; 
-            }
+            get => selectedLocation;
             set
             {
                 if (selectedLocation != value)
                 {
                     selectedLocation = value;
                     OnPropertyChanged(nameof(SelectedLocation));
-                    FilteredAccommodations.Refresh();
+                    FilteredAccommodations.Refresh(); 
                 }
             }
         }
 
-        private int capacity;
-        public  int Capacity
+        private string capacity;
+        public  string Capacity
         {
             get
             {
@@ -101,8 +129,8 @@ namespace BookingApp.View
             }
         }
 
-        private int daysBeforeCancel;
-        public int DaysBeforeCancel
+        private string daysBeforeCancel;
+        public string DaysBeforeCancel
         {
             get
             {
@@ -118,9 +146,26 @@ namespace BookingApp.View
                 }
             }
         }
+        private AccommodationType type;
+        public AccommodationType Type
+        {
+            get
+            {
+                return type;
+            }
+            set
+            {
+                if(value != type)
+                {
+                    type = value;
+                    OnPropertyChanged(nameof(Type));
+                    FilteredAccommodations.Refresh();
+                }
+            }
+        }
 
-        private int minReservationDays;
-        public int MinReservationDays
+        private string minReservationDays;
+        public string MinReservationDays
         {
             get
             {
@@ -143,16 +188,22 @@ namespace BookingApp.View
                 return false;
 
             bool matchesSearchText = string.IsNullOrWhiteSpace(SearchText) || accommodation.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
+<<<<<<< HEAD:View/Guest/Guest.xaml.cs
+            bool matchesCapacity = string.IsNullOrWhiteSpace(Capacity) || accommodation.Capacity.ToString().Contains(Capacity, StringComparison.OrdinalIgnoreCase);
+            bool matchesDaysBeforeCancel = string.IsNullOrWhiteSpace(DaysBeforeCancel) || accommodation.DaysBeforeCancel.ToString().Contains(DaysBeforeCancel, StringComparison.OrdinalIgnoreCase);
+            bool matchesMinReservationDays = string.IsNullOrWhiteSpace(MinReservationDays) || accommodation.MinReservationDays.ToString().Contains(MinReservationDays, StringComparison.OrdinalIgnoreCase);
+            bool matchesLocation = string.IsNullOrWhiteSpace(SelectedLocation) || accommodation.Location.ToString().Equals(SelectedLocation, StringComparison.OrdinalIgnoreCase);
+=======
             //bool matchesLocation = string.IsNullOrWhiteSpace(SelectedLocation) || accommodation.Location.Equals(SelectedLocation, StringComparison.OrdinalIgnoreCase);
             bool matchesCapacity = (Capacity == 0 || accommodation.Capacity == Capacity);
             bool matchesDaysBeforeCancel = (DaysBeforeCancel == 0 || accommodation.DaysBeforeCancel == DaysBeforeCancel);
             bool matchesMinReservationDays = (MinReservationDays == 0 || accommodation.MinReservationDays == MinReservationDays); 
             bool matchesLocation = string.IsNullOrWhiteSpace(SelectedLocation) || accommodation.Location.City.Equals(SelectedLocation, StringComparison.OrdinalIgnoreCase);
             //proveri metodu iznad
+>>>>>>> dfb4d4ae8cba5d34c4990390381d7828e48b784e:View/Guest.xaml.cs
 
             return matchesSearchText && matchesLocation && matchesCapacity && matchesDaysBeforeCancel && matchesMinReservationDays;
         }
-
         public void Update()
         {
             Accommodations.Clear();
@@ -164,9 +215,10 @@ namespace BookingApp.View
             }
 
             Locations.Clear();
-            foreach(Location location in allLocations)
+            Locations.Add(" ");
+            foreach (Location location in allLocations)
             {
-                Locations.Add(location);
+                Locations.Add(location.ToString());
             }
         }
 
