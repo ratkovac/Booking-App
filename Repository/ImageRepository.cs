@@ -1,7 +1,11 @@
-﻿using BookingApp.Model;
-using BookingApp.Serializer;
+
+﻿using BookingApp.Serializer;
+using BookingApp.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace BookingApp.Repository
 {
@@ -24,13 +28,14 @@ namespace BookingApp.Repository
             return _serializer.FromCSV(FilePath);
         }
 
-        public Image Save(Image Image)
+
+        public Image Save(Image image)
         {
-            Image.Id = NextId();
+            image.Id = NextId();
             _images = _serializer.FromCSV(FilePath);
-            _images.Add(Image);
+            _images.Add(image);
             _serializer.ToCSV(FilePath, _images);
-            return Image;
+            return image;
         }
 
         public int NextId()
@@ -40,7 +45,26 @@ namespace BookingApp.Repository
             {
                 return 1;
             }
-            return _images.Max(c => c.Id) + 1;
+            return _images.Max(i => i.Id) + 1;
+        }
+
+        public void Delete(Image image)
+        {
+            _images = _serializer.FromCSV(FilePath);
+            Image founded = _images.Find(i => i.Id == image.Id);
+            _images.Remove(founded);
+            _serializer.ToCSV(FilePath, _images);
+        }
+
+        public Image Update(Image image)
+        {
+            _images = _serializer.FromCSV(FilePath);
+            Image current = _images.Find(i => i.Id == image.Id);
+            int index = _images.IndexOf(current);
+            _images.Remove(current);
+            _images.Insert(index, image);
+            _serializer.ToCSV(FilePath, _images);
+            return image;
         }
     }
 }
