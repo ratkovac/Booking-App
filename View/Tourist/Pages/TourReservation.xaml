@@ -1,0 +1,51 @@
+﻿<Page x:Class="BookingApp.View.Tourist.Pages.TourReservation"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BookingApp.View.Tourist.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="720" d:DesignWidth="1280"
+      Title="TourReservation" Background="White">
+
+    <Grid>
+        <Border BorderBrush="Black" BorderThickness="3" HorizontalAlignment="Left" Height="671" Margin="23,23,0,0" VerticalAlignment="Top" Width="848" CornerRadius="10,10,10,10"/>
+        <Label Content="Prikaz informacija o turi:" FontSize="36" HorizontalAlignment="Left" Margin="37,34,0,0" VerticalAlignment="Top" Width="430" Height="58" FontWeight="Bold"/>
+        <Label Content="Naziv ture:" FontSize="16" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="62,112,0,0" VerticalAlignment="Top" Width="231" Height="30"/>
+        <Label Content="Lokacija(Grad i Drzava):" FontSize="16"  HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="62,186,0,0" VerticalAlignment="Top" Width="231" Height="35"/>
+        <Label Content="Opis:" FontSize="16"  HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="62,352,0,0" VerticalAlignment="Top" Width="73" Height="35"/>
+        <TextBox x:Name="NameTextBox" HorizontalAlignment="Left" Margin="60,147,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" VerticalContentAlignment="Bottom" Width="328" Height="34" FontSize="16" IsEnabled="False" BorderThickness="0,0,0,3" BorderBrush="Black"/>
+        <TextBox x:Name="LocationTextBox" HorizontalAlignment="Left" Margin="62,226,0,0" TextWrapping="Wrap" Text="" FontSize="16" VerticalContentAlignment="Bottom" VerticalAlignment="Top" Width="328" Height="34" IsEnabled="False" BorderThickness="0,0,0,3" BorderBrush="Black"/>
+        <TextBox x:Name="DescriptionTextBox" HorizontalAlignment="Left" Margin="62,392,0,0" TextWrapping="Wrap" Text="" FontSize="16" VerticalAlignment="Top" Width="329" Height="118" IsEnabled="False" BorderThickness="3,3,3,3" BorderBrush="Black"/>
+        <Label Content="Jezik:" FontSize="16" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="62,265,0,0" VerticalAlignment="Top" Height="35" Width="52"/>
+        <TextBox x:Name="LanguageTextBox" VerticalContentAlignment="Bottom" HorizontalAlignment="Left" Margin="62,305,0,0" TextWrapping="Wrap" Text="" FontSize="16" VerticalAlignment="Top" Width="89" Height="35" IsEnabled="False" BorderThickness="0,0,0,3" BorderBrush="Black"/>
+        <Label Content="Maksimalan broj gostiju:" FontSize="16" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="181,265,0,0" VerticalAlignment="Top" Width="209" Height="35"/>
+        <TextBox x:Name="MaxGuestsTextBox" VerticalContentAlignment="Bottom" HorizontalAlignment="Left" Margin="181,305,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="209" Height="35" FontSize="16" IsEnabled="False" BorderThickness="0,0,0,3" BorderBrush="Black"/>
+        <Label Content="Kljucne tacke:" FontSize="16" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="457,357,0,0" VerticalAlignment="Top" Width="125" Height="35"/>
+        <TextBox x:Name="KeyPointTextBox" HorizontalAlignment="Left" Margin="457,392,0,0" TextWrapping="Wrap" Text="" FontSize="16" VerticalAlignment="Top" Width="329" Height="118" IsEnabled="False" BorderBrush="Black" BorderThickness="3,3,3,3"/>
+        <Label Content="Datum i vreme pocetka ture:" FontSize="16" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="62,517,0,0" VerticalAlignment="Top" Height="35" Width="231"/>
+        <TextBox x:Name="DateStartTextBox" HorizontalAlignment="Left" Margin="62,557,0,0" TextWrapping="Wrap" Text="" FontSize="16" VerticalAlignment="Top" Width="329" Height="35" IsEnabled="False" BorderThickness="0,0,0,3" BorderBrush="Black"/>
+        <Label Content="Trajanje ture(u satima):" FontSize="16" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="457,517,0,0" VerticalAlignment="Top" Height="35" Width="182"/>
+        <TextBox x:Name="DurationTextBox" HorizontalAlignment="Left" Margin="457,557,0,0" TextWrapping="Wrap" Text="" FontSize="16" VerticalAlignment="Top" Width="329" Height="35" IsEnabled="False" BorderThickness="0,0,0,3" BorderBrush="Black"/>
+        <Label Content="Slike:" FontSize="16" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="457,112,0,0" VerticalAlignment="Top" Width="73" Height="30"/>
+
+        <Label Content="Rezervacija ture:" FontSize="36" HorizontalAlignment="Left" Height="58" Margin="927,34,0,0" VerticalAlignment="Top" Width="304" FontWeight="Bold"/>
+        <Label Content="Unesite broj osoba koje bi isle na turu:" FontSize="16" HorizontalAlignment="Left" Margin="927,128,0,0" VerticalAlignment="Top" Height="35" Width="278"/>
+
+        <Button Content="Rezervisi odmah" FontSize="18" HorizontalAlignment="Left" Margin="1191,182,0,0" VerticalAlignment="Top" Height="35" Width="177" FontWeight="Bold" Cursor="Hand"/>
+        <TextBlock x:Name="MessageReservationBox" HorizontalAlignment="Left" Margin="957,251,0,0" TextWrapping="Wrap" Text="" FontSize="16" VerticalAlignment="Top" Height="82" Width="362" FontStyle="Italic"/>
+        <TextBlock x:Name="AlternativeTextBlock" HorizontalAlignment="Left" Margin="957,362,0,0" TextWrapping="Wrap" Text="" FontSize="16" VerticalAlignment="Top" Height="48" Width="362" FontWeight="Bold"/>
+        <DataGrid x:Name="AlternativeToursGrid"  Margin="957,428,81,166"  Visibility="Hidden"
+              ItemsSource="{Binding TourList}" SelectionMode="Single" 
+              SelectedItem="{Binding Path=SelectedTour}" IsReadOnly="True" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Location" Binding="{Binding Location}" Width="150" />
+                <DataGridTextColumn Header="Language" Binding="{Binding Language}" Width="80" />
+                <DataGridTextColumn Header="Start date" Binding="{Binding StartOfTheTour}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBlock x:Name="MessageBlock" HorizontalAlignment="Left" Margin="961,640,0,0" TextWrapping="Wrap" Text="" FontSize="16" VerticalAlignment="Top" Height="54" Width="358" FontStyle="Italic"/>
+        <ListView x:Name="ImageList"  Margin="457,147,546,414"/>
+        <Button Content="&#60;Nazad" Cursor="Hand" Click="ButtonBack" FontSize="18" HorizontalAlignment="Left" Margin="1285,23,0,0" VerticalAlignment="Top" Height="40" Width="90" />
+    </Grid>
+</Page>

@@ -3,6 +3,7 @@ using BookingApp.Repository;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace BookingApp.View.Tourist.Pages
@@ -15,8 +16,10 @@ namespace BookingApp.View.Tourist.Pages
 
         private TourRepository tourRepository;
         public ObservableCollection<Tour> ListTour { get; set; }
+        public Tour SelectedTour { get; set; }
 
         private int _maxNumberGuest;
+
         public int MaxNumberGuests
         {
             get => _maxNumberGuest;
@@ -51,6 +54,19 @@ namespace BookingApp.View.Tourist.Pages
             foreach (var tour in tourRepository.GetAll())
             {
                 ListTour.Add(tour);
+            }
+        }
+
+        private void Tour_Reservation(object sender, RoutedEventArgs e)
+        {
+            if (SelectedTour != null)
+            {
+                var tour_reservation = new TourReservation(SelectedTour);
+                MainFrame.Navigate(tour_reservation);
+            }
+            else
+            {
+                MessageBox.Show("Morate selektovati turu da bi ste vidjeli vise detalja o njoj!");
             }
         }
 
