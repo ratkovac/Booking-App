@@ -46,9 +46,9 @@
                 </DataGrid.Resources>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" Width="320" />
-                    <DataGridTextColumn Header="Lokacija" Binding="{Binding Location}" Width="230" />
+                    <DataGridTextColumn Header="Opis" Binding="{Binding Description}" Width="230" />
                     <DataGridTextColumn Header="Jezik" Binding="{Binding Language}" Width="150" />
-                    <DataGridTextColumn Header="Kapacitet" Binding="{Binding MaxNumberGuests}" Width="120" />
+                    <DataGridTextColumn Header="Kapacitet" Binding="{Binding MaxGuests}" Width="120" />
                     <DataGridTextColumn Header="Početak ture" Binding="{Binding StartOfTheTour, StringFormat={}{0:dd.MM.yyyy HH:mm}}" Width="180" />
                     <DataGridTextColumn Header="Trajanje" Binding="{Binding Duration}" Width="100" />
                     <DataGridTextColumn Header="Status" Binding="{Binding State}" Width="*" />

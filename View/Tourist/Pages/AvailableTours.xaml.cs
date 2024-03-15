@@ -16,15 +16,15 @@ namespace BookingApp.View.Tourist.Pages
         private TourRepository tourRepository;
         public ObservableCollection<Tour> ListTour { get; set; }
 
-        private int _numberGuest;
-        public int NumberGuests
+        private int _maxNumberGuest;
+        public int MaxNumberGuests
         {
-            get => _numberGuest;
+            get => _maxNumberGuest;
             set
             {
-                if (value != _numberGuest)
+                if (value != _maxNumberGuest)
                 {
-                    _numberGuest = value;
+                    _maxNumberGuest = value;
                     OnPropertyChanged();
                 }
             }
