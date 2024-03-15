@@ -38,7 +38,7 @@ namespace BookingApp.View.GuideView
 
         private void TrackTourLive_Click(object sender, RoutedEventArgs e)
         {
-
+            MainFrame.Navigate(new Uri("View/GuideView/Pages/TrackTourLivePage.xaml", UriKind.RelativeOrAbsolute));
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)

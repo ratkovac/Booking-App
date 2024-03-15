@@ -29,8 +29,10 @@ namespace BookingApp.View.GuideView.Pages
         private DateRealizationRepository dateRealizationRepository = new DateRealizationRepository();
         private TourRepository tourRepository = new TourRepository();
         private LocationRepository locationRepository = new LocationRepository();
+        private ImageRepository imageRepository = new ImageRepository();
 
         private List<Tour> tours = new List<Tour>();
+        private List<string> PathImages = new List<string>();
         
         private List<TextBox> ListCheckPoints = new List<TextBox>();
         private List<TextBox> ListDates = new List<TextBox>();
@@ -74,11 +76,14 @@ namespace BookingApp.View.GuideView.Pages
             // Create tour object
             Language language = new Language(lang);
             Location location = new Location(city, country);
-            Tour tour = new Tour(name, description, maxGuests, duration, location, language);
-
             locationRepository.Save(location);
+            
+
+            Tour tour = new Tour(name, description, maxGuests, duration, location, language);
             tourRepository.Save(tour);
 
+
+            SaveImages(PathImages, tour.Id);
             GetCheckPoints(ListCheckPoints, tour.Id);
             GetDateAndTimes(ListDates, tour.Id);
 
@@ -127,6 +132,15 @@ namespace BookingApp.View.GuideView.Pages
                 }
             }
             return dates;
+        }
+
+        private void SaveImages(List<string> pathImages, int tourId)
+        {
+            foreach (string pathImage in pathImages)
+            {
+                Model.Image image = new Model.Image(pathImage, -1, tourId);
+                imageRepository.Save(image);
+            }
         }
         private void ClearFields()
         {
@@ -206,10 +220,13 @@ namespace BookingApp.View.GuideView.Pages
             {
                 foreach (var item in ofd.FileNames)
                 {
+                    PathImages.Add(item);
                     MessageBox.Show(item);
                 }
             }
         }
+
+
 
         private void btnCancelTour_Click(object sender, RoutedEventArgs e)
         {
