@@ -13,13 +13,9 @@ namespace BookingApp.Model
         public string PointText { get; set; }
         public int TourId { get; set; }
 
-        public static int nextId = 1;
-
         public CheckPoint() { }
         public CheckPoint(string pointText, int tourId)
         {
-            Id = nextId++;
-            //TourId = Tour.nextId;
             PointText = pointText;
             TourId = tourId;
         }
