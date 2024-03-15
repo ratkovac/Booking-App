@@ -16,8 +16,8 @@ namespace BookingApp.Model
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public Location Location { get; set; } /* --> Moguca ispravka <-- */
-        public string Type { get; set; }
+        public Location Location { get; set; } 
+        public AccommodationType Type { get; set; }
         public int Capacity { get; set; }
         public int MinReservationDays { get; set; } 
         public int DaysBeforeCancel { get; set; }
@@ -28,7 +28,7 @@ namespace BookingApp.Model
           
         }
 
-        public Accommodation(int id, string name, Location location, string type, int capacity, int minReservationDays, int daysBeforeCancel)
+        public Accommodation(int id, string name, Location location, AccommodationType type, int capacity, int minReservationDays, int daysBeforeCancel)
         {
             Id = id;
             Name = name;
@@ -62,7 +62,8 @@ namespace BookingApp.Model
             int locationId = Convert.ToInt32(values[2]);
             LocationRepository locationRepository = new LocationRepository();
             Location = locationRepository.GetLocationById(locationId);
-            Type = values[3];
+            bool success = Enum.TryParse(values[3], out AccommodationType parsedType);
+            Type = parsedType;
             Capacity = Convert.ToInt32(values[4]);
             MinReservationDays = Convert.ToInt32(values[5]);
             DaysBeforeCancel = Convert.ToInt32(values[6]);

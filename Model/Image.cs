@@ -27,7 +27,7 @@ namespace BookingApp.Model
             Id = Convert.ToInt32(values[0]);
             Path = values[1];
             AccomodationId = Convert.ToInt32(values[2]);
-            TourId = Convert.ToInt32(values[2]);
+            TourId = Convert.ToInt32(values[3]);
         }
 
         public string[] ToCSV()

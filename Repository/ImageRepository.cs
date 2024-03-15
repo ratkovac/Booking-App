@@ -1,3 +1,4 @@
+
 ﻿using BookingApp.Serializer;
 using BookingApp.Model;
 using System;
@@ -13,6 +14,7 @@ namespace BookingApp.Repository
         private const string FilePath = "../../../Resources/Data/images.csv";
 
         private readonly Serializer<Image> _serializer;
+
         private List<Image> _images;
 
         public ImageRepository()
@@ -25,6 +27,7 @@ namespace BookingApp.Repository
         {
             return _serializer.FromCSV(FilePath);
         }
+
 
         public Image Save(Image image)
         {
