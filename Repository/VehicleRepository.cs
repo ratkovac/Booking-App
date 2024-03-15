@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 namespace BookingApp.Repository
 {
-    internal class VehicleRepository
+    public class VehicleRepository
     {
         private const string FilePath = "../../../Resources/Data/vehicle.csv";
 

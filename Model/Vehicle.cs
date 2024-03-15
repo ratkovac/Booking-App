@@ -11,7 +11,7 @@ namespace BookingApp.Model
     public class Vehicle : ISerializable
     {
         public int Id { get; set; }
-        public string Location { get; set; }
+        public Location Location { get; set; }
         public int Capacity { get; set; }
         public string Language { get; set; }
         public List<string> ImagePaths { get; set; }
@@ -19,7 +19,7 @@ namespace BookingApp.Model
 
         public Vehicle() { }
 
-        public Vehicle(int id, string location, int capacity, string language, List<string> imagePaths, User user)
+        public Vehicle(int id, Location location, int capacity, string language, List<string> imagePaths, User user)
         {
             Id = id;
             Location = location;
@@ -39,7 +39,9 @@ namespace BookingApp.Model
             }
 
             Id = Convert.ToInt32(values[0]);
-            Location = values[1];
+            int locationId = Convert.ToInt32(values[1]);
+            LocationRepository locationRepository = new LocationRepository();
+            Location = locationRepository.GetLocationById(locationId);
             Capacity = Convert.ToInt32(values[2]);
             Language = values[3];
             ImagePaths = values.Skip(4).ToList();
@@ -47,10 +49,11 @@ namespace BookingApp.Model
         }
         public string[] ToCSV()
         {
+            string location = Location.Id.ToString();
             string[] values =
             {
                 Id.ToString(),
-                Location,
+                location,
                 Capacity.ToString(),
                 Language,
                 string.Join(",", ImagePaths),
@@ -60,7 +63,7 @@ namespace BookingApp.Model
         }
         public override string ToString()
         {
-            return $"Id: {Id}, Location: {Location ?? "NULL"}, Capacity: {Capacity}, Language: {Language ?? "NULL"}, ImagePaths: {(ImagePaths != null ? string.Join(",", ImagePaths) : "NULL")}, User: {(User != null ? User.ToString() : "NULL")}";
+            return $"Id: {Id}, Location: {Location}, Capacity: {Capacity}, Language: {Language ?? "NULL"}, ImagePaths: {(ImagePaths != null ? string.Join(",", ImagePaths) : "NULL")}, User: {(User != null ? User.ToString() : "NULL")}";
         }
     }
 }

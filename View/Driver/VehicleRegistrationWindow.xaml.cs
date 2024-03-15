@@ -1,9 +1,11 @@
-﻿using BookingApp.Model;
+﻿using BookingApp.DTO;
+using BookingApp.Model;
 using BookingApp.Repository;
 using BookingApp.Serializer;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,41 +27,38 @@ namespace BookingApp.View.Driver
     {
         private readonly VehicleRepository _vehicleRepository;
 
+        private readonly LocationRepository _locationRepository;
+
         private readonly Serializer<Vehicle> _serializer;
+        
+        public VehicleDTO vehicleDTO { get; set; }
+
+        ObservableCollection<VehicleDTO> vehicles;
 
         private readonly User LoggedInUser;
+
+        public DataGrid VehicleGrid;
 
         public VehicleRegistrationWindow(User user)
         {
             LoggedInUser = user;
             InitializeComponent();
             _vehicleRepository = new VehicleRepository();
+            _locationRepository = new LocationRepository();
+            vehicleDTO = new VehicleDTO();
         }
         
-
-        private void RegisterVehicle_Click(object sender, RoutedEventArgs e)
+        public VehicleRegistrationWindow(VehicleRepository vehicleRepository, ObservableCollection<VehicleDTO> vehicles, DataGrid vehicleGrid)
         {
-            try
-            {
-                string location = LocationTextBox.Text;
-                int maxCapacity = int.Parse(MaxCapacityTextBox.Text);
-                string languages = LanguagesTextBox.Text;
-                Vehicle newVehicle = new Vehicle
-                {
-                    Location = location,
-                    Capacity = maxCapacity,
-                    Language = languages
-                };
+            InitializeComponent();
+            DataContext = this;
+            this._vehicleRepository = vehicleRepository;
+            this.vehicles = vehicles;
+            VehicleGrid = vehicleGrid;
+            _locationRepository = new LocationRepository();
 
-                _vehicleRepository.Save(newVehicle);
-
-                MessageBox.Show("Vehicle successfully registered!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error occurred while registering vehicle: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
         }
+
         List<string> ImageList = new List<string>();
 
         private void btnAddImage_Click(object sender, RoutedEventArgs e)
@@ -82,22 +81,31 @@ namespace BookingApp.View.Driver
         {
             bool isValid = true;
 
-            if (LocationTextBox.Text == "")
+            if (CityTextBox.Text == "")
             {
                 isValid = false;
-                LocationLabelError.Content = "Niste uneli lokaciju";
-                LocationLabelError.Foreground = Brushes.Red;
+                CityLabelError.Content = "Niste uneli grad";
+                CityLabelError.Foreground = Brushes.Red;
             }
             else
             {
-                LocationLabelError.Content = "";
-
+                CityLabelError.Content = "";
+            }
+            if (CountryTextBox.Text == "")
+            {
+                isValid = false;
+                CountryLabelError.Content = "Niste uneli zemlju";
+                CountryLabelError.Foreground = Brushes.Red;
+            }
+            else
+            {
+                CountryLabelError.Content = "";
             }
             if (MaxCapacityTextBox.Text == "")
             {
                 isValid = false;
                 MaxCapacityLabelError.Content = "Niste uneli Maksimalni Kapacitet";
-                LocationLabelError.Foreground = Brushes.Red;
+                MaxCapacityLabelError.Foreground = Brushes.Red;
             }
             else
             {
@@ -124,21 +132,22 @@ namespace BookingApp.View.Driver
             if (ValidationForm())
             {
                 Vehicle vehicle = new Vehicle();
-                vehicle.Location = LocationTextBox.Text;
+                string City = CityTextBox.Text;
+                string Country = CountryTextBox.Text;
+
+                vehicleDTO.Location = new Location(City, Country);
+
+
+                Location location = new Location(City, Country);
+                _locationRepository.Save(location);
+                vehicle.Location = location;
+                MessageBox.Show(location.Id.ToString());
                 vehicle.Capacity = int.Parse(MaxCapacityTextBox.Text);
                 vehicle.Language = LanguagesTextBox.Text;
                 vehicle.ImagePaths = ImageList;
                 vehicle.User=LoggedInUser;
-                //MessageBox.Show(LoggedInUser.ToString());
                 UserRepository userRepository = new UserRepository();
-                List<Vehicle> vehicleList = new List<Vehicle>();
-                vehicleList.Add(vehicle);
-                //MessageBox.Show(VehicleList.Count.ToString());
-                //MessageBox.Show(vehicleList[0].ToString());
-                //MessageBox.Show(vehicle.ToString());
-
                 _vehicleRepository.Save(vehicle);
-                //_serializer.ToCSV("vehicle.csv", vehicleList);
 
             }
         }

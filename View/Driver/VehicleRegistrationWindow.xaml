@@ -5,9 +5,12 @@
     <Grid>
         <GroupBox Header="Vehicle Registration" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
             <StackPanel Margin="10">
-                <Label Content="Location (City, Country)"></Label>
-                <TextBox Name="LocationTextBox" Text="" Margin="0 0 0 5"/>
-                <Label x:Name="LocationLabelError"></Label>
+                <Label Content="City"></Label>
+                <TextBox Name="CityTextBox" Text="" Margin="0 0 0 5"/>
+                <Label x:Name="CityLabelError"></Label>
+                <Label Content="Country"></Label>
+                <TextBox Name="CountryTextBox" Text="" Margin="0 0 0 5"/>
+                <Label x:Name="CountryLabelError"></Label>
                 <Label  Content="MaxCapacity"></Label>
                 <TextBox Name="MaxCapacityTextBox" Margin="0 0 0 5"/>
                 <Label x:Name="MaxCapacityLabelError"></Label>

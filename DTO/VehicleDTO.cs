@@ -42,8 +42,8 @@ namespace BookingApp.DTO
             }
         }
 
-        private string location;
-        public string Location
+        private Location location;
+        public Location Location
         {
             get { return location; }
             set
@@ -121,6 +121,10 @@ namespace BookingApp.DTO
             Language = vehicle.Language;
             ImagePaths = vehicle.ImagePaths;
             User = vehicle.User;
+        }
+
+        public VehicleDTO()
+        {
         }
 
         public Vehicle ToVehicle()
