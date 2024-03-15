@@ -71,8 +71,8 @@ namespace BookingApp.DTO
         }
 
 
-        private string language;
-        public string Language
+        private Language language;
+        public Language Language
         {
             get { return language; }
             set

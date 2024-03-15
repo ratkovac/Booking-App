@@ -2,6 +2,7 @@
 using BookingApp.Serializer;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 
@@ -69,8 +70,20 @@ namespace BookingApp.Repository
 
         public List<Language> GetAllLanguages()
         {
+            
             _languages = _serializer.FromCSV(FilePath);
             return _languages;
+        }
+        public Language GetLanguageByName(string name)
+        {
+            foreach(Language language in _languages)
+            {
+                if (language.Name == name) { 
+                    return language;
+                }
+            }
+            return null;
+
         }
     }
 }

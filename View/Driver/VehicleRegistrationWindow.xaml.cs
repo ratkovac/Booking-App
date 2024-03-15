@@ -39,6 +39,10 @@ namespace BookingApp.View.Driver
 
         public DataGrid VehicleGrid;
 
+        public List<Language> Language;
+
+        public LanguageRepository _languageRepository;
+
         public VehicleRegistrationWindow(User user)
         {
             LoggedInUser = user;
@@ -46,6 +50,14 @@ namespace BookingApp.View.Driver
             _vehicleRepository = new VehicleRepository();
             _locationRepository = new LocationRepository();
             vehicleDTO = new VehicleDTO();
+            _languageRepository = new LanguageRepository();
+
+            Language = _languageRepository.GetAllLanguages();
+            foreach (Language language in Language)
+            {
+                LanguagesComboBox.Items.Add(language.Name);
+            }
+
         }
         
         public VehicleRegistrationWindow(VehicleRepository vehicleRepository, ObservableCollection<VehicleDTO> vehicles, DataGrid vehicleGrid)
@@ -56,6 +68,7 @@ namespace BookingApp.View.Driver
             this.vehicles = vehicles;
             VehicleGrid = vehicleGrid;
             _locationRepository = new LocationRepository();
+           
 
         }
 
@@ -111,16 +124,8 @@ namespace BookingApp.View.Driver
             {
                 MaxCapacityLabelError.Content = "";
             }
-            if (LanguagesTextBox.Text == "")
-            {
-                isValid = false;
-                LanguagesLabelError.Content = "Niste uneli jezike";
-                LanguagesLabelError.Foreground = Brushes.Red;
-            }
-            else
-            {
-                LanguagesLabelError.Content = "";
-            }
+            
+            
 
 
 
@@ -136,14 +141,14 @@ namespace BookingApp.View.Driver
                 string Country = CountryTextBox.Text;
 
                 vehicleDTO.Location = new Location(City, Country);
-
-
+                string LanguageName = LanguagesComboBox.SelectedItem.ToString();
+                vehicle.Language = _languageRepository.GetLanguageByName(LanguageName);
+                
                 Location location = new Location(City, Country);
                 _locationRepository.Save(location);
                 vehicle.Location = location;
                 MessageBox.Show(location.Id.ToString());
                 vehicle.Capacity = int.Parse(MaxCapacityTextBox.Text);
-                vehicle.Language = LanguagesTextBox.Text;
                 vehicle.ImagePaths = ImageList;
                 vehicle.User=LoggedInUser;
                 UserRepository userRepository = new UserRepository();
