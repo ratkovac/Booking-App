@@ -15,9 +15,8 @@ namespace BookingApp.Model
         public int TourId { get; set; }
 
         public Image() { }
-        public Image(int id, string path, int accomodationId, int tourId)
+        public Image(string path, int accomodationId, int tourId)
         {
-            Id = id;
             Path = path;
             AccomodationId = accomodationId;
             TourId = tourId;
@@ -28,7 +27,7 @@ namespace BookingApp.Model
             Id = Convert.ToInt32(values[0]);
             Path = values[1];
             AccomodationId = Convert.ToInt32(values[2]);
-            TourId = Convert.ToInt32(values[2]);
+            TourId = Convert.ToInt32(values[3]);
         }
 
         public string[] ToCSV()
