@@ -7,7 +7,6 @@
         mc:Ignorable="d"
         Title="Guest" Height="768" Width="1024">
     <Grid Margin="10">
-        <!-- Adjusted Grid Definitions -->
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition Height="*" />
@@ -29,9 +28,9 @@
 
             <Label Content="Type" Margin="0,5"/>
             <StackPanel Margin="0,5">
-                <CheckBox x:Name="checkBoxOption1" Content="Apartment" Margin="0,5"/>
-                <CheckBox x:Name="checkBoxOption2" Content="Hub" Margin="0,5"/>
-                <CheckBox x:Name="checkBoxOption3" Content="Option 3" Margin="0,5"/>
+                <CheckBox x:Name="checkBoxOption1" Content="Apartment" Margin="0,5" Checked="CheckBoxOption1_Changed" Unchecked="CheckBoxOption1_Changed"/>
+                <CheckBox x:Name="checkBoxOption2" Content="Hut" Margin="0,5" Checked="CheckBoxOption1_Changed" Unchecked="CheckBoxOption1_Changed"/>
+                <CheckBox x:Name="checkBoxOption3" Content="House" Margin="0,5" Checked="CheckBoxOption1_Changed" Unchecked="CheckBoxOption1_Changed"/>
             </StackPanel>
 
             <Label Content="Capacity" Margin="0,5"/>
@@ -40,17 +39,12 @@
             <Label Content="Cancellation Deadline (Days)" Margin="0,5"/>
             <TextBox x:Name="guestsTextBoxCancel" Text="{Binding DaysBeforeCancel, UpdateSourceTrigger=PropertyChanged}" Margin="0,5"/>
 
-            <Label Content="Start Date" Margin="0,5"/>
-            <DatePicker x:Name="startDatePicker" Margin="0,5" SelectedDate="{Binding StartDate}" />
-            
-            <Label Content="End Date" Margin="0,5"/>
-            <DatePicker x:Name="endDatePicker" Margin="0,5" SelectedDate="{Binding EndDate}" />
-
         </StackPanel>
 
         <DataGrid x:Name="dataGrid" CanUserAddRows="False" Grid.Row="1" Grid.Column="1" AutoGenerateColumns="False"
           ItemsSource="{Binding FilteredAccommodations}" Margin="5,5,5,5"
-          VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RowHeight="25">
+          VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RowHeight="25"
+          SelectedItem="{Binding SelectedAccommodation, Mode=TwoWay}">
             <DataGrid.Resources>
                 <Style x:Key="DataGridCenteringStyle" TargetType="{x:Type TextBlock}">
                     <Setter Property="TextAlignment" Value="Center"/>
@@ -67,7 +61,8 @@
                 <DataGridTemplateColumn Header="Reserve">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Padding="0" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Button Padding="0" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                    Click="OnClickButton">
                                 <Button.Background>
                                     <ImageBrush ImageSource="/BookingApp;component/Images/reserve.png" Stretch="UniformToFill"/>
                                 </Button.Background>

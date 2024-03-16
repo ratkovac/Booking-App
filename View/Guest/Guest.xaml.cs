@@ -46,6 +46,8 @@ namespace BookingApp.View
             FilteredAccommodations = CollectionViewSource.GetDefaultView(Accommodations);
             FilteredAccommodations.Filter = FilterAccommodations;
 
+            SelectedAccommodation = new AccommodationDTO();
+
             Update();
             LoggedInUser = loggedInUser;
         }
@@ -182,27 +184,60 @@ namespace BookingApp.View
             }
         }
 
+        private User user;
+        public User User
+        {
+            get
+            {
+                return user;
+            }
+            set
+            {
+                if (user != value)
+                {
+                    user = value;
+                    OnPropertyChanged("User");
+                }
+            }
+        }
+
         private bool FilterAccommodations(object item)
         {
             if (!(item is AccommodationDTO accommodation))
                 return false;
 
             bool matchesSearchText = string.IsNullOrWhiteSpace(SearchText) || accommodation.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
-<<<<<<< HEAD:View/Guest/Guest.xaml.cs
             bool matchesCapacity = string.IsNullOrWhiteSpace(Capacity) || accommodation.Capacity.ToString().Contains(Capacity, StringComparison.OrdinalIgnoreCase);
             bool matchesDaysBeforeCancel = string.IsNullOrWhiteSpace(DaysBeforeCancel) || accommodation.DaysBeforeCancel.ToString().Contains(DaysBeforeCancel, StringComparison.OrdinalIgnoreCase);
             bool matchesMinReservationDays = string.IsNullOrWhiteSpace(MinReservationDays) || accommodation.MinReservationDays.ToString().Contains(MinReservationDays, StringComparison.OrdinalIgnoreCase);
             bool matchesLocation = string.IsNullOrWhiteSpace(SelectedLocation) || accommodation.Location.ToString().Equals(SelectedLocation, StringComparison.OrdinalIgnoreCase);
-=======
-            //bool matchesLocation = string.IsNullOrWhiteSpace(SelectedLocation) || accommodation.Location.Equals(SelectedLocation, StringComparison.OrdinalIgnoreCase);
-            bool matchesCapacity = (Capacity == 0 || accommodation.Capacity == Capacity);
-            bool matchesDaysBeforeCancel = (DaysBeforeCancel == 0 || accommodation.DaysBeforeCancel == DaysBeforeCancel);
-            bool matchesMinReservationDays = (MinReservationDays == 0 || accommodation.MinReservationDays == MinReservationDays); 
-            bool matchesLocation = string.IsNullOrWhiteSpace(SelectedLocation) || accommodation.Location.City.Equals(SelectedLocation, StringComparison.OrdinalIgnoreCase);
-            //proveri metodu iznad
->>>>>>> dfb4d4ae8cba5d34c4990390381d7828e48b784e:View/Guest.xaml.cs
+            bool matchesIsCheckedAccomodationType = IsCheckedAccomodationType(accommodation);
 
-            return matchesSearchText && matchesLocation && matchesCapacity && matchesDaysBeforeCancel && matchesMinReservationDays;
+            return matchesSearchText && matchesLocation && matchesCapacity && matchesDaysBeforeCancel && matchesMinReservationDays && matchesIsCheckedAccomodationType;
+        }
+        private void CheckBoxOption1_Changed(object sender, RoutedEventArgs e)
+        {
+            FilteredAccommodations.Refresh();
+        }
+
+        bool IsCheckedAccomodationType(AccommodationDTO accommodation)
+        {
+            bool anyChecked = checkBoxOption1.IsChecked.GetValueOrDefault() ||
+                              checkBoxOption2.IsChecked.GetValueOrDefault() ||
+                              checkBoxOption3.IsChecked.GetValueOrDefault();
+
+            if (!anyChecked) return true;
+
+            bool matchesTypeApartment = checkBoxOption1.IsChecked.GetValueOrDefault() &&
+                                        accommodation.Type == AccommodationType.Apartment;
+
+            bool matchesTypeHut = checkBoxOption2.IsChecked.GetValueOrDefault() &&
+                                  accommodation.Type == AccommodationType.Hut;
+
+            bool matchesTypeHouse = checkBoxOption3.IsChecked.GetValueOrDefault() &&
+                                    accommodation.Type == AccommodationType.House;
+
+            return matchesTypeApartment || matchesTypeHut || matchesTypeHouse;
         }
         public void Update()
         {
@@ -227,6 +262,12 @@ namespace BookingApp.View
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void OnClickButton(object sender, RoutedEventArgs e)
+        {
+            Reservation reservation = new Reservation(SelectedAccommodation, user);
+            reservation.Show();
         }
     }
 }
