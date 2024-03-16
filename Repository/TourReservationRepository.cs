@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace BookingApp.Repository
 {
-    internal class TourReservationRepository
+    public class TourReservationRepository
     {
 
-        private const string FilePath = "../../../Resources/Data/tourreservation.csv";
+        private const string FilePath = "../../../Resources/Data/tourReservations.csv";
 
         private readonly Serializer<TourReservation> _serializer;
 
         private List<TourReservation> _tourReservations;
 
-        public TourReservationRepository(Serializer<TourReservation> serializer)
+        public TourReservationRepository()
         {
-            _serializer = serializer;
+            _serializer = new Serializer<TourReservation>();
             _tourReservations = _serializer.FromCSV(FilePath);
         }
 

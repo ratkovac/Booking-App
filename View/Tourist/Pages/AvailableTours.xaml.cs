@@ -62,7 +62,7 @@ namespace BookingApp.View.Tourist.Pages
             if (SelectedTour != null)
             {
                 var tour_reservation = new TourReservation(SelectedTour);
-                MainFrame.Navigate(tour_reservation);
+                NavigationService.Navigate(tour_reservation);
             }
             else
             {

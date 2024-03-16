@@ -10,19 +10,19 @@ namespace BookingApp.Model
 {
     public class Language : ISerializable
     {
-        public int Id;
+        public int Id { get; set; }
 
-        public String Name;
+        public string Name { get; set; }
 
         public Language(string name)
         {
-            Id = 0;
             Name = name;
         }
         public Language() { }
+
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), Name};
+            string[] csvValues = { Id.ToString(), Name };
             return csvValues;
         }
 
@@ -32,4 +32,5 @@ namespace BookingApp.Model
             Name = values[1];
         }
     }
+
 }

@@ -67,13 +67,59 @@ namespace BookingApp.View.Tourist.Pages
             //DateStartTextBox.Text = TourTime.time.ToString("dd.MM.yyyy HH:mm");
             DurationTextBox.Text = tourSelected.Duration.ToString();
 
-            //CheckPoints = checkPointRepository.GetCheckPoints(tourSelected.Id);
+            CheckPoints = checkPointRepository.GetCheckPoints(tourSelected.Id);
 
         }
 
         public TourReservation()
         {
         }
+
+        private void Reservation_Click(object sender, RoutedEventArgs e)
+        {
+            int numberGuests = CheckNumberGuestTextBox(NumberGuestsTextBox.Text);
+            if (numberGuests == -1) return;
+
+            if (tour.AvailableSeats == 0)
+            {
+                // Pretpostavimo da imate TourRepository koji sadrži sve ture
+                TourRepository tourRepository = new TourRepository();
+                List<Tour> allTours = tourRepository.GetAll();
+
+                // Filtrirajte listu da sadrži samo ture koje imaju dostupna mesta
+                List<Tour> availableTours = allTours.Where(t => t.AvailableSeats > 0).ToList();
+
+                // Postavite AlternativeToursGrid.ItemsSource na listu dostupnih tura
+                AlternativeToursGrid.ItemsSource = availableTours;
+
+                AlternativeTextBlock.Text = "Izabrana tura je u potpunosti rezervisana, neke od alternativnih tura su:";
+                AlternativeToursGrid.Visibility = Visibility.Visible;
+                return;
+            }
+
+            if (numberGuests > tour.AvailableSeats)
+            {
+                MessageBox.Show("Na ovoj turi nema dovoljan broj slobodnih mjesta za unijeti broj ljudi. " +
+                    "\nBroj slobodnih mjesta je: " + tour.AvailableSeats + "!");
+                return;
+            }
+
+            tour.AvailableSeats -= numberGuests;
+
+            BookingApp.Model.TourReservation newReservation = new BookingApp.Model.TourReservation
+            {
+                TourId = tour.Id,
+                Tour = tour,
+                NumberGuest = numberGuests
+            };
+
+            // Sačuvajte novu rezervaciju u CSV fajl
+            TourReservationRepository tourReservationRepository = new TourReservationRepository();
+            tourReservationRepository.Save(newReservation);
+
+            MessageBox.Show("Tura je uspešno rezervisana!");
+        }
+
 
         private int CheckNumberGuestTextBox(string text)
         {
@@ -95,7 +141,14 @@ namespace BookingApp.View.Tourist.Pages
 
         private void ButtonBack(object sender, RoutedEventArgs e)
         {
-            NavigationService?.GoBack();
+            if (NavigationService.CanGoBack)
+            {
+                NavigationService.GoBack();
+            }
+            else
+            {
+                MessageBox.Show("Nema prethodne stranice!");
+            }
         }
     }
 }

@@ -23,8 +23,7 @@ namespace BookingApp.Model
         public Location Location { get; set; }
         public Language Language { get; set; }
         public int LocationId { get; set; }
-
-
+        public int AvailableSeats { get; set; }
 
         public Tour()
         {
@@ -36,6 +35,7 @@ namespace BookingApp.Model
             Name = name;
             Description = description;
             MaxGuests = maxGeusts;
+            AvailableSeats = maxGeusts;
             Duration = duration;     
             //LocationId = locationId;
             Location = location;
@@ -54,7 +54,7 @@ namespace BookingApp.Model
 
             string location = Location.Id.ToString();
             string[] csvValues = { Id.ToString(), Name, location, Description, Language.Name, 
-                MaxGuests.ToString(), Duration.ToString() };
+                MaxGuests.ToString(), Duration.ToString(), AvailableSeats.ToString() };
             return csvValues;
         }
 
@@ -68,11 +68,20 @@ namespace BookingApp.Model
             LocationRepository locationRepository = new LocationRepository();
             Location = locationRepository.GetLocationById(locationId);
             Description = values[3];
-            Language language = new Language(values[4]);
-            Language = language;
+            int languageId = Convert.ToInt32(values[4]);
+            LanguageRepository languageRepository = new LanguageRepository();
+            Language language = languageRepository.GetLanguageById(languageId);
+            if (language != null)
+            {
+                Language = language;
+            }
+            else
+            {
+                Language.Name = "German";
+            }
             MaxGuests = Convert.ToInt32(values[5]);
             Duration = Convert.ToSingle(values[6]);
-            
+            AvailableSeats = Convert.ToInt32(values[7]);
         }
 
     }
