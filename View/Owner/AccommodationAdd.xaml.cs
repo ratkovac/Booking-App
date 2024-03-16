@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using BookingApp.Model;
+using BookingApp.View;
 using System.Reflection.Metadata;
 
 namespace BookingApp.View.Owner
@@ -19,12 +20,14 @@ namespace BookingApp.View.Owner
         private AccommodationRepository accommodationRepository;
         private LocationRepository locationRepository;
         private ImageRepository imageRepository;
+        private UserRepository userRepository;
+        public User LoggedInUser { get; set; }
         public AccommodationDTO accommodationDTO { get; set; }
         ObservableCollection<AccommodationDTO> accommodations;
         List<string> pathImage = new List<string>();
 
         public DataGrid AccomodationGrid;
-        public AccommodationAdd()
+        public AccommodationAdd(User user)
         {
             InitializeComponent();
             DataContext = this;
@@ -32,6 +35,8 @@ namespace BookingApp.View.Owner
             accommodationRepository = new AccommodationRepository();
             locationRepository = new LocationRepository();
             imageRepository = new ImageRepository();
+            userRepository = new UserRepository();
+            LoggedInUser = user;
         }
         public AccommodationAdd(AccommodationRepository accommodationRepository, ObservableCollection<AccommodationDTO> accommodations, DataGrid accomodationGrid)
         {
@@ -43,6 +48,7 @@ namespace BookingApp.View.Owner
             AccomodationGrid = accomodationGrid;
             locationRepository = new LocationRepository();
             imageRepository = new ImageRepository();
+            userRepository = new UserRepository();
         }
 
 
@@ -67,14 +73,15 @@ namespace BookingApp.View.Owner
         }
 
         private void AccommodationAdding_Click(object sender, RoutedEventArgs e)
-        {
-
+        {  
             SetAccommodationType();
 
             string city = accommodationDTO.City;
             string country = accommodationDTO.Country;
             accommodationDTO.Location = new Location(city, country);
             //nova funkcija
+
+            accommodationDTO.User = LoggedInUser;
 
             Accommodation accommodation = accommodationDTO.ToAccommodation();
             locationRepository.Save(accommodation.Location);
