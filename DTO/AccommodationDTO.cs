@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static BookingApp.Model.AccommodationTypeEnum;
 
 namespace BookingApp.DTO
 {
@@ -81,8 +82,18 @@ namespace BookingApp.DTO
             }
         }
 
-        private string type;
-        public string Type
+        private string displayLocation;
+
+        public string DisplayLocation
+        {
+            get
+            {
+                return $"{Location.City}, {Location.Country}"; 
+            }
+        }
+
+        private AccommodationType type;
+        public AccommodationType Type
         {
             get
             {
@@ -149,6 +160,22 @@ namespace BookingApp.DTO
             }
         }
 
+        private string imagePath;
+        public string ImagePath
+        {
+            get
+            {
+                return imagePath;
+            }
+            set
+            {
+                if (imagePath != value)
+                {
+                    imagePath = value;
+                    OnPropertyChanged("Image path");
+                }
+            }
+        }
         private User user;
         public User User
         {
@@ -167,13 +194,14 @@ namespace BookingApp.DTO
         }
         public AccommodationDTO(Accommodation accommodation)
         {
+            Id = accommodation.Id;
             name = accommodation.Name;
             location = accommodation.Location;
             type = accommodation.Type;
             capacity = accommodation.Capacity;
             minReservationDays = accommodation.MinReservationDays;
             daysBeforeCancel = accommodation.DaysBeforeCancel;
-            //user = accommodation.User;
+            user = accommodation.User;
         }
 
         public AccommodationDTO()
@@ -182,7 +210,7 @@ namespace BookingApp.DTO
 
         public Accommodation ToAccommodation()
         {
-            Accommodation accomodation = new Accommodation(Id, name, location, type, capacity, minReservationDays, daysBeforeCancel);
+            Accommodation accomodation = new Accommodation(Id, name, location, type, capacity, minReservationDays, daysBeforeCancel,user);
             return accomodation;
         }
         protected virtual void OnPropertyChanged(string name)

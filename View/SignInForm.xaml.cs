@@ -18,8 +18,8 @@ namespace BookingApp.View
 
         private readonly UserRepository _repository;
 
-
-
+        private int loggedUserId;
+        
         private string _username;
         public string Username
         {
@@ -29,7 +29,7 @@ namespace BookingApp.View
                 if (value != _username)
                 {
                     _username = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged("Username");
                 }
             }
         }
@@ -63,6 +63,9 @@ namespace BookingApp.View
                             Close();
                             break;
                         case "Guest":
+                            Guest guest = new Guest(user);
+                            guest.Show();
+                            Close();
                             break;
                         case "Guide":
                             TourForm tourForm = new TourForm();
@@ -98,5 +101,6 @@ namespace BookingApp.View
             }
 
         }
+       
     }
 }

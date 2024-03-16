@@ -1,4 +1,5 @@
-﻿using BookingApp.Serializer;
+﻿using BookingApp.Repository;
+using BookingApp.Serializer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,18 +12,22 @@ namespace BookingApp.Model
     public class AccommodationReservation : ISerializable
     {
         public int Id { get; set; }
-        public int AccommodationId { get; set; }
-        public int UserId { get; set; }
+        public Accommodation Accommodation { get; set; }
+        public User User { get; set; }
         public DateOnly StartDate { get; set; }
         public DateOnly EndDate { get; set; }
+        public int ReservationDays { get; set; }
+        public double UserGrade { get; set; }
 
-        public AccommodationReservation(int id, int accommodationId, int userId, DateOnly startDate, DateOnly endDate)
+        public AccommodationReservation(int id, Accommodation accommodation, User user, DateOnly startDate, DateOnly endDate,int reservationDays, double userGrade)
         {
             Id = id;
-            AccommodationId = accommodationId;
-            UserId = userId;
+            Accommodation = accommodation;
+            User = user;
             StartDate = startDate;
             EndDate = endDate;
+            ReservationDays = reservationDays;
+            UserGrade = userGrade;
         }
 
         public AccommodationReservation()
@@ -31,13 +36,17 @@ namespace BookingApp.Model
 
         public string[] ToCSV()
         {
+            string accommodation = Accommodation.Id.ToString();
+            string user = User.Id.ToString();
             string[] values =
             {
                 Id.ToString(),
-                AccommodationId.ToString(),
-                UserId.ToString(),
+                accommodation,
+                user,
                 StartDate.ToString(),
-                EndDate.ToString()
+                EndDate.ToString(),
+                ReservationDays.ToString(),
+                UserGrade.ToString()
             };
             return values;
         }
@@ -48,10 +57,16 @@ namespace BookingApp.Model
             DateOnly EndDate;
 
             Id = Convert.ToInt32(values[0]);
-            AccommodationId = Convert.ToInt32(values[1]);
-            UserId = Convert.ToInt32(values[2]);
+            int accommodationId = Convert.ToInt32(values[1]);
+            AccommodationRepository accommodationRepository = new AccommodationRepository();
+            Accommodation = accommodationRepository.GetByID(accommodationId);
+            int userId = Convert.ToInt32(values[2]);
+            UserRepository userRepository = new UserRepository();
+            User = userRepository.GetByID(userId);
             bool startDateSuccess = DateOnly.TryParse(values[3], out StartDate);
             bool endDateSuccess = DateOnly.TryParse(values[4], out EndDate);
+            ReservationDays = Convert.ToInt32(values[5]);
+            UserGrade = Convert.ToDouble(values[6]);
         }
     }
 }

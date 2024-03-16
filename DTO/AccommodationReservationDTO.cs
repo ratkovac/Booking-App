@@ -14,39 +14,71 @@ namespace BookingApp.DTO
 
         public int Id { get; set; }
 
-        private int accommodationId;
-        public int AccommodationId
+        private Accommodation accommodation;
+        public Accommodation Accommodation
         {
             get 
             { 
-                return accommodationId;
+                return accommodation;
             }
             set
             {
-                if(value !=  accommodationId)
+                if(value !=  accommodation)
                 {
-                    accommodationId = value;
+                    accommodation = value;
                     OnPropertyChanged("AccommodationId");
                 }
             }
         }
-        private int userId;
-        public int UserId
+        private string accommodationName;
+        public string AccommodationName
         {
             get
             {
-                return userId;
+                return accommodationName;
             }
             set
             {
-                if(value != userId)
+                if (value != accommodationName)
                 {
-                    userId = value;
-                    OnPropertyChanged("UserId");
+                    accommodationName = value;
+                    OnPropertyChanged("accommodationName");
+                }
+            }
+        }
+        private User user;
+        public User User
+        {
+            get
+            {
+                return user;
+            }
+            set
+            {
+                if(value != user)
+                {
+                    user = value;
+                    OnPropertyChanged("User");
                 }
             }
         }
 
+        private string userName;
+        public string UserName
+        {
+            get
+            {
+                return userName;
+            }
+            set
+            {
+                if (value != userName)
+                {
+                    userName = value;
+                    OnPropertyChanged("userName");
+                }
+            }
+        }
         private DateOnly startDate;
         public DateOnly StartDate
         {
@@ -81,17 +113,57 @@ namespace BookingApp.DTO
             }
         }
 
+        private int reservationDays;
+
+        public int ReservationDays
+        {
+            get
+            {
+                return reservationDays;
+            }
+            set
+            {
+                if (value != reservationDays)
+                {
+                    reservationDays = value;
+                    OnPropertyChanged("ReservationDays");
+                }
+            }
+        }
+        private double userGrade;
+        public double UserGrade
+        {
+            get
+            {
+                return userGrade;
+            }
+            set
+            {
+                if (value != userGrade)
+                {
+                    userGrade = value;
+                    OnPropertyChanged("UserGrade");
+                }
+            }
+        }
+        public AccommodationReservationDTO()
+        {
+        }
         public AccommodationReservationDTO(AccommodationReservation accommodationReservation)
         {
             Id = accommodationReservation.Id;
-            accommodationId = accommodationReservation.AccommodationId;
-            userId = accommodationReservation.UserId;
+            accommodation = accommodationReservation.Accommodation;
+            user = accommodationReservation.User;
             startDate = accommodationReservation.StartDate;
             endDate = accommodationReservation.EndDate;
+            userGrade = accommodationReservation.UserGrade;
+            userName = accommodationReservation.User.Username;
+            accommodationName = accommodationReservation.Accommodation.Name;
+            
         }
         public AccommodationReservation ToAccommodationReservation()
         {
-            AccommodationReservation accommodationReservation = new AccommodationReservation(Id, accommodationId, userId, startDate, endDate);
+            AccommodationReservation accommodationReservation = new AccommodationReservation(Id, accommodation, user, startDate,endDate, reservationDays,userGrade);
             return accommodationReservation;
         }
         
