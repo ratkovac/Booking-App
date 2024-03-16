@@ -7,16 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using static BookingApp.Model.AccommodationTypeEnum;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace BookingApp.Model
 {
-    public enum AccommodationType { Apartment, House, Hut };
     public class Accommodation : ISerializable
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public Location Location { get; set; } 
+        public Location Location { get; set; }
         public AccommodationType Type { get; set; }
         public int Capacity { get; set; }
         public int MinReservationDays { get; set; } 
