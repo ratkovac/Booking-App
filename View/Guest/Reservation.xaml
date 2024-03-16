@@ -32,7 +32,7 @@
 
 
             <DataGrid x:Name="dataGrid" CanUserAddRows="False" Grid.Row="0" Grid.Column="1" AutoGenerateColumns="False"
-                ItemsSource="{Binding FilteredAccommodations}" Margin="5,5,5,5"
+                ItemsSource="{Binding AccommodationReservations}" Margin="5,5,5,5"
                 VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RowHeight="25">
                 <DataGrid.Resources>
                     <Style x:Key="DataGridCenteringStyle" TargetType="{x:Type TextBlock}">
@@ -41,7 +41,9 @@
                     </Style>
                 </DataGrid.Resources>
                 <DataGrid.Columns>
-
+                    <DataGridTextColumn Header="Name" Binding="{Binding Accommodation.Name}" ElementStyle="{StaticResource DataGridCenteringStyle}" />
+                    <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate}" ElementStyle="{StaticResource DataGridCenteringStyle}" />
+                    <DataGridTextColumn Header="End Date" Binding="{Binding EndDate}" ElementStyle="{StaticResource DataGridCenteringStyle}" />
                     <DataGridTemplateColumn Header="Reserve">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

@@ -18,11 +18,9 @@ namespace BookingApp.View.Owner
     public partial class GuestGrade : Window, IObserver, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-
-        //SelectedItem="{Binding ChosenGuest, UpdateSourceTrigger=PropertyChanged}"
-                          
         private ObservableCollection<AccommodationReservationDTO> Reservations { get; set; }
         private AccommodationReservationRepository accommodationReservationRepository { get; set; }
+        private AccommodationRepository accommodationRepository { get; set; }
         private GradeGuestRepository gradeGuestRepository { get; set; }
         public GradeGuestDTO gradeGuestDTO { get; set; }
         public AccommodationReservationDTO selectedGuest { get; set; }
@@ -34,7 +32,7 @@ namespace BookingApp.View.Owner
         {
             // Konstruktor bez parametara
         }
-        public GuestGrade(User user) 
+        public GuestGrade(User user)
         {
             InitializeComponent();
             DataContext = this;
@@ -43,19 +41,20 @@ namespace BookingApp.View.Owner
             accommodationReservationRepository = new AccommodationReservationRepository();
             gradeGuestRepository = new GradeGuestRepository();
             gradeGuestDTO = new GradeGuestDTO();
-            //ShowOwnerGuests();
+            accommodationRepository = new AccommodationRepository();
+            ShowOwnerGuests();
             LoggedInUser = user;
             Grade.IsEnabled = false;
         }
 
-        /*private void ShowOwnerGuests()
+        private void ShowOwnerGuests()
         {
             List<AccommodationReservation> reservations = accommodationReservationRepository.GetAll();
             Reservations.Clear();
 
             foreach (AccommodationReservation reservation in reservations)
             {
-                if(reservation.UserGrade == 0.0)
+                if (reservation.UserGrade == 0.0)
                 {
                     Reservations.Add(new AccommodationReservationDTO
                     {
@@ -66,7 +65,7 @@ namespace BookingApp.View.Owner
                 }
             }
             GuestsGrid.ItemsSource = Reservations;
-        }*/
+        }
         public void Update()
         {
             throw new NotImplementedException();
@@ -81,10 +80,13 @@ namespace BookingApp.View.Owner
         {
             SliderValues();
             gradeGuestDTO.AccommodationReservation = accommodationReservationRepository.GetByID(selectedGuest.Id);
+            int accommodationId = gradeGuestDTO.AccommodationReservation.Accommodation.Id;
             GradeGuest gradeGuest = gradeGuestDTO.ToGradeGuest();
             gradeGuestRepository.Save(gradeGuest);
             selectedGuest.UserGrade = GetGuestGrade();
-           // accommodationReservationRepository.Update(selectedGuest.ToAccommodationReservation());
+            selectedGuest.User = LoggedInUser;
+            selectedGuest.Accommodation = accommodationRepository.GetByID(accommodationId);
+            accommodationReservationRepository.Update(selectedGuest.ToAccommodationReservation());
             this.Close();
         }
 
@@ -93,7 +95,7 @@ namespace BookingApp.View.Owner
             if (GuestsGrid.SelectedItem != null)
             {
                 MessageBoxResult result = MessageBox.Show("Do you want to grade this guest?", "Confirmation", MessageBoxButton.YesNo);
-                if(result == MessageBoxResult.Yes)
+                if (result == MessageBoxResult.Yes)
                 {
                     selectedGuest = (AccommodationReservationDTO)GuestsGrid.SelectedItem;
                     GuestsGrid.IsEnabled = false;
