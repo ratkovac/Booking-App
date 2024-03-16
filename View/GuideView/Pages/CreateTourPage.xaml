@@ -12,8 +12,8 @@
         <Grid>
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFBCA42E"/>
-                    <GradientStop Color="#FFB09427" Offset="1"/>
+                    <GradientStop Color="#FF69DAE2"/>
+                    <GradientStop Color="#FF04A7D4" Offset="1"/>
                 </LinearGradientBrush>
             </Grid.Background>
             <!-- Header -->
@@ -35,8 +35,11 @@
             <!-- Language -->
             <TextBlock Text="Language:" VerticalAlignment="Top" Margin="19,298,345,0"/>
             <ComboBox Name="txtLanguage" VerticalAlignment="Top" Margin="19,319,290,0" Height="22">
-                <ComboBoxItem Content="English" IsSelected="True"/>
-                <ComboBoxItem Content="Serbian"/>
+                <ComboBoxItem Content="Serbian" IsSelected="True"/>
+                <ComboBoxItem Content="English"/>
+                <ComboBoxItem Content="Albanian"/>
+                <ComboBoxItem Content="Russian"/>
+                <ComboBoxItem Content="German"/>
                 <!-- Add more languages as needed -->
             </ComboBox>
 

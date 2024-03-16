@@ -15,8 +15,14 @@
         </Grid.RowDefinitions>
 
         <ComboBox Grid.Row="0" ItemsSource="{Binding Tours}" DisplayMemberPath="Name" 
-                  SelectedItem="{Binding SelectedTour}" Margin="10"/>
+                  SelectedItem="{Binding SelectedTour}" Margin="10,0,0,0"/>
 
-        <ListBox Grid.Row="1" ItemsSource="{Binding CheckPoints}" DisplayMemberPath="Name" Margin="10"/>
+        <ListBox Grid.Row="1" ItemsSource="{Binding CheckPoints}" Margin="10,0,0,0">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox Content="{Binding PointText}" IsChecked="{Binding IsChecked}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Page>
