@@ -189,7 +189,7 @@ namespace BookingApp.DTO
             capacity = accommodation.Capacity;
             minReservationDays = accommodation.MinReservationDays;
             daysBeforeCancel = accommodation.DaysBeforeCancel;
-            //user = accommodation.User;
+            user = accommodation.User;
         }
 
         public AccommodationDTO()
@@ -198,7 +198,7 @@ namespace BookingApp.DTO
 
         public Accommodation ToAccommodation()
         {
-            Accommodation accomodation = new Accommodation(Id, name, location, type, capacity, minReservationDays, daysBeforeCancel);
+            Accommodation accomodation = new Accommodation(Id, name, location, type, capacity, minReservationDays, daysBeforeCancel,user);
             return accomodation;
         }
         protected virtual void OnPropertyChanged(string name)

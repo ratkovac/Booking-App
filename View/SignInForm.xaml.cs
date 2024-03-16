@@ -18,8 +18,8 @@ namespace BookingApp.View
 
         private readonly UserRepository _repository;
 
-
-
+        private int loggedUserId;
+        
         private string _username;
         public string Username
         {
@@ -98,5 +98,6 @@ namespace BookingApp.View
             }
 
         }
+       
     }
 }
