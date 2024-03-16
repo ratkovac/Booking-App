@@ -1,4 +1,4 @@
-﻿    using BookingApp.Model;
+﻿using BookingApp.Model;
 using BookingApp.Serializer;
 using CLI.Observer;
 using System;

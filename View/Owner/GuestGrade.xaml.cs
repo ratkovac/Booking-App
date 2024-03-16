@@ -23,6 +23,7 @@ namespace BookingApp.View.Owner
                           
         private ObservableCollection<AccommodationReservationDTO> Reservations { get; set; }
         private AccommodationReservationRepository accommodationReservationRepository { get; set; }
+        private AccommodationRepository accommodationRepository { get; set; }
         private GradeGuestRepository gradeGuestRepository { get; set; }
         public GradeGuestDTO gradeGuestDTO { get; set; }
         public AccommodationReservationDTO selectedGuest { get; set; }
@@ -43,6 +44,7 @@ namespace BookingApp.View.Owner
             accommodationReservationRepository = new AccommodationReservationRepository();
             gradeGuestRepository = new GradeGuestRepository();
             gradeGuestDTO = new GradeGuestDTO();
+            accommodationRepository = new AccommodationRepository();
             ShowOwnerGuests();
             LoggedInUser = user;
             Grade.IsEnabled = false;
@@ -81,10 +83,13 @@ namespace BookingApp.View.Owner
         {
             SliderValues();
             gradeGuestDTO.AccommodationReservation = accommodationReservationRepository.GetByID(selectedGuest.Id);
+            int accommodationId = gradeGuestDTO.AccommodationReservation.Accommodation.Id;
             GradeGuest gradeGuest = gradeGuestDTO.ToGradeGuest();
             gradeGuestRepository.Save(gradeGuest);
             selectedGuest.UserGrade = GetGuestGrade();
-           // accommodationReservationRepository.Update(selectedGuest.ToAccommodationReservation());
+            selectedGuest.Accommodation = accommodationRepository.GetByID(accommodationId);
+            selectedGuest.User = LoggedInUser;
+            accommodationReservationRepository.Update(selectedGuest.ToAccommodationReservation());
             this.Close();
         }
 

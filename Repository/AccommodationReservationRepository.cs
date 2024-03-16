@@ -18,6 +18,8 @@ namespace BookingApp.Repository
 
         private List<AccommodationReservation> _accommodationReservations;
 
+        private AccommodationRepository _accommodationRepository;
+
         public Subject AccommodationReservationSubject;
 
         public AccommodationReservationRepository()
