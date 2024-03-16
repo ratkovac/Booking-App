@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BookingApp.DTO;
 using BookingApp.Model;
+using BookingApp.Repository;
 
 namespace BookingApp.View
 {
@@ -23,12 +24,32 @@ namespace BookingApp.View
     /// </summary>
     public partial class Reservation : Window
     {
-        public AccommodationReservation AccommodationReservation { get; set; }
-        private AccommodationReservationDTO? SelectedAcommodationReservation { get; set; }
-        public ObservableCollection<AccommodationDTO> AccommodationReservations { get; set; }
+        public AccommodationDTO SelectedAccommodation { get; set; }
+        public AccommodationReservationRepository AccommodationReservationRepository { get; set; }
+        public ObservableCollection<AccommodationReservationDTO> AccommodationReservations { get; set; }
         public Reservation(AccommodationDTO selectedAccommodation, User user)
         {
             InitializeComponent();
+            DataContext = this;
+
+            SelectedAccommodation = selectedAccommodation;
+
+            AccommodationReservations = new ObservableCollection<AccommodationReservationDTO>();
+            AccommodationReservationRepository = new AccommodationReservationRepository();
+
+            Update();
+        }
+
+        private void Update()
+        {
+            AccommodationReservations.Clear();
+            foreach (AccommodationReservation accommodationReservation in AccommodationReservationRepository.GetAll())
+            {
+                if (accommodationReservation.Accommodation.Id == SelectedAccommodation.Id)
+                {
+                    AccommodationReservations.Add(new AccommodationReservationDTO(accommodationReservation));
+                }
+            }
         }
 
         private Accommodation accommodation;
