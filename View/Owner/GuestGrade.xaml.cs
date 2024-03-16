@@ -43,12 +43,12 @@ namespace BookingApp.View.Owner
             accommodationReservationRepository = new AccommodationReservationRepository();
             gradeGuestRepository = new GradeGuestRepository();
             gradeGuestDTO = new GradeGuestDTO();
-            ShowOwnerGuests();
+            //ShowOwnerGuests();
             LoggedInUser = user;
             Grade.IsEnabled = false;
         }
 
-        private void ShowOwnerGuests()
+        /*private void ShowOwnerGuests()
         {
             List<AccommodationReservation> reservations = accommodationReservationRepository.GetAll();
             Reservations.Clear();
@@ -66,7 +66,7 @@ namespace BookingApp.View.Owner
                 }
             }
             GuestsGrid.ItemsSource = Reservations;
-        }
+        }*/
         public void Update()
         {
             throw new NotImplementedException();
