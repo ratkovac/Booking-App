@@ -39,5 +39,19 @@ namespace BookingApp.View.Driver
             vehicleRegistrationWindow.Show();
             Close();
         }
+
+        private void btnVehicleAtAddress_Click(object sender, RoutedEventArgs e)
+        {
+            Driver.VehicleAtAddressWindow vehicleAtAddressWindow = new Driver.VehicleAtAddressWindow(LoggedInUser);
+            vehicleAtAddressWindow.Show();
+            Close();
+        }
+
+        private void btnDriveCreation_Click(object sender, RoutedEventArgs e)
+        {
+            Driver.DriveCreationWindow driveCreationWindow = new Driver.DriveCreationWindow(LoggedInUser);
+            driveCreationWindow.Show();
+            Close();
+        }
     }
 }
