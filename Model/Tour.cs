@@ -53,7 +53,7 @@ namespace BookingApp.Model
             MessageBox.Show(string.Format("Duration: {0}", Duration));
 
             string location = Location.Id.ToString();
-            string[] csvValues = { Id.ToString(), Name, location, Description, Language.Name, 
+            string[] csvValues = { Id.ToString(), Name, location, Description, Language.Id.ToString(), 
                 MaxGuests.ToString(), Duration.ToString(), AvailableSeats.ToString() };
             return csvValues;
         }

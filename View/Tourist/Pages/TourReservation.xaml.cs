@@ -24,10 +24,11 @@ namespace BookingApp.View.Tourist.Pages
     public partial class TourReservation : Page, INotifyPropertyChanged
     {
 
-        public Tour tour { get; set; }
+        public Tour Tour { get; set; }
         public ObservableCollection<Tour> TourList { get; set; }
         public Tour SelectedTour { get; set; }
         public List<CheckPoint> CheckPoints { get; set; }
+        private readonly TourRepository tourRepository = new TourRepository();
 
         CheckPointRepository checkPointRepository = new CheckPointRepository();
 
@@ -55,7 +56,7 @@ namespace BookingApp.View.Tourist.Pages
         {
             InitializeComponent();
             DataContext = this;
-            tour = tourSelected;
+            Tour = tourSelected;
 
             NameTextBox.Text = tourSelected.Name;
             LocationTextBox.Text = tourSelected.Location.City;
@@ -68,6 +69,7 @@ namespace BookingApp.View.Tourist.Pages
             DurationTextBox.Text = tourSelected.Duration.ToString();
 
             CheckPoints = checkPointRepository.GetCheckPoints(tourSelected.Id);
+            KeyPointTextBox.Text = string.Join(Environment.NewLine, CheckPoints.Select(cp => cp.PointText));
 
         }
 
@@ -80,16 +82,12 @@ namespace BookingApp.View.Tourist.Pages
             int numberGuests = CheckNumberGuestTextBox(NumberGuestsTextBox.Text);
             if (numberGuests == -1) return;
 
-            if (tour.AvailableSeats == 0)
+            if (Tour.AvailableSeats == 0)
             {
-                // Pretpostavimo da imate TourRepository koji sadrži sve ture
-                TourRepository tourRepository = new TourRepository();
                 List<Tour> allTours = tourRepository.GetAll();
 
-                // Filtrirajte listu da sadrži samo ture koje imaju dostupna mesta
                 List<Tour> availableTours = allTours.Where(t => t.AvailableSeats > 0).ToList();
 
-                // Postavite AlternativeToursGrid.ItemsSource na listu dostupnih tura
                 AlternativeToursGrid.ItemsSource = availableTours;
 
                 AlternativeTextBlock.Text = "Izabrana tura je u potpunosti rezervisana, neke od alternativnih tura su:";
@@ -97,28 +95,47 @@ namespace BookingApp.View.Tourist.Pages
                 return;
             }
 
-            if (numberGuests > tour.AvailableSeats)
+            if (numberGuests > Tour.AvailableSeats)
             {
                 MessageBox.Show("Na ovoj turi nema dovoljan broj slobodnih mjesta za unijeti broj ljudi. " +
-                    "\nBroj slobodnih mjesta je: " + tour.AvailableSeats + "!");
+                    "\nBroj slobodnih mjesta je: " + Tour.AvailableSeats + "!");
                 return;
             }
 
-            tour.AvailableSeats -= numberGuests;
+            Tour.AvailableSeats -= numberGuests;
+            //tourRepository.Update(Tour);
+
+            /*List<string> guestNames = new List<string>();
+            for (int i = 0; i < numberGuests; i++)
+            {
+                InputDialog.IsOpen = true;
+                // Čekanje na korisnički unos
+                while (InputDialog.IsOpen)
+                {
+                    // Čekanje...
+                }
+                guestNames.Add(GuestNameTextBox.Text);
+            }*/
 
             BookingApp.Model.TourReservation newReservation = new BookingApp.Model.TourReservation
             {
-                TourId = tour.Id,
-                Tour = tour,
-                NumberGuest = numberGuests
+                TourId = Tour.Id,
+                Tour = Tour,
+                NumberGuest = numberGuests,
+                Name = Tour.Name,
+                //GuestNames = guestNames
             };
 
-            // Sačuvajte novu rezervaciju u CSV fajl
             TourReservationRepository tourReservationRepository = new TourReservationRepository();
             tourReservationRepository.Save(newReservation);
 
             MessageBox.Show("Tura je uspešno rezervisana!");
         }
+
+        /*private void InputDialog_Click(object sender, RoutedEventArgs e)
+        {
+            InputDialog.IsOpen = false;
+        }*/
 
 
         private int CheckNumberGuestTextBox(string text)
