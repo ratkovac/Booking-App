@@ -18,9 +18,6 @@ namespace BookingApp.View.Owner
     public partial class GuestGrade : Window, IObserver, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-
-        //SelectedItem="{Binding ChosenGuest, UpdateSourceTrigger=PropertyChanged}"
-                          
         private ObservableCollection<AccommodationReservationDTO> Reservations { get; set; }
         private AccommodationReservationRepository accommodationReservationRepository { get; set; }
         private AccommodationRepository accommodationRepository { get; set; }
@@ -87,8 +84,8 @@ namespace BookingApp.View.Owner
             GradeGuest gradeGuest = gradeGuestDTO.ToGradeGuest();
             gradeGuestRepository.Save(gradeGuest);
             selectedGuest.UserGrade = GetGuestGrade();
-            selectedGuest.Accommodation = accommodationRepository.GetByID(accommodationId);
             selectedGuest.User = LoggedInUser;
+            selectedGuest.Accommodation = accommodationRepository.GetByID(accommodationId);
             accommodationReservationRepository.Update(selectedGuest.ToAccommodationReservation());
             this.Close();
         }
