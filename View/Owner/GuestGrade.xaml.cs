@@ -76,17 +76,21 @@ namespace BookingApp.View.Owner
             gradeGuestDTO.RulesFollowing = Convert.ToInt32(RulesValue.Text);
         }
 
-        private void Grade_Click(object sender, RoutedEventArgs e)
+        private void UpdateReservation()
         {
-            SliderValues();
-            gradeGuestDTO.AccommodationReservation = accommodationReservationRepository.GetByID(selectedGuest.Id);
             int accommodationId = gradeGuestDTO.AccommodationReservation.Accommodation.Id;
-            GradeGuest gradeGuest = gradeGuestDTO.ToGradeGuest();
-            gradeGuestRepository.Save(gradeGuest);
             selectedGuest.UserGrade = GetGuestGrade();
             selectedGuest.User = LoggedInUser;
             selectedGuest.Accommodation = accommodationRepository.GetByID(accommodationId);
             accommodationReservationRepository.Update(selectedGuest.ToAccommodationReservation());
+        }
+        private void Grade_Click(object sender, RoutedEventArgs e)
+        {
+            SliderValues();
+            gradeGuestDTO.AccommodationReservation = accommodationReservationRepository.GetByID(selectedGuest.Id);
+            GradeGuest gradeGuest = gradeGuestDTO.ToGradeGuest();
+            gradeGuestRepository.Save(gradeGuest);
+            UpdateReservation();
             this.Close();
         }
 
