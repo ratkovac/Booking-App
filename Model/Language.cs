@@ -6,19 +6,25 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
+
 namespace BookingApp.Model
 {
-    public class Language : ISerializable
+    public class Language: ISerializable
     {
         public int Id { get; set; }
-
         public string Name { get; set; }
 
-        public Language(string name)
+        public Language() { }
+
+        public Language(string lang) { 
+            Name = lang;
+        }
+
+        public Language(int id, string name)
         {
+            Id = id;
             Name = name;
         }
-        public Language() { }
 
         public string[] ToCSV()
         {

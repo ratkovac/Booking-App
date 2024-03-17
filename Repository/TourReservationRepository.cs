@@ -73,7 +73,7 @@ namespace BookingApp.Repository
             return TourReservation;
         }
 
-        public TourReservation GetById(int id)
+        public TourReservation GetByID(int id)
         {
             return _tourReservations.Find(r => r.Id == id);
         }

@@ -1,6 +1,9 @@
 ﻿using BookingApp.Model;
 using BookingApp.Serializer;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 
 namespace BookingApp.Repository
@@ -10,6 +13,7 @@ namespace BookingApp.Repository
         private const string FilePath = "../../../Resources/Data/languages.csv";
 
         private readonly Serializer<Language> _serializer;
+
 
         private List<Language> _languages;
 
@@ -71,6 +75,19 @@ namespace BookingApp.Repository
         {
             _languages = _serializer.FromCSV(FilePath);
             return _languages;
+        }
+    
+            
+        public Language GetLanguageByName(string name)
+        {
+            foreach(Language language in _languages)
+            {
+                if (language.Name == name) { 
+                    return language;
+                }
+            }
+            return null;
+
         }
     }
 }

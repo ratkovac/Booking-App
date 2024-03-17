@@ -8,6 +8,7 @@ using BookingApp.View.Owner;
 using BookingApp.View.Tourist;
 using BookingApp.View.GuideView;
 
+
 namespace BookingApp.View
 {
     /// <summary>
@@ -78,6 +79,9 @@ namespace BookingApp.View
                             Close();
                             break;
                         case "Driver":
+                            Driver.DriverFrontPage driverFrontPage = new Driver.DriverFrontPage(user);
+                            driverFrontPage.Show();
+                            Close();
                             break;
                         default:
                             break;
