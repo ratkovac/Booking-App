@@ -72,27 +72,40 @@ namespace BookingApp.View.Owner
                 accommodationDTO.Type = AccommodationTypeEnum.AccommodationType.Hut;
         }
 
+        /*private void ImagesAdding()
+        {
+            int tourId = -1;
+            foreach (string path in pathImage)
+            {
+                imageRepository.Save(new Model.Image(path, accommodation.Id, tourId));
+            }
+            pathImage.Clear();
+        }*/
+
+        private void SetNewLocation()
+        {
+            string city = accommodationDTO.City;
+            string country = accommodationDTO.Country;
+            accommodationDTO.Location = new Location(city, country);
+        }
         private void AccommodationAdding_Click(object sender, RoutedEventArgs e)
         {  
             SetAccommodationType();
 
-            string city = accommodationDTO.City;
-            string country = accommodationDTO.Country;
-            accommodationDTO.Location = new Location(city, country);
-            //nova funkcija
-
+            SetNewLocation();
+            
             accommodationDTO.User = LoggedInUser;
-
             Accommodation accommodation = accommodationDTO.ToAccommodation();
             locationRepository.Save(accommodation.Location);
             accommodationRepository.Save(accommodation);
 
             int tourId = -1;
-            foreach(string path in pathImage)
+            foreach (string path in pathImage)
             {
                 imageRepository.Save(new Model.Image(path, accommodation.Id, tourId));
             }
             pathImage.Clear();
+            //kandidat za novu funkciju
 
             this.Close();
         }
