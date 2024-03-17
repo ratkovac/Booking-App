@@ -8,6 +8,7 @@ using BookingApp.View.Owner;
 using BookingApp.View.Tourist;
 using BookingApp.View.GuideView;
 
+
 namespace BookingApp.View
 {
     /// <summary>
@@ -29,7 +30,7 @@ namespace BookingApp.View
                 if (value != _username)
                 {
                     _username = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged("Username");
                 }
             }
         }
@@ -63,6 +64,9 @@ namespace BookingApp.View
                             Close();
                             break;
                         case "Guest":
+                            Guest guest = new Guest(user);
+                            guest.Show();
+                            Close();
                             break;
                         case "Guide":
                             TourForm tourForm = new TourForm();
@@ -75,6 +79,9 @@ namespace BookingApp.View
                             Close();
                             break;
                         case "Driver":
+                            Driver.DriverFrontPage driverFrontPage = new Driver.DriverFrontPage(user);
+                            driverFrontPage.Show();
+                            Close();
                             break;
                         default:
                             break;

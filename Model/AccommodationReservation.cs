@@ -16,15 +16,17 @@ namespace BookingApp.Model
         public User User { get; set; }
         public DateOnly StartDate { get; set; }
         public DateOnly EndDate { get; set; }
+        public int ReservationDays { get; set; }
         public double UserGrade { get; set; }
 
-        public AccommodationReservation(int id, Accommodation accommodation, User user, DateOnly startDate, DateOnly endDate, double userGrade)
+        public AccommodationReservation(int id, Accommodation accommodation, User user, DateOnly startDate, DateOnly endDate,int reservationDays, double userGrade)
         {
             Id = id;
             Accommodation = accommodation;
             User = user;
             StartDate = startDate;
             EndDate = endDate;
+            ReservationDays = reservationDays;
             UserGrade = userGrade;
         }
 
@@ -43,6 +45,7 @@ namespace BookingApp.Model
                 user,
                 StartDate.ToString(),
                 EndDate.ToString(),
+                ReservationDays.ToString(),
                 UserGrade.ToString()
             };
             return values;
@@ -62,7 +65,8 @@ namespace BookingApp.Model
             User = userRepository.GetByID(userId);
             bool startDateSuccess = DateOnly.TryParse(values[3], out StartDate);
             bool endDateSuccess = DateOnly.TryParse(values[4], out EndDate);
-            UserGrade = Convert.ToDouble(values[5]);
+            ReservationDays = Convert.ToInt32(values[5]);
+            UserGrade = Convert.ToDouble(values[6]);
         }
     }
 }

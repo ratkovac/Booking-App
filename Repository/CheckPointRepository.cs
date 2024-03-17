@@ -65,5 +65,54 @@ namespace BookingApp.Repository
             _serializer.ToCSV(FilePath, _checkPoints);
             return checkPoint;
         }
+
+        public List<CheckPoint> GetCheckPoints(int tourId)
+        {
+            List<CheckPoint> checkPoints = new List<CheckPoint>();
+
+            try
+            {
+                string[] lines = File.ReadAllLines(FilePath);
+
+                // Preskoči prvu liniju (zaglavlje)
+                foreach (string line in lines)
+                {
+                    string[] values = line.Split('|');
+
+                    int id;
+                    if (!int.TryParse(values[0], out id))
+                    {
+                        // Preskoči red ako prvi element nije validan ID
+                        continue;
+                    }
+
+                    string name = values[1];
+                    int checkpointTourId;
+                    if (!int.TryParse(values[2], out checkpointTourId))
+                    {
+                        // Preskoči red ako treći element nije validan ID ture
+                        continue;
+                    }
+
+                    // Proveri da li je tačka ture za traženu turu
+                    if (checkpointTourId == tourId)
+                    {
+                        CheckPoint checkPoint = new CheckPoint
+                        {
+                            Id = id,
+                            PointText = name,
+                            TourId = checkpointTourId
+                        };
+                        checkPoints.Add(checkPoint);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Greška prilikom čitanja tačaka ture: " + ex.Message);
+            }
+
+            return checkPoints;
+        }
     }
 }

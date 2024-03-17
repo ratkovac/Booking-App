@@ -1,7 +1,8 @@
-﻿using BookingApp.Model;
+﻿﻿using BookingApp.Model;
 using BookingApp.Serializer;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 
 namespace BookingApp.Repository
 {
@@ -27,7 +28,8 @@ namespace BookingApp.Repository
 
         public Location Save(Location location)
         {
-            location.Id = NextId();
+            MessageBox.Show(location.City);
+            location.Id = NextId();           
             _locations = _serializer.FromCSV(FilePath);
             _locations.Add(location);
             _serializer.ToCSV(FilePath, _locations);
@@ -72,7 +74,7 @@ namespace BookingApp.Repository
             _locations = _serializer.FromCSV(FilePath);
             return _locations;
         }
-        /*public List<Location> GetById(int locationId)
+        /*public List<Location> GetByID(int locationId)
         {
             _locations = _serializer.FromCSV(FilePath);
             return _locations.FindAll(c => c.Id == locationId);

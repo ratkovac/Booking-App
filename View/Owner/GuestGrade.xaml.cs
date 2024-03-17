@@ -32,7 +32,7 @@ namespace BookingApp.View.Owner
         {
             // Konstruktor bez parametara
         }
-        public GuestGrade(User user) 
+        public GuestGrade(User user)
         {
             InitializeComponent();
             DataContext = this;
@@ -54,7 +54,7 @@ namespace BookingApp.View.Owner
 
             foreach (AccommodationReservation reservation in reservations)
             {
-                if(reservation.UserGrade == 0.0)
+                if (reservation.UserGrade == 0.0)
                 {
                     Reservations.Add(new AccommodationReservationDTO
                     {
@@ -99,7 +99,7 @@ namespace BookingApp.View.Owner
             if (GuestsGrid.SelectedItem != null)
             {
                 MessageBoxResult result = MessageBox.Show("Do you want to grade this guest?", "Confirmation", MessageBoxButton.YesNo);
-                if(result == MessageBoxResult.Yes)
+                if (result == MessageBoxResult.Yes)
                 {
                     selectedGuest = (AccommodationReservationDTO)GuestsGrid.SelectedItem;
                     GuestsGrid.IsEnabled = false;

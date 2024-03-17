@@ -56,9 +56,10 @@
             </DataGrid>
         </Grid>
         <Grid Grid.Row="4" Grid.Column="1">
-            <Button HorizontalAlignment="Right" VerticalAlignment="Center" Margin="900,530,78,25" Height="75" Width="250" Background="Transparent" BorderThickness="0">
+            <Button HorizontalAlignment="Right" Click="Tour_Reservation"  VerticalAlignment="Center" Margin="900,530,78,25" Height="75" Width="250" Background="Transparent" BorderThickness="0">
                 <TextBlock Text="Rezerviši" FontSize="55" FontWeight="Bold" FontFamily="Roboto" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Button>
         </Grid>
+        <Frame Name="MainFrame" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Page>

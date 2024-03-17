@@ -112,6 +112,24 @@ namespace BookingApp.DTO
                 }
             }
         }
+
+        private int reservationDays;
+
+        public int ReservationDays
+        {
+            get
+            {
+                return reservationDays;
+            }
+            set
+            {
+                if (value != reservationDays)
+                {
+                    reservationDays = value;
+                    OnPropertyChanged("ReservationDays");
+                }
+            }
+        }
         private double userGrade;
         public double UserGrade
         {
@@ -145,7 +163,7 @@ namespace BookingApp.DTO
         }
         public AccommodationReservation ToAccommodationReservation()
         {
-            AccommodationReservation accommodationReservation = new AccommodationReservation(Id, accommodation, user, startDate,endDate, userGrade);
+            AccommodationReservation accommodationReservation = new AccommodationReservation(Id, accommodation, user, startDate,endDate, reservationDays,userGrade);
             return accommodationReservation;
         }
         

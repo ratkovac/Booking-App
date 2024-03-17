@@ -2,10 +2,13 @@
 using BookingApp.Serializer;
 using CLI.Observer;
 using System;
+using System.IO;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace BookingApp.Repository
 {
@@ -77,6 +80,35 @@ namespace BookingApp.Repository
             _serializer.ToCSV(FilePath, _tours);
             TourSubject.NotifyObservers();
             return tour;
+        }
+
+        public List<Tour> GetToursForToday()
+        {
+            DateTime today = DateTime.Now.Date;
+            string formattedToday = today.ToString("M/d/yyyy"); // Formatiranje današnjeg datuma
+
+            List<int> tourIds = GetTourIdsForToday(formattedToday);
+            return _tours.Where(t => tourIds.Contains(t.Id)).ToList();
+        }
+
+        private List<int> GetTourIdsForToday(string formattedToday)
+        {
+            string[] lines = File.ReadAllLines("../../../Resources/Data/dateRealizations.csv");
+            List<int> tourIds = new List<int>();
+
+            foreach (string line in lines) // Preskoči prvu liniju koja sadrži zaglavlje
+            {
+                string[] values = line.Split('|');
+                string datePart = values[1].Split(' ')[0]; // Delimično izdvoji datum iz CSV-a
+
+                if (datePart == formattedToday)
+                {
+                    int tourId = Convert.ToInt32(values[2]);
+                    tourIds.Add(tourId);
+                }
+            }
+
+            return tourIds;
         }
 
         public void Subscribe(IObserver observer)

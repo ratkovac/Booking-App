@@ -6,23 +6,29 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
+
 namespace BookingApp.Model
 {
-    public class Language : ISerializable
+    public class Language: ISerializable
     {
-        public int Id;
+        public int Id { get; set; }
+        public string Name { get; set; }
 
-        public String Name;
+        public Language() { }
 
-        public Language(string name)
+        public Language(string lang) { 
+            Name = lang;
+        }
+
+        public Language(int id, string name)
         {
-            Id = 0;
+            Id = id;
             Name = name;
         }
-        public Language() { }
+
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), Name};
+            string[] csvValues = { Id.ToString(), Name };
             return csvValues;
         }
 
@@ -32,4 +38,5 @@ namespace BookingApp.Model
             Name = values[1];
         }
     }
+
 }
