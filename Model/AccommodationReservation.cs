@@ -65,20 +65,17 @@ namespace BookingApp.Model
             int userId = Convert.ToInt32(values[2]);
             UserRepository userRepository = new UserRepository();
             User = userRepository.GetByID(userId);
-            bool startDateSuccess = DateTime.TryParseExact(values[3].Trim(), "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out startDateDateTime);
-            bool endDateSuccess = DateTime.TryParseExact(values[4].Trim(), "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out endDateDateTime);
-            ApplyParsedDates(startDateSuccess, endDateSuccess, startDateDateTime, endDateDateTime);
+            startDateDateTime = DateTime.Parse(values[3], CultureInfo.InvariantCulture);
+            endDateDateTime = DateTime.Parse(values[4], CultureInfo.InvariantCulture);
+            ApplyParsedDates(startDateDateTime, endDateDateTime);
             ReservationDays = Convert.ToInt32(values[5]);
             UserGrade = Convert.ToDouble(values[6]);
         }
 
-        private void ApplyParsedDates(bool startDateSuccess, bool endDateSuccess, DateTime startDateDateTime, DateTime endDateDateTime)
+        private void ApplyParsedDates( DateTime startDateDateTime, DateTime endDateDateTime)
         {
-            if (startDateSuccess && endDateSuccess)
-            {
-                this.StartDate = DateOnly.FromDateTime(startDateDateTime);
-                this.EndDate = DateOnly.FromDateTime(endDateDateTime);
-            }
+            this.StartDate = DateOnly.FromDateTime(startDateDateTime);
+            this.EndDate = DateOnly.FromDateTime(endDateDateTime);
         }
     }
 }
