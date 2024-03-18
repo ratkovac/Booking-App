@@ -15,9 +15,7 @@ using System.Windows.Shapes;
 
 namespace BookingApp.View.Driver
 {
-    /// <summary>
-    /// Interaction logic for DriverFrontPage.xaml
-    /// </summary>
+
     public partial class DriverFrontPage : Window
     {
         public User LoggedInUser { get; set; }
@@ -47,10 +45,10 @@ namespace BookingApp.View.Driver
             Close();
         }
 
-        private void btnDriveCreation_Click(object sender, RoutedEventArgs e)
+        private void btnShowDrives_Click(object sender, RoutedEventArgs e)
         {
-            Driver.DriveCreationWindow driveCreationWindow = new Driver.DriveCreationWindow(LoggedInUser);
-            driveCreationWindow.Show();
+            Driver.DrivesWindow driveWindow = new Driver.DrivesWindow(LoggedInUser);
+            driveWindow.Show();
             Close();
         }
     }

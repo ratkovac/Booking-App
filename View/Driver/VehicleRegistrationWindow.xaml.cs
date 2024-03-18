@@ -20,9 +20,7 @@ using System.Windows.Shapes;
 
 namespace BookingApp.View.Driver
 {
-    /// <summary>
-    /// Interaction logic for VehicleRegistrationWindow.xaml
-    /// </summary>
+
     public partial class VehicleRegistrationWindow : Window
     {
         private readonly VehicleRepository _vehicleRepository;
@@ -140,14 +138,14 @@ namespace BookingApp.View.Driver
                 string City = CityTextBox.Text;
                 string Country = CountryTextBox.Text;
 
-                vehicleDTO.Location = new Location(City, Country);
                 string LanguageName = LanguagesComboBox.SelectedItem.ToString();
                 vehicle.Language = _languageRepository.GetLanguageByName(LanguageName);
-                
+
+                vehicleDTO.Location = new Location(City, Country);
                 Location location = new Location(City, Country);
                 _locationRepository.Save(location);
                 vehicle.Location = location;
-                MessageBox.Show(location.Id.ToString());
+
                 vehicle.Capacity = int.Parse(MaxCapacityTextBox.Text);
                 vehicle.ImagePaths = ImageList;
                 vehicle.User=LoggedInUser;
