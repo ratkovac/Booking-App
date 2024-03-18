@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,11 +24,14 @@ namespace BookingApp.View
     /// <summary>
     /// Interaction logic for Reservation.xaml
     /// </summary>
-    public partial class Reservation : Window
+    public partial class Reservation : Window, INotifyPropertyChanged
     {
         public AccommodationDTO SelectedAccommodation { get; set; }
         public AccommodationReservationRepository AccommodationReservationRepository { get; set; }
         public ObservableCollection<AccommodationReservationDTO> AccommodationReservations { get; set; }
+
+        public ObservableCollection<AccommodationReservationDTO> AvailableAccommodationPeriods { get; set; }
+
         public Reservation(AccommodationDTO selectedAccommodation, User user)
         {
             InitializeComponent();
@@ -36,6 +41,8 @@ namespace BookingApp.View
 
             AccommodationReservations = new ObservableCollection<AccommodationReservationDTO>();
             AccommodationReservationRepository = new AccommodationReservationRepository();
+
+            AvailableAccommodationPeriods = new ObservableCollection<AccommodationReservationDTO>();
 
             Update();
         }
@@ -50,7 +57,12 @@ namespace BookingApp.View
                     AccommodationReservations.Add(new AccommodationReservationDTO(accommodationReservation));
                 }
             }
-        }
+
+            
+            AvailableAccommodationPeriods.Clear();
+            AvailableAccommodationPeriods =
+                FindAllAvailableAccommodationPeriods(StartDate, EndDate, ReservationDays);
+            
 
         private Accommodation accommodation;
 
@@ -157,6 +169,89 @@ namespace BookingApp.View
                     OnPropertyChanged("ReservationDays");
                 }
             }
+        }
+
+        private ObservableCollection<AccommodationReservationDTO> FindAllAvailableAccommodationPeriods(DateOnly startDate, DateOnly endDate, int reservationDays)
+        {
+            ObservableCollection<AccommodationReservationDTO> availableAccommodationPeriods =
+                new ObservableCollection<AccommodationReservationDTO>();
+
+            ObservableCollection<AccommodationReservationDTO> sortedAccommodationReservations = SortAccommodationReservations();
+
+            if (!AccommodationReservations.Any())
+            {
+                AccommodationReservationDTO availablePeriod = new AccommodationReservationDTO()
+                {
+                    StartDate = startDate,
+                    EndDate = startDate.AddDays(reservationDays),
+                    ReservationDays = reservationDays
+                };
+
+                availableAccommodationPeriods.Add(availablePeriod);
+                return availableAccommodationPeriods;
+            }
+
+
+            for (int i = 0; i < sortedAccommodationReservations.Count - 1; i++)
+            {
+                var currentReservation = sortedAccommodationReservations[i];
+                var nextReservation = sortedAccommodationReservations[i + 1];
+
+                int gapDays = currentReservation.EndDate.AddDays(1).DayNumber - nextReservation.StartDate.DayNumber;
+
+
+                if (gapDays >= reservationDays)
+                {
+                    AccommodationReservationDTO newReservationDTO = new AccommodationReservationDTO(sortedAccommodationReservations[i].ToAccommodationReservation());
+
+                    newReservationDTO.StartDate = currentReservation.EndDate.AddDays(1);
+                    newReservationDTO.EndDate = currentReservation.EndDate.AddDays(gapDays);
+                    newReservationDTO.ReservationDays = gapDays;
+
+                    availableAccommodationPeriods.Add(newReservationDTO);
+                }
+            }
+            if (sortedAccommodationReservations.Any())
+            {
+                var lastReservation = sortedAccommodationReservations.Last();
+                if (endDate.DayNumber - lastReservation.EndDate.AddDays(1).DayNumber >= reservationDays)
+                {
+                    AccommodationReservationDTO newReservationDTO = new AccommodationReservationDTO(lastReservation.ToAccommodationReservation());
+
+                    newReservationDTO.StartDate = lastReservation.EndDate.AddDays(1);
+                    newReservationDTO.EndDate = lastReservation.EndDate.AddDays(reservationDays);
+                    newReservationDTO.ReservationDays = reservationDays;
+
+                    availableAccommodationPeriods.Add(newReservationDTO);
+                }
+            }
+
+            return availableAccommodationPeriods;
+        }
+
+        private ObservableCollection<AccommodationReservationDTO> SortAccommodationReservations()
+        {
+
+            var accommodationReservation = new ObservableCollection<AccommodationReservationDTO>();
+            accommodationReservation.Clear();
+            foreach (AccommodationReservation reservation in AccommodationReservationRepository.GetAll())
+            {
+                if (reservation.Accommodation.Id == SelectedAccommodation.Id)
+                {
+                    AccommodationReservations.Add(new AccommodationReservationDTO(reservation));
+                }
+            }
+            var sorted = accommodationReservation.OrderBy(reservation => reservation.StartDate).ToList();
+
+            accommodationReservation.Clear();
+
+            foreach (var reservation in sorted)
+            {
+                accommodationReservation.Add(reservation);
+            }
+
+            return accommodationReservation;
+
         }
 
 
