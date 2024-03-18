@@ -2,6 +2,7 @@
 using BookingApp.Serializer;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,8 +54,9 @@ namespace BookingApp.Model
 
         public void FromCSV(string[] values)
         {
-            DateOnly StartDate;
-            DateOnly EndDate;
+
+            DateTime startDateDateTime;
+            DateTime endDateDateTime;
 
             Id = Convert.ToInt32(values[0]);
             int accommodationId = Convert.ToInt32(values[1]);
@@ -63,10 +65,20 @@ namespace BookingApp.Model
             int userId = Convert.ToInt32(values[2]);
             UserRepository userRepository = new UserRepository();
             User = userRepository.GetByID(userId);
-            bool startDateSuccess = DateOnly.TryParse(values[3], out StartDate);
-            bool endDateSuccess = DateOnly.TryParse(values[4], out EndDate);
+            bool startDateSuccess = DateTime.TryParseExact(values[3].Trim(), "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out startDateDateTime);
+            bool endDateSuccess = DateTime.TryParseExact(values[4].Trim(), "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out endDateDateTime);
+            ApplyParsedDates(startDateSuccess, endDateSuccess, startDateDateTime, endDateDateTime);
             ReservationDays = Convert.ToInt32(values[5]);
             UserGrade = Convert.ToDouble(values[6]);
+        }
+
+        private void ApplyParsedDates(bool startDateSuccess, bool endDateSuccess, DateTime startDateDateTime, DateTime endDateDateTime)
+        {
+            if (startDateSuccess && endDateSuccess)
+            {
+                this.StartDate = DateOnly.FromDateTime(startDateDateTime);
+                this.EndDate = DateOnly.FromDateTime(endDateDateTime);
+            }
         }
     }
 }

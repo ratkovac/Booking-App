@@ -156,6 +156,7 @@ namespace BookingApp.DTO
             user = accommodationReservation.User;
             startDate = accommodationReservation.StartDate;
             endDate = accommodationReservation.EndDate;
+            reservationDays = accommodationReservation.ReservationDays;
             userGrade = accommodationReservation.UserGrade;
             userName = accommodationReservation.User.Username;
             accommodationName = accommodationReservation.Accommodation.Name;

@@ -4,8 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BookingApp.View"
+        xmlns:converter="clr-namespace:BookingApp.Converter"
         mc:Ignorable="d"
         Title="Reservation" Height="768" Width="1024">
+    <Window.Resources>
+        <converter:DateOnlyToDateTimeConverter x:Key="DateOnlyToDateTimeConverter"/>
+        <converter:StringToIntConverter x:Key="StringToIntConverter"/>
+    </Window.Resources>
     <Grid>
         <Grid Margin="10">
             <Grid.RowDefinitions>
@@ -19,20 +24,22 @@
 
             <StackPanel Grid.Row="0" Grid.Column="0" Margin="5">
                 <Label Content="Number of days for stay in accommodation" Margin="0,5"/>
-                <TextBox x:Name="ReservationStayDays" Margin="0,5"/>
+                <TextBox x:Name="ReservationStayDays"
+                         Text="{Binding ReservationDays, UpdateSourceTrigger=PropertyChanged,Converter={StaticResource StringToIntConverter}, StringFormat={}{0:D}}"
+                         Margin="0,5"/>
 
                 <Label Content="Start Day:" Margin="0,5"/>
                 <DatePicker x:Name="StartDayPicker" Margin="0,5"
-                            SelectedDate="{Binding StartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            SelectedDate="{Binding StartDate, Converter={StaticResource DateOnlyToDateTimeConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <Label Content="End Day:" Margin="0,5"/>
                 <DatePicker x:Name="EndDayPicker" Margin="0,5"
-                            SelectedDate="{Binding EndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            SelectedDate="{Binding EndDate,Converter={StaticResource DateOnlyToDateTimeConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
 
 
             <DataGrid x:Name="dataGrid" CanUserAddRows="False" Grid.Row="0" Grid.Column="1" AutoGenerateColumns="False"
-                ItemsSource="{Binding AccommodationReservations}" Margin="5,5,5,5"
+                ItemsSource="{Binding AvailableAccommodationPeriods}" Margin="5,5,5,5"
                 VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RowHeight="25">
                 <DataGrid.Resources>
                     <Style x:Key="DataGridCenteringStyle" TargetType="{x:Type TextBlock}">
