@@ -35,6 +35,8 @@
                 <Label Content="End Day:" Margin="0,5"/>
                 <DatePicker x:Name="EndDayPicker" Margin="0,5"
                             SelectedDate="{Binding EndDate,Converter={StaticResource DateOnlyToDateTimeConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <Button Content="Submit" Margin="0,5"
+                        Click="Submit_Click"/>
             </StackPanel>
 
 

@@ -162,6 +162,11 @@ namespace BookingApp.DTO
             accommodationName = accommodationReservation.Accommodation.Name;
             
         }
+
+        public override string ToString()
+        {
+            return $"Reservation ID: {Id}, Accommodation: {accommodationName}, User: {userName}, Start Date: {startDate:yyyy-MM-dd}, End Date: {endDate:yyyy-MM-dd}, Reservation Days: {reservationDays}, User Grade: {userGrade}";
+        }
         public AccommodationReservation ToAccommodationReservation()
         {
             AccommodationReservation accommodationReservation = new AccommodationReservation(Id, accommodation, user, startDate,endDate, reservationDays,userGrade);

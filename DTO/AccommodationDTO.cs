@@ -203,6 +203,7 @@ namespace BookingApp.DTO
             daysBeforeCancel = accommodation.DaysBeforeCancel;
             user = accommodation.User;
         }
+        
 
         public AccommodationDTO()
         {
