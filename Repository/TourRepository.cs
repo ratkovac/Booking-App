@@ -111,6 +111,12 @@ namespace BookingApp.Repository
             return tourIds;
         }
 
+        public List<Tour> GetToursByLocationId(int locationId)
+        {
+            _tours = _serializer.FromCSV(FilePath);
+            return _tours.Where(t => t.Location.Id == locationId).ToList();
+        }
+
         public void Subscribe(IObserver observer)
         {
 

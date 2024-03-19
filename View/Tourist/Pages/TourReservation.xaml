@@ -29,22 +29,23 @@
         <TextBox x:Name="DurationTextBox" HorizontalAlignment="Left" Margin="62,557,0,0" TextWrapping="Wrap" Text="" FontSize="26" VerticalAlignment="Top" Width="129" Height="35" IsEnabled="False" BorderThickness="0,0,0,3" BorderBrush="Black"/>
         <!--<Label Content="Slike:" FontSize="16" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="457,112,0,0" VerticalAlignment="Top" Width="73" Height="30"/>-->
         <Label Content="Rezervacija ture:" FontSize="36" HorizontalAlignment="Left" Height="58" Margin="727,34,0,0" VerticalAlignment="Top" Width="304" FontWeight="Bold"/>
-        <Label Content="Unesite broj gostiju:" FontSize="20" HorizontalAlignment="Left" Margin="1050,90,0,0" VerticalAlignment="Top" Height="45"/>
-        <TextBox x:Name="NumberGuestsTextBox" Text="{Binding NumberGuest}" HorizontalAlignment="Left" Margin="1050,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="177" Height="35" FontSize="16" BorderThickness="0,0,0,3" BorderBrush="Black"/>
-        <Label Content="Unesite broj osoba koje bi isle na turu:" FontSize="20" HorizontalAlignment="Left" Margin="687,128,0,0" VerticalAlignment="Top" Height="45" Width="400"/>
-        <Button Content="Rezervisi odmah" Click="Reservation_Click" FontSize="26" HorizontalAlignment="Left" Margin="870,182,0,0" VerticalAlignment="Top" Height="45" Width="210" FontWeight="Bold" Cursor="Hand"/>
-        <Button Content="Otkazi" Click="ButtonBack" FontSize="26" HorizontalAlignment="Left" Margin="1115,182,0,0" VerticalAlignment="Top" Height="45" Width="110" FontWeight="Bold" Cursor="Hand"/>
-        <TextBlock x:Name="MessageReservationBox" HorizontalAlignment="Left" Margin="757,251,0,0" TextWrapping="Wrap" Text="" FontSize="16" VerticalAlignment="Top" Height="82" Width="362" FontStyle="Italic"/>
-        <TextBlock x:Name="AlternativeTextBlock" HorizontalAlignment="Left" Margin="757,362,0,0" TextWrapping="Wrap" Text="" FontSize="16" VerticalAlignment="Top" Height="48" Width="362" FontWeight="Bold"/>
-        <DataGrid x:Name="AlternativeToursGrid"  Margin="757,428,81,166"  Visibility="Hidden"
-              ItemsSource="{Binding ListTour}" SelectionMode="Single" 
-              SelectedItem="{Binding Path=SelectedTour}" IsReadOnly="True" AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Naziv" Binding="{Binding Name}" Width="150" />
-                <DataGridTextColumn Header="Kapacitet" Binding="{Binding MaxGuests}" Width="80" />
-                <DataGridTextColumn Header="Jezik" Binding="{Binding Language.Name}" Width="*" />
-            </DataGrid.Columns>
-        </DataGrid>
+        <ComboBox x:Name="RequiredSeatsComboBox" Height="35" Width="177" Margin="1000,0,0,280" SelectionChanged="RequiredSeatsComboBox_SelectionChanged">
+            <ComboBoxItem Content="0"/>
+            <ComboBoxItem Content="1"/>
+            <ComboBoxItem Content="2"/>
+            <ComboBoxItem Content="3"/>
+            <ComboBoxItem Content="4"/>
+            <ComboBoxItem Content="5"/>
+        </ComboBox>
+        <!--<TextBox x:Name="NumberGuestsTextBox" Text="{Binding NumberGuest}" HorizontalAlignment="Left" Margin="1050,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="177" Height="35" FontSize="16" BorderThickness="0,0,0,3" BorderBrush="Black" TextChanged="NumberGuestsTextBox_TextChanged"/>-->
+        <Label Content="Unesite zeljeni datum ture:" FontSize="20" HorizontalAlignment="Left" Margin="687,128,0,0" VerticalAlignment="Top" Height="45" Width="400"/>
+        <Label Content="Unesite broj osoba koje bi isle na turu:" FontSize="20" HorizontalAlignment="Left" Margin="687,178,0,0" VerticalAlignment="Top" Height="45" Width="400"/>
+        <Button Content="Rezervisi odmah" Click="Reservation_Click" FontSize="26" HorizontalAlignment="Left" Margin="870,600,0,0" VerticalAlignment="Top" Height="45" Width="210" FontWeight="Bold" Cursor="Hand"/>
+        <Button Content="Otkazi" Click="ButtonBack" FontSize="26" HorizontalAlignment="Left" Margin="1115,600,0,0" VerticalAlignment="Top" Height="45" Width="110" FontWeight="Bold" Cursor="Hand"/>
+        <ComboBox x:Name="StartTimeComboBox" SelectionChanged="ChangedStartTimeComboBox" Height="35" Width="177" Margin="1000,0,0,380"/>
+        <ScrollViewer Margin="0,250,0,150">
+            <StackPanel x:Name="InputGuestsStackPanel" Width="200" Margin="1000,0,0,0"/>
+        </ScrollViewer>
         <TextBlock x:Name="MessageBlock" HorizontalAlignment="Left" Margin="961,640,0,0" TextWrapping="Wrap" Text="" FontSize="16" VerticalAlignment="Top" Height="54" Width="358" FontStyle="Italic"/>
         <!--<ListView x:Name="ImageList"  Margin="457,147,546,414"/>-->
         <Button Content="&#60;Nazad" Cursor="Hand" Click="ButtonBack" FontSize="30" HorizontalAlignment="Left" Margin="1100,15,0,0" VerticalAlignment="Top" Height="45" Width="130" />

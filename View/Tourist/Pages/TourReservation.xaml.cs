@@ -24,27 +24,17 @@ namespace BookingApp.View.Tourist.Pages
     public partial class TourReservation : Page, INotifyPropertyChanged
     {
 
-        public Tour Tour { get; set; }
-        public ObservableCollection<Tour> TourList { get; set; }
+        //public Tour Tour { get; set; }
+        public int UserId { get; set; }
+        public TourInstance SelectedTourInstance { get; set; }
         public Tour SelectedTour { get; set; }
         public List<CheckPoint> CheckPoints { get; set; }
-        private readonly TourRepository tourRepository = new TourRepository();
 
-        CheckPointRepository checkPointRepository = new CheckPointRepository();
-
-        private int _numberGuest;
-        public int NumberGuests
-        {
-            get => _numberGuest;
-            set
-            {
-                if (value != _numberGuest)
-                {
-                    _numberGuest = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
+        private readonly TourRepository tourRepository;
+        private readonly CheckPointRepository checkPointRepository = new CheckPointRepository();
+        private readonly TourInstanceRepository _tourInstanceRepository;
+        private readonly TourReservationRepository _tourReservationRepository;
+        private readonly TourGuestRepository _tourGuestRepository;
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -52,32 +42,139 @@ namespace BookingApp.View.Tourist.Pages
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public TourReservation(Tour tourSelected)
+        public TourReservation(Tour selectedTour, User user)
         {
             InitializeComponent();
             DataContext = this;
-            Tour = tourSelected;
+            UserId = user.Id;
+            SelectedTour = selectedTour;
 
-            NameTextBox.Text = tourSelected.Name;
-            LocationTextBox.Text = tourSelected.Location.City;
-            LocationTextBox.Text = tourSelected.Location.Country;
-            DescriptionTextBox.Text = tourSelected.Description;
-            LanguageTextBox.Text = tourSelected.Language.Name;
-            MaxGuestsTextBox.Text = tourSelected.MaxGuests.ToString();
+            _tourInstanceRepository = new TourInstanceRepository();
+            _tourReservationRepository = new TourReservationRepository();
+            _tourGuestRepository = new TourGuestRepository();
+
+            NameTextBox.Text = selectedTour.Name;
+            LocationTextBox.Text = selectedTour.Location.City;
+            //LocationTextBox.Text = selectedTour.Location.Country;
+            DescriptionTextBox.Text = selectedTour.Description;
+            LanguageTextBox.Text = selectedTour.Language.Name;
+            MaxGuestsTextBox.Text = selectedTour.MaxGuests.ToString();
 
             //DateStartTextBox.Text = TourTime.time.ToString("dd.MM.yyyy HH:mm");
-            DurationTextBox.Text = tourSelected.Duration.ToString();
+            DurationTextBox.Text = selectedTour.Duration.ToString();
 
-            CheckPoints = checkPointRepository.GetCheckPoints(tourSelected.Id);
+            CheckPoints = checkPointRepository.GetCheckPoints(selectedTour.Id);
             KeyPointTextBox.Text = string.Join(Environment.NewLine, CheckPoints.Select(cp => cp.PointText));
 
+            GenerateDatesComboBox();
         }
 
-        public TourReservation()
+        private void GenerateDatesComboBox()
         {
+            var tourInstances = _tourInstanceRepository.GetAllById(SelectedTour.Id);
+            StartTimeComboBox.ItemsSource = tourInstances.Select(t => t.StartTime.ToString("g")).ToList();
+            RequiredSeatsComboBox.IsEnabled = false;
+        }
+
+        private void GenerateInputFields(int numberOfPeople)
+        {
+            InputGuestsStackPanel.Children.Clear();
+
+            for (int i = 0; i < numberOfPeople; i++)
+            {
+                InputGuestsStackPanel.Children.Add(new TextBox { Margin = new Thickness(0, 0, 0, 10) });
+                InputGuestsStackPanel.Children.Add(new TextBox { Margin = new Thickness(0, 0, 0, 20) });
+            }
+        }
+
+        private void ChangedStartTimeComboBox(object sender, SelectionChangedEventArgs e)
+        {
+            if (!(StartTimeComboBox.SelectedItem is string selectedTime) || !DateTime.TryParse(selectedTime, out DateTime selectedDate))
+            {
+                MessageBox.Show("Date not valid.");
+                return;
+            }
+
+            RequiredSeatsComboBox.IsEnabled = true;
+            SelectedTourInstance = _tourInstanceRepository.GetByIdAndDate(SelectedTour.Id, selectedDate);
+        }
+
+        private void RequiredSeatsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!(RequiredSeatsComboBox.SelectedItem is ComboBoxItem selectedItem) || !int.TryParse(selectedItem.Content.ToString(), out int requiredSeats))
+            {
+                return;
+            }
+
+
+            if (requiredSeats > SelectedTourInstance.AvailableSlots)
+            {
+                int reservedSeats = SelectedTour.MaxGuests - (SelectedTourInstance?.AvailableSlots ?? 0);
+                int remainingSeats = SelectedTourInstance.AvailableSlots;
+                MessageBox.Show($"Na ovoj turi nema dovoljan broj slobodnih mjesta za unijeti broj ljudi.\nBroj rezervisanih mjesta je: {reservedSeats}.\nBroj slobodnih mjesta je: {remainingSeats}.");
+                RequiredSeatsComboBox.SelectedItem = null;
+                return;
+            }
+
+            GenerateInputFields(requiredSeats);
+        }
+
+        private int GetSelectedNumberOfPeople(ComboBox comboBox)
+        {
+            if (comboBox.SelectedItem is ComboBoxItem selectedItem && int.TryParse(selectedItem.Content.ToString(), out int numberOfPeople))
+            {
+                return numberOfPeople;
+            }
+            return 0;
         }
 
         private void Reservation_Click(object sender, RoutedEventArgs e)
+        {
+
+            var guests = GetGuestsFromInputFields();
+            var numberOfPeople = GetSelectedNumberOfPeople(RequiredSeatsComboBox);
+
+
+            UpdateTourInstanceCapacity((int)numberOfPeople);
+            SaveTourReservation(guests);
+
+            MessageBox.Show("Rezervacija uspjesna!");
+        }
+
+        private void UpdateTourInstanceCapacity(int requiredSeats)
+        {
+            SelectedTourInstance.AvailableSlots -= requiredSeats;
+            _tourInstanceRepository.Update(SelectedTourInstance);
+        }
+
+        private void SaveTourReservation(List<TourGuest> tourGuests)
+        {
+            BookingApp.Model.TourReservation tourReservation = new BookingApp.Model.TourReservation(SelectedTourInstance.Id, UserId);
+            _tourGuestRepository.SaveMultiple(tourGuests);
+            _tourReservationRepository.Save(tourReservation);
+        }
+
+        private List<TourGuest> GetGuestsFromInputFields()
+        {
+            var guests = new List<TourGuest>();
+
+            for (int i = 0; i < InputGuestsStackPanel.Children.Count; i += 2)
+            {
+                var firstNameBox = InputGuestsStackPanel.Children[i] as TextBox;
+                var lastNameBox = InputGuestsStackPanel.Children[i + 1] as TextBox;
+
+                if (firstNameBox != null && lastNameBox != null)
+                {
+                    string fullName = $"{firstNameBox.Text} {lastNameBox.Text}";
+                    var tourGuest = new TourGuest(fullName, SelectedTourInstance.Id, UserId, 0);
+                    guests.Add(tourGuest);
+                }
+            }
+
+            return guests;
+        }
+
+        /*private void Reservation_Click(object sender, RoutedEventArgs e)
         {
             int numberGuests = CheckNumberGuestTextBox(NumberGuestsTextBox.Text);
             if (numberGuests == -1) return;
@@ -115,7 +212,7 @@ namespace BookingApp.View.Tourist.Pages
                     // Čekanje...
                 }
                 guestNames.Add(GuestNameTextBox.Text);
-            }*/
+            }
 
             BookingApp.Model.TourReservation newReservation = new BookingApp.Model.TourReservation
             {
@@ -132,10 +229,10 @@ namespace BookingApp.View.Tourist.Pages
             MessageBox.Show("Tura je uspešno rezervisana!");
         }
 
-        /*private void InputDialog_Click(object sender, RoutedEventArgs e)
+        private void InputDialog_Click(object sender, RoutedEventArgs e)
         {
             InputDialog.IsOpen = false;
-        }*/
+        }
 
 
         private int CheckNumberGuestTextBox(string text)
@@ -154,7 +251,7 @@ namespace BookingApp.View.Tourist.Pages
                 return -1;
             }
             return (int)numberGuests;
-        }
+        }*/
 
         private void ButtonBack(object sender, RoutedEventArgs e)
         {
