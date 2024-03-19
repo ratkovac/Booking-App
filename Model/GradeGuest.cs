@@ -49,8 +49,8 @@ namespace BookingApp.Model
 
         public void FromCSV(string[] values)
         {
-            try
-            {
+
+            try {
                 Id = Convert.ToInt32(values[0]);
                 int reservationId = Convert.ToInt32(values[1]);
                 AccommodationReservationRepository accommodationReservationRepository = new AccommodationReservationRepository();

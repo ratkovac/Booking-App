@@ -1,4 +1,4 @@
-﻿using BookingApp.Model;
+using BookingApp.Model;
 using CLI.Observer;
 using System;
 using System.Collections.Generic;
@@ -26,7 +26,6 @@ namespace BookingApp.View.Owner
         public AccommodationReservationDTO selectedGuest { get; set; }
 
         public User LoggedInUser;
-
 
         public GuestGrade(User user)
         {
@@ -155,8 +154,8 @@ namespace BookingApp.View.Owner
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
-            /*OwnerFrontPage frontPage = new OwnerFrontPage(LoggedInUser);
-            frontPage.Show();*/
+            OwnerFrontPage frontPage = new OwnerFrontPage(LoggedInUser);
+            frontPage.Show();
         }
     }
 }

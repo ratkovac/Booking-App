@@ -60,6 +60,11 @@ namespace BookingApp.View
                     AccommodationReservations.Add(new AccommodationReservationDTO(accommodationReservation));
                 }
             }
+
+            AvailableAccommodationPeriods.Clear();
+            AvailableAccommodationPeriods =
+            FindAllAvailableAccommodationPeriods(StartDate, EndDate, ReservationDays);
+
         }
 
         private Accommodation accommodation;
