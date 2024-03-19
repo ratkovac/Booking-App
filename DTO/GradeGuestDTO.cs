@@ -12,7 +12,7 @@ namespace BookingApp.DTO
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         public int Id { get; set; }
-        
+
         private AccommodationReservation accommodationReservation;
         public AccommodationReservation AccommodationReservation
         {
@@ -81,7 +81,6 @@ namespace BookingApp.DTO
             }
         }
 
- 
         public GradeGuestDTO()
         {
         }
