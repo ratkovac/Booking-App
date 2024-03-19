@@ -49,13 +49,21 @@ namespace BookingApp.Model
 
         public void FromCSV(string[] values)
         {
-            Id = Convert.ToInt32(values[0]);
-            int reservationId = Convert.ToInt32(values[1]);
-            AccommodationReservationRepository accommodationReservationRepository = new AccommodationReservationRepository();
-            AccommodationReservation = accommodationReservationRepository.GetByID(reservationId);
-            Cleanliness = Convert.ToInt32(values[2]);
-            RulesFollowing = Convert.ToInt32(values[3]);
-            Comment = values[4];
+
+            try {
+                Id = Convert.ToInt32(values[0]);
+                int reservationId = Convert.ToInt32(values[1]);
+                AccommodationReservationRepository accommodationReservationRepository = new AccommodationReservationRepository();
+                AccommodationReservation = accommodationReservationRepository.GetByID(reservationId);
+                Cleanliness = Convert.ToInt32(values[2]);
+                RulesFollowing = Convert.ToInt32(values[3]);
+                Comment = values[4];
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("No data for reading: " + ex.Message);
+            }
+
         }
 
     }

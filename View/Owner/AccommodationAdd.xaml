@@ -40,7 +40,7 @@
                 </LinearGradientBrush>
             </Button.BorderBrush>
         </Button>
-        <Button x:Name="AccommodationAdding" Content="Add" HorizontalAlignment="Left" Margin="218,334,0,0" VerticalAlignment="Top" Width="54" Background="#FFC8C8C8" Click="AccommodationAdding_Click">
+        <Button x:Name="AccommodationAdding" Content="Add" HorizontalAlignment="Left" Margin="218,339,0,0" VerticalAlignment="Top" Width="54" Background="#FFC8C8C8" Click="AccommodationAdding_Click">
             <Button.BorderBrush>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>
@@ -48,7 +48,7 @@
                 </LinearGradientBrush>
             </Button.BorderBrush>
         </Button>
-        <Button x:Name="Cancel" Content="Cancel" HorizontalAlignment="Left" Margin="420,334,0,0" VerticalAlignment="Top" Width="54" Background="#FFC8C8C8" Foreground="#FF060606" Click="Cancel_Click">
+        <Button x:Name="Cancel" Content="Cancel" HorizontalAlignment="Left" Margin="420,339,0,0" VerticalAlignment="Top" Width="54" Background="#FFC8C8C8" Foreground="#FF060606" Click="Cancel_Click">
             <Button.BorderBrush>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>
@@ -58,6 +58,6 @@
         </Button>
         <TextBox Name="path" HorizontalAlignment="Left" Margin="218,213,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="256" 
             Text="{Binding accommodationDTO.ImagePath, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-        <ListBox Name="imagePaths" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="218,248,126,76"/>
+        <ListBox x:Name="imagePaths" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="218,248,126,55"/>
     </Grid>
 </Window>

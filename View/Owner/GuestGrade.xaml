@@ -11,16 +11,17 @@
         <DataGrid x:Name="GuestsGrid"
                           AutoGenerateColumns="False"
                           ItemsSource="{Binding Reservations, UpdateSourceTrigger=PropertyChanged}"
-                          SelectionMode="Single" IsReadOnly="True" Margin="113,10,197,232">
+                          SelectionMode="Single" IsReadOnly="True" Margin="92,10,197,232">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" Visibility="Collapsed"/>
                 <DataGridTextColumn Header="Guest" Binding="{Binding UserName}" />
                 <DataGridTextColumn Header="Accommodation" Binding="{Binding AccommodationName}" />
+                <DataGridTextColumn Header="Days Left to Rate Guest" Binding="{Binding DaysToRating}" />
             </DataGrid.Columns>
         </DataGrid>
         <Button Content="Chose Guest" Name="ChosenGuest" HorizontalAlignment="Left" Margin="464,118,0,0" VerticalAlignment="Top" Height="34" Width="88" Click="ChosenGuest_Click"/>
         <Button Content="Grade" Name="Grade" HorizontalAlignment="Left" Margin="464,192,0,0" VerticalAlignment="Top" Height="34" Width="88" Click="Grade_Click"/>
-        <Button Content="Cancel" HorizontalAlignment="Left" Margin="464,264,0,0" VerticalAlignment="Top" Height="34" Width="88"/>
+        <Button Content="Cancel" Name="Cancel" HorizontalAlignment="Left" Margin="464,264,0,0" VerticalAlignment="Top" Height="34" Width="88" Click="Cancel_Click"/>
         <Label Content="Cleanliness" HorizontalAlignment="Left" Margin="42,0,0,0" VerticalAlignment="Center"/>
         <Label Content="Folowing the rules" HorizontalAlignment="Left" Margin="42,222,0,0" VerticalAlignment="Top"/>
         <Label Content="Other comments" HorizontalAlignment="Left" Margin="42,268,0,0" VerticalAlignment="Top"/>

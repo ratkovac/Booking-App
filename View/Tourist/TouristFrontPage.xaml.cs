@@ -8,17 +8,17 @@ namespace BookingApp.View.Tourist
 {
     public partial class TouristFrontPage : Window
     {
-        public User LoggedInUser { get; set; }
+        public User User { get; set; }
         public TouristFrontPage(User user)
         {
             InitializeComponent();
             DataContext = this;
-            LoggedInUser = user;
+            User = user;
         }
 
         private void AvailableTours_Click(object sender, RoutedEventArgs e)
         {
-            AvailableTours availableToursPage = new AvailableTours();
+            AvailableTours availableToursPage = new AvailableTours(User);
             MainFrame.Navigate(availableToursPage);
         }
     }
