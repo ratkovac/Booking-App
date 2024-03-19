@@ -9,7 +9,7 @@ namespace BookingApp.View.Owner
 {
     public partial class OwnerFrontPage : Window
     {
-        public User LoggedInUser { get; set; }
+        public User LoggedInUser;
 
         public OwnerFrontPage(User user)
         {
@@ -20,7 +20,6 @@ namespace BookingApp.View.Owner
 
         private void NewAccomodation_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            // Dodajte željenu logiku koja treba da se izvrši kada korisnik klikne na Labelu
             AccommodationAdd accommodationAdd = new AccommodationAdd(LoggedInUser);
             accommodationAdd.Show();
             Close();

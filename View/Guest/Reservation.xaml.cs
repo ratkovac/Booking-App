@@ -58,11 +58,11 @@ namespace BookingApp.View
                 }
             }
 
-            
+
             AvailableAccommodationPeriods.Clear();
             AvailableAccommodationPeriods =
-                FindAllAvailableAccommodationPeriods(StartDate, EndDate, ReservationDays);
-            
+            FindAllAvailableAccommodationPeriods(StartDate, EndDate, ReservationDays);
+        }
 
         private Accommodation accommodation;
 
