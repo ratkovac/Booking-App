@@ -114,7 +114,7 @@ namespace BookingApp.View
         }
 
         private string capacity;
-        public  string Capacity
+        public string Capacity
         {
             get
             {
@@ -207,8 +207,8 @@ namespace BookingApp.View
                 return false;
 
             bool matchesSearchText = string.IsNullOrWhiteSpace(SearchText) || accommodation.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
-            bool matchesCapacity = string.IsNullOrWhiteSpace(Capacity) || accommodation.Capacity.ToString().Contains(Capacity, StringComparison.OrdinalIgnoreCase);
-            bool matchesDaysBeforeCancel = string.IsNullOrWhiteSpace(DaysBeforeCancel) || accommodation.DaysBeforeCancel.ToString().Contains(DaysBeforeCancel, StringComparison.OrdinalIgnoreCase);
+            bool matchesCapacity = string.IsNullOrWhiteSpace(Capacity) || accommodation.Capacity >= int.Parse(Capacity);
+            bool matchesDaysBeforeCancel = string.IsNullOrWhiteSpace(DaysBeforeCancel) || accommodation.DaysBeforeCancel >= int.Parse(DaysBeforeCancel);
             bool matchesMinReservationDays = string.IsNullOrWhiteSpace(MinReservationDays) || accommodation.MinReservationDays.ToString().Contains(MinReservationDays, StringComparison.OrdinalIgnoreCase);
             bool matchesLocation = string.IsNullOrWhiteSpace(SelectedLocation) || accommodation.Location.ToString().Equals(SelectedLocation, StringComparison.OrdinalIgnoreCase);
             bool matchesIsCheckedAccomodationType = IsCheckedAccomodationType(accommodation);
