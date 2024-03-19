@@ -1,4 +1,4 @@
-﻿using BookingApp.Model;
+using BookingApp.Model;
 using CLI.Observer;
 using System;
 using System.Collections.Generic;
@@ -27,7 +27,6 @@ namespace BookingApp.View.Owner
 
         public User LoggedInUser;
 
-        
         public GuestGrade(User user)
         {
             InitializeComponent();
@@ -63,14 +62,14 @@ namespace BookingApp.View.Owner
 
             foreach (AccommodationReservation reservation in reservations)
             {
-                if (IsValidForRating(reservation)) 
+                if (IsValidForRating(reservation))
                 {
                     Reservations.Add(new AccommodationReservationDTO
                     {
                         Id = reservation.Id,
                         UserName = reservation.User.Username,
                         AccommodationName = reservation.Accommodation.Name,
-                        DaysToRating = DaysUntilGuestRating(reservation) 
+                        DaysToRating = DaysUntilGuestRating(reservation)
                     });
                 }
             }
