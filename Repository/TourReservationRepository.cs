@@ -28,49 +28,49 @@ namespace BookingApp.Repository
             return _tourReservations;
         }
 
-        public TourReservation Save(TourReservation TourReservation)
+        public TourReservation Save(TourReservation tourReservation)
         {
-            TourReservation.Id = NextId();
-            _tourReservations.Add(TourReservation);
+            tourReservation.Id = NextId();
+            _tourReservations.Add(tourReservation);
             _serializer.ToCSV(FilePath, _tourReservations);
-            return TourReservation;
+            return tourReservation;
         }
 
         public int NextId()
         {
-            if (_tourReservations.Count == 0)
+            if (_tourReservations.Count < 1)
             {
-                return 0;
+                return 1;
             }
             return _tourReservations.Max(t => t.Id) + 1;
         }
 
-        public void Create(TourReservation TourReservation)
+        public void Create(TourReservation tourReservation)
         {
-            TourReservation.Id = NextId();
-            _tourReservations.Add(TourReservation);
+            tourReservation.Id = NextId();
+            _tourReservations.Add(tourReservation);
             _serializer.ToCSV(FilePath, _tourReservations);
         }
 
-        public void Delete(TourReservation TourReservation)
+        public void Delete(TourReservation tourReservation)
         {
-            TourReservation founded = _tourReservations.Find(c => c.Id == TourReservation.Id);
-            if (founded != null)
+            TourReservation found = _tourReservations.Find(c => c.Id == tourReservation.Id);
+            if (found != null)
             {
-                _tourReservations.Remove(founded);
+                _tourReservations.Remove(found);
             }
             _serializer.ToCSV(FilePath, _tourReservations);
         }
 
-        public TourReservation Update(TourReservation TourReservation)
+        public TourReservation Update(TourReservation tourReservation)
         {
-            int index = _tourReservations.FindIndex(t => TourReservation.Id == t.Id);
+            int index = _tourReservations.FindIndex(t => tourReservation.Id == t.Id);
             if (index != -1)
             {
-                _tourReservations[index] = TourReservation;
+                _tourReservations[index] = tourReservation;
                 _serializer.ToCSV(FilePath, _tourReservations);
             }
-            return TourReservation;
+            return tourReservation;
         }
 
         public TourReservation GetByID(int id)
@@ -78,9 +78,14 @@ namespace BookingApp.Repository
             return _tourReservations.Find(r => r.Id == id);
         }
 
-        public List<TourReservation> GetReservationsByTour(Tour tour)
+        public List<TourReservation> GetAllByUserId(int userId)
         {
-            return _tourReservations.Where(r => r.TourId == tour.Id).ToList();
+            return _serializer.FromCSV(FilePath).Where(tr => tr.UserId == userId).ToList();
+        }
+
+        public List<TourReservation> GetAllByTourInstanceId(int tourInstanceId)
+        {
+            return _serializer.FromCSV(FilePath).Where(tr => tr.TourInstanceId == tourInstanceId).ToList();
         }
     }
 

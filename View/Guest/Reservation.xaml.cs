@@ -62,7 +62,6 @@ namespace BookingApp.View
             }
         }
 
-
         private Accommodation accommodation;
 
         public Accommodation Accommodation

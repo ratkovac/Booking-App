@@ -17,6 +17,7 @@ namespace BookingApp.View.Tourist.Pages
         private TourRepository tourRepository;
         public ObservableCollection<Tour> ListTour { get; set; }
         public Tour SelectedTour { get; set; }
+        public User User { get; set; }
 
         private int _maxNumberGuest;
 
@@ -39,10 +40,11 @@ namespace BookingApp.View.Tourist.Pages
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public AvailableTours()
+        public AvailableTours(User user)
         {
             InitializeComponent();
             DataContext = this;
+            User = user;
 
             tourRepository = new TourRepository();
             ListTour = new ObservableCollection<Tour>(tourRepository.GetAll());
@@ -61,7 +63,7 @@ namespace BookingApp.View.Tourist.Pages
         {
             if (SelectedTour != null)
             {
-                var tour_reservation = new TourReservation(SelectedTour);
+                var tour_reservation = new TourReservation(SelectedTour, User);
                 NavigationService.Navigate(tour_reservation);
             }
             else
