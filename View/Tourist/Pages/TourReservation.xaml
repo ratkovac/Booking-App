@@ -9,7 +9,7 @@
       Title="TourReservation" Background="#FF75C8F1">
 
     <Grid>
-        <Border BorderBrush="Black" BorderThickness="3" HorizontalAlignment="Left" Height="671" Margin="23,23,0,0" VerticalAlignment="Top" Width="648" CornerRadius="10,10,10,10"/>
+        <Border BorderBrush="Black" BorderThickness="3" HorizontalAlignment="Left" Height="631" Margin="23,23,0,0" VerticalAlignment="Top" Width="648" CornerRadius="10,10,10,10"/>
         <Label Content="Prikaz informacija o turi:" FontSize="36" HorizontalAlignment="Left" Margin="37,34,0,0" VerticalAlignment="Top" Width="430" Height="58" FontWeight="Bold"/>
         <Label Content="Naziv ture:" FontSize="26" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="62,100,0,0" VerticalAlignment="Top" Width="231" Height="40"/>
         <Label Content="Lokacija(Grad i Drzava):" FontSize="26"  HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="62,180,0,0" VerticalAlignment="Top" Width="280" Height="45"/>
@@ -29,7 +29,7 @@
         <TextBox x:Name="DurationTextBox" HorizontalAlignment="Left" Margin="62,557,0,0" TextWrapping="Wrap" Text="" FontSize="26" VerticalAlignment="Top" Width="129" Height="35" IsEnabled="False" BorderThickness="0,0,0,3" BorderBrush="Black"/>
         <!--<Label Content="Slike:" FontSize="16" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="457,112,0,0" VerticalAlignment="Top" Width="73" Height="30"/>-->
         <Label Content="Rezervacija ture:" FontSize="36" HorizontalAlignment="Left" Height="58" Margin="727,34,0,0" VerticalAlignment="Top" Width="304" FontWeight="Bold"/>
-        <ComboBox x:Name="RequiredSeatsComboBox" Height="35" Width="177" Margin="1000,0,0,280" SelectionChanged="RequiredSeatsComboBox_SelectionChanged">
+        <ComboBox x:Name="RequiredSeatsComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="177" Margin="1050,180,0,0" SelectionChanged="RequiredSeatsComboBox_SelectionChanged" FontSize="14">
             <ComboBoxItem Content="0"/>
             <ComboBoxItem Content="1"/>
             <ComboBoxItem Content="2"/>
@@ -38,13 +38,13 @@
             <ComboBoxItem Content="5"/>
         </ComboBox>
         <!--<TextBox x:Name="NumberGuestsTextBox" Text="{Binding NumberGuest}" HorizontalAlignment="Left" Margin="1050,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="177" Height="35" FontSize="16" BorderThickness="0,0,0,3" BorderBrush="Black" TextChanged="NumberGuestsTextBox_TextChanged"/>-->
-        <Label Content="Unesite zeljeni datum ture:" FontSize="20" HorizontalAlignment="Left" Margin="687,128,0,0" VerticalAlignment="Top" Height="45" Width="400"/>
+        <Label Content="Unesite zeljeni datum ture:" FontSize="20" HorizontalAlignment="Left" Margin="750,128,0,0" VerticalAlignment="Top" Height="45" Width="400"/>
         <Label Content="Unesite broj osoba koje bi isle na turu:" FontSize="20" HorizontalAlignment="Left" Margin="687,178,0,0" VerticalAlignment="Top" Height="45" Width="400"/>
         <Button Content="Rezervisi odmah" Click="Reservation_Click" FontSize="26" HorizontalAlignment="Left" Margin="870,600,0,0" VerticalAlignment="Top" Height="45" Width="210" FontWeight="Bold" Cursor="Hand"/>
         <Button Content="Otkazi" Click="ButtonBack" FontSize="26" HorizontalAlignment="Left" Margin="1115,600,0,0" VerticalAlignment="Top" Height="45" Width="110" FontWeight="Bold" Cursor="Hand"/>
-        <ComboBox x:Name="StartTimeComboBox" SelectionChanged="ChangedStartTimeComboBox" Height="35" Width="177" Margin="1000,0,0,380"/>
+        <ComboBox x:Name="StartTimeComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" SelectionChanged="ChangedStartTimeComboBox" Height="35" Width="177" Margin="1050,128,0,0" FontSize="14"/>
         <ScrollViewer Margin="0,250,0,150">
-            <StackPanel x:Name="InputGuestsStackPanel" Width="200" Margin="1000,0,0,0"/>
+            <StackPanel x:Name="InputGuestsStackPanel"  Width="175" Margin="1030,0,0,0"/>
         </ScrollViewer>
         <TextBlock x:Name="MessageBlock" HorizontalAlignment="Left" Margin="961,640,0,0" TextWrapping="Wrap" Text="" FontSize="16" VerticalAlignment="Top" Height="54" Width="358" FontStyle="Italic"/>
         <!--<ListView x:Name="ImageList"  Margin="457,147,546,414"/>-->
