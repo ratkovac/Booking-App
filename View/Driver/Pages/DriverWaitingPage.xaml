@@ -1,0 +1,31 @@
+﻿<Page x:Class="BookingApp.View.Driver.Pages.DriverWaitingPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BookingApp.View.Driver.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="200" d:DesignWidth="300"
+      Title="DriverWaitingPage">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Preostalo vreme:" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10"/>
+        <TextBlock x:Name="txtRemainingTime" Grid.Row="1" Text="20:00" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24"/>
+
+        <Button x:Name="btnTouristArrived"
+                Grid.Row="3"
+                Content="Turista je stigao"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Margin="20 10 10 20"
+                Width="150" Height="50"
+                Click="btnTouristArrived_Click"/>
+    </Grid>
+</Page>

@@ -1,4 +1,5 @@
 ﻿using BookingApp.Repository;
+using BookingApp.Serializer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BookingApp.Model
 {
-    public class Drive
+    public class Drive: ISerializable
     {
         public int Id { get; set; } 
 
@@ -15,9 +16,13 @@ namespace BookingApp.Model
 
         public User Driver { get; set; }
 
-        public int AddressId { get; set; }
+        public int StartAddressId { get; set; }
 
-        public Address Address { get; set; }
+        public Address StartAddress { get; set; }
+
+        public int EndAddressId { get; set; }
+
+        public Address EndAddress { get; set; }
 
         public DateTime Date { get; set; }
 
@@ -29,28 +34,50 @@ namespace BookingApp.Model
         {
         }
 
-        public Drive(int id, int driverId, User driver, int addressId, DateTime date, int guestId)
+        public Drive(int id, int driverId, User driver, int startAddressId,int endAddressId, DateTime date, int guestId)
         {
             Id = id;
             DriverId = driverId;
             Driver = driver;
-            AddressId = addressId;
+            StartAddressId = startAddressId;
+            EndAddressId = endAddressId;
             Date = date;
             GuestId = guestId;
+        }
+
+        public Drive(int id, User driver, Address startAddress, Address endAddress, DateTime date, User guest)
+        {
+            Id = id;
+            DriverId = driver.Id;
+            Driver = driver;
+            StartAddressId = startAddress.Id;
+            StartAddress = startAddress;
+            EndAddressId = endAddress.Id;
+            EndAddress = endAddress;
+            Date = date;
+            GuestId = guest.Id;
+            Guest = guest;
         }
 
         public string[] ToCSV()
         {
             string driverId = Driver.Id.ToString();
-            string addressId = Address.Id.ToString();
+            string startAddressId = StartAddress.Id.ToString();
+            string endAddressId = EndAddress.Id.ToString();
             string guestId = Guest.Id.ToString();  
-            string[] csvValues = { Id.ToString(), driverId, addressId, Date.ToString(), guestId };
+            string[] csvValues = { 
+                Id.ToString(),
+                driverId,
+                startAddressId,
+                endAddressId,
+                Date.ToString(),
+                guestId };
             return csvValues;
         }
 
         public void FromCSV(string[] values)
         {
-            if (values.Length != 5)
+            if (values.Length != 6)
             {
                 throw new ArgumentException("Neispravan format CSV podataka.");
             }
@@ -59,12 +86,16 @@ namespace BookingApp.Model
             UserRepository userRepository = new UserRepository();
             Driver = userRepository.GetByID(DriverId);
 
-            AddressId = Convert.ToInt32(values[2]);
+            StartAddressId = Convert.ToInt32(values[2]);
             AddressRepository addressRepository = new AddressRepository();
-            Address = addressRepository.GetAddressById(AddressId);
+            StartAddress = addressRepository.GetAddressById(StartAddressId);
 
-            Date = Convert.ToDateTime(values[3]);
-            GuestId = Convert.ToInt32(values[4]);
+            EndAddressId = Convert.ToInt32(values[3]);
+            EndAddress = addressRepository.GetAddressById(EndAddressId);
+
+
+            Date = Convert.ToDateTime(values[4]);
+            GuestId = Convert.ToInt32(values[5]);
             Guest = userRepository.GetByID(GuestId);
 
         }

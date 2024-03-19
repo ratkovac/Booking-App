@@ -11,7 +11,7 @@ namespace BookingApp.Repository
 {
     public class AddressRepository
     {
-        private const string FilePath = "../../../Resources/Data/address.csv";
+        private const string FilePath = "../../../Resources/Data/addresses.csv";
 
         private readonly Serializer<Address> _serializer;
 

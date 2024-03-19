@@ -25,7 +25,11 @@ namespace BookingApp.Model
         public string[] ToCSV()
         {
             string location = Location.Id.ToString();
-            string[] csvValues = { Id.ToString(), location.ToString(), Street, Number };
+            string[] csvValues = { 
+                Id.ToString(),
+                location.ToString(),
+                Street,
+                Number };
             return csvValues;
         }
 
@@ -44,6 +48,6 @@ namespace BookingApp.Model
             Number = values[3];
         }
     }
-
+    
 }
 
