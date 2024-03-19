@@ -57,9 +57,9 @@ namespace BookingApp.View.Owner
         private void UploadImage_Click(object sender, RoutedEventArgs e)
         {
             pathImage.Add(accommodationDTO.ImagePath);
+            imagePaths.Items.Add(accommodationDTO.ImagePath);
             MessageBox.Show("Unesite jos slika ako zelite!");
             path.Text = "";
-            //imagePaths.Items.Add(pathImage).ToString();
         }
         
         public void SetAccommodationType()
@@ -71,16 +71,6 @@ namespace BookingApp.View.Owner
             if (Item13.IsSelected == true)
                 accommodationDTO.Type = AccommodationTypeEnum.AccommodationType.Hut;
         }
-
-        /*private void ImagesAdding()
-        {
-            int tourId = -1;
-            foreach (string path in pathImage)
-            {
-                imageRepository.Save(new Model.Image(path, accommodation.Id, tourId));
-            }
-            pathImage.Clear();
-        }*/
 
         private void SetNewLocation()
         {
@@ -105,7 +95,6 @@ namespace BookingApp.View.Owner
                 imageRepository.Save(new Model.Image(path, accommodation.Id, tourId));
             }
             pathImage.Clear();
-            //kandidat za novu funkciju
 
             this.Close();
         }

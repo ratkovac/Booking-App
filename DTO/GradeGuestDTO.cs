@@ -80,6 +80,8 @@ namespace BookingApp.DTO
                 }
             }
         }
+
+ 
         public GradeGuestDTO()
         {
         }

@@ -146,6 +146,23 @@ namespace BookingApp.DTO
                 }
             }
         }
+        private int daysToRating;
+
+        public int DaysToRating
+        {
+            get
+            {
+                return daysToRating;
+            }
+            set
+            {
+                if (value != daysToRating)
+                {
+                    daysToRating = value;
+                    OnPropertyChanged("daysToRating");
+                }
+            }
+        }
         private int capacity;
         public int Capacity
         {
@@ -178,6 +195,7 @@ namespace BookingApp.DTO
             userName = accommodationReservation.User.Username;
             accommodationName = accommodationReservation.Accommodation.Name;
             capacity = accommodationReservation.Capacity;
+
         }
         public AccommodationReservation ToAccommodationReservation()
         {
