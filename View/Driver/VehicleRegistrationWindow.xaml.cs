@@ -28,7 +28,7 @@ namespace BookingApp.View.Driver
         private readonly LocationRepository _locationRepository;
 
         private readonly Serializer<Vehicle> _serializer;
-        
+
         public VehicleDTO vehicleDTO { get; set; }
 
         ObservableCollection<VehicleDTO> vehicles;
@@ -57,7 +57,7 @@ namespace BookingApp.View.Driver
             }
 
         }
-        
+
         public VehicleRegistrationWindow(VehicleRepository vehicleRepository, ObservableCollection<VehicleDTO> vehicles, DataGrid vehicleGrid)
         {
             InitializeComponent();
@@ -66,7 +66,7 @@ namespace BookingApp.View.Driver
             this.vehicles = vehicles;
             VehicleGrid = vehicleGrid;
             _locationRepository = new LocationRepository();
-           
+
 
         }
 
@@ -88,70 +88,93 @@ namespace BookingApp.View.Driver
 
         }
 
-        private bool ValidationForm()
+        private bool ValidateCity()
         {
-            bool isValid = true;
-
-            if (CityTextBox.Text == "")
+            if (string.IsNullOrWhiteSpace(CityTextBox.Text))
             {
-                isValid = false;
                 CityLabelError.Content = "Niste uneli grad";
                 CityLabelError.Foreground = Brushes.Red;
+                return false;
             }
             else
             {
                 CityLabelError.Content = "";
+                return true;
             }
-            if (CountryTextBox.Text == "")
+        }
+
+        private bool ValidateCountry()
+        {
+            if (string.IsNullOrWhiteSpace(CountryTextBox.Text))
             {
-                isValid = false;
                 CountryLabelError.Content = "Niste uneli zemlju";
                 CountryLabelError.Foreground = Brushes.Red;
+                return false;
             }
             else
             {
                 CountryLabelError.Content = "";
+                return true;
             }
-            if (MaxCapacityTextBox.Text == "")
+        }
+
+        private bool ValidateMaxCapacity()
+        {
+            if (string.IsNullOrWhiteSpace(MaxCapacityTextBox.Text))
             {
-                isValid = false;
                 MaxCapacityLabelError.Content = "Niste uneli Maksimalni Kapacitet";
                 MaxCapacityLabelError.Foreground = Brushes.Red;
+                return false;
             }
             else
             {
                 MaxCapacityLabelError.Content = "";
+                return true;
             }
-            
-            
+        }
 
+        private bool ValidationForm()
+        {
+            bool isValid = true;
 
+            isValid &= ValidateCity();
+            isValid &= ValidateCountry();
+            isValid &= ValidateMaxCapacity();
 
             return isValid;
         }
 
-        private void btnRegistraterVehicle_Click(object sender, RoutedEventArgs e)
+        private Vehicle CreateVehicle()
+        {
+            Vehicle vehicle = new Vehicle();
+
+            string languageName = LanguagesComboBox.SelectedItem.ToString();
+            vehicle.Language = _languageRepository.GetLanguageByName(languageName);
+
+            string city = CityTextBox.Text;
+            string country = CountryTextBox.Text;
+            Location location = new Location(city, country);
+            _locationRepository.Save(location);
+            vehicle.Location = location;
+
+            vehicle.Capacity = int.Parse(MaxCapacityTextBox.Text);
+            vehicle.ImagePaths = ImageList;
+            vehicle.User = LoggedInUser;
+
+            return vehicle;
+        }
+
+        private void RegisterVehicle(Vehicle vehicle)
+        {
+            _vehicleRepository.Save(vehicle);
+        }
+
+        private void btnRegisterVehicle_Click(object sender, RoutedEventArgs e)
         {
             if (ValidationForm())
             {
-                Vehicle vehicle = new Vehicle();
-                string City = CityTextBox.Text;
-                string Country = CountryTextBox.Text;
-
-                string LanguageName = LanguagesComboBox.SelectedItem.ToString();
-                vehicle.Language = _languageRepository.GetLanguageByName(LanguageName);
-
-                vehicleDTO.Location = new Location(City, Country);
-                Location location = new Location(City, Country);
-                _locationRepository.Save(location);
-                vehicle.Location = location;
-
-                vehicle.Capacity = int.Parse(MaxCapacityTextBox.Text);
-                vehicle.ImagePaths = ImageList;
-                vehicle.User=LoggedInUser;
-                UserRepository userRepository = new UserRepository();
-                _vehicleRepository.Save(vehicle);
-
+                Vehicle vehicle = CreateVehicle();
+                RegisterVehicle(vehicle);
             }
         }
     }
