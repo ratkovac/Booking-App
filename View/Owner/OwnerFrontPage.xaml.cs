@@ -22,7 +22,6 @@ namespace BookingApp.View.Owner
         {
             AccommodationAdd accommodationAdd = new AccommodationAdd(LoggedInUser);
             accommodationAdd.Show();
-            Close();
 
         }
 
@@ -30,7 +29,6 @@ namespace BookingApp.View.Owner
         {
             GuestGrade guestGrade = new GuestGrade(LoggedInUser);
             guestGrade.Show();
-            Close();
         }
     }
 }

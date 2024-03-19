@@ -95,9 +95,10 @@ namespace BookingApp.View.Owner
         {
             SliderValues();
             gradeGuestDTO.AccommodationReservation = accommodationReservationRepository.GetByID(selectedGuest.Id);
-            AccommodationReservation oldReservation = gradeGuestDTO.AccommodationReservation;
             GradeGuest gradeGuest = gradeGuestDTO.ToGradeGuest();
             gradeGuestRepository.Save(gradeGuest);
+
+            AccommodationReservation oldReservation = gradeGuestDTO.AccommodationReservation;
             oldReservation.UserGrade = GetGuestGrade();
             accommodationReservationRepository.Update(oldReservation);
             MessageBox.Show("Chosen guest is rated!");
