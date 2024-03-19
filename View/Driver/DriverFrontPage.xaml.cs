@@ -38,12 +38,6 @@ namespace BookingApp.View.Driver
             Close();
         }
 
-        private void btnVehicleAtAddress_Click(object sender, RoutedEventArgs e)
-        {
-            Driver.VehicleAtAddressWindow vehicleAtAddressWindow = new Driver.VehicleAtAddressWindow(LoggedInUser);
-            vehicleAtAddressWindow.Show();
-            Close();
-        }
 
         private void btnShowDrives_Click(object sender, RoutedEventArgs e)
         {

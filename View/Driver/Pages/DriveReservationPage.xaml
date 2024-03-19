@@ -1,0 +1,24 @@
+﻿<Page x:Class="BookingApp.View.Driver.Pages.DriveReservationPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BookingApp.View.Driver.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="200" d:DesignWidth="300"
+      Title="DriveReservationPage">
+
+    <Grid Background="White">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="Da li stižete na vreme?" FontSize="20" Margin="0 0 0 20"/>
+            <Button x:Name="btnYes" Content="Da" FontSize="16" Padding="10" Margin="0 0 0 0" Click="btnYes_Click"/>
+            <Button x:Name="btnNo" Content="Ne" FontSize="16" Padding="10" Margin="0 0 0 0" Click="btnNo_Click"/>
+            <Grid x:Name="LateGrid" Visibility="Collapsed" Margin="0 20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Page>

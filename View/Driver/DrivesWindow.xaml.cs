@@ -2,6 +2,7 @@
 using BookingApp.Model;
 using BookingApp.Repository;
 using BookingApp.Serializer;
+using BookingApp.View.Driver.Pages;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -50,6 +51,22 @@ namespace BookingApp.View.Driver
                 ListDrive.Add(driveDTO);
             }
 
+        }
+
+        private void btnDriveReservation_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataGrid.SelectedItem != null)
+            {
+                DriveDTO selectedDrive = dataGrid.SelectedItem as DriveDTO;
+
+                DriveReservationPage driveReservationPage = new DriveReservationPage(selectedDrive);
+
+                MainFrame.Navigate(driveReservationPage);
+            }
+            else
+            {
+                MessageBox.Show("Please select a drive first.");
+            }
         }
     }
 }

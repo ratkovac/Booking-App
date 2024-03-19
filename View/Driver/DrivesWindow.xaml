@@ -2,7 +2,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="DrivesWindow" Height="450" Width="800">
-    <DataGrid ItemsSource="{Binding ListDrive}" AutoGenerateColumns="False" SelectionMode="Single" IsReadOnly="True">
+    <Grid>
+        <DataGrid x:Name="dataGrid" ItemsSource="{Binding ListDrive}" AutoGenerateColumns="False" SelectionMode="Single" IsReadOnly="True">
         <DataGrid.Columns>
             <DataGridTextColumn Header="Tourist Name" Binding="{Binding Guest.Username}" />
             <DataGridTextColumn Header="Start City" Binding="{Binding StartAddress.Location.City}" />
@@ -15,5 +16,8 @@
             <DataGridTextColumn Header="End Number" Binding="{Binding EndAddress.Number}" />
             <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
         </DataGrid.Columns>
-    </DataGrid>
+        </DataGrid>
+        <Button Name="btnDriveReservation" Content="Open Drive Reservation" Click="btnDriveReservation_Click" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20"/>
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" />
+    </Grid>
 </Window>
