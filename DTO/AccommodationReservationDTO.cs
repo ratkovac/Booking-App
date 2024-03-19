@@ -146,6 +146,23 @@ namespace BookingApp.DTO
                 }
             }
         }
+        private int capacity;
+        public int Capacity
+        {
+            get
+            {
+                return capacity;
+            }
+            set
+            {
+                if (value != capacity)
+                {
+                    capacity = value;
+                    OnPropertyChanged("Capacity");
+                }
+            }
+        }
+
         public AccommodationReservationDTO()
         {
         }
@@ -160,16 +177,11 @@ namespace BookingApp.DTO
             userGrade = accommodationReservation.UserGrade;
             userName = accommodationReservation.User.Username;
             accommodationName = accommodationReservation.Accommodation.Name;
-            
-        }
-
-        public override string ToString()
-        {
-            return $"Reservation ID: {Id}, Accommodation: {accommodationName}, User: {userName}, Start Date: {startDate:yyyy-MM-dd}, End Date: {endDate:yyyy-MM-dd}, Reservation Days: {reservationDays}, User Grade: {userGrade}";
+            capacity = accommodationReservation.Capacity;
         }
         public AccommodationReservation ToAccommodationReservation()
         {
-            AccommodationReservation accommodationReservation = new AccommodationReservation(Id, accommodation, user, startDate,endDate, reservationDays,userGrade);
+            AccommodationReservation accommodationReservation = new AccommodationReservation(Id, accommodation, user, startDate,endDate, reservationDays,userGrade, capacity);
             return accommodationReservation;
         }
         
