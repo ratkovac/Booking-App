@@ -32,6 +32,8 @@ namespace BookingApp.View
 
         public ObservableCollection<AccommodationReservationDTO> AvailableAccommodationPeriods { get; set; }
 
+        public ObservableCollection<AccommodationReservationDTO> SortedAccommodationReservations { get; set; }
+
         public Reservation(AccommodationDTO selectedAccommodation, User user)
         {
             InitializeComponent();
@@ -40,6 +42,7 @@ namespace BookingApp.View
             SelectedAccommodation = selectedAccommodation;
 
             AccommodationReservations = new ObservableCollection<AccommodationReservationDTO>();
+            SortedAccommodationReservations = new ObservableCollection<AccommodationReservationDTO>();
             AccommodationReservationRepository = new AccommodationReservationRepository();
 
             AvailableAccommodationPeriods = new ObservableCollection<AccommodationReservationDTO>();
@@ -57,12 +60,7 @@ namespace BookingApp.View
                     AccommodationReservations.Add(new AccommodationReservationDTO(accommodationReservation));
                 }
             }
-
-
-            AvailableAccommodationPeriods.Clear();
-            AvailableAccommodationPeriods =
-            FindAllAvailableAccommodationPeriods(StartDate, EndDate, ReservationDays);
-        } 
+        }
 
         private Accommodation accommodation;
 
@@ -78,6 +76,24 @@ namespace BookingApp.View
                 {
                     accommodation = value;
                     OnPropertyChanged("Accommodation");
+                }
+            }
+        }
+
+        private int capacity;
+
+        public int Capacity
+        {
+            get
+            {
+                return capacity;
+            }
+            set
+            {
+                if (value != capacity)
+                {
+                    capacity = value;
+                    OnPropertyChanged(nameof(Capacity));
                 }
             }
         }
@@ -171,87 +187,39 @@ namespace BookingApp.View
             }
         }
 
-        private ObservableCollection<AccommodationReservationDTO> FindAllAvailableAccommodationPeriods(DateOnly startDate, DateOnly endDate, int reservationDays)
+        private AccommodationReservationDTO selectedReservation;
+        public AccommodationReservationDTO SelectedReservation
         {
-            ObservableCollection<AccommodationReservationDTO> availableAccommodationPeriods =
-                new ObservableCollection<AccommodationReservationDTO>();
-
-            ObservableCollection<AccommodationReservationDTO> sortedAccommodationReservations = SortAccommodationReservations();
-
-            if (!AccommodationReservations.Any())
+            get
             {
-                AccommodationReservationDTO availablePeriod = new AccommodationReservationDTO()
-                {
-                    StartDate = startDate,
-                    EndDate = startDate.AddDays(reservationDays),
-                    ReservationDays = reservationDays
-                };
-
-                availableAccommodationPeriods.Add(availablePeriod);
-                return availableAccommodationPeriods;
+                return selectedReservation;
             }
-
-
-            for (int i = 0; i < sortedAccommodationReservations.Count - 1; i++)
+            set
             {
-                var currentReservation = sortedAccommodationReservations[i];
-                var nextReservation = sortedAccommodationReservations[i + 1];
-
-                int gapDays = currentReservation.EndDate.AddDays(1).DayNumber - nextReservation.StartDate.DayNumber;
-
-
-                if (gapDays >= reservationDays)
+                if (value != selectedReservation)
                 {
-                    AccommodationReservationDTO newReservationDTO = new AccommodationReservationDTO(sortedAccommodationReservations[i].ToAccommodationReservation());
-
-                    newReservationDTO.StartDate = currentReservation.EndDate.AddDays(1);
-                    newReservationDTO.EndDate = currentReservation.EndDate.AddDays(gapDays);
-                    newReservationDTO.ReservationDays = gapDays;
-
-                    availableAccommodationPeriods.Add(newReservationDTO);
+                    selectedReservation = value;
+                    OnPropertyChanged(nameof(SelectedReservation));
                 }
+
             }
-            if (sortedAccommodationReservations.Any())
-            {
-                var lastReservation = sortedAccommodationReservations.Last();
-                if (endDate.DayNumber - lastReservation.EndDate.AddDays(1).DayNumber >= reservationDays)
-                {
-                    AccommodationReservationDTO newReservationDTO = new AccommodationReservationDTO(lastReservation.ToAccommodationReservation());
-
-                    newReservationDTO.StartDate = lastReservation.EndDate.AddDays(1);
-                    newReservationDTO.EndDate = lastReservation.EndDate.AddDays(reservationDays);
-                    newReservationDTO.ReservationDays = reservationDays;
-
-                    availableAccommodationPeriods.Add(newReservationDTO);
-                }
-            }
-
-            return availableAccommodationPeriods;
         }
 
-        private ObservableCollection<AccommodationReservationDTO> SortAccommodationReservations()
+        private ObservableCollection<AccommodationReservationDTO> SortAccommodationReservations(DateOnly startDate, DateOnly endDate)
         {
 
-            var accommodationReservation = new ObservableCollection<AccommodationReservationDTO>();
-            accommodationReservation.Clear();
-            foreach (AccommodationReservation reservation in AccommodationReservationRepository.GetAll())
-            {
-                if (reservation.Accommodation.Id == SelectedAccommodation.Id)
-                {
-                    AccommodationReservations.Add(new AccommodationReservationDTO(reservation));
-                }
-            }
-            var sorted = accommodationReservation.OrderBy(reservation => reservation.StartDate).ToList();
+            var sorted = AccommodationReservations.OrderBy(reservation => reservation.StartDate).ToList();
 
-            accommodationReservation.Clear();
-
+            SortedAccommodationReservations.Clear();
             foreach (var reservation in sorted)
             {
-                accommodationReservation.Add(reservation);
+                if (reservation.StartDate >= startDate && reservation.EndDate <= endDate)
+                {
+                    SortedAccommodationReservations.Add(reservation);
+                }
             }
 
-            return accommodationReservation;
-
+            return SortedAccommodationReservations;
         }
 
 
@@ -262,5 +230,119 @@ namespace BookingApp.View
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private void Submit_Click(object sender, RoutedEventArgs e)
+        {
+            SuggestReservation(startDate, endDate);
+            if(AvailableAccommodationPeriods.Count == 0)
+                SuggestReservation(startDate.AddDays(-5), endDate.AddDays(5));
+        }
+
+        private void SuggestReservation(DateOnly startDate, DateOnly endDate)
+        {
+            ObservableCollection<AccommodationReservationDTO> sortedAccommodationReservations = SortAccommodationReservations(startDate, endDate);
+
+            FillGapsBetweenReservations(sortedAccommodationReservations);
+            FillGapBeforeFirstReservation(sortedAccommodationReservations, startDate);
+            FillGapAfterLastReservation(sortedAccommodationReservations, endDate);
+            FillEntirePeriodIfNoReservations(sortedAccommodationReservations, startDate, endDate);
+
+            var sortedAvailableAccommodationPeriods = new ObservableCollection<AccommodationReservationDTO>(
+                AvailableAccommodationPeriods.OrderBy(reservation => reservation.StartDate));
+
+            AvailableAccommodationPeriods.Clear();
+            foreach (var reservation in sortedAvailableAccommodationPeriods)
+            {
+                AvailableAccommodationPeriods.Add(reservation);
+            }
+            
+        }
+
+        private void FillGapsBetweenReservations(ObservableCollection<AccommodationReservationDTO> reservations)
+        {
+            for (int i = 0; i < reservations.Count - 1; i++)
+            {
+                var gapDays = CalculateGapDays(reservations[i].EndDate, reservations[i + 1].StartDate);
+
+                DateOnly nextStartDate = reservations[i].EndDate.AddDays(1);
+                FillGap(nextStartDate, gapDays, i);
+            }
+        }
+
+        private void FillGapBeforeFirstReservation(ObservableCollection<AccommodationReservationDTO> reservations, DateOnly periodStart)
+        {
+            if (reservations.Any())
+            {
+                var firstReservationStartDate = reservations.First().StartDate;
+                var gapDays = CalculateGapDays(periodStart, firstReservationStartDate, adjustForInclusiveEndDate: true);
+
+                FillGap(periodStart, gapDays, -1, insertAtBeginning: true);
+            }
+        }
+
+        private void FillGapAfterLastReservation(ObservableCollection<AccommodationReservationDTO> reservations, DateOnly periodEnd)
+        {
+            if (reservations.Any())
+            {
+                var lastReservationEndDate = reservations.Last().EndDate;
+                var gapDays = CalculateGapDays(lastReservationEndDate, periodEnd, adjustForInclusiveEndDate: true);
+
+                FillGap(lastReservationEndDate.AddDays(1), gapDays, reservations.Count - 1);
+            }
+        }
+
+        private void FillEntirePeriodIfNoReservations(ObservableCollection<AccommodationReservationDTO> reservations, DateOnly periodStart, DateOnly periodEnd)
+        {
+            if (!reservations.Any())
+            {
+                var gapDays = CalculateGapDays(periodStart, periodEnd, adjustForInclusiveEndDate: true);
+                FillGap(periodStart, gapDays, -1);
+            }
+        }
+
+        private int CalculateGapDays(DateOnly start, DateOnly end, bool adjustForInclusiveEndDate = false)
+        {
+            return (end.ToDateTime(new TimeOnly(0, 0)) - start.ToDateTime(new TimeOnly(0, 0))).Days + (adjustForInclusiveEndDate ? 1 : 0);
+        }
+
+        private void FillGap(DateOnly start, int gapDays, int referenceIndex, bool insertAtBeginning = false)
+        {
+            while (gapDays >= reservationDays)
+            {
+                var newReservationDTO = new AccommodationReservationDTO
+                {
+                    StartDate = start,
+                    EndDate = start.AddDays(reservationDays - 1),
+                    ReservationDays = reservationDays,
+                    Accommodation = SelectedAccommodation.ToAccommodation(),
+                    User = SelectedAccommodation.User
+                };
+
+                if (insertAtBeginning)
+                {
+                    AvailableAccommodationPeriods.Insert(0, newReservationDTO);
+                }
+                else
+                {
+                    AvailableAccommodationPeriods.Add(newReservationDTO);
+                }
+
+                start = start.AddDays(reservationDays);
+                gapDays -= reservationDays;
+            }
+        }
+        private void ReserveButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (selectedReservation.Accommodation.Capacity >= capacity &&
+                selectedReservation.Accommodation.MinReservationDays <= reservationDays)
+            {
+                selectedReservation.Capacity = capacity;
+                AccommodationReservationRepository.Save(selectedReservation.ToAccommodationReservation());
+                MessageBox.Show("Uspjesno ste izvrsili rezervaciju");
+            }
+            else
+            {
+                MessageBox.Show("Niste zadovoljili sve potrebne parametre");
+            }
+        }
     }
 }

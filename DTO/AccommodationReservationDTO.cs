@@ -146,6 +146,23 @@ namespace BookingApp.DTO
                 }
             }
         }
+        private int capacity;
+        public int Capacity
+        {
+            get
+            {
+                return capacity;
+            }
+            set
+            {
+                if (value != capacity)
+                {
+                    capacity = value;
+                    OnPropertyChanged("Capacity");
+                }
+            }
+        }
+
         public AccommodationReservationDTO()
         {
         }
@@ -160,11 +177,11 @@ namespace BookingApp.DTO
             userGrade = accommodationReservation.UserGrade;
             userName = accommodationReservation.User.Username;
             accommodationName = accommodationReservation.Accommodation.Name;
-            
+            capacity = accommodationReservation.Capacity;
         }
         public AccommodationReservation ToAccommodationReservation()
         {
-            AccommodationReservation accommodationReservation = new AccommodationReservation(Id, accommodation, user, startDate,endDate, reservationDays,userGrade);
+            AccommodationReservation accommodationReservation = new AccommodationReservation(Id, accommodation, user, startDate,endDate, reservationDays,userGrade, capacity);
             return accommodationReservation;
         }
         

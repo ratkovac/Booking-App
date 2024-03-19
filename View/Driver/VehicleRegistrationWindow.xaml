@@ -20,7 +20,7 @@
                 </ComboBox>
                 <Button x:Name="btnAddImage" Content="Add Image" Click="btnAddImage_Click" Margin="0 5 0 5"/>
                 <ListBox Name="ImagesListBox" Margin="0 0 0 5"/>
-                <Button x:Name="btnRegistraterVehicle" Content="Register Vehicle" Click="btnRegistraterVehicle_Click"/>
+                <Button x:Name="btnRegisterVehicle" Content="Register Vehicle" Click="btnRegisterVehicle_Click"/>
             </StackPanel>
         </GroupBox>
     </Grid>
