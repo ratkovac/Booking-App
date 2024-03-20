@@ -64,10 +64,6 @@ namespace BookingApp.Repository
             TourSubject.NotifyObservers();
             _serializer.ToCSV(FilePath, _tours);
 
-            //_tours = _serializer.FromCSV(FilePath);
-           // Tour founded = _tours.Find(t => t.Id == tour.Id);
-           // _tours.Remove(founded);
-           // _serializer.ToCSV(FilePath, _tours);
         }
 
         public Tour Update(Tour tour)
@@ -76,7 +72,7 @@ namespace BookingApp.Repository
             Tour current = _tours.Find(t => t.Id == tour.Id);
             int index = _tours.IndexOf(current);
             _tours.Remove(current);
-            _tours.Insert(index, tour); // keep ascending order of ids in file 
+            _tours.Insert(index, tour); 
             _serializer.ToCSV(FilePath, _tours);
             TourSubject.NotifyObservers();
             return tour;
@@ -85,7 +81,7 @@ namespace BookingApp.Repository
         public List<Tour> GetToursForToday()
         {
             DateTime today = DateTime.Now.Date;
-            string formattedToday = today.ToString("M/d/yyyy"); // Formatiranje današnjeg datuma
+            string formattedToday = today.ToString("M/d/yyyy"); 
 
             List<int> tourIds = GetTourIdsForToday(formattedToday);
             return _tours.Where(t => tourIds.Contains(t.Id)).ToList();
@@ -96,10 +92,10 @@ namespace BookingApp.Repository
             string[] lines = File.ReadAllLines("../../../Resources/Data/dateRealizations.csv");
             List<int> tourIds = new List<int>();
 
-            foreach (string line in lines) // Preskoči prvu liniju koja sadrži zaglavlje
+            foreach (string line in lines) 
             {
                 string[] values = line.Split('|');
-                string datePart = values[1].Split(' ')[0]; // Delimično izdvoji datum iz CSV-a
+                string datePart = values[1].Split(' ')[0]; 
 
                 if (datePart == formattedToday)
                 {

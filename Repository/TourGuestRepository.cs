@@ -1,5 +1,6 @@
 ﻿using BookingApp.Model;
 using BookingApp.Serializer;
+using BookingApp.View.Tourist.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -88,5 +89,6 @@ namespace BookingApp.Repository
             _serializer.ToCSV(FilePath, _tourGuests);
             return tourGuest;
         }
+
     }
 }
