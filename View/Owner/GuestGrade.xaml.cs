@@ -155,8 +155,6 @@ namespace BookingApp.View.Owner
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
-            OwnerFrontPage frontPage = new OwnerFrontPage(LoggedInUser);
-            frontPage.Show();
         }
     }
 }

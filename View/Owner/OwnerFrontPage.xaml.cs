@@ -22,7 +22,6 @@ namespace BookingApp.View.Owner
         {
             AccommodationAdd accommodationAdd = new AccommodationAdd(LoggedInUser);
             accommodationAdd.Show();
-
         }
 
         private void GuestGrade_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
