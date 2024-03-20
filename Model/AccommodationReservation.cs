@@ -77,6 +77,7 @@ namespace BookingApp.Model
             Capacity = Convert.ToInt32(values[7]);
         }
 
+
         private void ApplyParsedDates( DateTime startDateDateTime, DateTime endDateDateTime)
         {
             this.StartDate = DateOnly.FromDateTime(startDateDateTime);
