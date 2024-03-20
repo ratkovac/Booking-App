@@ -1,6 +1,7 @@
 ﻿using BookingApp.DTO;
 using BookingApp.Model;
 using BookingApp.Serializer;
+using BookingApp.View.Tourist.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -73,6 +74,18 @@ namespace BookingApp.Repository
             _drives = _serializer.FromCSV(FilePath);
             List<Drive> filteredDrives = _drives.FindAll(c => c.Driver.Id == user.Id);
             return new ObservableCollection<Drive>(filteredDrives);
+        }
+
+        public List<Drive> GetByDriverId(int driverId)
+        {
+            _drives = _serializer.FromCSV(FilePath);
+            return _drives.FindAll(r => r.DriverId == driverId);
+        }
+
+        public List<Drive> GetByTourist(int guestId)
+        {
+            _drives = _serializer.FromCSV(FilePath);
+            return _drives.FindAll(r => r.GuestId == guestId);
         }
 
         public List<Drive> GetDrivesForToday()

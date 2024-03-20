@@ -80,6 +80,20 @@ namespace BookingApp.Repository
             _vehicles = _serializer.FromCSV(FilePath);
             return _vehicles.FindAll(c => c.User.Id == user.Id);
         }
+
+        public List<int> GetDriverIdsByLocationId(int locationId)
+        {
+            _vehicles = _serializer.FromCSV(FilePath);
+
+            var driverIds = _vehicles
+                .Where(vehicle => vehicle.Location.Id == locationId)
+                .Select(vehicle => vehicle.DriverId)
+                .Distinct()
+                .ToList();
+
+            return driverIds;
+        }
+
         public void Subscribe(IObserver observer)
         {
 

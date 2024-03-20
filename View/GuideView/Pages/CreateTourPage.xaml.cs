@@ -29,29 +29,28 @@ namespace BookingApp.View.GuideView.Pages
         private DateRealizationRepository dateRealizationRepository = new DateRealizationRepository();
         private TourRepository tourRepository = new TourRepository();
         private LocationRepository locationRepository = new LocationRepository();
+        private LanguageRepository languageRepository = new LanguageRepository();
         private ImageRepository imageRepository = new ImageRepository();
 
-        private List<Tour> tours = new List<Tour>();
+        private List<Tour> Tours = new List<Tour>();
         private List<string> PathImages = new List<string>();
         
-        private List<TextBox> ListCheckPoints = new List<TextBox>();
-        private List<TextBox> ListDates = new List<TextBox>();
+        private List<TextBox> CheckPoints = new List<TextBox>();
+        private List<TextBox> Dates = new List<TextBox>();
 
         public CreateTourPage()
         {
             InitializeComponent();
-            ListCheckPoints.Add(txtStartCheckPoint);
-            ListCheckPoints.Add(txtOptionCheckPoint);
+            CheckPoints.Add(txtStartCheckPoint);
+            CheckPoints.Add(txtOptionCheckPoint);
 
-            ListDates.Add(txtDates);
+            Dates.Add(txtDates);
 
         }
 
 
-        // Collects information from input fields, validates them, creates a new tour object.
         private void btnCreateTour_Click(object sender, RoutedEventArgs e)
         {
-
             string name = txtName.Text;
             string city = txtCity.Text;
             string country = txtCountry.Text;
@@ -60,39 +59,72 @@ namespace BookingApp.View.GuideView.Pages
             int maxGuests;
             float duration;
 
-            // Validate input data
-            if (!int.TryParse(txtMaxGuests.Text, out maxGuests))
-            {
-                MessageBox.Show("Invalid Max Number of Tourists");
+
+            if (!ValidateMaxGuests(txtMaxGuests.Text, out maxGuests))
                 return;
-            }
 
-            if (!float.TryParse(txtDuration.Text, out duration))
-            {
-                MessageBox.Show("Invalid Duration");
+            if (!ValidateDuration(txtDuration.Text, out duration))
                 return;
-            }
 
-            // Create tour object
-            Language language = new Language(lang);
-            Location location = new Location(city, country);
-            locationRepository.Save(location);
-            
 
-            Tour tour = new Tour(name, description, maxGuests, duration, location, language);
-            tourRepository.Save(tour);
+            Language language = CreateAndSaveLanguage(lang);
+            Location location = CreateAndSaveLocation(city, country);
+            Tour tour = CreateTour(name, description, maxGuests, duration, location, language);
+            SaveTour(tour);
 
 
             SaveImages(PathImages, tour.Id);
-            GetCheckPoints(ListCheckPoints, tour.Id);
-            GetDateAndTimes(ListDates, tour.Id);
-
-
+            GetCheckPoints(CheckPoints, tour.Id);
+            GetDateAndTimes(Dates, tour.Id);
 
             ClearFields();
         }
 
-        // Extracts CheckPoints from TextBoxes and adds them to a List
+        private bool ValidateMaxGuests(string input, out int maxGuests)
+        {
+            if (!int.TryParse(input, out maxGuests))
+            {
+                MessageBox.Show("Invalid Max Number of Tourists");
+                return false;
+            }
+            return true;
+        }
+
+        private bool ValidateDuration(string input, out float duration)
+        {
+            if (!float.TryParse(input, out duration))
+            {
+                MessageBox.Show("Invalid Duration");
+                return false;
+            }
+            return true;
+        }
+
+        private Language CreateAndSaveLanguage(string lang)
+        {
+            Language language = new Language(lang);
+            languageRepository.Save(language);
+            return language;
+        }
+
+        private Location CreateAndSaveLocation(string city, string country)
+        {
+            Location location = new Location(city, country);
+            locationRepository.Save(location);
+            return location;
+        }
+
+        private Tour CreateTour(string name, string description, int maxGuests, float duration, Location location, Language language)
+        {
+            return new Tour(name, description, maxGuests, duration, location, language);
+        }
+
+        private void SaveTour(Tour tour)
+        {
+            tourRepository.Save(tour);
+        }
+
+
         private List<CheckPoint> GetCheckPoints(List<TextBox> listCheckPoints, int tourId)
         {
             List<CheckPoint> checkPoints = new List<CheckPoint>();
@@ -110,7 +142,7 @@ namespace BookingApp.View.GuideView.Pages
             return checkPoints;
         }
 
-        // Extracts DatesAndTimes from TextBoxes and adds them to a List
+
         private List<DateRealization> GetDateAndTimes(List<TextBox> listDates, int tourId)
         {
             List<DateRealization> dates = new List<DateRealization>();
@@ -118,21 +150,42 @@ namespace BookingApp.View.GuideView.Pages
             foreach (TextBox textBox in listDates)
             {
                 string dateString = textBox.Text;
-
                 DateTime parsedDate;
-                if (DateTime.TryParseExact(dateString, "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedDate))
+                if (TryParseDate(dateString, out parsedDate))
                 {
-                    DateRealization dateRealization = new DateRealization(parsedDate, tourId);
+                    DateRealization dateRealization = CreateDateRealization(parsedDate, tourId);
+                    SaveDateRealization(dateRealization);
                     dates.Add(dateRealization);
-                    dateRealizationRepository.Save(dateRealization);
                 }
                 else
                 {
-                    MessageBox.Show($"Nije moguće parsirati datum: {dateString}");
+                    ShowInvalidDateFormatMessage(dateString);
                 }
             }
+
             return dates;
         }
+
+        private bool TryParseDate(string dateString, out DateTime parsedDate)
+        {
+            return DateTime.TryParseExact(dateString, "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedDate);
+        }
+
+        private DateRealization CreateDateRealization(DateTime parsedDate, int tourId)
+        {
+            return new DateRealization(parsedDate, tourId);
+        }
+
+        private void SaveDateRealization(DateRealization dateRealization)
+        {
+            dateRealizationRepository.Save(dateRealization);
+        }
+
+        private void ShowInvalidDateFormatMessage(string dateString)
+        {
+            MessageBox.Show($"Nije moguće parsirati datum: {dateString}");
+        }
+
 
         private void SaveImages(List<string> pathImages, int tourId)
         {
@@ -144,69 +197,73 @@ namespace BookingApp.View.GuideView.Pages
         }
         private void ClearFields()
         {
-            txtName.Text = "Enter Name here..";
-            txtName.Foreground = Brushes.Gray;
+            SetFieldDefaults(txtName, "Enter Name here..", Brushes.Gray);
+            SetFieldDefaults(txtCity, "Enter City here..", Brushes.Gray);
+            SetFieldDefaults(txtCountry, "Enter Country here..", Brushes.Gray);
+            SetFieldDefaults(txtDescription, "Enter Description here..", Brushes.Gray);
+            SetFieldDefaults(txtMaxGuests, "0", Brushes.Gray);
+            SetFieldDefaults(txtStartCheckPoint, "Start Point", Brushes.Gray);
+            SetFieldDefaults(txtOptionCheckPoint, "Additional Check Point", Brushes.Gray);
+            SetFieldDefaults(txtEndCheckPoint, "End Point", Brushes.Gray);
+            SetFieldDefaults(txtDates, "dd-MM-yyyy HH:mm", Brushes.Gray);
+            SetFieldDefaults(txtDuration, "Hours.Minutes", Brushes.Gray);
+            SetLanguageDefault();
+        }
 
-            txtCity.Text = "Enter City here..";
-            txtCity.Foreground = Brushes.Gray;
+        private void SetFieldDefaults(TextBox textBox, string defaultText, Brush defaultBrush)
+        {
+            textBox.Text = defaultText;
+            textBox.Foreground = defaultBrush;
+        }
 
-            txtCountry.Text = "Enter Country here..";
-            txtCountry.Foreground = Brushes.Gray;
-
-            txtDescription.Text = "Enter Description here..";
-            txtDescription.Foreground = Brushes.Gray;
-
-            txtMaxGuests.Text = "0";
-            txtMaxGuests.Foreground = Brushes.Gray;
-
-            txtStartCheckPoint.Text = "Start Point";
-            txtStartCheckPoint.Foreground = Brushes.Gray;
-
-            txtOptionCheckPoint.Text = "Additional Check Point";
-            txtOptionCheckPoint.Foreground = Brushes.Gray;
-
-            txtEndCheckPoint.Text = "End Point";
-            txtEndCheckPoint.Foreground = Brushes.Gray;
-
-            txtDates.Text = "dd-MM-yyyy HH:mm";
-            txtDates.Foreground = Brushes.Gray;
-
-            txtDuration.Text = "Hours.Minutes";
-            txtDuration.Foreground = Brushes.Gray;
-
+        private void SetLanguageDefault()
+        {
             txtLanguage.SelectedIndex = 0;
             txtLanguage.Foreground = Brushes.Gray;
         }
 
-        // Adds an Additional CheckPoint TextBox to the TextBox list
+
         private void btnAddCheckPoint_Click(object sender, RoutedEventArgs e)
         {
-            TextBox lastBox = ListCheckPoints.LastOrDefault();
-
-            if (lastBox.Text == "" || lastBox.Foreground == Brushes.Gray)
+            if (IsLastCheckpointEmpty())
             {
-                MessageBox.Show("Prazan", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Poslednje polje za tacku nije popunjeno.", "Greska", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
+            AddNewCheckpointTextBox();
+        }
 
-            TextBox newTextBox = new TextBox
+        private bool IsLastCheckpointEmpty()
+        {
+            TextBox lastBox = CheckPoints.LastOrDefault();
+            return string.IsNullOrWhiteSpace(lastBox?.Text) || lastBox.Foreground == Brushes.Gray;
+        }
+
+        private void AddNewCheckpointTextBox()
+        {
+            TextBox newTextBox = CreateNewCheckpointTextBox();
+
+            StackPanel stackPanel = btnAddCheckPoint.Parent as StackPanel;
+            int secondIndex = stackPanel.Children.IndexOf(btnAddCheckPoint);
+
+            stackPanel.Children.Insert(secondIndex, newTextBox);
+            CheckPoints.Add(newTextBox);
+
+            newTextBox.Focus();
+        }
+
+        private TextBox CreateNewCheckpointTextBox()
+        {
+            return new TextBox
             {
                 Margin = new Thickness(19, 3, 18, 3),
                 Text = "",
                 Foreground = Brushes.Black,
                 Height = 22
             };
-
-            StackPanel stackPanel = btnAddCheckPoint.Parent as StackPanel;
-            int secondIndex = stackPanel.Children.IndexOf(btnAddCheckPoint);
-
-            stackPanel.Children.Insert(secondIndex, newTextBox);
-
-            ListCheckPoints.Add(newTextBox);
-
-            newTextBox.Focus();
         }
+
 
 
         private void btnAddImage_Click(object sender, RoutedEventArgs e)
@@ -234,34 +291,40 @@ namespace BookingApp.View.GuideView.Pages
         }
 
 
-        // Adds an additional DatesAndTime TextBox to the TextBox list
         private void btnAddDate_Click(object sender, RoutedEventArgs e)
         {
-            TextBox lastBox = ListDates.Last();
+            TextBox lastBox = Dates.Last();
             string pattern = @"^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4} (0\d|1\d|2[0-3]):([0-5]\d)$";
 
-            if (lastBox.Text == "" || lastBox.Foreground == Brushes.Gray)
+            if (IsLastDateEmpty(lastBox))
             {
-                MessageBox.Show("You did not enter a date.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Niste uneli datum.", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            else if (!Regex.IsMatch(lastBox.Text, pattern))
+            else if (!IsDateValid(lastBox.Text, pattern))
             {
-                MessageBox.Show("You did not enter a valid date format.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Niste uneli ispravan format datuma.", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
+            AddNewDateTextBox();
+        }
 
-            TextBox newTextBox = new TextBox
-            {
-                Margin = new Thickness(19, 3, 18, 0),
-                Text = "",
-                Foreground = Brushes.Black,
-                Height = 22
+        private bool IsLastDateEmpty(TextBox lastBox)
+        {
+            return string.IsNullOrWhiteSpace(lastBox?.Text) || lastBox.Foreground == Brushes.Gray;
+        }
 
-            };
-            ListDates.Add(newTextBox);
+        private bool IsDateValid(string dateText, string pattern)
+        {
+            return Regex.IsMatch(dateText, pattern);
+        }
 
+        private void AddNewDateTextBox()
+        {
+            TextBox newTextBox = CreateNewDateTextBox();
+
+            Dates.Add(newTextBox);
 
             StackPanel stackPanel = btnAddDate.Parent as StackPanel;
             int secondIndex = stackPanel.Children.IndexOf(btnAddDate);
@@ -269,23 +332,17 @@ namespace BookingApp.View.GuideView.Pages
             stackPanel.Children.Insert(secondIndex, newTextBox);
 
             newTextBox.Focus();
-
         }
 
-        private bool ValidateFormData()
+        private TextBox CreateNewDateTextBox()
         {
-            bool isValid = true;
-
-            if (txtName.Text == "" || txtName.Foreground == Brushes.Gray)
+            return new TextBox
             {
-
-            }
-            else
-            {
-
-            }
-
-            return isValid;
+                Margin = new Thickness(19, 3, 18, 0),
+                Text = "",
+                Foreground = Brushes.Black,
+                Height = 22
+            };
         }
 
         private void GotFocus(string txt, TextBox tb)
