@@ -180,22 +180,7 @@ namespace BookingApp.DTO
             }
         }
 
-        private int daysToRating;
-        public int DaysToRating
-        {
-            get
-            {
-                return daysToRating;
-            }
-            set
-            {
-                if (value != daysToRating)
-                {
-                    daysToRating = value;
-                    OnPropertyChanged("daysToRating");
-                }
-            }
-        }
+        
         public AccommodationReservationDTO()
         {
         }
