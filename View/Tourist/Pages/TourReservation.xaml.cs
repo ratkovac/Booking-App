@@ -150,11 +150,11 @@ namespace BookingApp.View.Tourist.Pages
 
             if (isReservationSaved)
             {
-                MessageBox.Show("Rezervacija uspjesna!");
+                MessageBox.Show("Rezervacija uspješna!");
             }
             else
             {
-                MessageBox.Show("Rezervacija nije uspjesna. Molimo pokušajte ponovo.");
+                MessageBox.Show("Rezervacija nije uspješna. Molimo pokušajte ponovo.");
             }
         }
 
