@@ -1,0 +1,81 @@
+﻿<Page x:Class="BookingApp.View.Tourist.Pages.DriveReservation"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BookingApp.View.Tourist.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="720" d:DesignWidth="1280" Background="#FF75C8F1"
+      Title="Drive Reservation">
+    <StackPanel Margin="5,25,0,0">
+        <StackPanel.Resources>
+            <Style TargetType="Label">
+                <Setter Property="Foreground" Value="Red"/>
+                <Setter Property="FontFamily" Value="Roboto"/>
+                <Setter Property="FontSize" Value="30"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Width" Value="250"/>
+            </Style>
+        </StackPanel.Resources>
+
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+            <Label Content="Država polazišta:"/>
+            <ComboBox x:Name="startCountryComboBox" FontSize="30" Width="270" Height="50" Margin="20,0,8,0" SelectionChanged="startCountryComboBox_SelectionChanged"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+            <Label Content="Grad polazišta:"/>
+            <ComboBox x:Name="startCityComboBox" FontSize="30" Width="270" Height="50" Margin="20,0,8,0" SelectionChanged="startCityComboBox_SelectionChanged"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+            <Label Content="Ulica polazišta:"/>
+            <ComboBox x:Name="startStreetComboBox" FontSize="30" Width="270" Height="50" Margin="20,0,8,0" SelectionChanged="startStreetComboBox_SelectionChanged"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+            <Label Content="Država odredišta:"/>
+            <ComboBox x:Name="endCountryComboBox" FontSize="30" Width="270" Height="50" Margin="20,0,8,0" SelectionChanged="endCountryComboBox_SelectionChanged"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+            <Label Content="Grad odredišta:"/>
+            <ComboBox x:Name="endCityComboBox" FontSize="30" Width="270" Height="50" Margin="20,0,8,0" SelectionChanged="endCityComboBox_SelectionChanged"/>
+            <Button x:Name="ReserveButton" HorizontalAlignment="Right" Click="Reservation_Click" VerticalAlignment="Center" Margin="130,0,0,0" Height="50" Width="200" Background="Transparent" BorderThickness="0">
+                <TextBlock Text="Rezerviši" FontSize="40" FontWeight="Bold" FontFamily="Roboto" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Button>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+            <Label Content="Ulica odredišta:"/>
+            <ComboBox x:Name="endStreetComboBox" FontSize="30" Width="270" Height="50" Margin="20,0,8,0" SelectionChanged="endStreetComboBox_SelectionChanged"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+            <Label Content="Datum polaska:"/>
+            <DatePicker x:Name="dateDp" FontSize="30" Width="270" Height="50" Margin="20,0,8,0"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+            <Label Content="Sati polaska:"/>
+            <ComboBox x:Name="hourComboBox" FontSize="30" Width="270" Height="50" Margin="20,0,8,0"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+            <Label Content="Minuti polaska:"/>
+            <ComboBox x:Name="minuteComboBox" FontSize="30" Width="270" Height="50" Margin="20,0,8,0" SelectionChanged="minuteComboBox_SelectionChanged">
+                <ComboBoxItem Content="00"/>
+                <ComboBoxItem Content="15"/>
+                <ComboBoxItem Content="30"/>
+                <ComboBoxItem Content="45"/>
+            </ComboBox>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+            <Label Content="Vozač:"/>
+            <ComboBox x:Name="driversComboBox" FontSize="30" Width="270" Height="50" Margin="20,0,8,0" SelectionChanged="driversComboBox_SelectionChanged"/>
+        </StackPanel>
+    </StackPanel>
+
+
+</Page>

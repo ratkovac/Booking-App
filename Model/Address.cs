@@ -11,15 +11,20 @@ namespace BookingApp.Model
     public class Address : ISerializable
     {
         public int Id { get; set; }
-        
         public Location Location { get; set; }
-
         public string Street { get; set; }
-
         public string Number { get; set; }
+        public int LocationId { get; set; }
 
         public Address()
         {
+        }
+
+        public Address(int locationId, string street, string number)
+        {
+            LocationId = locationId;
+            Street = street;
+            Number = number;
         }
 
         public string[] ToCSV()
@@ -41,9 +46,9 @@ namespace BookingApp.Model
             }
 
             Id = Convert.ToInt32(values[0]);
-            int locationId = Convert.ToInt32(values[1]);
-            LocationRepository locationRepository = new LocationRepository();
-            Location = locationRepository.GetLocationById(locationId); 
+            LocationId = Convert.ToInt32(values[1]);
+            /*LocationRepository locationRepository = new LocationRepository();
+            Location = locationRepository.GetLocationById(LocationId);*/ 
             Street = values[2];
             Number = values[3];
         }

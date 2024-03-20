@@ -24,7 +24,6 @@ namespace BookingApp.View.Tourist.Pages
     public partial class TourReservation : Page, INotifyPropertyChanged
     {
 
-        //public Tour Tour { get; set; }
         public int UserId { get; set; }
         public TourInstance SelectedTourInstance { get; set; }
         public Tour SelectedTour { get; set; }
