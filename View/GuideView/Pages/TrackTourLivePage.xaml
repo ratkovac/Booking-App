@@ -20,9 +20,13 @@
         <ListBox Grid.Row="1" ItemsSource="{Binding CheckPoints}" Margin="10,0,0,0">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <CheckBox Content="{Binding PointText}" IsChecked="{Binding IsChecked}" />
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="{Binding PointText}" IsChecked="{Binding IsChecked}" Checked="CheckBox_Checked" />
+                    </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+
+        <Button Grid.Row="1" Content="Iznenadni kraj ture" Click="ButtonEndTour_Click" HorizontalAlignment="Center" VerticalAlignment="Center" Height="70"/>
     </Grid>
 </Page>

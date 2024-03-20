@@ -11,24 +11,17 @@ namespace BookingApp.Model
     public class Drive: ISerializable
     {
         public int Id { get; set; } 
-
         public int DriverId { get; set; }
-
         public User Driver { get; set; }
-
         public int StartAddressId { get; set; }
-
         public Address StartAddress { get; set; }
-
         public int EndAddressId { get; set; }
-
         public Address EndAddress { get; set; }
-
         public DateTime Date { get; set; }
-
         public int GuestId { get; set; }
-
         public User Guest { get; set; }
+        public int DriveStatusId { get; set; }
+        public double Delay { get; set; }
 
         public Drive()
         {
@@ -43,6 +36,17 @@ namespace BookingApp.Model
             EndAddressId = endAddressId;
             Date = date;
             GuestId = guestId;
+        }
+
+        public Drive(int startAddressId, int endAddressId, DateTime date, int driverId, int guestId, int driveStatusId, double delay)
+        {
+            StartAddressId = startAddressId;
+            EndAddressId = endAddressId;
+            Date = date;
+            DriverId = driverId;
+            GuestId = guestId;
+            DriveStatusId = driveStatusId;
+            Delay = delay;
         }
 
         public Drive(int id, User driver, Address startAddress, Address endAddress, DateTime date, User guest)
@@ -71,13 +75,15 @@ namespace BookingApp.Model
                 startAddressId,
                 endAddressId,
                 Date.ToString(),
-                guestId };
+                guestId,
+                DriveStatusId.ToString(),
+                Delay.ToString() };
             return csvValues;
         }
 
         public void FromCSV(string[] values)
         {
-            if (values.Length != 6)
+            if (values.Length != 8)
             {
                 throw new ArgumentException("Neispravan format CSV podataka.");
             }
@@ -96,6 +102,8 @@ namespace BookingApp.Model
 
             Date = Convert.ToDateTime(values[4]);
             GuestId = Convert.ToInt32(values[5]);
+            DriveStatusId = Convert.ToInt32(values[6]);
+            Delay = Convert.ToDouble(values[7]);
             Guest = userRepository.GetByID(GuestId);
 
         }

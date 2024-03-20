@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
 
 namespace BookingApp.View.GuideView.Pages
 {
@@ -18,6 +19,7 @@ namespace BookingApp.View.GuideView.Pages
     public partial class TrackTourLivePage : Page, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
 
         private ObservableCollection<Tour> _tours;
         public ObservableCollection<Tour> Tours
@@ -44,6 +46,7 @@ namespace BookingApp.View.GuideView.Pages
 
 
         private ObservableCollection<CheckPoint> _checkPoints;
+  
         public ObservableCollection<CheckPoint> CheckPoints
         {
             get { return _checkPoints; }
@@ -60,10 +63,9 @@ namespace BookingApp.View.GuideView.Pages
         public TrackTourLivePage()
         {
             InitializeComponent();
-            DataContext = this; // Postavljanje DataContext na instancu TrackTourLivePage
+            DataContext = this; 
             _tourRepository = new TourRepository();
             _checkPointRepository = new CheckPointRepository();
-           // Tours = new ObservableCollection<Tour>(_tourRepository.GetAll());
             Tours = new ObservableCollection<Tour>(_tourRepository.GetToursForToday());
         }
         
@@ -79,6 +81,59 @@ namespace BookingApp.View.GuideView.Pages
                 CheckPoints = null;
             }
         }
+
+        private int _selectedCheckpointIndex = -1;
+
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            var checkbox = sender as CheckBox;
+            var checkpoint = checkbox.DataContext as CheckPoint;
+            var currentIndex = CheckPoints.IndexOf(checkpoint);
+
+            if (currentIndex == _selectedCheckpointIndex + 1)
+            {
+                _selectedCheckpointIndex = currentIndex;
+
+                if (_selectedCheckpointIndex == CheckPoints.Count - 1)
+                {
+                    EndTour();
+                }
+            }
+            else
+            {
+                checkbox.IsChecked = false;
+                MessageBox.Show("Morate selektovati checkpointove redom.");
+            }
+        }
+
+        private void EndTour()
+        {
+            MessageBox.Show("Tura je zavrsena.", "Kraj ture", MessageBoxButton.OK, MessageBoxImage.Information);
+            NavigationService.GoBack();
+
+        }
+
+
+
+        private void ButtonEndTour_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedTour != null)
+            {
+                MessageBoxResult result = MessageBox.Show("Da li ste sigurni da zelite da iznenada zavrsite turu?", "Potvrda zavrsetka ture", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    MessageBox.Show("Tura je iznenadno zavrsena.", "Kraj ture", MessageBoxButton.OK, MessageBoxImage.Information);
+                    NavigationService.GoBack();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Molimo izaberite turu pre nego sto iznenadno zavrsite ture.", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
