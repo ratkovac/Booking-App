@@ -41,6 +41,9 @@ namespace BookingApp.View.Driver
 
         public LanguageRepository _languageRepository;
 
+        public DriverFrontPage driverFrontPage;
+
+
         public VehicleRegistrationWindow(User user)
         {
             LoggedInUser = user;
@@ -55,6 +58,7 @@ namespace BookingApp.View.Driver
             {
                 LanguagesComboBox.Items.Add(language.Name);
             }
+            driverFrontPage = new DriverFrontPage(user);
 
         }
 
@@ -167,6 +171,8 @@ namespace BookingApp.View.Driver
         private void RegisterVehicle(Vehicle vehicle)
         {
             _vehicleRepository.Save(vehicle);
+            Window.GetWindow(this)?.Close();
+            driverFrontPage.Show();
         }
 
         private void btnRegisterVehicle_Click(object sender, RoutedEventArgs e)

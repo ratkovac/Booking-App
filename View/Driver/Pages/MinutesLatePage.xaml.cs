@@ -16,23 +16,23 @@ using System.Windows.Shapes;
 
 namespace BookingApp.View.Driver.Pages
 {
-    /// <summary>
-    /// Interaction logic for MinutesLatePage.xaml
-    /// </summary>
+
     public partial class MinutesLatePage : Page
     {
         private DriveDTO selectedDrive;
-        public MinutesLatePage(DriveDTO drive)
+        private DrivesWindow drivesWindow;
+        public MinutesLatePage(DriveDTO drive, DrivesWindow DrivesWindow)
         {
             InitializeComponent();
             selectedDrive = drive;
+            drivesWindow= DrivesWindow;
         }
 
         private void btnConfirmation_Click(object sender, RoutedEventArgs e)
         {
             if (int.TryParse(MinutesLateTextBox.Text, out int minutesLate))
             {
-                NavigationService.Navigate(new DriverAtAddress(selectedDrive));
+                NavigationService.Navigate(new DriverAtAddress(selectedDrive, drivesWindow));
             }
             else
             {

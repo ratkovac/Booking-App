@@ -16,20 +16,20 @@ using System.Windows.Shapes;
 
 namespace BookingApp.View.Driver.Pages
 {
-    /// <summary>
-    /// Interaction logic for DriverAtAddress.xaml
-    /// </summary>
+
     public partial class DriverAtAddress : Page
     {
         DriveDTO selectedDrive;
-        public DriverAtAddress(DriveDTO drive)
+        private DrivesWindow drivesWindow;
+        public DriverAtAddress(DriveDTO drive, DrivesWindow DrivesWindow)
         {
             InitializeComponent();
             selectedDrive = drive;
+            drivesWindow = DrivesWindow;
         }
         private void btnVehicleAtAddress_Click(object sender, RoutedEventArgs e)
         {
-            DriverWaitingPage driverWaitingPage = new DriverWaitingPage(selectedDrive);
+            DriverWaitingPage driverWaitingPage = new DriverWaitingPage(selectedDrive, drivesWindow);
 
             NavigationService.Navigate(driverWaitingPage);
         }

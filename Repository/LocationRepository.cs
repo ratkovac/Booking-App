@@ -28,7 +28,6 @@ namespace BookingApp.Repository
 
         public Location Save(Location location)
         {
-            MessageBox.Show(location.City);
             location.Id = NextId();           
             _locations = _serializer.FromCSV(FilePath);
             _locations.Add(location);
@@ -60,7 +59,7 @@ namespace BookingApp.Repository
             Location current = _locations.Find(c => c.Id == location.Id);
             int index = _locations.IndexOf(current);
             _locations.Remove(current);
-            _locations.Insert(index, location);       // keep ascending order of ids in file 
+            _locations.Insert(index, location);        
             _serializer.ToCSV(FilePath, _locations);
             return location;
         }
@@ -74,10 +73,6 @@ namespace BookingApp.Repository
             _locations = _serializer.FromCSV(FilePath);
             return _locations;
         }
-        /*public List<Location> GetByID(int locationId)
-        {
-            _locations = _serializer.FromCSV(FilePath);
-            return _locations.FindAll(c => c.Id == locationId);
-        }*/
+
     }
 }
