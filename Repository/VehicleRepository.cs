@@ -3,6 +3,7 @@ using BookingApp.Serializer;
 using CLI.Observer;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -85,5 +86,11 @@ namespace BookingApp.Repository
 
         }
 
+        public ObservableCollection<Vehicle> GetVehiclesByDriver(User user)
+        {
+            _vehicles = _serializer.FromCSV(FilePath);
+            List<Vehicle> filteredVehicles = _vehicles.FindAll(v => v.User.Id == user.Id);
+            return new ObservableCollection<Vehicle>(filteredVehicles);
+        }
     }
 }

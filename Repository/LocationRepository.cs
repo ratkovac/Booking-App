@@ -73,6 +73,10 @@ namespace BookingApp.Repository
             _locations = _serializer.FromCSV(FilePath);
             return _locations;
         }
-
+        public int ExistsLocation(string city, string country)
+        {
+            var existingLocation = _locations.FirstOrDefault(location => location.City == city && location.Country == country);
+            return existingLocation != null ? existingLocation.Id : 0;
+        }
     }
 }

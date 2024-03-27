@@ -11,20 +11,20 @@ namespace BookingApp.Model
     public class Vehicle : ISerializable
     {
         public int Id { get; set; }
-        public Location Location { get; set; }
+        public List<Location> Locations { get; set; } 
         public int Capacity { get; set; }
-        public Language Language { get; set; }
+        public List<Language> Languages { get; set; } 
         public List<string> ImagePaths { get; set; }
         public User User { get; set; }
 
         public Vehicle() { }
 
-        public Vehicle(int id, Location location, int capacity, Language language, List<string> imagePaths, User user)
+        public Vehicle(int id, List<Location> locations, int capacity, List<Language> languages, List<string> imagePaths, User user) 
         {
             Id = id;
-            Location = location;
+            Locations = locations;
             Capacity = capacity;
-            Language = language;
+            Languages = languages;
             ImagePaths = imagePaths;
             User = user;
         }
@@ -33,31 +33,32 @@ namespace BookingApp.Model
 
         public void FromCSV(string[] values)
         {
-            if (values.Length < 5) 
+            if (values.Length < 5)
             {
                 throw new ArgumentException("Nedovoljno polja u nizu za konverziju u objekat Vehicle.");
             }
 
             Id = Convert.ToInt32(values[0]);
-            int locationId = Convert.ToInt32(values[1]);
+            int[] locationIds = values[1].Split(',').Select(int.Parse).ToArray(); 
             LocationRepository locationRepository = new LocationRepository();
-            Location = locationRepository.GetLocationById(locationId);
+            Locations = locationIds.Select(id => locationRepository.GetLocationById(id)).ToList(); 
             Capacity = Convert.ToInt32(values[2]);
+            int[] languageIds = values[3].Split(',').Select(int.Parse).ToArray(); 
             LanguageRepository languageRepository = new LanguageRepository();
-            Language = languageRepository.GetLanguageById(Convert.ToInt32(values[3]));
-            ImagePaths = values.Skip(4).ToList();
+            Languages = languageIds.Select(id => languageRepository.GetLanguageById(id)).ToList(); 
+            ImagePaths = values[4].Split(',').ToList(); 
             User = userRepository.GetByID(int.Parse(values[5]));
         }
         public string[] ToCSV()
         {
-            string location = Location.Id.ToString();
-            string language = Language.Id.ToString();
+            string locations = string.Join(",", Locations.Select(location => location.Id.ToString())); 
+            string languages = string.Join(",", Languages.Select(language => language.Id.ToString())); 
             string[] values =
             {
                 Id.ToString(),
-                location,
+                locations,
                 Capacity.ToString(),
-                language,
+                languages,
                 string.Join(",", ImagePaths),
                 User.Id.ToString()
             };
@@ -65,7 +66,9 @@ namespace BookingApp.Model
         }
         public override string ToString()
         {
-            return $"Id: {Id}, Location: {Location}, Capacity: {Capacity}, Language: {Language}, ImagePaths: {(ImagePaths != null ? string.Join(",", ImagePaths) : "NULL")}, User: {(User != null ? User.ToString() : "NULL")}";
+            string locationsStr = string.Join(",", Locations.Select(location => location.ToString())); 
+            string languagesStr = string.Join(",", Languages.Select(language => language.ToString())); 
+            return $"Id: {Id}, Locations: {locationsStr}, Capacity: {Capacity}, Languages: {languagesStr}, ImagePaths: {(ImagePaths != null ? string.Join(",", ImagePaths) : "NULL")}, User: {(User != null ? User.ToString() : "NULL")}";
         }
     }
 }
