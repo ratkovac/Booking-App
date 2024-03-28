@@ -229,6 +229,7 @@ namespace BookingApp.View.Driver
             }
             vehicle.Languages = languages;
             vehicle.Locations = locations;
+            vehicle.DriverId = LoggedInUser.Id;
             vehicle.Capacity = int.Parse(MaxCapacityTextBox.Text);
             vehicle.ImagePaths = ImageList;
             vehicle.User = LoggedInUser;

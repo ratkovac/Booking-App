@@ -65,7 +65,7 @@
                 </Style>
             </Menu.Resources>
             <MenuItem Margin="120,20,0,0" Header="Rezerviši turu" Width="410"/>
-            <MenuItem Margin="120,20,0,0" Header="Rezerviši vožnju" Width="480"/>
+            <MenuItem Margin="120,20,0,0" Header="Rezerviši vožnju" Click="DriveReservation_Click" Width="480"/>
         </Menu>
         <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,321,0,0" Height="500" Width="1280">
             <Frame Name="GuideFrame" HorizontalAlignment="Center" VerticalAlignment="Top" Height="500" Width="1277" NavigationUIVisibility="Hidden" FlowDirection="RightToLeft">

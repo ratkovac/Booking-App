@@ -81,6 +81,12 @@ namespace BookingApp.Repository
             return _addresses.FirstOrDefault(address => address.Id == id);
         }
 
+        public Address GetByAddress(string street, string number)
+        {
+            _addresses = _serializer.FromCSV(FilePath);
+            return _addresses.FirstOrDefault(loc => loc.Street.Equals(street, StringComparison.OrdinalIgnoreCase) && loc.Number.Equals(number, StringComparison.OrdinalIgnoreCase));
+        }
+
         public void Subscribe(IObserver observer)
         {
 

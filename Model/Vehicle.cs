@@ -16,6 +16,7 @@ namespace BookingApp.Model
         public List<Language> Languages { get; set; } 
         public List<string> ImagePaths { get; set; }
         public User User { get; set; }
+        public int DriverId { get; set; }
 
         public Vehicle() { }
 
@@ -48,6 +49,7 @@ namespace BookingApp.Model
             Languages = languageIds.Select(id => languageRepository.GetLanguageById(id)).ToList(); 
             ImagePaths = values[4].Split(',').ToList(); 
             User = userRepository.GetByID(int.Parse(values[5]));
+            DriverId = Convert.ToInt32(values[6]);
         }
         public string[] ToCSV()
         {
@@ -60,15 +62,18 @@ namespace BookingApp.Model
                 Capacity.ToString(),
                 languages,
                 string.Join(",", ImagePaths),
-                User.Id.ToString()
+                User.Id.ToString(),
+                DriverId.ToString()
             };
             return values;
         }
         public override string ToString()
         {
+
             string locationsStr = string.Join(",", Locations.Select(location => location.ToString())); 
             string languagesStr = string.Join(",", Languages.Select(language => language.ToString())); 
             return $"Id: {Id}, Locations: {locationsStr}, Capacity: {Capacity}, Languages: {languagesStr}, ImagePaths: {(ImagePaths != null ? string.Join(",", ImagePaths) : "NULL")}, User: {(User != null ? User.ToString() : "NULL")}";
+
         }
     }
 }

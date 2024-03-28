@@ -21,5 +21,11 @@ namespace BookingApp.View.Tourist
             AvailableTours availableToursPage = new AvailableTours(User);
             MainFrame.Navigate(availableToursPage);
         }
+
+        private void DriveReservation_Click(object sender, RoutedEventArgs e)
+        {
+            DriveReservation driveReservation = new DriveReservation(User);
+            MainFrame.Navigate(driveReservation);
+        }
     }
 }

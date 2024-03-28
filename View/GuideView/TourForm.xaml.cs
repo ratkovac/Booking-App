@@ -31,7 +31,6 @@ namespace BookingApp.View.GuideView
 
         private void CreateTourItem_Click(object sender, RoutedEventArgs e)
         {
-            //MainFrame.Content = new CreateTourPage();
             MainFrame.Navigate(new Uri("View/GuideView/Pages/CreateTourPage.xaml", UriKind.RelativeOrAbsolute));
         }
 

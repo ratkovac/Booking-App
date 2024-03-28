@@ -35,37 +35,39 @@ namespace BookingApp.Model
             Description = description;
             MaxGuests = maxGeusts;
             Duration = duration;     
-            //LocationId = locationId;
             Location = location;
             Language = language;
         }
 
         public string[] ToCSV()
-        {
-            MessageBox.Show(string.Format("Id: {0}", Id));
-            MessageBox.Show(string.Format("Name: {0}", Name));
-            MessageBox.Show(string.Format("Location Id: {0}", Location.Id.ToString()));
-            MessageBox.Show(string.Format("Description: {0}", Description));
-            MessageBox.Show(string.Format("Language: {0}", Language.Name));
-            MessageBox.Show(string.Format("Max Guests: {0}", MaxGuests));
-            MessageBox.Show(string.Format("Duration: {0}", Duration));
-
+        {         
             string location = Location.Id.ToString();
-            string[] csvValues = { Id.ToString(), Name, location, Description, Language.Id.ToString(), 
+            string language = Language.Id.ToString();
+            string[] csvValues = { Id.ToString(), Name, location, Description, language, 
                 MaxGuests.ToString(), Duration.ToString()};
             return csvValues;
         }
 
         public void FromCSV(string[] values)
         {
-            
-
             Id = Convert.ToInt32(values[0]);
             Name = values[1];
+            ParseLocation(values);
+            Description = values[3];
+            ParseLanguage(values);
+            MaxGuests = Convert.ToInt32(values[5]);
+            Duration = Convert.ToSingle(values[6]);
+        }
+
+        private void ParseLocation(string[] values)
+        {
             int locationId = Convert.ToInt32(values[2]);
             LocationRepository locationRepository = new LocationRepository();
             Location = locationRepository.GetLocationById(locationId);
-            Description = values[3];
+        }
+
+        private void ParseLanguage(string[] values)
+        {
             int languageId = Convert.ToInt32(values[4]);
             LanguageRepository languageRepository = new LanguageRepository();
             Language language = languageRepository.GetLanguageById(languageId);
@@ -73,8 +75,6 @@ namespace BookingApp.Model
             {
                 Language = language;
             }
-            MaxGuests = Convert.ToInt32(values[5]);
-            Duration = Convert.ToSingle(values[6]);
         }
 
     }
