@@ -106,10 +106,11 @@ namespace BookingApp.View.Driver
 
         private bool ValidateMaxCapacity()
         {
-            if (string.IsNullOrWhiteSpace(MaxCapacityTextBox.Text))
+            if (string.IsNullOrWhiteSpace(MaxCapacityTextBox.Text) && !CanParseToInt(MaxCapacityTextBox.Text))
             {
-                MaxCapacityLabelError.Content = "Niste uneli Maksimalni Kapacitet";
+                MaxCapacityLabelError.Content = "!";
                 MaxCapacityLabelError.Foreground = Brushes.Red;
+                MaxCapacityLabelError.FontWeight = FontWeights.Bold;
                 return false;
             }
             else
@@ -117,6 +118,11 @@ namespace BookingApp.View.Driver
                 MaxCapacityLabelError.Content = "";
                 return true;
             }
+        }
+        public static bool CanParseToInt(string text)
+        {
+            int result;
+            return int.TryParse(text, out result);
         }
 
 
@@ -140,6 +146,7 @@ namespace BookingApp.View.Driver
                     CountryTextBox.Text = "";
                     CountryLabelError.Content = "Location added successfully. ";
                     CountryLabelError.Foreground = Brushes.Black;
+                    CountryLabelError.FontSize = 10;
                 }
                 else
                 {
@@ -151,13 +158,20 @@ namespace BookingApp.View.Driver
                     CountryTextBox.Text = "";
                     CountryLabelError.Content = "Location added successfully. ";
                     CountryLabelError.Foreground = Brushes.Black;
+                    CountryLabelError.FontSize = 10;
                 }
             }
             else
             {
-                CountryLabelError.Content = "Type Country and City first. ";
-                CountryLabelError.Foreground = Brushes.Red; 
+                LocationError();
             }
+        }
+
+        private void LocationError()
+        {
+            CountryLabelError.Content = "Type Country and City first. ";
+            CountryLabelError.Foreground = Brushes.Red;
+            CountryLabelError.FontSize = 10;
         }
 
         List<Language> languages = new List<Language>();
@@ -174,27 +188,45 @@ namespace BookingApp.View.Driver
                     Language language = new Language(languageId, languageName);
                     languages.Add(language);
                     LanguagesTextBox.Text = "";
-                    CountryLabelError.Content = "Language added successfully. ";
-                    CountryLabelError.Foreground = Brushes.Black;
+                    LanguagesLabelError.Content = "Language added successfully. ";
+                    LanguagesLabelError.Foreground = Brushes.Black;
+                    LanguagesLabelError.FontSize = 10;
                 }
                 else
                 {
                     LanguagesLabelError.Content = "Language does not exist. Try again. ";
-                    CountryLabelError.Foreground = Brushes.Red;
+                    LanguagesLabelError.Foreground = Brushes.Red;
+                    LanguagesLabelError.FontSize = 10;
                 }
             }
             else
             {
                 LanguagesLabelError.Content = "Type language first. ";
                 CountryLabelError.Foreground = Brushes.Red;
+                LanguagesLabelError.FontSize = 10;
             }
         }
-
+        private void LanguageError()
+        {
+            LanguagesLabelError.Content = "Type language first. ";
+            CountryLabelError.Foreground = Brushes.Red;
+            LanguagesLabelError.FontSize = 10;
+        }
+    
         private Vehicle CreateVehicle()
         {
             Vehicle vehicle = new Vehicle();
 
-
+            if (languages.Count == 0)
+            {
+                LanguageError();
+                return null;
+            }
+            if( locations.Count == 0)
+            {
+                LocationError();
+                return null;
+            }
             vehicle.Languages = languages;
             vehicle.Locations = locations;
             vehicle.Capacity = int.Parse(MaxCapacityTextBox.Text);
@@ -215,7 +247,14 @@ namespace BookingApp.View.Driver
             {
                 Vehicle vehicle = CreateVehicle();
                 RegisterVehicle(vehicle);
+                ClearWindow();
             }
+        }
+
+        private void ClearWindow()
+        {
+            MaxCapacityTextBox.Text = "";
+            MessageBox.Show("Vehicle successfully registered. ");
         }
 
         private void btnHelp_Click(object sender, RoutedEventArgs e)
