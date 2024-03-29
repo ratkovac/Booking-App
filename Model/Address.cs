@@ -27,12 +27,20 @@ namespace BookingApp.Model
             Number = number;
         }
 
+        public Address(int id, int locationId, string street, string number)
+        {
+            Id = id;
+            LocationId = locationId;
+            Street = street;
+            Number = number;
+        }
+
         public string[] ToCSV()
         {
-            string location = Location.Id.ToString();
+            //string location = Location.Id.ToString();
             string[] csvValues = { 
                 Id.ToString(),
-                location.ToString(),
+                LocationId.ToString(),
                 Street,
                 Number };
             return csvValues;
@@ -47,8 +55,8 @@ namespace BookingApp.Model
 
             Id = Convert.ToInt32(values[0]);
             LocationId = Convert.ToInt32(values[1]);
-            /*LocationRepository locationRepository = new LocationRepository();
-            Location = locationRepository.GetLocationById(LocationId);*/ 
+            LocationRepository locationRepository = new LocationRepository();
+            Location = locationRepository.GetLocationById(LocationId);
             Street = values[2];
             Number = values[3];
         }

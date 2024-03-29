@@ -2,6 +2,7 @@
 using BookingApp.Repository;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,25 +18,20 @@ using System.Windows.Shapes;
 
 namespace BookingApp.View.Tourist.Pages
 {
-    /// <summary>
-    /// Interaction logic for DriveReservation.xaml
-    /// </summary>
     public partial class DriveReservation : Page
     {
         public User Tourist;
-        public int StartAddressId { get; set; }
+        public int AddressId { get; set; }
         public int DetailedStartAddressId { get; set; }
-        public int EndAddressId { get; set; }
         public int DetailedEndAddressId { get; set; }
         public int SelectedDriverId { get; set; }
+        private int SelectedLocationId { get; set; }
 
         public DriveReservation(User user)
         {
             InitializeComponent();
             Tourist = user;
-            InputCountries(startCountryComboBox);
-            InputCountries(endCountryComboBox);
-            InputTime();
+            InputCountries(CountryComboBox);
         }
 
         private void InputCountries(ComboBox comboBox)
@@ -95,6 +91,14 @@ namespace BookingApp.View.Tourist.Pages
             cityComboBox.ItemsSource = items;
             cityComboBox.DisplayMemberPath = "Value";
             cityComboBox.SelectedValuePath = "Key";
+
+            cityComboBox.SelectionChanged += (sender, e) =>
+            {
+                if (cityComboBox.SelectedItem is KeyValuePair<int, string> selectedCity)
+                {
+                    SelectedLocationId = selectedCity.Key;
+                }
+            };
         }
 
         private void ClearComboBox(ComboBox comboBox)
@@ -102,76 +106,89 @@ namespace BookingApp.View.Tourist.Pages
             comboBox.ItemsSource = null;
         }
 
-        private void InputAddress(ComboBox cityComboBox, ComboBox streetComboBox)
+        private void InputAddress(ComboBox cityComboBox, TextBox streetTextBox)
         {
             if (cityComboBox.SelectedItem != null)
             {
                 var selectedCity = (KeyValuePair<int, string>)cityComboBox.SelectedItem;
                 AddressRepository addressRepository = new AddressRepository();
 
+                string input = streetTextBox.Text.Trim();
+
+                if (string.IsNullOrEmpty(input))
+                {
+                    streetTextBox.Text = "";
+                    return;
+                }
+
+                string[] parts = input.Split(',');
+                if (parts.Length != 2)
+                {
+                    MessageBox.Show("Neispravan format unosa. Molimo unesite ulicu i broj odvojene zarezom.");
+                    return;
+                }
+
+                string streetName = parts[0].Trim();
+                string streetNumber = parts[1].Trim();
+
                 var streets = addressRepository.GetAll()
-                    .Where(address => address.LocationId == selectedCity.Key)
+                    .Where(address => address.LocationId == selectedCity.Key && address.Street.Equals(streetName, StringComparison.OrdinalIgnoreCase) && address.Number.Equals(streetNumber, StringComparison.OrdinalIgnoreCase))
                     .Select(address => address.Street)
                     .Distinct()
                     .OrderBy(street => street)
                     .ToList();
 
-                streetComboBox.ItemsSource = streets;
+                streetTextBox.Text = string.Join(Environment.NewLine, streets);
             }
             else
             {
-                streetComboBox.ItemsSource = null;
+                streetTextBox.Text = "";
             }
         }
 
-        private void InputTime()
-        {
-            for (int hour = 0; hour < 24; hour++)
-            {
-                string hourText = hour.ToString("00");
-                hourComboBox.Items.Add(hourText);
-            }
-        }
 
-        private void InputAddressForCity(ComboBox cityComboBox, ComboBox streetComboBox)
+        private void InputAddressForCity(ComboBox cityComboBox, TextBox streetTextBox)
         {
-            InputAddress(cityComboBox, streetComboBox);
+            InputAddress(cityComboBox, streetTextBox);
             if (cityComboBox.SelectedItem is KeyValuePair<int, string> selectedCity)
             {
-                if (cityComboBox == startCityComboBox) StartAddressId = selectedCity.Key;
-                else if (cityComboBox == endCityComboBox) EndAddressId = selectedCity.Key;
+                AddressId = selectedCity.Key;
             }
         }
 
-        private void SetDetailedAddressId(ComboBox streetComboBox, bool isStartAddress)
+        private void SetDetailedAddressId(TextBox streetTextBox, bool isStartAddress)
         {
-            if (streetComboBox.SelectedItem != null)
+            string input = streetTextBox.Text.Trim();
+
+            string[] parts = input.Split(',');
+
+            string streetName = parts[0].Trim();
+            string streetNumber = parts[1].Trim();
+
+            AddressRepository addressRepository = new AddressRepository();
+            var address = addressRepository.GetByAddress(streetName, streetNumber);
+            if (address != null)
             {
-                var selectedStreet = streetComboBox.SelectedItem.ToString();
-                AddressRepository addressRepository = new AddressRepository();
-                var address = addressRepository.GetByAddress(selectedStreet);
-                if (address != null)
-                {
-                    if (isStartAddress) DetailedStartAddressId = address.Id;
-                    else DetailedEndAddressId = address.Id;
-                }
+                if (isStartAddress) DetailedStartAddressId = address.Id;
+                else DetailedEndAddressId = address.Id;
             }
         }
 
         private DateTime CreateDateTimeFromSelections()
         {
             if (dateDp.SelectedDate.HasValue &&
-                hourComboBox.SelectedItem is string selectedHour &&
+                !string.IsNullOrEmpty(hourTextBox.Text) &&
+                int.TryParse(hourTextBox.Text, out int hour) &&
+                hour >= 0 && hour < 24 &&
                 minuteComboBox.SelectedItem is ComboBoxItem selectedMinuteItem)
             {
-                int hour = int.Parse(selectedHour);
                 int minute = int.Parse(selectedMinuteItem.Content.ToString());
 
                 return new DateTime(dateDp.SelectedDate.Value.Year, dateDp.SelectedDate.Value.Month, dateDp.SelectedDate.Value.Day, hour, minute, 0);
             }
             else
             {
-                MessageBox.Show("Molimo unesite validan datum.");
+                MessageBox.Show("Molimo unesite validan datum i sat.");
                 return DateTime.MinValue;
             }
         }
@@ -185,7 +202,7 @@ namespace BookingApp.View.Tourist.Pages
             }
 
             VehicleRepository vehicleRepository = new VehicleRepository();
-            List<int> drivers = vehicleRepository.GetDriverIdsByLocationId(StartAddressId);
+            List<int> drivers = vehicleRepository.GetDriverIdsByLocationId(AddressId);
             DateTime? date = CreateDateTimeFromSelections();
             drivers = FilterDrivers(drivers, date);
             InputDriverComboBox(drivers);
@@ -233,13 +250,10 @@ namespace BookingApp.View.Tourist.Pages
         private bool AreAllCriteriaMet()
         {
             return dateDp.SelectedDate != null &&
-                   startCountryComboBox.SelectedItem != null &&
-                   startCityComboBox.SelectedItem != null &&
-                   startStreetComboBox.SelectedItem != null &&
-                   endCountryComboBox.SelectedItem != null &&
-                   endCityComboBox.SelectedItem != null &&
-                   endStreetComboBox.SelectedItem != null &&
-                   hourComboBox.SelectedItem != null &&
+                   CountryComboBox.SelectedItem != null &&
+                   CityComboBox.SelectedItem != null &&
+                   startStreetTextBox != null &&
+                   endStreetTextBox != null &&
                    minuteComboBox.SelectedItem != null;
         }
 
@@ -247,10 +261,50 @@ namespace BookingApp.View.Tourist.Pages
         {
             DateTime departure = CreateDateTimeFromSelections();
 
+            SetDetailedAddressId(startStreetTextBox, true);
+            SetDetailedAddressId(endStreetTextBox, false);
+            if (DetailedStartAddressId == 0)
+            {
+                DetailedStartAddressId = AddNewAddress(startStreetTextBox.Text.Trim());
+            }
+
+            if (DetailedEndAddressId == 0)
+            {
+                DetailedEndAddressId = AddNewAddress(endStreetTextBox.Text.Trim());
+            }
+
             Drive drive = new(DetailedStartAddressId, DetailedEndAddressId, departure, SelectedDriverId, Tourist.Id, 2, 0);
             DriveRepository driveRepository = new DriveRepository();
             driveRepository.Save(drive);
             MessageBox.Show("Rezervacija uspješna");
+        }
+
+        private int AddNewAddress(string address)
+        {
+            string[] parts = address.Split(',');
+
+            if (parts.Length != 2)
+            {
+                MessageBox.Show("Neispravan format unosa. Molimo unesite ulicu i broj odvojene zarezom.");
+                return 0;
+            }
+
+            string streetName = parts[0].Trim();
+            string streetNumber = parts[1].Trim();
+
+            AddressRepository addressRepository = new AddressRepository();
+
+            Address newAddress = new Address
+            {
+                Id = addressRepository.NextId(),
+                LocationId = SelectedLocationId,
+                Street = streetName,
+                Number = streetNumber
+            };
+
+            addressRepository.Save(newAddress);
+
+            return newAddress.Id;
         }
 
         private void minuteComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -258,34 +312,14 @@ namespace BookingApp.View.Tourist.Pages
             UpdateDriverList();
         }
 
-        private void startCountryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void CountryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            InputCities(startCountryComboBox, startCityComboBox);
+            InputCities(CountryComboBox, CityComboBox);
         }
 
-        private void endCountryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void CityComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            InputCities(endCountryComboBox, endCityComboBox);
-        }
-
-        private void startCityComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            InputAddressForCity(startCityComboBox, startStreetComboBox);
-        }
-
-        private void endCityComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            InputAddressForCity(endCityComboBox, endStreetComboBox);
-        }
-
-        private void startStreetComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            SetDetailedAddressId(startStreetComboBox, true);
-        }
-
-        private void endStreetComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            SetDetailedAddressId(endStreetComboBox, false);
+            InputAddressForCity(CityComboBox, startStreetTextBox);
         }
     }
 }

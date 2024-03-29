@@ -19,36 +19,26 @@
         </StackPanel.Resources>
 
         <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-            <Label Content="Država polazišta:"/>
-            <ComboBox x:Name="startCountryComboBox" FontSize="30" Width="270" Height="50" Margin="20,0,8,0" SelectionChanged="startCountryComboBox_SelectionChanged"/>
+            <Label Content="Država:"/>
+            <ComboBox x:Name="CountryComboBox" FontSize="30" Width="270" Height="50" Margin="20,0,8,0" SelectionChanged="CountryComboBox_SelectionChanged"/>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-            <Label Content="Grad polazišta:"/>
-            <ComboBox x:Name="startCityComboBox" FontSize="30" Width="270" Height="50" Margin="20,0,8,0" SelectionChanged="startCityComboBox_SelectionChanged"/>
+            <Label Content="Grad:"/>
+            <ComboBox x:Name="CityComboBox" FontSize="30" Width="270" Height="50" Margin="20,0,8,0" SelectionChanged="CityComboBox_SelectionChanged"/>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
             <Label Content="Ulica polazišta:"/>
-            <ComboBox x:Name="startStreetComboBox" FontSize="30" Width="270" Height="50" Margin="20,0,8,0" SelectionChanged="startStreetComboBox_SelectionChanged"/>
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-            <Label Content="Država odredišta:"/>
-            <ComboBox x:Name="endCountryComboBox" FontSize="30" Width="270" Height="50" Margin="20,0,8,0" SelectionChanged="endCountryComboBox_SelectionChanged"/>
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-            <Label Content="Grad odredišta:"/>
-            <ComboBox x:Name="endCityComboBox" FontSize="30" Width="270" Height="50" Margin="20,0,8,0" SelectionChanged="endCityComboBox_SelectionChanged"/>
-            <Button x:Name="ReserveButton" HorizontalAlignment="Right" Click="Reservation_Click" VerticalAlignment="Center" Margin="130,0,0,0" Height="50" Width="200" Background="Transparent" BorderThickness="0">
-                <TextBlock Text="Rezerviši" FontSize="40" FontWeight="Bold" FontFamily="Roboto" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            </Button>
+            <TextBox x:Name="startStreetTextBox" FontSize="30" Width="270" Height="50" Margin="20,0,8,0"/>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
             <Label Content="Ulica odredišta:"/>
-            <ComboBox x:Name="endStreetComboBox" FontSize="30" Width="270" Height="50" Margin="20,0,8,0" SelectionChanged="endStreetComboBox_SelectionChanged"/>
+            <TextBox x:Name="endStreetTextBox" FontSize="30" Width="270" Height="50" Margin="20,0,100,0"/>
+            <Button x:Name="ReserveButton" HorizontalAlignment="Right" Click="Reservation_Click" VerticalAlignment="Center" Height="50" Width="200" Background="Transparent" BorderThickness="0">
+                <TextBlock Text="Rezerviši" FontSize="40" FontWeight="Bold" FontFamily="Roboto" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Button>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
@@ -58,7 +48,7 @@
 
         <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
             <Label Content="Sati polaska:"/>
-            <ComboBox x:Name="hourComboBox" FontSize="30" Width="270" Height="50" Margin="20,0,8,0"/>
+            <TextBox x:Name="hourTextBox" FontSize="30" Width="270" Height="50" Margin="20,0,8,0"/>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
@@ -76,6 +66,4 @@
             <ComboBox x:Name="driversComboBox" FontSize="30" Width="270" Height="50" Margin="20,0,8,0" SelectionChanged="driversComboBox_SelectionChanged"/>
         </StackPanel>
     </StackPanel>
-
-
 </Page>
