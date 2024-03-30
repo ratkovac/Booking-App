@@ -29,7 +29,6 @@ namespace BookingApp.View.Tourist.Pages
         public Tour SelectedTour { get; set; }
         public List<CheckPoint> CheckPoints { get; set; }
 
-        private readonly TourRepository tourRepository;
         private readonly CheckPointRepository checkPointRepository = new CheckPointRepository();
         private readonly TourInstanceRepository _tourInstanceRepository;
         private readonly TourReservationRepository _tourReservationRepository;
@@ -72,7 +71,7 @@ namespace BookingApp.View.Tourist.Pages
         {
             var tourInstances = _tourInstanceRepository.GetAllById(SelectedTour.Id);
             StartTimeComboBox.ItemsSource = tourInstances.Select(t => t.StartTime.ToString("g")).ToList();
-            RequiredSeatsComboBox.IsEnabled = false;
+            NumberOfPeopleTextBox.IsEnabled = false;
         }
 
         private void GenerateInputFields(int numberOfPeople)
@@ -81,18 +80,19 @@ namespace BookingApp.View.Tourist.Pages
 
             for (int i = 0; i < numberOfPeople; i++)
             {
-                TextBox firstName = new TextBox { Height = 30, Text = "Ime", Margin = new Thickness(0, 0, 0, 10) };
-                firstName.GotFocus += (s, e) => { if (firstName.Text == "Ime") firstName.Text = ""; };
-                firstName.LostFocus += (s, e) => { if (string.IsNullOrWhiteSpace(firstName.Text)) firstName.Text = "Ime"; };
+                TextBox nameTextBox = new TextBox { Height = 30, Text = "Ime i prezime", Margin = new Thickness(0, 0, 0, 10) };
+                nameTextBox.GotFocus += (s, e) => { if (nameTextBox.Text == "Ime i prezime") nameTextBox.Text = ""; };
+                nameTextBox.LostFocus += (s, e) => { if (string.IsNullOrWhiteSpace(nameTextBox.Text)) nameTextBox.Text = "Ime i prezime"; };
 
-                TextBox lastName = new TextBox { Height = 30, Text = "Prezime", Margin = new Thickness(0, 0, 0, 20) };
-                lastName.GotFocus += (s, e) => { if (lastName.Text == "Prezime") lastName.Text = ""; };
-                lastName.LostFocus += (s, e) => { if (string.IsNullOrWhiteSpace(lastName.Text)) lastName.Text = "Prezime"; };
+                TextBox ageTextBox = new TextBox { Height = 30, Text = "Godine", Margin = new Thickness(0, 0, 0, 10) };
+                ageTextBox.GotFocus += (s, e) => { if (ageTextBox.Text == "Godine") ageTextBox.Text = ""; };
+                ageTextBox.LostFocus += (s, e) => { if (string.IsNullOrWhiteSpace(ageTextBox.Text)) ageTextBox.Text = "Godine"; };
 
-                InputGuestsStackPanel.Children.Add(firstName);
-                InputGuestsStackPanel.Children.Add(lastName);
+                InputGuestsStackPanel.Children.Add(nameTextBox);
+                InputGuestsStackPanel.Children.Add(ageTextBox);
             }
         }
+
 
         private void ChangedStartTimeComboBox(object sender, SelectionChangedEventArgs e)
         {
@@ -102,33 +102,13 @@ namespace BookingApp.View.Tourist.Pages
                 return;
             }
 
-            RequiredSeatsComboBox.IsEnabled = true;
+            NumberOfPeopleTextBox.IsEnabled = true;
             SelectedTourInstance = _tourInstanceRepository.GetByIdAndDate(SelectedTour.Id, selectedDate);
         }
 
-        private void RequiredSeatsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private int GetSelectedNumberOfPeople()
         {
-            if (!(RequiredSeatsComboBox.SelectedItem is ComboBoxItem selectedItem) || !int.TryParse(selectedItem.Content.ToString(), out int requiredSeats))
-            {
-                return;
-            }
-
-
-            if (requiredSeats > SelectedTourInstance.AvailableSlots)
-            {
-                int reservedSeats = SelectedTour.MaxGuests - (SelectedTourInstance?.AvailableSlots ?? 0);
-                int remainingSeats = SelectedTourInstance.AvailableSlots;
-                MessageBox.Show($"Na ovoj turi nema dovoljan broj slobodnih mjesta za unijeti broj ljudi.\nBroj rezervisanih mjesta je: {reservedSeats}.\nBroj slobodnih mjesta je: {remainingSeats}.");
-                RequiredSeatsComboBox.SelectedItem = null;
-                return;
-            }
-
-            GenerateInputFields(requiredSeats);
-        }
-
-        private int GetSelectedNumberOfPeople(ComboBox comboBox)
-        {
-            if (comboBox.SelectedItem is ComboBoxItem selectedItem && int.TryParse(selectedItem.Content.ToString(), out int numberOfPeople))
+            if (int.TryParse(NumberOfPeopleTextBox.Text, out int numberOfPeople))
             {
                 return numberOfPeople;
             }
@@ -138,14 +118,19 @@ namespace BookingApp.View.Tourist.Pages
         private void Reservation_Click(object sender, RoutedEventArgs e)
         {
             var guests = GetGuestsFromInputFields();
-            var numberOfPeople = GetSelectedNumberOfPeople(RequiredSeatsComboBox);
+            var numberOfPeople = GetSelectedNumberOfPeople();
 
             if (guests == null || guests.Count == 0 || numberOfPeople == 0)
             {
                 return;
             }
 
-            UpdateTourInstanceCapacity((int)numberOfPeople);
+            if (!CheckAvailableSeats(numberOfPeople))
+            {
+                return;
+            }
+
+            UpdateTourInstanceCapacity(numberOfPeople);
             bool isReservationSaved = SaveTourReservation(guests);
 
             if (isReservationSaved)
@@ -156,6 +141,19 @@ namespace BookingApp.View.Tourist.Pages
             {
                 MessageBox.Show("Rezervacija nije uspješna. Molimo pokušajte ponovo.");
             }
+        }
+
+        private bool CheckAvailableSeats(int numberOfPeople)
+        {
+            int requiredSeats = numberOfPeople;
+            if (requiredSeats > SelectedTourInstance.AvailableSlots)
+            {
+                int reservedSeats = SelectedTour.MaxGuests - (SelectedTourInstance?.AvailableSlots ?? 0);
+                int remainingSeats = SelectedTourInstance.AvailableSlots;
+                MessageBox.Show($"Na ovoj turi nema dovoljan broj slobodnih mjesta za unijeti broj ljudi.\nBroj rezervisanih mjesta je: {reservedSeats}.\nBroj slobodnih mjesta je: {remainingSeats}.");
+                return false;
+            }
+            return true;
         }
 
         private void UpdateTourInstanceCapacity(int requiredSeats)
@@ -185,19 +183,21 @@ namespace BookingApp.View.Tourist.Pages
 
             for (int i = 0; i < InputGuestsStackPanel.Children.Count; i += 2)
             {
-                var firstNameBox = InputGuestsStackPanel.Children[i] as TextBox;
-                var lastNameBox = InputGuestsStackPanel.Children[i + 1] as TextBox;
+                var nameTextBox = InputGuestsStackPanel.Children[i] as TextBox;
+                var ageTextBox = InputGuestsStackPanel.Children[i + 1] as TextBox;
 
-                if (firstNameBox != null && lastNameBox != null &&
-                    firstNameBox.Text != "Ime" && lastNameBox.Text != "Prezime")
+                if (nameTextBox != null && ageTextBox != null &&
+                    nameTextBox.Text != "Ime i prezime" && ageTextBox.Text != "Godine")
                 {
-                    string fullName = $"{firstNameBox.Text} {lastNameBox.Text}";
-                    var tourGuest = new TourGuest(fullName, SelectedTourInstance.Id, UserId, 0);
+                    string fullName = nameTextBox.Text;
+                    string age = ageTextBox.Text;
+
+                    var tourGuest = new TourGuest(fullName, age, SelectedTourInstance.Id, UserId, 0);
                     guests.Add(tourGuest);
                 }
             }
 
-            // Ako nisu sva polja popunjena validnim imenima i prezimenima, vrati praznu listu
+            // Ako nisu sva polja popunjena, vrati praznu listu
             if (guests.Count < InputGuestsStackPanel.Children.Count / 2)
             {
                 return new List<TourGuest>();
@@ -206,6 +206,20 @@ namespace BookingApp.View.Tourist.Pages
             return guests;
         }
 
+        private void NumberOfGuestsTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return) // Provjera pritisnute tipke
+            {
+                if (int.TryParse(NumberOfPeopleTextBox.Text, out int numberOfGuests) && numberOfGuests > 0)
+                {
+                    GenerateInputFields(numberOfGuests); // Generiranje polja za unos imena i godina
+                }
+                else
+                {
+                    MessageBox.Show("Unesite validan broj gostiju.");
+                }
+            }
+        }
 
         private void ButtonBack(object sender, RoutedEventArgs e)
         {
