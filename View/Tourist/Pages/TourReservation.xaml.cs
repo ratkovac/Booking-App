@@ -80,19 +80,29 @@ namespace BookingApp.View.Tourist.Pages
 
             for (int i = 0; i < numberOfPeople; i++)
             {
-                TextBox nameTextBox = new TextBox { Height = 30, Text = "Ime i prezime", Margin = new Thickness(0, 0, 0, 10) };
+                Grid guestGrid = new Grid { Margin = new Thickness(0, 0, 0, 10) };
+
+                ColumnDefinition column1 = new ColumnDefinition();
+                ColumnDefinition column2 = new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) };
+                guestGrid.ColumnDefinitions.Add(column1);
+                guestGrid.ColumnDefinitions.Add(column2);
+
+                TextBox nameTextBox = new TextBox { Height = 30, Width = 200, Text = "Ime i prezime", Margin = new Thickness(0, 0, 10, 0) };
                 nameTextBox.GotFocus += (s, e) => { if (nameTextBox.Text == "Ime i prezime") nameTextBox.Text = ""; };
                 nameTextBox.LostFocus += (s, e) => { if (string.IsNullOrWhiteSpace(nameTextBox.Text)) nameTextBox.Text = "Ime i prezime"; };
+                Grid.SetColumn(nameTextBox, 0);
 
-                TextBox ageTextBox = new TextBox { Height = 30, Text = "Godine", Margin = new Thickness(0, 0, 0, 10) };
+                TextBox ageTextBox = new TextBox { Height = 30, Width = 100, Text = "Godine" };
                 ageTextBox.GotFocus += (s, e) => { if (ageTextBox.Text == "Godine") ageTextBox.Text = ""; };
                 ageTextBox.LostFocus += (s, e) => { if (string.IsNullOrWhiteSpace(ageTextBox.Text)) ageTextBox.Text = "Godine"; };
+                Grid.SetColumn(ageTextBox, 1);
 
-                InputGuestsStackPanel.Children.Add(nameTextBox);
-                InputGuestsStackPanel.Children.Add(ageTextBox);
+                guestGrid.Children.Add(nameTextBox);
+                guestGrid.Children.Add(ageTextBox);
+
+                InputGuestsStackPanel.Children.Add(guestGrid);
             }
         }
-
 
         private void ChangedStartTimeComboBox(object sender, SelectionChangedEventArgs e)
         {
@@ -181,10 +191,10 @@ namespace BookingApp.View.Tourist.Pages
         {
             var guests = new List<TourGuest>();
 
-            for (int i = 0; i < InputGuestsStackPanel.Children.Count; i += 2)
+            foreach (Grid guestGrid in InputGuestsStackPanel.Children)
             {
-                var nameTextBox = InputGuestsStackPanel.Children[i] as TextBox;
-                var ageTextBox = InputGuestsStackPanel.Children[i + 1] as TextBox;
+                var nameTextBox = guestGrid.Children.OfType<TextBox>().FirstOrDefault(t => Grid.GetColumn(t) == 0);
+                var ageTextBox = guestGrid.Children.OfType<TextBox>().FirstOrDefault(t => Grid.GetColumn(t) == 1);
 
                 if (nameTextBox != null && ageTextBox != null &&
                     nameTextBox.Text != "Ime i prezime" && ageTextBox.Text != "Godine")
@@ -198,7 +208,7 @@ namespace BookingApp.View.Tourist.Pages
             }
 
             // Ako nisu sva polja popunjena, vrati praznu listu
-            if (guests.Count < InputGuestsStackPanel.Children.Count / 2)
+            if (guests.Count < InputGuestsStackPanel.Children.Count)
             {
                 return new List<TourGuest>();
             }
