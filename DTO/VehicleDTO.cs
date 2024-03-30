@@ -55,6 +55,19 @@ namespace BookingApp.DTO
                 }
             }
         }
+        private List<Location> locations; 
+        public List<Location> Locations
+        {
+            get { return locations; }
+            set
+            {
+                if (value != locations)
+                {
+                    locations = value;
+                    OnPropertyChanged("Locations");
+                }
+            }
+        }
 
         private int capacity;
         public int Capacity
@@ -81,6 +94,19 @@ namespace BookingApp.DTO
                 {
                     language = value;
                     OnPropertyChanged("Language");
+                }
+            }
+        }
+        private List<Language> languages;
+        public List<Language> Languages
+        {
+            get { return languages; }
+            set
+            {
+                if (value != languages)
+                {
+                    languages = value;
+                    OnPropertyChanged("Languages");
                 }
             }
         }
@@ -116,9 +142,9 @@ namespace BookingApp.DTO
         public VehicleDTO(Vehicle vehicle)
         {
             Id = vehicle.Id;
-            Location = vehicle.Location;
+            Locations = vehicle.Locations;
             Capacity = vehicle.Capacity;
-            Language = vehicle.Language;
+            Languages = vehicle.Languages;
             ImagePaths = vehicle.ImagePaths;
             User = vehicle.User;
         }
@@ -132,9 +158,9 @@ namespace BookingApp.DTO
             Vehicle vehicle = new Vehicle
             {
                 Id = Id,
-                Location = Location,
+                Locations = Locations,
                 Capacity = Capacity,
-                Language = Language,
+                Languages = Languages,
                 ImagePaths = ImagePaths,
                 User = User
             };

@@ -62,6 +62,7 @@ namespace BookingApp.View
             }
         }
 
+
         private Accommodation accommodation;
 
         public Accommodation Accommodation
@@ -233,7 +234,7 @@ namespace BookingApp.View
         private void Submit_Click(object sender, RoutedEventArgs e)
         {
             SuggestReservation(startDate, endDate);
-            if(AvailableAccommodationPeriods.Count == 0)
+            if (AvailableAccommodationPeriods.Count == 0)
                 SuggestReservation(startDate.AddDays(-5), endDate.AddDays(5));
         }
 
@@ -254,7 +255,7 @@ namespace BookingApp.View
             {
                 AvailableAccommodationPeriods.Add(reservation);
             }
-            
+
         }
 
         private void FillGapsBetweenReservations(ObservableCollection<AccommodationReservationDTO> reservations)
@@ -284,7 +285,7 @@ namespace BookingApp.View
             if (reservations.Any())
             {
                 var lastReservationEndDate = reservations.Last().EndDate;
-                var gapDays = CalculateGapDays(lastReservationEndDate, periodEnd, adjustForInclusiveEndDate: true);
+                var gapDays = CalculateGapDays(lastReservationEndDate, periodEnd, adjustForInclusiveEndDate: false);
 
                 FillGap(lastReservationEndDate.AddDays(1), gapDays, reservations.Count - 1);
             }

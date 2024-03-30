@@ -18,23 +18,22 @@ using System.Windows.Threading;
 
 namespace BookingApp.View.Driver.Pages
 {
-    /// <summary>
-    /// Interaction logic for DriverWaitingPage.xaml
-    /// </summary>
+
     public partial class DriverWaitingPage : Page
     {
         private DriveDTO selectedDrive;
         private DispatcherTimer timer;
         private int remainingTimeInSeconds = 20 * 60;
         public DriveRepository _driveRepository;
-        public DriverFrontPage driverFrontPage;
-        public DriverWaitingPage(DriveDTO drive)
+        public DrivesWindow drivesWindow;
+
+        public DriverWaitingPage(DriveDTO drive, DrivesWindow DrivesWindow)
         {
             InitializeComponent();
             selectedDrive = drive;
             _driveRepository = new DriveRepository();
-            driverFrontPage = new DriverFrontPage(selectedDrive.Driver);
             StartTimer();
+            drivesWindow = DrivesWindow;
         }
 
         private void StartTimer()
@@ -54,7 +53,7 @@ namespace BookingApp.View.Driver.Pages
                 timer.Stop();
                 MessageBox.Show("Vreme je isteklo!");
                 _driveRepository.Delete(selectedDrive.ToDrive());
-                OpenFrontPage();
+                OpenDrivesPage();
             }
 
             TimeSpan timeSpan = TimeSpan.FromSeconds(remainingTimeInSeconds);
@@ -66,13 +65,13 @@ namespace BookingApp.View.Driver.Pages
         private void btnTouristArrived_Click(object sender, RoutedEventArgs e)
         {
             _driveRepository.Delete(selectedDrive.ToDrive());
-            OpenFrontPage();
+            OpenDrivesPage();
         }
 
-        private void OpenFrontPage()
+        private void OpenDrivesPage()
         {
             Window.GetWindow(this)?.Close();
-            driverFrontPage.Show();
+            drivesWindow.RefreshDriveList();
         }
     }
 }
