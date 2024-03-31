@@ -27,5 +27,10 @@ namespace BookingApp.View.Tourist
             DriveReservation driveReservation = new DriveReservation(User);
             MainFrame.Navigate(driveReservation);
         }
+        private void FastDrive_Click(object sender, RoutedEventArgs e)
+        {
+            FastDriveSearch fastDrive = new FastDriveSearch(User);
+            MainFrame.Navigate(fastDrive);
+        }
     }
 }

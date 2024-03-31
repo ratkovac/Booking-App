@@ -49,6 +49,16 @@ namespace BookingApp.Model
             Delay = delay;
         }
 
+        public Drive(int startAddressId, int endAddressId, DateTime date, int guestId, int driveStatusId, double delay)
+        {
+            StartAddressId = startAddressId;
+            EndAddressId = endAddressId;
+            Date = date;
+            GuestId = guestId;
+            DriveStatusId = driveStatusId;
+            Delay = delay;
+        }
+
         public Drive(int id, User driver, Address startAddress, Address endAddress, DateTime date, User guest)
         {
             Id = id;
