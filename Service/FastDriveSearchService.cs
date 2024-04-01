@@ -21,7 +21,6 @@ namespace BookingApp.Service
     {
         private User Tourist;
         private int SelectedLocationId { get; set; }
-        private int AddressId { get; set; }
         private int DetailedStartAddressId { get; set; }
         private int DetailedEndAddressId { get; set; }
 
@@ -49,13 +48,24 @@ namespace BookingApp.Service
                                             .ToList();
         }
 
+        public void UpdateCityComboBox(ComboBox cityComboBox, List<KeyValuePair<int, string>> items)
+        {
+            cityComboBox.ItemsSource = items;
+            cityComboBox.DisplayMemberPath = "Value";
+            cityComboBox.SelectedValuePath = "Key";
+
+            cityComboBox.SelectionChanged += (sender, e) =>
+            {
+                if (cityComboBox.SelectedItem is KeyValuePair<int, string> selectedCity)
+                {
+                    SelectedLocationId = selectedCity.Key;
+                }
+            };
+        }
+
         public void InputAddressForCity(ComboBox cityComboBox, TextBox streetTextBox)
         {
             InputAddress(cityComboBox, streetTextBox);
-            if (cityComboBox.SelectedItem is KeyValuePair<int, string> selectedCity)
-            {
-                AddressId = selectedCity.Key;
-            }
         }
 
         private void InputAddress(ComboBox cityComboBox, TextBox streetTextBox)

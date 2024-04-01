@@ -22,7 +22,6 @@ namespace BookingApp.View.Tourist.Pages
     {
         private FastDriveSearchService fastDriveSearchService;
         public User Tourist;
-        private int SelectedLocationId { get; set; }
 
         public FastDriveSearch(User user)
         {
@@ -40,10 +39,10 @@ namespace BookingApp.View.Tourist.Pages
 
         private void CountryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            InputCities();
+            InputCities(CountryComboBox, CityComboBox);
         }
 
-        private void InputCities()
+        private void InputCities(ComboBox countryComboBox, ComboBox cityComboBox)
         {
             string selectedCountry = CountryComboBox.SelectedItem?.ToString();
 
@@ -72,17 +71,7 @@ namespace BookingApp.View.Tourist.Pages
 
         private void UpdateCityComboBox(ComboBox cityComboBox, List<KeyValuePair<int, string>> items)
         {
-            cityComboBox.ItemsSource = items;
-            cityComboBox.DisplayMemberPath = "Value";
-            cityComboBox.SelectedValuePath = "Key";
-
-            cityComboBox.SelectionChanged += (sender, e) =>
-            {
-                if (cityComboBox.SelectedItem is KeyValuePair<int, string> selectedCity)
-                {
-                    SelectedLocationId = selectedCity.Key;
-                }
-            };
+            fastDriveSearchService.UpdateCityComboBox(cityComboBox, items);
         }
 
         private void ClearComboBox(ComboBox comboBox)
