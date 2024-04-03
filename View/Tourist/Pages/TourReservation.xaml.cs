@@ -21,7 +21,7 @@ using System.Windows.Shapes;
 namespace BookingApp.View.Tourist.Pages
 {
 
-    public partial class TourReservation : Page, INotifyPropertyChanged
+    public partial class TourReservation : Page
     {
 
         public int UserId { get; set; }
@@ -29,16 +29,10 @@ namespace BookingApp.View.Tourist.Pages
         public Tour SelectedTour { get; set; }
         public List<CheckPoint> CheckPoints { get; set; }
 
-        private readonly CheckPointRepository checkPointRepository = new CheckPointRepository();
+        private readonly CheckPointRepository _checkPointRepository;
         private readonly TourInstanceRepository _tourInstanceRepository;
         private readonly TourReservationRepository _tourReservationRepository;
         private readonly TourGuestRepository _tourGuestRepository;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         public TourReservation(Tour selectedTour, User user)
         {
@@ -47,6 +41,7 @@ namespace BookingApp.View.Tourist.Pages
             UserId = user.Id;
             SelectedTour = selectedTour;
 
+            _checkPointRepository = new CheckPointRepository();
             _tourInstanceRepository = new TourInstanceRepository();
             _tourReservationRepository = new TourReservationRepository();
             _tourGuestRepository = new TourGuestRepository();
@@ -57,19 +52,19 @@ namespace BookingApp.View.Tourist.Pages
             DescriptionTextBox.Text = selectedTour.Description;
             LanguageTextBox.Text = selectedTour.Language.Name;
             MaxGuestsTextBox.Text = selectedTour.MaxGuests.ToString();
-
             //DateStartTextBox.Text = TourTime.time.ToString("dd.MM.yyyy HH:mm");
             DurationTextBox.Text = selectedTour.Duration.ToString();
-
-            CheckPoints = checkPointRepository.GetCheckPoints(selectedTour.Id);
-            KeyPointTextBox.Text = string.Join(Environment.NewLine, CheckPoints.Select(cp => cp.PointText));
+            CheckPoints = _checkPointRepository.GetCheckPoints(selectedTour.Id);
+            CheckPointTextBox.Text = string.Join(Environment.NewLine, CheckPoints.Select(cp => cp.PointText));
 
             GenerateDatesComboBox();
         }
 
         private void GenerateDatesComboBox()
         {
-            var tourInstances = _tourInstanceRepository.GetAllById(SelectedTour.Id);
+            var tourInstances = _tourInstanceRepository.GetAllById(SelectedTour.Id)
+                .Where(t => !t.IsFinished && t.AvailableSlots > 0);
+
             StartTimeComboBox.ItemsSource = tourInstances.Select(t => t.StartTime.ToString("g")).ToList();
             NumberOfPeopleTextBox.IsEnabled = false;
         }
@@ -116,7 +111,7 @@ namespace BookingApp.View.Tourist.Pages
             SelectedTourInstance = _tourInstanceRepository.GetByIdAndDate(SelectedTour.Id, selectedDate);
         }
 
-        private int GetSelectedNumberOfPeople()
+        private int GetNumberOfPeople()
         {
             if (int.TryParse(NumberOfPeopleTextBox.Text, out int numberOfPeople))
             {
@@ -128,7 +123,7 @@ namespace BookingApp.View.Tourist.Pages
         private void Reservation_Click(object sender, RoutedEventArgs e)
         {
             var guests = GetGuestsFromInputFields();
-            var numberOfPeople = GetSelectedNumberOfPeople();
+            var numberOfPeople = GetNumberOfPeople();
 
             if (guests == null || guests.Count == 0 || numberOfPeople == 0)
             {
@@ -207,7 +202,6 @@ namespace BookingApp.View.Tourist.Pages
                 }
             }
 
-            // Ako nisu sva polja popunjena, vrati praznu listu
             if (guests.Count < InputGuestsStackPanel.Children.Count)
             {
                 return new List<TourGuest>();
@@ -218,11 +212,11 @@ namespace BookingApp.View.Tourist.Pages
 
         private void NumberOfGuestsTextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Return) // Provjera pritisnute tipke
+            if (e.Key == Key.Return)
             {
                 if (int.TryParse(NumberOfPeopleTextBox.Text, out int numberOfGuests) && numberOfGuests > 0)
                 {
-                    GenerateInputFields(numberOfGuests); // Generiranje polja za unos imena i godina
+                    GenerateInputFields(numberOfGuests);
                 }
                 else
                 {

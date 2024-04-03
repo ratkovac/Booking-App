@@ -27,20 +27,20 @@ namespace BookingApp.Model
             Number = number;
         }
 
-        public Address(int id, int locationId, string street, string number)
+        public Address(int id, Location location, string street, string number)
         {
             Id = id;
-            LocationId = locationId;
+            Location = location;
             Street = street;
             Number = number;
         }
 
         public string[] ToCSV()
         {
-            //string location = Location.Id.ToString();
+            string location = Location.Id.ToString();
             string[] csvValues = { 
                 Id.ToString(),
-                LocationId.ToString(),
+                location,
                 Street,
                 Number };
             return csvValues;

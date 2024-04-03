@@ -3,6 +3,7 @@ using BookingApp.Repository;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,17 +22,26 @@ namespace BookingApp.View.Tourist.Pages
     public partial class DriveReservation : Page
     {
         public User Tourist;
+        public Location SelectedLocation { get; set; }
+        //public int DetailedStartAddressId { get; set; }
+        //public int DetailedEndAddressId { get; set; }
+        public Address DetailedStartAddress { get; set; }
+        public Address DetailedEndAddress { get; set; }
+        public User SelectedDriver { get; set; }
         public int AddressId { get; set; }
-        public int DetailedStartAddressId { get; set; }
-        public int DetailedEndAddressId { get; set; }
-        public int SelectedDriverId { get; set; }
-        private int SelectedLocationId { get; set; }
+        public string CountryName { get; set; }
+        public string CityName { get; set; }
+
+        public LocationRepository locationRepository { get; set; }
+        public AddressRepository addressRepository { get; set; }
 
         public DriveReservation(User user)
         {
             InitializeComponent();
             Tourist = user;
             InputCountries(CountryComboBox);
+            locationRepository = new LocationRepository();
+            addressRepository = new AddressRepository();
         }
 
         private void InputCountries(ComboBox comboBox)
@@ -57,6 +67,7 @@ namespace BookingApp.View.Tourist.Pages
         private void InputCities(ComboBox countryComboBox, ComboBox cityComboBox)
         {
             string selectedCountry = countryComboBox.SelectedItem?.ToString();
+            CountryName = selectedCountry;
 
             if (string.IsNullOrEmpty(selectedCountry))
             {
@@ -91,14 +102,6 @@ namespace BookingApp.View.Tourist.Pages
             cityComboBox.ItemsSource = items;
             cityComboBox.DisplayMemberPath = "Value";
             cityComboBox.SelectedValuePath = "Key";
-
-            cityComboBox.SelectionChanged += (sender, e) =>
-            {
-                if (cityComboBox.SelectedItem is KeyValuePair<int, string> selectedCity)
-                {
-                    SelectedLocationId = selectedCity.Key;
-                }
-            };
         }
 
         private void ClearComboBox(ComboBox comboBox)
@@ -111,7 +114,7 @@ namespace BookingApp.View.Tourist.Pages
             if (cityComboBox.SelectedItem != null)
             {
                 var selectedCity = (KeyValuePair<int, string>)cityComboBox.SelectedItem;
-                AddressRepository addressRepository = new AddressRepository();
+                CityName = selectedCity.Value;
 
                 string input = streetTextBox.Text.Trim();
 
@@ -152,9 +155,10 @@ namespace BookingApp.View.Tourist.Pages
             InputAddress(cityComboBox, streetTextBox);
             if (cityComboBox.SelectedItem is KeyValuePair<int, string> selectedCity)
             {
-                AddressId = selectedCity.Key;
+                SelectedLocation = locationRepository.GetLocationByCityAndCountry(CityName, CountryName);
             }
         }
+
 
         private void SetDetailedAddressId(TextBox streetTextBox, bool isStartAddress)
         {
@@ -165,12 +169,12 @@ namespace BookingApp.View.Tourist.Pages
             string streetName = parts[0].Trim();
             string streetNumber = parts[1].Trim();
 
-            AddressRepository addressRepository = new AddressRepository();
             var address = addressRepository.GetByAddress(streetName, streetNumber);
             if (address != null)
             {
-                if (isStartAddress) DetailedStartAddressId = address.Id;
-                else DetailedEndAddressId = address.Id;
+                AddressId = address.Id;
+                if (isStartAddress) DetailedStartAddress = addressRepository.GetAddressById(AddressId);
+                else DetailedEndAddress = addressRepository.GetAddressById(AddressId);
             }
         }
 
@@ -184,7 +188,20 @@ namespace BookingApp.View.Tourist.Pages
             {
                 int minute = int.Parse(selectedMinuteItem.Content.ToString());
 
-                return new DateTime(dateDp.SelectedDate.Value.Year, dateDp.SelectedDate.Value.Month, dateDp.SelectedDate.Value.Day, hour, minute, 0);
+                // Formatiramo datum i vrijeme u željeni format
+                string formattedDateTime = $"{dateDp.SelectedDate.Value.Day}.{dateDp.SelectedDate.Value.Month}.{dateDp.SelectedDate.Value.Year}. {hour.ToString("00")}:{minute.ToString("00")}:00";
+
+                // Parsiramo formatirani string u DateTime objekt
+                DateTime resultDateTime;
+                if (DateTime.TryParseExact(formattedDateTime, "d.M.yyyy. HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out resultDateTime))
+                {
+                    return resultDateTime;
+                }
+                else
+                {
+                    MessageBox.Show("Nije moguće pretvoriti datum i vrijeme.");
+                    return DateTime.MinValue;
+                }
             }
             else
             {
@@ -202,7 +219,7 @@ namespace BookingApp.View.Tourist.Pages
             }
 
             VehicleRepository vehicleRepository = new VehicleRepository();
-            List<int> drivers = vehicleRepository.GetDriverIdsByLocationId(AddressId);
+            List<int> drivers = vehicleRepository.GetDriverIdsByLocationId(SelectedLocation.Id);
             DateTime? date = CreateDateTimeFromSelections();
             drivers = FilterDrivers(drivers, date);
             InputDriverComboBox(drivers);
@@ -220,7 +237,7 @@ namespace BookingApp.View.Tourist.Pages
                 ComboBoxItem item = new ComboBoxItem
                 {
                     Content = driver.Username,
-                    Tag = driver.Id
+                    Tag = driver
                 };
                 driversComboBox.Items.Add(item);
             }
@@ -230,7 +247,7 @@ namespace BookingApp.View.Tourist.Pages
         {
             if (driversComboBox.SelectedItem is ComboBoxItem selectedItem)
             {
-                SelectedDriverId = (int)selectedItem.Tag;
+                SelectedDriver = (User)selectedItem.Tag;
             }
         }
 
@@ -263,30 +280,30 @@ namespace BookingApp.View.Tourist.Pages
 
             SetDetailedAddressId(startStreetTextBox, true);
             SetDetailedAddressId(endStreetTextBox, false);
-            if (DetailedStartAddressId == 0)
+            if (DetailedStartAddress.Id == 0)
             {
-                DetailedStartAddressId = AddNewAddress(startStreetTextBox.Text.Trim());
+                DetailedStartAddress = AddNewAddress(startStreetTextBox.Text.Trim());
             }
 
-            if (DetailedEndAddressId == 0)
+            if (DetailedEndAddress.Id == 0)
             {
-                DetailedEndAddressId = AddNewAddress(endStreetTextBox.Text.Trim());
+                DetailedEndAddress = AddNewAddress(endStreetTextBox.Text.Trim());
             }
 
-            Drive drive = new(DetailedStartAddressId, DetailedEndAddressId, departure, SelectedDriverId, Tourist.Id, 2, 0);
+            Drive drive = new(DetailedStartAddress, DetailedEndAddress, departure, SelectedDriver, Tourist, 2, 0);
             DriveRepository driveRepository = new DriveRepository();
             driveRepository.Save(drive);
             MessageBox.Show("Rezervacija uspješna");
         }
 
-        private int AddNewAddress(string address)
+        private Address AddNewAddress(string address)
         {
             string[] parts = address.Split(',');
 
             if (parts.Length != 2)
             {
                 MessageBox.Show("Neispravan format unosa. Molimo unesite ulicu i broj odvojene zarezom.");
-                return 0;
+                return null;
             }
 
             string streetName = parts[0].Trim();
@@ -297,14 +314,14 @@ namespace BookingApp.View.Tourist.Pages
             Address newAddress = new Address
             {
                 Id = addressRepository.NextId(),
-                LocationId = SelectedLocationId,
+                Location = SelectedLocation,
                 Street = streetName,
                 Number = streetNumber
             };
 
             addressRepository.Save(newAddress);
 
-            return newAddress.Id;
+            return newAddress;
         }
 
         private void minuteComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

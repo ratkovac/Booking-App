@@ -38,13 +38,13 @@ namespace BookingApp.Model
             GuestId = guestId;
         }
 
-        public Drive(int startAddressId, int endAddressId, DateTime date, int driverId, int guestId, int driveStatusId, double delay)
+        public Drive(Address startAddress, Address endAddress, DateTime date, User driver, User guest, int driveStatusId, double delay)
         {
-            StartAddressId = startAddressId;
-            EndAddressId = endAddressId;
+            StartAddress = startAddress;
+            EndAddress = endAddress;
             Date = date;
-            DriverId = driverId;
-            GuestId = guestId;
+            Driver = driver;
+            Guest = guest;
             DriveStatusId = driveStatusId;
             Delay = delay;
         }
@@ -75,17 +75,17 @@ namespace BookingApp.Model
 
         public string[] ToCSV()
         {
-            //string driverId = Driver.Id.ToString();
-            //string startAddressId = StartAddress.Id.ToString();
-            //string endAddressId = EndAddress.Id.ToString();
-            //string guestId = Guest.Id.ToString();  
-            string[] csvValues = { 
+            string driverId = Driver.Id.ToString();
+            string startAddressId = StartAddress.Id.ToString();
+            string endAddressId = EndAddress.Id.ToString();
+            string guestId = Guest.Id.ToString();  
+            string[] csvValues = {
                 Id.ToString(),
-                DriverId.ToString(),
-                StartAddressId.ToString(),
-                EndAddressId.ToString(),
+                driverId,
+                startAddressId,
+                endAddressId,
                 Date.ToString(),
-                GuestId.ToString(),
+                guestId,
                 DriveStatusId.ToString(),
                 Delay.ToString() };
             return csvValues;
@@ -110,7 +110,7 @@ namespace BookingApp.Model
             EndAddress = addressRepository.GetAddressById(EndAddressId);
 
 
-            Date = DateTime.Parse(values[4]);
+            Date = Convert.ToDateTime(values[4]);
             GuestId = Convert.ToInt32(values[5]);
             DriveStatusId = Convert.ToInt32(values[6]);
             Delay = Convert.ToDouble(values[7]);
