@@ -23,25 +23,25 @@ namespace BookingApp.View.Tourist.Pages
     {
         public User Tourist;
         public Location SelectedLocation { get; set; }
-        //public int DetailedStartAddressId { get; set; }
-        //public int DetailedEndAddressId { get; set; }
-        public Address DetailedStartAddress { get; set; }
-        public Address DetailedEndAddress { get; set; }
+        public int DetailedStartAddressId { get; set; }
+        public int DetailedEndAddressId { get; set; }
+        //public Address DetailedStartAddress { get; set; }
+        //public Address DetailedEndAddress { get; set; }
         public User SelectedDriver { get; set; }
         public int AddressId { get; set; }
         public string CountryName { get; set; }
         public string CityName { get; set; }
 
-        public LocationRepository locationRepository { get; set; }
-        public AddressRepository addressRepository { get; set; }
+        public LocationRepository _locationRepository { get; set; }
+        public AddressRepository _addressRepository { get; set; }
 
         public DriveReservation(User user)
         {
             InitializeComponent();
             Tourist = user;
             InputCountries(CountryComboBox);
-            locationRepository = new LocationRepository();
-            addressRepository = new AddressRepository();
+            _locationRepository = new LocationRepository();
+            _addressRepository = new AddressRepository();
         }
 
         private void InputCountries(ComboBox comboBox)
@@ -134,7 +134,7 @@ namespace BookingApp.View.Tourist.Pages
                 string streetName = parts[0].Trim();
                 string streetNumber = parts[1].Trim();
 
-                var streets = addressRepository.GetAll()
+                var streets = _addressRepository.GetAll()
                     .Where(address => address.LocationId == selectedCity.Key && address.Street.Equals(streetName, StringComparison.OrdinalIgnoreCase) && address.Number.Equals(streetNumber, StringComparison.OrdinalIgnoreCase))
                     .Select(address => address.Street)
                     .Distinct()
@@ -155,7 +155,7 @@ namespace BookingApp.View.Tourist.Pages
             InputAddress(cityComboBox, streetTextBox);
             if (cityComboBox.SelectedItem is KeyValuePair<int, string> selectedCity)
             {
-                SelectedLocation = locationRepository.GetLocationByCityAndCountry(CityName, CountryName);
+                SelectedLocation = _locationRepository.GetLocationByCityAndCountry(CityName, CountryName);
             }
         }
 
@@ -169,12 +169,12 @@ namespace BookingApp.View.Tourist.Pages
             string streetName = parts[0].Trim();
             string streetNumber = parts[1].Trim();
 
+            AddressRepository addressRepository = new AddressRepository();
             var address = addressRepository.GetByAddress(streetName, streetNumber);
             if (address != null)
             {
-                AddressId = address.Id;
-                if (isStartAddress) DetailedStartAddress = addressRepository.GetAddressById(AddressId);
-                else DetailedEndAddress = addressRepository.GetAddressById(AddressId);
+                if (isStartAddress) DetailedStartAddressId = address.Id;
+                else DetailedEndAddressId = address.Id;
             }
         }
 
@@ -280,30 +280,30 @@ namespace BookingApp.View.Tourist.Pages
 
             SetDetailedAddressId(startStreetTextBox, true);
             SetDetailedAddressId(endStreetTextBox, false);
-            if (DetailedStartAddress.Id == 0)
+            if (DetailedStartAddressId == 0)
             {
-                DetailedStartAddress = AddNewAddress(startStreetTextBox.Text.Trim());
+                DetailedStartAddressId = AddNewAddress(startStreetTextBox.Text.Trim());
             }
 
-            if (DetailedEndAddress.Id == 0)
+            if (DetailedEndAddressId == 0)
             {
-                DetailedEndAddress = AddNewAddress(endStreetTextBox.Text.Trim());
+                DetailedEndAddressId = AddNewAddress(endStreetTextBox.Text.Trim());
             }
 
-            Drive drive = new(DetailedStartAddress, DetailedEndAddress, departure, SelectedDriver, Tourist, 2, 0);
+            Drive drive = new(DetailedStartAddressId, DetailedEndAddressId, departure, SelectedDriver, Tourist, 2, 0);
             DriveRepository driveRepository = new DriveRepository();
             driveRepository.Save(drive);
             MessageBox.Show("Rezervacija uspješna");
         }
 
-        private Address AddNewAddress(string address)
+        private int AddNewAddress(string address)
         {
             string[] parts = address.Split(',');
 
             if (parts.Length != 2)
             {
                 MessageBox.Show("Neispravan format unosa. Molimo unesite ulicu i broj odvojene zarezom.");
-                return null;
+                return 0;
             }
 
             string streetName = parts[0].Trim();
@@ -321,7 +321,7 @@ namespace BookingApp.View.Tourist.Pages
 
             addressRepository.Save(newAddress);
 
-            return newAddress;
+            return newAddress.Id;
         }
 
         private void minuteComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

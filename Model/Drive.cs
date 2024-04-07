@@ -38,10 +38,10 @@ namespace BookingApp.Model
             GuestId = guestId;
         }
 
-        public Drive(Address startAddress, Address endAddress, DateTime date, User driver, User guest, int driveStatusId, double delay)
+        public Drive(int startAddressId, int endAddressId, DateTime date, User driver, User guest, int driveStatusId, double delay)
         {
-            StartAddress = startAddress;
-            EndAddress = endAddress;
+            StartAddressId = startAddressId;
+            EndAddressId = endAddressId;
             Date = date;
             Driver = driver;
             Guest = guest;
@@ -76,14 +76,14 @@ namespace BookingApp.Model
         public string[] ToCSV()
         {
             string driverId = Driver.Id.ToString();
-            string startAddressId = StartAddress.Id.ToString();
-            string endAddressId = EndAddress.Id.ToString();
+            //string startAddressId = StartAddress.Id.ToString();
+            //string endAddressId = EndAddress.Id.ToString();
             string guestId = Guest.Id.ToString();  
             string[] csvValues = {
                 Id.ToString(),
                 driverId,
-                startAddressId,
-                endAddressId,
+                StartAddressId.ToString(),
+                EndAddressId.ToString(),
                 Date.ToString(),
                 guestId,
                 DriveStatusId.ToString(),
