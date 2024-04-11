@@ -14,6 +14,8 @@ namespace BookingApp.Model
         public int AvailableSlots { get; set; }
         public DateTime StartTime { get; set; }
         public bool IsFinished { get; set; }
+        public bool RatedTour { get; set; }
+        public Tour Tour { get; set; }
 
         public TourInstance()
         {
@@ -26,6 +28,7 @@ namespace BookingApp.Model
             AvailableSlots = availableSlots;
             StartTime = startTime;
             IsFinished = false;
+            RatedTour = false;
         }
 
         public string[] ToCSV()
@@ -35,7 +38,8 @@ namespace BookingApp.Model
             TourId.ToString(),
             AvailableSlots.ToString(),
             StartTime.ToString(),
-            IsFinished.ToString()
+            IsFinished.ToString(),
+            RatedTour.ToString()
             };
         }
 
@@ -46,6 +50,7 @@ namespace BookingApp.Model
             AvailableSlots = Convert.ToInt32(values[2]);
             StartTime = DateTime.Parse(values[3]);
             IsFinished = bool.Parse(values[4]);
+            RatedTour = bool.Parse(values[5]);
         }
     }
 }

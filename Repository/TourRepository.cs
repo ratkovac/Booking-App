@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace BookingApp.Repository
 {
@@ -111,6 +112,11 @@ namespace BookingApp.Repository
         {
             _tours = _serializer.FromCSV(FilePath);
             return _tours.Where(t => t.Location.Id == locationId).ToList();
+        }
+
+        public Tour GetById(int id)
+        {
+            return _tours.Find(t => t.Id == id);
         }
 
         public void Subscribe(IObserver observer)

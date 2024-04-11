@@ -41,7 +41,8 @@
             </Menu.Resources>
             <MenuItem Margin="170,20,0,0" Header="Prikaz tura" Click="AvailableTours_Click" Width="325"/>
             <MenuItem Margin="170,20,0,0" Header="Rezerviši vožnju" Click="DriveReservation_Click" Width="480"/>
-            <MenuItem Margin="170,20,0,0" Header="Brza voznja" Click="FastDrive_Click" Width="360"/>
+            <MenuItem Margin="170,20,0,0" Header="Brza vožnja" Click="FastDrive_Click" Width="360"/>
+            <MenuItem Margin="170,20,0,0" Header="Završene ture" Click="FinishedTours_Click" Width="420"/>
         </Menu>
         <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,321,0,0" Height="500" Width="1280">
             <Frame Name="GuideFrame" HorizontalAlignment="Center" VerticalAlignment="Top" Height="500" Width="1277" NavigationUIVisibility="Hidden" FlowDirection="RightToLeft">
