@@ -19,16 +19,16 @@ namespace BookingApp.View.Tourist.Pages
 {
     public partial class GradeTourView : Page
     {
-        public User Tourist { get; set; }
+        public BookingApp.Model.Tourist Tourist { get; set; }
         public TourInstance TourInstance { get; set; }
         private GradeTourService gradeTourService { get; set; }
 
-        public GradeTourView(TourInstance tourInstance, User g)
+        public GradeTourView(TourInstance tourInstance, BookingApp.Model.Tourist t)
         {
             InitializeComponent();
             DataContext = this;
 
-            Tourist = g;
+            Tourist = t;
             TourInstance = tourInstance;
             gradeTourService = new GradeTourService();
         }

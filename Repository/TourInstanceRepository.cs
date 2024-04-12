@@ -74,11 +74,6 @@ namespace BookingApp.Repository
                 _tourInstances.Insert(index, tourInstance);
                 _serializer.ToCSV(FilePath, _tourInstances);
             }
-            else
-            {
-                // Ako ne postoji postojeći TourInstance s istim Id, možete ovdje dodati kod za upravljanje greškom ili baciti iznimku
-                //throw new Exception("TourInstance not found!");
-            }
         }
         public List<TourInstance> GetAllTourInstancesByTour(Tour tour)
         {

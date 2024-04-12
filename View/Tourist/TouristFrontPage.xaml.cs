@@ -9,9 +9,9 @@ namespace BookingApp.View.Tourist
 {
     public partial class TouristFrontPage : Window
     {
-        public User Tourist { get; set; }
+        public BookingApp.Model.Tourist Tourist { get; set; }
         public FinishedToursViewModel FinishedToursViewModel { get; set; }
-        public TouristFrontPage(User tourist)
+        public TouristFrontPage(BookingApp.Model.Tourist tourist)
         {
             InitializeComponent();
             DataContext = this;
@@ -26,17 +26,22 @@ namespace BookingApp.View.Tourist
 
         private void DriveReservation_Click(object sender, RoutedEventArgs e)
         {
-            DriveReservation driveReservation = new DriveReservation(Tourist);
+            DriveReservation driveReservation = new DriveReservation(Tourist.User);
             MainFrame.Navigate(driveReservation);
         }
         private void FastDrive_Click(object sender, RoutedEventArgs e)
         {
-            FastDriveSearch fastDrive = new FastDriveSearch(Tourist);
+            FastDriveSearch fastDrive = new FastDriveSearch(Tourist.User);
             MainFrame.Navigate(fastDrive);
         }
         private void FinishedTours_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Navigate(new FinishedTours(Tourist));
+        }
+        private void Vouchers_Click(object sender, RoutedEventArgs e)
+        {
+            VouchersViewModel vouchersViewModel = new VouchersViewModel(Tourist);
+            MainFrame.Navigate(new Vouchers(vouchersViewModel));
         }
     }
 }

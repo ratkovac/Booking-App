@@ -20,8 +20,8 @@ namespace BookingApp.View.Tourist.Pages
     public partial class FinishedTours : Page
     {
         public TourInstance SelectedTourInstance { get; set; }
-        public User Tourist { get; set; }
-        public FinishedTours(User tourist)
+        public BookingApp.Model.Tourist Tourist { get; set; }
+        public FinishedTours(BookingApp.Model.Tourist tourist)
         {
             InitializeComponent();
             this.DataContext = new FinishedToursViewModel(tourist);

@@ -14,13 +14,13 @@ namespace BookingApp.Service
     public class GradeTourService
     {
         private IGradeTourRepository gradeTourRepository;
-        private UserRepository userRepository;
+        private ITouristRepository touristRepository;
         private TourInstanceRepository tourInstanceRepository;
 
         public GradeTourService()
         {
             gradeTourRepository = Injector.CreateInstance<IGradeTourRepository>();
-            userRepository = new UserRepository();
+            touristRepository = Injector.CreateInstance<ITouristRepository>();
             tourInstanceRepository = new TourInstanceRepository();
             InitializeTourist();
             InitializeTour();
@@ -29,7 +29,7 @@ namespace BookingApp.Service
         {
             foreach (var item in gradeTourRepository.GetAll())
             {
-                item.Tourist = userRepository.GetByID(item.TouristId);
+                item.Tourist = touristRepository.GetById(item.TouristId);
             }
         }
         private void InitializeTour()

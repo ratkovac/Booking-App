@@ -62,11 +62,6 @@ namespace BookingApp.Repository
                 _gradeTour[index] = gradeTours;
                 _serializer.ToCSV(FilePath, _gradeTour);
             }
-            else
-            {
-                // Ako nije pronađen postojeći GradeTour s istim Id, možete ovdje dodati kod za upravljanje greškom ili baciti iznimku
-                //throw new Exception("GradeTour not found!");
-            }
         }
         public List<GradeTour> GetAll()
         {

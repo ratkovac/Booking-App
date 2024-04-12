@@ -19,8 +19,8 @@ namespace BookingApp.View.ViewModel.Tourist
         private TourInstanceService tourInstanceService;
         public ObservableCollection<TourInstance> ListTourInstance { get; set; }
         public TourInstance SelectedTourInstance { get; set; }
-        public User Tourist { get; set; }
-        public FinishedToursViewModel(User tourist)
+        public BookingApp.Model.Tourist Tourist { get; set; }
+        public FinishedToursViewModel(BookingApp.Model.Tourist tourist)
         {
             Tourist = tourist;
             tourInstanceService = new TourInstanceService();

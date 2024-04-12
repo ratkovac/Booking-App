@@ -11,7 +11,7 @@ namespace BookingApp.Model
     {
         public int Id { get; set; }
         public int TouristId { get; set; }
-        public User Tourist { get; set; }
+        public Tourist Tourist { get; set; }
         public int TourInstanceId { get; set; }
         public TourInstance TourInstance { get; set; }
         public int Grade { get; set; }
@@ -23,7 +23,7 @@ namespace BookingApp.Model
         {
             Images = new List<string>();
         }
-        public GradeTour(int touristId, User tourist, int tourInstanceId, int grade, string comment, List<string> images)
+        public GradeTour(int touristId, Tourist tourist, int tourInstanceId, int grade, string comment, List<string> images)
         {
             TouristId = touristId;
             Tourist = tourist;

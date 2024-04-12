@@ -34,11 +34,11 @@ namespace BookingApp.View.Tourist.Pages
         private readonly TourReservationRepository _tourReservationRepository;
         private readonly TourGuestRepository _tourGuestRepository;
 
-        public TourReservation(Tour selectedTour, User user)
+        public TourReservation(Tour selectedTour, BookingApp.Model.Tourist tourist)
         {
             InitializeComponent();
             DataContext = this;
-            UserId = user.Id;
+            UserId = tourist.Id;
             SelectedTour = selectedTour;
 
             _checkPointRepository = new CheckPointRepository();
