@@ -1,7 +1,8 @@
-1|1|6
-2|1|6
-3|1|6
-4|1|6
-5|2|6
-6|1|6
-7|1|6
+1|1|6|Present|False|False
+2|1|6|ActiveTour|False|False
+3|1|6|InactiveTour|True|False
+4|1|6|Present|False|False
+5|2|6|Present|True|True
+6|1|6|Present|True|False
+7|1|6|Present|False|False
+8|1|6|InactiveTour|False|False

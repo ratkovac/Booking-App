@@ -36,7 +36,8 @@ namespace BookingApp.View.Tourist
         }
         private void FinishedTours_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Navigate(new FinishedTours(Tourist));
+            FinishedToursViewModel finishedToursViewModel = new FinishedToursViewModel(Tourist);
+            MainFrame.Navigate(new FinishedTours(finishedToursViewModel));
         }
         private void Vouchers_Click(object sender, RoutedEventArgs e)
         {

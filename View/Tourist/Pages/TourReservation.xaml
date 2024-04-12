@@ -43,5 +43,17 @@
         <!--<ListView x:Name="ImageList"  Margin="457,147,546,414"/>-->
         <Button Content="&#60;Nazad" Cursor="Hand" Click="ButtonBack" FontSize="30" HorizontalAlignment="Left" Margin="1100,15,0,0" VerticalAlignment="Top" Height="45" Width="130" />
         <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
+        <DataGrid  x:Name="DataGridVouchers" 
+           ItemsSource="{Binding ListVoucher}"
+           SelectedItem="{Binding SelectedVoucher}"
+           SelectionMode="Single" 
+           IsReadOnly="True"
+           AutoGenerateColumns="False" Margin="450,0,0,50" Width="330" Height="150">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Number of vouchers" Binding="{Binding Id}" Width="120" />
+                <DataGridTextColumn Header="Creation date" Binding="{Binding CreationDate, StringFormat={}{0:dd.MM.yyyy}}" Width="105" />
+                <DataGridTextColumn Header="Expiration date" Binding="{Binding ExpirationDate, StringFormat={}{0:dd.MM.yyyy}}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Page>

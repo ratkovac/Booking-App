@@ -1,5 +1,6 @@
 ﻿using BookingApp.Model;
 using BookingApp.Repository;
+using BookingApp.Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -28,7 +29,10 @@ namespace BookingApp.View.Tourist.Pages
         public TourInstance SelectedTourInstance { get; set; }
         public Tour SelectedTour { get; set; }
         public List<CheckPoint> CheckPoints { get; set; }
+        public Voucher SelectedVoucher { get; set; }
+        public ObservableCollection<Voucher> ListVoucher { get; set; }
 
+        private VoucherService voucherService;
         private readonly CheckPointRepository _checkPointRepository;
         private readonly TourInstanceRepository _tourInstanceRepository;
         private readonly TourReservationRepository _tourReservationRepository;
@@ -41,10 +45,12 @@ namespace BookingApp.View.Tourist.Pages
             UserId = tourist.Id;
             SelectedTour = selectedTour;
 
+            voucherService = new VoucherService();
             _checkPointRepository = new CheckPointRepository();
             _tourInstanceRepository = new TourInstanceRepository();
             _tourReservationRepository = new TourReservationRepository();
             _tourGuestRepository = new TourGuestRepository();
+            ListVoucher = new ObservableCollection<Voucher>(voucherService.GetActiveVouchersWithIds(tourist.VoucherIds));
 
             NameTextBox.Text = selectedTour.Name;
             LocationTextBox.Text = selectedTour.Location.City;
@@ -63,7 +69,7 @@ namespace BookingApp.View.Tourist.Pages
         private void GenerateDatesComboBox()
         {
             var tourInstances = _tourInstanceRepository.GetAllById(SelectedTour.Id)
-                .Where(t => !t.IsFinished && t.AvailableSlots > 0);
+                .Where(t => t.AvailableSlots > 0);
 
             StartTimeComboBox.ItemsSource = tourInstances.Select(t => t.StartTime.ToString("g")).ToList();
             NumberOfPeopleTextBox.IsEnabled = false;
@@ -75,7 +81,7 @@ namespace BookingApp.View.Tourist.Pages
 
             for (int i = 0; i < numberOfPeople; i++)
             {
-                Grid guestGrid = new Grid { Margin = new Thickness(0, 0, 0, 10) };
+                Grid guestGrid = new Grid { Margin = new Thickness(200, 0, -50, 10) };
 
                 ColumnDefinition column1 = new ColumnDefinition();
                 ColumnDefinition column2 = new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) };
@@ -87,7 +93,7 @@ namespace BookingApp.View.Tourist.Pages
                 nameTextBox.LostFocus += (s, e) => { if (string.IsNullOrWhiteSpace(nameTextBox.Text)) nameTextBox.Text = "Ime i prezime"; };
                 Grid.SetColumn(nameTextBox, 0);
 
-                TextBox ageTextBox = new TextBox { Height = 30, Width = 100, Text = "Godine" };
+                TextBox ageTextBox = new TextBox { Height = 30, Width = 50, Text = "Godine" };
                 ageTextBox.GotFocus += (s, e) => { if (ageTextBox.Text == "Godine") ageTextBox.Text = ""; };
                 ageTextBox.LostFocus += (s, e) => { if (string.IsNullOrWhiteSpace(ageTextBox.Text)) ageTextBox.Text = "Godine"; };
                 Grid.SetColumn(ageTextBox, 1);
@@ -171,10 +177,23 @@ namespace BookingApp.View.Tourist.Pages
         {
             try
             {
-                BookingApp.Model.TourReservation tourReservation = new BookingApp.Model.TourReservation(SelectedTourInstance.Id, UserId);
-                _tourGuestRepository.SaveMultiple(tourGuests);
-                _tourReservationRepository.Save(tourReservation);
-                return true;
+                if (SelectedVoucher != null)
+                {
+                    SelectedVoucher.Used = true;
+                    SelectedVoucher.ValidVoucher = false;
+                    voucherService.Update(SelectedVoucher);
+                    BookingApp.Model.TourReservation tourReservation = new BookingApp.Model.TourReservation(SelectedTourInstance.Id, UserId, true, false);
+                    _tourGuestRepository.SaveMultiple(tourGuests);
+                    _tourReservationRepository.Save(tourReservation);
+                    return true;
+                }
+                else
+                {
+                    BookingApp.Model.TourReservation tourReservation = new BookingApp.Model.TourReservation(SelectedTourInstance.Id, UserId, false, false);
+                    _tourGuestRepository.SaveMultiple(tourGuests);
+                    _tourReservationRepository.Save(tourReservation);
+                    return true;
+                }
             }
             catch (Exception)
             {

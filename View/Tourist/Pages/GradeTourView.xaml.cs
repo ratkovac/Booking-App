@@ -22,8 +22,9 @@ namespace BookingApp.View.Tourist.Pages
         public BookingApp.Model.Tourist Tourist { get; set; }
         public TourInstance TourInstance { get; set; }
         private GradeTourService gradeTourService { get; set; }
+        private TourReservationService tourReservationService { get; set; }
 
-        public GradeTourView(TourInstance tourInstance, BookingApp.Model.Tourist t)
+        public GradeTourView(TourInstance tourInstance, BookingApp.Model.Tourist t, TourReservationService trs)
         {
             InitializeComponent();
             DataContext = this;
@@ -31,6 +32,7 @@ namespace BookingApp.View.Tourist.Pages
             Tourist = t;
             TourInstance = tourInstance;
             gradeTourService = new GradeTourService();
+            tourReservationService = trs;
         }
 
         private void Rating_Click(object sender, RoutedEventArgs e)
@@ -59,11 +61,17 @@ namespace BookingApp.View.Tourist.Pages
             {
                 GradeTour gradeTour = new GradeTour(Tourist.Id, Tourist, TourInstance.Id, tourGrade, AddedComentBox.Text, imageList);
                 gradeTourService.Create(gradeTour);
+                BookingApp.Model.TourReservation reservation = tourReservationService.GetReservationByTouristAndTourInstance(TourInstance, Tourist);
+                reservation.RatedTour = true;
+                tourReservationService.Update(reservation);
             }
             else
             {
                 GradeTour gradeTour = new GradeTour(Tourist.Id, Tourist, 0, tourGrade, AddedComentBox.Text, imageList);
                 gradeTourService.Create(gradeTour);
+                BookingApp.Model.TourReservation reservation = tourReservationService.GetReservationByTouristAndTourInstance(TourInstance, Tourist);
+                reservation.RatedTour = true;
+                tourReservationService.Update(reservation);
             }
         }
         private int FindTourGrade()

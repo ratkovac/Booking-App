@@ -25,11 +25,10 @@ namespace BookingApp.View.ViewModel.Tourist
         private TourReservationRepository tourReservationRepository;
         private TouristService touristService;
 
-        public UseVoucherViewModel(BookingApp.Model.Tourist t, TourInstance ti, int numGuests)
+        public UseVoucherViewModel(BookingApp.Model.Tourist t, TourInstance ti)
         {
             tourist = t;
             tourInstance = ti;
-            numberGuests = numGuests;
             voucherService = new VoucherService();
             tourInstanceService = new TourInstanceService();
             tourReservationRepository = new TourReservationRepository();
@@ -41,18 +40,16 @@ namespace BookingApp.View.ViewModel.Tourist
         public string Reservation()
         {
             TourReservation reservation = new TourReservation();
-            int guestAgeOnTour = touristService.GetAgeOnTour(tourist, tourInstance);
             if (SelectedVoucher != null)
             {
                 SelectedVoucher.Used = true;
                 SelectedVoucher.ValidVoucher = false;
                 voucherService.Update(SelectedVoucher);
-                //reservation = new TourReservation(tourInstance.Id, numberGuests, tourist.Id, -1, true, false, guestAgeOnTour);
-                reservation = new TourReservation(tourInstance.Id, tourist.Id);
+                reservation = new TourReservation(tourInstance.Id, tourist.Id, true, false);
             }
             else
             {
-                reservation = new TourReservation(tourInstance.Id, tourist.Id);
+                reservation = new TourReservation(tourInstance.Id, tourist.Id, true, false);
             }
             tourReservationRepository.Save(reservation);
             tourInstance.AvailableSlots -= numberGuests;

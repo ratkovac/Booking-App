@@ -17,13 +17,17 @@ namespace BookingApp.View.ViewModel.Tourist
     public class FinishedToursViewModel : IObserver
     {
         private TourInstanceService tourInstanceService;
+        public TourReservationService tourReservationService;
         public ObservableCollection<TourInstance> ListTourInstance { get; set; }
         public TourInstance SelectedTourInstance { get; set; }
         public BookingApp.Model.Tourist Tourist { get; set; }
+        public Action NavigateToGradeTour { get; set; }
         public FinishedToursViewModel(BookingApp.Model.Tourist tourist)
         {
             Tourist = tourist;
             tourInstanceService = new TourInstanceService();
+            tourReservationService = new TourReservationService();
+            tourReservationService.Subscribe(this);
             tourInstanceService.Subscribe(this);
             ListTourInstance = new ObservableCollection<TourInstance>(tourInstanceService.GetToursWhichFinished());
         }
@@ -39,17 +43,17 @@ namespace BookingApp.View.ViewModel.Tourist
         {
             UpdateListTourInstance();
         }
-        /*public void GradeTour()
+        public void GradeTour()
         {
             if (SelectedTourInstance != null)
             {
-                var gradeTour = new GradeTourView(SelectedTourInstance, Tourist);
-                NavigationService.Navigate(gradeTour);
+                var gradeTour = new GradeTourView(SelectedTourInstance, Tourist, tourReservationService);
+                NavigateToGradeTour?.Invoke();
             }
             else
             {
                 MessageBox.Show("You must select a tour for rating!");
             }
-        }*/
+        }
     }
 }

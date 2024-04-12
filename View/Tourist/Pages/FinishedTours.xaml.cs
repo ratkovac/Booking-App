@@ -1,4 +1,5 @@
 ﻿using BookingApp.Model;
+using BookingApp.Service;
 using BookingApp.View.ViewModel.Tourist;
 using System;
 using System.Collections.Generic;
@@ -19,18 +20,28 @@ namespace BookingApp.View.Tourist.Pages
 {
     public partial class FinishedTours : Page
     {
-        public TourInstance SelectedTourInstance { get; set; }
-        public BookingApp.Model.Tourist Tourist { get; set; }
-        public FinishedTours(BookingApp.Model.Tourist tourist)
+        public FinishedToursViewModel viewModel;
+        public FinishedTours(FinishedToursViewModel finishedToursViewModel)
         {
             InitializeComponent();
-            this.DataContext = new FinishedToursViewModel(tourist);
-            Tourist = tourist;
+            this.DataContext = finishedToursViewModel;
+            viewModel = finishedToursViewModel;
+            viewModel.NavigateToGradeTour = NavigateToGradeTour;
         }
 
+        /*private void RateTour_Click(object sender, RoutedEventArgs e)
+        {
+            var gradeTour = new GradeTourView(SelectedTourInstance, Tourist, tourReservationService);
+            NavigationService.Navigate(gradeTour);
+        }*/
         private void RateTour_Click(object sender, RoutedEventArgs e)
         {
-            var gradeTour = new GradeTourView(SelectedTourInstance, Tourist);
+            viewModel.GradeTour();
+        }
+
+        private void NavigateToGradeTour()
+        {
+            var gradeTour = new GradeTourView(viewModel.SelectedTourInstance, viewModel.Tourist, viewModel.tourReservationService);
             NavigationService.Navigate(gradeTour);
         }
 
