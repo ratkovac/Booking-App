@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static BookingApp.Model.AccommodationTypeEnum;
-using AccommodationType = BookingApp.Model.AccommodationType;
+
 
 namespace BookingApp.DTO
 {
