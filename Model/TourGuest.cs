@@ -7,15 +7,18 @@ using System.Threading.Tasks;
 
 namespace BookingApp.Model
 {
+    public enum GuestState { Present, NotPresent }
     public class TourGuest : ISerializable
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Age { get; set; }
         public int TourReservationId { get; set; }
+        public TourReservation TourReservation { get; set; }
         public int TouristId { get; set; }
-
         public int CheckpointId { get; set; }
+        public GuestState State { get; set; }
+
         public TourGuest() { }
 
         public TourGuest(string name, string age, int tourInstanceId, int touristId, int checkpointId)
@@ -25,6 +28,7 @@ namespace BookingApp.Model
             TourReservationId = tourInstanceId;
             TouristId = touristId;
             CheckpointId = checkpointId;
+            State = GuestState.NotPresent;
         }
 
         public void FromCSV(string[] values)
@@ -35,6 +39,7 @@ namespace BookingApp.Model
             TourReservationId = int.Parse(values[3]);
             TouristId = int.Parse(values[4]);
             CheckpointId = int.Parse(values[5]);
+            State = (GuestState)Enum.Parse(typeof(GuestState), values[6]);
         }
 
         public string[] ToCSV()
@@ -45,7 +50,8 @@ namespace BookingApp.Model
                 Age,
                 TourReservationId.ToString(),
                 TouristId.ToString(),
-                CheckpointId.ToString()
+                CheckpointId.ToString(),
+                State.ToString()
             };
         }
     }

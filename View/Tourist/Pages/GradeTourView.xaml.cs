@@ -1,4 +1,5 @@
 ﻿using BookingApp.Model;
+using BookingApp.Repository;
 using BookingApp.Service;
 using System;
 using System.Collections.Generic;
@@ -20,18 +21,20 @@ namespace BookingApp.View.Tourist.Pages
     public partial class GradeTourView : Page
     {
         public BookingApp.Model.Tourist Tourist { get; set; }
-        public TourInstance TourInstance { get; set; }
+        public BookingApp.Model.TourReservation TourReservation { get; set; }
         private GradeTourService gradeTourService { get; set; }
         private TourReservationService tourReservationService { get; set; }
+        private TourGuestRepository tourGuestRepository { get; set; }
 
-        public GradeTourView(TourInstance tourInstance, BookingApp.Model.Tourist t, TourReservationService trs)
+        public GradeTourView(BookingApp.Model.TourReservation tourReservation, BookingApp.Model.Tourist t, TourReservationService trs)
         {
             InitializeComponent();
             DataContext = this;
 
             Tourist = t;
-            TourInstance = tourInstance;
+            TourReservation = tourReservation;
             gradeTourService = new GradeTourService();
+            tourGuestRepository = new TourGuestRepository();
             tourReservationService = trs;
         }
 
@@ -57,22 +60,11 @@ namespace BookingApp.View.Tourist.Pages
             {
                 imageList.Add("");
             }
-            if (TourInstance != null)
-            {
-                GradeTour gradeTour = new GradeTour(Tourist.Id, Tourist, TourInstance.Id, tourGrade, AddedComentBox.Text, imageList);
-                gradeTourService.Create(gradeTour);
-                BookingApp.Model.TourReservation reservation = tourReservationService.GetReservationByTouristAndTourInstance(TourInstance, Tourist);
-                reservation.RatedTour = true;
-                tourReservationService.Update(reservation);
-            }
-            else
-            {
-                GradeTour gradeTour = new GradeTour(Tourist.Id, Tourist, 0, tourGrade, AddedComentBox.Text, imageList);
-                gradeTourService.Create(gradeTour);
-                BookingApp.Model.TourReservation reservation = tourReservationService.GetReservationByTouristAndTourInstance(TourInstance, Tourist);
-                reservation.RatedTour = true;
-                tourReservationService.Update(reservation);
-            }
+            GradeTour gradeTour = new GradeTour(Tourist.Id, Tourist, TourReservation.Id, tourGrade, AddedComentBox.Text, imageList);
+            gradeTourService.Create(gradeTour);
+            //BookingApp.Model.TourReservation reservation = tourReservationService.GetReservationByTouristAndTourInstance(TourReservation, Tourist);
+            TourReservation.RatedTour = true;
+            tourReservationService.Update(TourReservation);
         }
         private int FindTourGrade()
         {

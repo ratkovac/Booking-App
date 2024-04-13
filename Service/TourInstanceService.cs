@@ -36,7 +36,7 @@ namespace BookingApp.Service
 
             foreach (TourInstance tourInstance in allTourInstances)
             {
-                if (tourInstance.IsFinished)
+                if (tourInstance.State == TourInstanceState.Finished)
                 {
                     toursFinished.Add(tourInstance);
                 }

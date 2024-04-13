@@ -18,8 +18,8 @@ namespace BookingApp.View.ViewModel.Tourist
     {
         private TourInstanceService tourInstanceService;
         public TourReservationService tourReservationService;
-        public ObservableCollection<TourInstance> ListTourInstance { get; set; }
-        public TourInstance SelectedTourInstance { get; set; }
+        public ObservableCollection<BookingApp.Model.TourReservation> ListTourReservation { get; set; }
+        public BookingApp.Model.TourReservation SelectedTourReservation { get; set; }
         public BookingApp.Model.Tourist Tourist { get; set; }
         public Action NavigateToGradeTour { get; set; }
         public FinishedToursViewModel(BookingApp.Model.Tourist tourist)
@@ -29,14 +29,14 @@ namespace BookingApp.View.ViewModel.Tourist
             tourReservationService = new TourReservationService();
             tourReservationService.Subscribe(this);
             tourInstanceService.Subscribe(this);
-            ListTourInstance = new ObservableCollection<TourInstance>(tourInstanceService.GetToursWhichFinished());
+            ListTourReservation = new ObservableCollection<BookingApp.Model.TourReservation>(tourReservationService.GetToursWhichFinished());
         }
         private void UpdateListTourInstance()
         {
-            ListTourInstance.Clear();
-            foreach (var tour in tourInstanceService.GetToursWhichFinished())
+            ListTourReservation.Clear();
+            foreach (var tour in tourReservationService.GetToursWhichFinished())
             {
-                ListTourInstance.Add(tour);
+                ListTourReservation.Add(tour);
             }
         }
         public void Update()
@@ -45,9 +45,9 @@ namespace BookingApp.View.ViewModel.Tourist
         }
         public void GradeTour()
         {
-            if (SelectedTourInstance != null)
+            if (SelectedTourReservation != null)
             {
-                var gradeTour = new GradeTourView(SelectedTourInstance, Tourist, tourReservationService);
+                var gradeTour = new GradeTourView(SelectedTourReservation, Tourist, tourReservationService);
                 NavigateToGradeTour?.Invoke();
             }
             else

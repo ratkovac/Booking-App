@@ -41,7 +41,7 @@ namespace BookingApp.View.Tourist.Pages
 
         private void NavigateToGradeTour()
         {
-            var gradeTour = new GradeTourView(viewModel.SelectedTourInstance, viewModel.Tourist, viewModel.tourReservationService);
+            var gradeTour = new GradeTourView(viewModel.SelectedTourReservation, viewModel.Tourist, viewModel.tourReservationService);
             NavigationService.Navigate(gradeTour);
         }
 

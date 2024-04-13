@@ -12,8 +12,8 @@ namespace BookingApp.Model
         public int Id { get; set; }
         public int TouristId { get; set; }
         public Tourist Tourist { get; set; }
-        public int TourInstanceId { get; set; }
-        public TourInstance TourInstance { get; set; }
+        public int TourReservationId { get; set; }
+        public TourReservation TourReservation { get; set; }
         public int Grade { get; set; }
         public string Comment { get; set; }
         public List<string> Images { get; set; }
@@ -23,11 +23,11 @@ namespace BookingApp.Model
         {
             Images = new List<string>();
         }
-        public GradeTour(int touristId, Tourist tourist, int tourInstanceId, int grade, string comment, List<string> images)
+        public GradeTour(int touristId, Tourist tourist, int tourReservationId, int grade, string comment, List<string> images)
         {
             TouristId = touristId;
             Tourist = tourist;
-            TourInstanceId = tourInstanceId;
+            TourReservationId = tourReservationId;
             Grade = grade;
             Comment = comment;
             Images = images;
@@ -46,7 +46,7 @@ namespace BookingApp.Model
             }
             ImageString += Images.Last();
 
-            string[] csvvalues = { Id.ToString(), TouristId.ToString(), TourInstanceId.ToString(), Grade.ToString(),
+            string[] csvvalues = { Id.ToString(), TouristId.ToString(), TourReservationId.ToString(), Grade.ToString(),
                 Comment, ImageString,IsValid.ToString()};
             return csvvalues;
         }
@@ -55,7 +55,7 @@ namespace BookingApp.Model
         {
             Id = Convert.ToInt32(values[0]);
             TouristId = Convert.ToInt32(values[1]);
-            TourInstanceId = Convert.ToInt32(values[2]);
+            TourReservationId = Convert.ToInt32(values[2]);
             Grade = Convert.ToInt32(values[3]);
             Comment = values[4];
             foreach (string image in values[5].Split(","))

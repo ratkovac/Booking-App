@@ -71,9 +71,9 @@ namespace BookingApp.Repository
         {
             return _gradeTour.Find(t => t.Id == id);
         }
-        public List<GradeTour> GetAllRatingsByTour(TourInstance tourInstance)
+        public List<GradeTour> GetAllRatingsByTour(BookingApp.Model.TourReservation tourReservation)
         {
-            return _gradeTour.Where(r => r.Id == tourInstance.Id).ToList();
+            return _gradeTour.Where(r => r.Id == tourReservation.Id).ToList();
         }
         public void Subscribe(IObserver observer)
         {

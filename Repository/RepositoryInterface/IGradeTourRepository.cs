@@ -8,7 +8,7 @@ namespace BookingApp.Repository.RepositoryInterface
 {
     public interface IGradeTourRepository : IGenericRepository<GradeTour, int>
     {
-        public List<GradeTour> GetAllRatingsByTour(TourInstance tourInstance);
+        public List<GradeTour> GetAllRatingsByTour(TourReservation tourReservation);
 
         public void Subscribe(IObserver observer)
         {

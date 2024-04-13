@@ -16,12 +16,13 @@ namespace BookingApp.Service
         private IGradeTourRepository gradeTourRepository;
         private ITouristRepository touristRepository;
         private TourInstanceRepository tourInstanceRepository;
+        private TourReservationRepository tourReservationRepository;
 
         public GradeTourService()
         {
             gradeTourRepository = Injector.CreateInstance<IGradeTourRepository>();
             touristRepository = Injector.CreateInstance<ITouristRepository>();
-            tourInstanceRepository = new TourInstanceRepository();
+            tourReservationRepository = new TourReservationRepository();
             InitializeTourist();
             InitializeTour();
         }
@@ -36,16 +37,16 @@ namespace BookingApp.Service
         {
             foreach (var item in gradeTourRepository.GetAll())
             {
-                item.TourInstance = tourInstanceRepository.GetById(item.Id);
+                item.TourReservation = tourReservationRepository.GetById(item.Id);
             }
         }
         public List<GradeTour> GetAll()
         {
             return gradeTourRepository.GetAll();
         }
-        public List<GradeTour> GetAllRatingsByTour(TourInstance tourInstance)
+        public List<GradeTour> GetAllRatingsByTour(TourReservation tourReservation)
         {
-            return gradeTourRepository.GetAllRatingsByTour(tourInstance);
+            return gradeTourRepository.GetAllRatingsByTour(tourReservation);
         }
         public void Create(GradeTour gradeTours)
         {

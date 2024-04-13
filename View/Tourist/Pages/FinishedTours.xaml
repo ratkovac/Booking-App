@@ -25,15 +25,16 @@
         </StackPanel>
         <Label Content="Tours you attended, but didn't rate:" Grid.Row="1" Grid.Column="1" Margin="0,0,84,0" VerticalAlignment="Center" Height="80" FontSize="40" />
 
-        <DataGrid Grid.Row="2" Grid.Column="1" ItemsSource="{Binding ListTourInstance}" SelectionMode="Single"
-                      SelectedItem="{Binding Path=SelectedTourInstance}"
+        <DataGrid Grid.Row="2" Grid.Column="1" ItemsSource="{Binding ListTourReservation}" SelectionMode="Single"
+                      SelectedItem="{Binding Path=SelectedTourReservation}"
                       IsReadOnly="True" AutoGenerateColumns="False" Margin="28,0,80,149">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Tour.Name}" Width="150"/>
-                <DataGridTextColumn Header="Location" Binding="{Binding Tour.Location}" Width="140"/>
-                <DataGridTextColumn Header="Language" Binding="{Binding Tour.Language}" Width="70"/>
-                <DataGridTextColumn Header="Start of the tour" Binding="{Binding StartTime, StringFormat={}{0:dd.MM.yyyy HH:mm}}" Width="180"/>
-                <DataGridTextColumn Header="Duration (hours)" Binding="{Binding Tour.Duration}" Width="*"/>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="150"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding TourInstance.Tour.Name}" Width="150"/>
+                <DataGridTextColumn Header="Location" Binding="{Binding TourInstance.Tour.Location}" Width="140"/>
+                <DataGridTextColumn Header="Language" Binding="{Binding TourInstance.Tour.Language}" Width="70"/>
+                <DataGridTextColumn Header="Start of the tour" Binding="{Binding TourInstance.StartTime, StringFormat={}{0:dd.MM.yyyy HH:mm}}" Width="180"/>
+                <DataGridTextColumn Header="Duration (hours)" Binding="{Binding TourInstance.Tour.Duration}" Width="*"/>
             </DataGrid.Columns>
 
         </DataGrid>

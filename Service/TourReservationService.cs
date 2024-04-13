@@ -74,6 +74,21 @@ namespace BookingApp.Service
             tourReservations.ForEach(r => r.State = state);
             tourReservations.ForEach(r => Update(r));
         }
+        public List<TourReservation> GetToursWhichFinished()
+        {
+            List<TourReservation> toursFinished = new List<TourReservation>();
+            List<TourReservation> allTourInstances = GetAllReservations();
+
+            foreach (TourReservation tourReservation in allTourInstances)
+            {
+                if (tourReservation.TourInstance.State == TourInstanceState.Finished && tourReservation.RatedTour == false)
+                {
+                    toursFinished.Add(tourReservation);
+                }
+            }
+
+            return toursFinished;
+        }
         public void UpdateTouristsState(int touristId, TourInstance tourInstance, TouristState state)
         {
             TourReservation reservation = GetReservationsByTourInstance(tourInstance).Find(r => r.TouristId == touristId);
