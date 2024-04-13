@@ -41,10 +41,10 @@ namespace BookingApp.View.Driver
 
         private void btnShowDrives_Click(object sender, RoutedEventArgs e)
         {
-            Driver.DrivesWindow driveWindow = new Driver.DrivesWindow(LoggedInUser);
-            driveWindow.Show();
-            //Driver.Example example = new Driver.Example();
-            //example.Show();
+            //Driver.DrivesWindow driveWindow = new Driver.DrivesWindow(LoggedInUser);
+            //driveWindow.Show();
+            Driver.Example example = new Driver.Example();
+            example.Show();
             Close();
         }
     }
