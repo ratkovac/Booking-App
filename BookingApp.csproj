@@ -43,7 +43,6 @@
     <Folder Include="Application\Injector\" />
     <Folder Include="Application\UseCases\" />
     <Folder Include="Domain\Model\" />
-    <Folder Include="Domain\RepositoryInterfaces\" />
     <Folder Include="Service\" />
     <Folder Include="WPF\ModelView\" />
     <Folder Include="WPF\View\" />
