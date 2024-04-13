@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="WPF\**" />
+    <EmbeddedResource Remove="WPF\**" />
+    <None Remove="WPF\**" />
+    <Page Remove="WPF\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Images\reserve.png" />
     <None Remove="Resources\Images\add.png" />
     <None Remove="Resources\Images\delete.png" />
@@ -37,6 +44,10 @@
 
   <ItemGroup>
     <Resource Include="Images\reserve.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Service\" />
   </ItemGroup>
 
 </Project>

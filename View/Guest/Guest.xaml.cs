@@ -19,6 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using static BookingApp.Model.AccommodationTypeEnum;
 
+
 namespace BookingApp.View
 {
     /// <summary>
@@ -213,6 +214,7 @@ namespace BookingApp.View
             bool matchesLocation = string.IsNullOrWhiteSpace(SelectedLocation) || accommodation.Location.ToString().Equals(SelectedLocation, StringComparison.OrdinalIgnoreCase);
             bool matchesIsCheckedAccomodationType = IsCheckedAccomodationType(accommodation);
 
+           
             return matchesSearchText && matchesLocation && matchesCapacity && matchesDaysBeforeCancel && matchesMinReservationDays && matchesIsCheckedAccomodationType;
         }
         private void CheckBoxOption1_Changed(object sender, RoutedEventArgs e)
