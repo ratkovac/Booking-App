@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using BookingApp.View.Owner;
 using BookingApp.View.Tourist;
 using BookingApp.View.GuideView;
-
+using BookingApp.Service;
 
 namespace BookingApp.View
 {
@@ -74,7 +74,9 @@ namespace BookingApp.View
                             Close();
                             break;
                         case "Tourist":
-                            TouristFrontPage touristFrontPage = new TouristFrontPage(user);
+                            TouristService touristService = new TouristService();
+                            BookingApp.Model.Tourist tourist = touristService.GetTouristByUserId(user.Id);
+                            TouristFrontPage touristFrontPage = new TouristFrontPage(tourist);
                             touristFrontPage.Show();
                             Close();
                             break;

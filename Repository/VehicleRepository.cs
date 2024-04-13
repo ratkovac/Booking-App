@@ -88,7 +88,7 @@ namespace BookingApp.Repository
 
             var driverIds = _vehicles
                 .Where(vehicle => vehicle.Locations.Any(location => location.Id == locationId)) 
-                .Select(vehicle => vehicle.DriverId)
+                .Select(vehicle => vehicle.User.Id)
                 .Distinct()
                 .ToList();
 
