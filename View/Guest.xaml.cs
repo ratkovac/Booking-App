@@ -1,0 +1,186 @@
+﻿using BookingApp.DTO;
+using BookingApp.Model;
+using BookingApp.Repository;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+
+namespace BookingApp.View
+{
+    /// <summary>
+    /// Interaction logic for Guest.xaml
+    /// </summary>
+    public partial class Guest : Window
+    {
+
+        private AccommodationRepository AccommodationRepository { get; set; }
+        public AccommodationDTO? SelectedAccommodation { get; set; }
+        public ObservableCollection<AccommodationDTO> Accommodations { get; set; }
+        public ObservableCollection<string> Locations { get; set; }
+        public ICollectionView FilteredAccommodations { get; set; }
+        public Guest()
+        {
+            InitializeComponent();
+            DataContext = this;
+
+            Accommodations = new ObservableCollection<AccommodationDTO>();
+            AccommodationRepository = new AccommodationRepository();
+
+            Locations = new ObservableCollection<string>();
+
+            FilteredAccommodations = CollectionViewSource.GetDefaultView(Accommodations);
+            FilteredAccommodations.Filter = FilterAccommodations;
+
+            Update();
+        }
+
+        private string searchText;
+        public string SearchText
+        {
+            get
+            {
+                return searchText;
+            }
+            set
+            {
+                if(searchText != value)
+                {
+                    searchText = value;
+                    OnPropertyChanged(nameof(SearchText));
+                    FilteredAccommodations.Refresh();
+                }
+            }
+        }
+
+        private string selectedLocation;
+        public string SelectedLocation
+        {
+            get 
+            { 
+                return selectedLocation; 
+            }
+            set
+            {
+                if (selectedLocation != value)
+                {
+                    selectedLocation = value;
+                    OnPropertyChanged(nameof(SelectedLocation));
+                    FilteredAccommodations.Refresh();
+                }
+            }
+        }
+
+        private int capacity;
+        public  int Capacity
+        {
+            get
+            {
+                return capacity;
+            }
+            set
+            {
+                if(capacity != value) 
+                {
+                    capacity = value;
+                    OnPropertyChanged("Capacity");
+                    FilteredAccommodations.Refresh();
+                }
+            }
+        }
+
+        private int daysBeforeCancel;
+        public int DaysBeforeCancel
+        {
+            get
+            {
+                return daysBeforeCancel;
+            }
+            set
+            {
+                if(value != daysBeforeCancel)
+                {
+                    daysBeforeCancel = value;
+                    OnPropertyChanged("DaysBeforeCancel");
+                    FilteredAccommodations.Refresh();
+                }
+            }
+        }
+
+        private int minReservationDays;
+        public int MinReservationDays
+        {
+            get
+            {
+                return minReservationDays;
+            }
+            set
+            {
+                if (value != minReservationDays)
+                {
+                    minReservationDays = value;
+                    OnPropertyChanged("MinReservationDays");
+                    FilteredAccommodations.Refresh();
+                }
+            }
+        }
+
+        private bool FilterAccommodations(object item)
+        {
+            if (!(item is AccommodationDTO accommodation))
+                return false;
+
+            bool matchesSearchText = string.IsNullOrWhiteSpace(SearchText) || accommodation.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
+<<<<<<< Updated upstream:View/Guest.xaml.cs
+            bool matchesLocation = string.IsNullOrWhiteSpace(SelectedLocation) || accommodation.Location.Equals(SelectedLocation, StringComparison.OrdinalIgnoreCase);
+            bool matchesCapacity = (Capacity == 0 || accommodation.Capacity == Capacity);
+            bool matchesDaysBeforeCancel = (DaysBeforeCancel == 0 || accommodation.DaysBeforeCancel == DaysBeforeCancel);
+            bool matchesMinReservationDays = (MinReservationDays == 0 || accommodation.MinReservationDays == MinReservationDays); 
+=======
+            bool matchesCapacity = string.IsNullOrWhiteSpace(Capacity) || accommodation.Capacity.ToString().Contains(Capacity, StringComparison.OrdinalIgnoreCase);
+            bool matchesDaysBeforeCancel = string.IsNullOrWhiteSpace(DaysBeforeCancel) || accommodation.DaysBeforeCancel.ToString().Contains(DaysBeforeCancel, StringComparison.OrdinalIgnoreCase);
+            bool matchesMinReservationDays = string.IsNullOrWhiteSpace(MinReservationDays) || accommodation.MinReservationDays.ToString().Contains(MinReservationDays, StringComparison.OrdinalIgnoreCase);
+            bool matchesLocation = string.IsNullOrWhiteSpace(SelectedLocation) || accommodation.Location.ToString().Equals(SelectedLocation, StringComparison.OrdinalIgnoreCase);
+
+>>>>>>> Stashed changes:View/Guest/Guest.xaml.cs
+
+            return matchesSearchText && matchesLocation && matchesCapacity && matchesDaysBeforeCancel && matchesMinReservationDays;
+        }
+
+        public void Update()
+        {
+            Accommodations.Clear();
+            var allLocations = new HashSet<string>();
+            foreach(Accommodation accommodation in AccommodationRepository.GetAll())
+            {
+                Accommodations.Add(new AccommodationDTO(accommodation));
+                allLocations.Add(accommodation.Location);
+            }
+
+            Locations.Clear();
+            foreach(string location in allLocations)
+            {
+                Locations.Add(location);
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+}
