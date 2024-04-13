@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 namespace BookingApp.Repository
 {
-    public class AccommodationRepository
+    public class AccommodationRepository 
     {
         private const string FilePath = "../../../Resources/Data/accommodations.csv";
 
@@ -83,10 +83,6 @@ namespace BookingApp.Repository
         {
             return _accommodations.Find(c => c.Id == accommodationId);
             
-        }
-        public void Subscribe(IObserver observer)
-        {
-          
         }
     }
 }

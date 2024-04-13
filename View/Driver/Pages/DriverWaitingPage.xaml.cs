@@ -26,12 +26,17 @@ namespace BookingApp.View.Driver.Pages
         private int remainingTimeInSeconds = 20 * 60;
         public DriveRepository _driveRepository;
         public DrivesWindow drivesWindow;
+        public SuccessfulDrivesRepository _successfulDrivesRepository;
+        public UnsuccessfulDrivesRepository _unsuccessfulDrivesRepository;
+
 
         public DriverWaitingPage(DriveDTO drive, DrivesWindow DrivesWindow)
         {
             InitializeComponent();
             selectedDrive = drive;
             _driveRepository = new DriveRepository();
+            _successfulDrivesRepository = new SuccessfulDrivesRepository();
+            _unsuccessfulDrivesRepository = new UnsuccessfulDrivesRepository();
             StartTimer();
             drivesWindow = DrivesWindow;
         }
@@ -51,8 +56,11 @@ namespace BookingApp.View.Driver.Pages
             if (remainingTimeInSeconds <= 0)
             {
                 timer.Stop();
-                MessageBox.Show("Vreme je isteklo!");
+                MessageBox.Show("Time's up!");
                 _driveRepository.Delete(selectedDrive.ToDrive());
+                _unsuccessfulDrivesRepository.Save(selectedDrive.ToDrive());
+
+
                 OpenDrivesPage();
             }
 
@@ -65,7 +73,12 @@ namespace BookingApp.View.Driver.Pages
         private void btnTouristArrived_Click(object sender, RoutedEventArgs e)
         {
             _driveRepository.Delete(selectedDrive.ToDrive());
-            OpenDrivesPage();
+            _successfulDrivesRepository.Save(selectedDrive.ToDrive());
+
+            StartingPricePage startingPricePage = new StartingPricePage(selectedDrive, drivesWindow);
+
+            NavigationService.Navigate(startingPricePage);
+            //OpenDrivesPage();
         }
 
         private void OpenDrivesPage()
