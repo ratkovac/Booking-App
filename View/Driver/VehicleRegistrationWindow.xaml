@@ -6,66 +6,67 @@
     <Window.Resources>
         <converters:StringJoinConverter x:Key="StringJoinConverter" />
     </Window.Resources>
+    <Grid>
         <Grid>
-         <Grid>
-            <Label Content="Registered Vehicles" FontSize="22" Margin="10" FontWeight="Bold"/>
+            <Label Content="Registered Vehicles" FontSize="22" Margin="10" FontWeight="Bold" RenderTransformOrigin="0.61,0.6"/>
+        </Grid>
+        <Grid Margin="10,48,275,140">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <!-- Zaglavlje tablice -->
+            <Grid Grid.Row="0" Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <Border BorderBrush="Black" BorderThickness="1">
+                    <TextBlock Text="ID" FontWeight="Bold" Padding="5"/>
+                </Border>
+                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1">
+                    <TextBlock Text="Locations" FontWeight="Bold" Padding="5"/>
+                </Border>
+                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2">
+                    <TextBlock Text="Languages" FontWeight="Bold" Padding="5"/>
+                </Border>
+                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="3">
+                    <TextBlock Text="Capacity" FontWeight="Bold" Padding="5"/>
+                </Border>
             </Grid>
-                <Grid Margin="10,48,274,148">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <!-- Zaglavlje tablice -->
-                    <Grid Grid.Row="0" Margin="0,0,0,10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="5*"/>
-                            <ColumnDefinition Width="5*"/>
-                            <ColumnDefinition Width="2*"/>
-                        </Grid.ColumnDefinitions>
-                        <Border BorderBrush="Black" BorderThickness="1">
-                            <TextBlock Text="ID" FontWeight="Bold" Padding="5"/>
-                        </Border>
-                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1">
-                            <TextBlock Text="Locations" FontWeight="Bold" Padding="5"/>
-                        </Border>
-                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="2">
-                            <TextBlock Text="Languages" FontWeight="Bold" Padding="5"/>
-                        </Border>
-                        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="3">
-                            <TextBlock Text="Capacity" FontWeight="Bold" Padding="5"/>
-                        </Border>
-                    </Grid>
-                    <!-- Podaci o vozilima -->
-                <ItemsControl Grid.Row="1" ItemsSource="{Binding Path=VehicleDTOList}" MaxHeight="220">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border BorderBrush="Black" BorderThickness="1" Margin="0 5">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="1*"/>
-                                        <ColumnDefinition Width="5*"/>
-                                        <ColumnDefinition Width="5*"/>
-                                        <ColumnDefinition Width="2*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto"  MaxHeight="170">
+                <ItemsControl Grid.Row="1" ItemsSource="{Binding Path=VehicleDTOList}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="Black" BorderThickness="1" Margin="0 5">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
 
-                                    <!-- Redak s podacima o vozilu -->
-                                    <TextBlock Text="{Binding Id}" FontWeight="Bold" Grid.Column="0"/>
-                                    <TextBlock Text="{Binding Locations, Converter={StaticResource StringJoinConverter}}" Grid.Column="1" Grid.Row="0" Margin="10,0"/>
-                                    <TextBlock Text="{Binding Languages, Converter={StaticResource StringJoinConverter}}" Grid.Column="2" Grid.Row="0"/>
-                                    <TextBlock Text="{Binding Capacity}" Grid.Column="3" Grid.Row="0"/>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                                <!-- Redak s podacima o vozilu -->
+                                <TextBlock Text="{Binding Id}" FontWeight="Bold" Grid.Column="0"/>
+                                <TextBlock Text="{Binding Locations, Converter={StaticResource StringJoinConverter}}" Grid.Column="1" Grid.Row="0" Margin="10,0"/>
+                                <TextBlock Text="{Binding Languages, Converter={StaticResource StringJoinConverter}}" Grid.Column="2" Grid.Row="0"/>
+                                <TextBlock Text="{Binding Capacity}" Grid.Column="3" Grid.Row="0"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            </ScrollViewer>
         </Grid>
         <GroupBox Header="Vehicle Registration" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="548,0,0,20" Width="242" Height="377" >
             <StackPanel Margin="10,0,10,0" Height="337">
