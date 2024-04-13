@@ -8,7 +8,13 @@
         mc:Ignorable="d"
         Title="Example" Height="450" Width="800">
     <Grid>
-        <lvc:CartesianChart Name="MyChart">
+        <lvc:CartesianChart Name="MyChart1" Width="300" Height="200" HorizontalAlignment="Left">
+            <!-- Vaš kod ovdje -->
+        </lvc:CartesianChart>
+        <lvc:CartesianChart Name="MyChart2" Width="200" Height="200" HorizontalAlignment="Center">
+            <!-- Vaš kod ovdje -->
+        </lvc:CartesianChart>
+        <lvc:CartesianChart Name="MyChart3" Width="200" Height="200" HorizontalAlignment="Right">
             <!-- Vaš kod ovdje -->
         </lvc:CartesianChart>
     </Grid>
