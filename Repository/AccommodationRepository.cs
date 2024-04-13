@@ -7,11 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using BookingApp.Domain.RepositoryInterfaces;
 
 namespace BookingApp.Repository
 {
-    public class AccommodationRepository : IAccommodationRepository
+    public class AccommodationRepository 
     {
         private const string FilePath = "../../../Resources/Data/accommodations.csv";
 
