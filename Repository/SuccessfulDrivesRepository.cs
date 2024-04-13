@@ -1,0 +1,42 @@
+﻿using BookingApp.Model;
+using BookingApp.Serializer;
+using System.Collections.Generic;
+
+namespace BookingApp.Repository
+{
+    public class SuccessfulDrivesRepository
+    {
+        private const string FilePath = "../../../Resources/Data/successfulDrives.csv";
+        private readonly Serializer<Drive> _serializer;
+        private List<Drive> _successfulDrives;
+
+        public SuccessfulDrivesRepository()
+        {
+            _serializer = new Serializer<Drive>();
+            _successfulDrives = _serializer.FromCSV(FilePath);
+        }
+
+        public List<Drive> GetAll()
+        {
+            return _serializer.FromCSV(FilePath);
+        }
+
+        public void Save(Drive drive)
+        {
+            _successfulDrives = _serializer.FromCSV(FilePath);
+            _successfulDrives.Add(drive);
+            _serializer.ToCSV(FilePath, _successfulDrives);
+        }
+
+        public void Delete(Drive drive)
+        {
+            _successfulDrives = _serializer.FromCSV(FilePath);
+            Drive founded = _successfulDrives.Find(c => c.Id == drive.Id);
+            if (founded != null)
+            {
+                _successfulDrives.Remove(founded);
+            }
+            _serializer.ToCSV(FilePath, _successfulDrives);
+        }
+    }
+}

@@ -240,6 +240,21 @@ namespace BookingApp.View.Driver
         private void RegisterVehicle(Vehicle vehicle)
         {
             _vehicleRepository.Save(vehicle);
+            RefreshList();
+        }
+
+
+        internal void RefreshList()
+        {
+            VehicleDTOList.Clear();
+
+            var vehicles = _vehicleRepository.GetVehiclesByDriver(LoggedInUser);
+
+            foreach (var vehicle in vehicles)
+            {
+                VehicleDTO vehicleDTO = new VehicleDTO(vehicle);
+                VehicleDTOList.Add(vehicleDTO);
+            }
         }
 
         private void btnRegisterVehicle_Click(object sender, RoutedEventArgs e)

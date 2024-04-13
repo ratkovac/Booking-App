@@ -43,6 +43,8 @@ namespace BookingApp.View.Driver
         {
             Driver.DrivesWindow driveWindow = new Driver.DrivesWindow(LoggedInUser);
             driveWindow.Show();
+            //Driver.Example example = new Driver.Example();
+            //example.Show();
             Close();
         }
     }

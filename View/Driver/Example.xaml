@@ -1,0 +1,15 @@
+﻿<Window x:Class="BookingApp.View.Driver.Example"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BookingApp.View.Driver"
+        mc:Ignorable="d"
+        Title="Example" Height="450" Width="800">
+    <Grid>
+        <lvc:CartesianChart Name="MyChart">
+            <!-- Vaš kod ovdje -->
+        </lvc:CartesianChart>
+    </Grid>
+</Window>
