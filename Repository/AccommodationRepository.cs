@@ -7,10 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using BookingApp.Domain.RepositoryInterfaces;
 
 namespace BookingApp.Repository
 {
-    public class AccommodationRepository
+    public class AccommodationRepository : IAccommodationRepository
     {
         private const string FilePath = "../../../Resources/Data/accommodations.csv";
 
@@ -83,10 +84,6 @@ namespace BookingApp.Repository
         {
             return _accommodations.Find(c => c.Id == accommodationId);
             
-        }
-        public void Subscribe(IObserver observer)
-        {
-          
         }
     }
 }
