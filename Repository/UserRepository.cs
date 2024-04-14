@@ -17,12 +17,25 @@ namespace BookingApp.Repository
         {
             _serializer = new Serializer<User>();
             _users = _serializer.FromCSV(FilePath);
+        
         }
 
         public User GetByUsername(string username)
         {
             _users = _serializer.FromCSV(FilePath);
             return _users.FirstOrDefault(u => u.Username == username);
+        }
+
+        public User GetByID(int userID)
+        {
+            _users = _serializer.FromCSV(FilePath);
+            return _users.FirstOrDefault(u => u.Id == userID);
+        }
+
+        public List<User> GetByIDs(List<int> ids)
+        {
+            _users = _serializer.FromCSV(FilePath);
+            return _users.Where(user => ids.Contains(user.Id)).ToList();
         }
     }
 }

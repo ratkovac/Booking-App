@@ -8,18 +8,20 @@ namespace BookingApp.Model
         public int Id { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public string Role { get; set; }
 
         public User() { }
 
-        public User(string username, string password)
+        public User(string username, string password, string role)
         {
             Username = username;
             Password = password;
+            Role = role;
         }
 
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), Username, Password };
+            string[] csvValues = { Id.ToString(), Username, Password, Role };
             return csvValues;
         }
 
@@ -28,6 +30,12 @@ namespace BookingApp.Model
             Id = Convert.ToInt32(values[0]);
             Username = values[1];
             Password = values[2];
+            Role = values[3];
         }
+        public override string ToString()
+        {
+            return $"Id: {Id}, Username: {Username}, Role: {Role}";
+        }
+
     }
 }

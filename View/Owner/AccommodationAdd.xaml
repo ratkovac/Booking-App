@@ -1,0 +1,63 @@
+<Window x:Class="BookingApp.View.Owner.AccommodationAdd"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BookingApp"
+        mc:Ignorable="d"
+        Title="New accommodation" Height="400" Width="600" ResizeMode="NoResize" WindowStyle="SingleBorderWindow"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Label Content="Name:" HorizontalAlignment="Left" Margin="34,29,0,0" VerticalAlignment="Top"/>
+        <Label Content="Location:" HorizontalAlignment="Left" Margin="34,59,0,0" VerticalAlignment="Top"/>
+        <Label Content="Type:" HorizontalAlignment="Left" Margin="34,89,0,0" VerticalAlignment="Top"/>
+        <Label Content="Maximum number of guests:" HorizontalAlignment="Left" Margin="34,119,0,0" VerticalAlignment="Top"/>
+        <Label Content="Minimum days for reservation:" HorizontalAlignment="Left" Margin="34,149,0,0" VerticalAlignment="Top"/>
+        <Label Content="Cancelation period:" HorizontalAlignment="Left" Margin="34,179,0,0" VerticalAlignment="Top"/>
+        <Label Content="Images:" HorizontalAlignment="Left" Margin="34,209,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="218,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="256" 
+                 Text="{Binding Path=accommodationDTO.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+        <TextBox HorizontalAlignment="Left" Margin="218,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="126"
+                 Text="{Binding Path=accommodationDTO.City, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+        <TextBox HorizontalAlignment="Left" Margin="348,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="126"
+                 Text="{Binding Path=accommodationDTO.Country, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+        <TextBox HorizontalAlignment="Left" Margin="218,123,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="126"
+                 Text="{Binding Path=accommodationDTO.Capacity, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+        <TextBox HorizontalAlignment="Left" Margin="218,153,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="126"
+                Text="{Binding Path=accommodationDTO.MinReservationDays, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+        <ComboBox HorizontalAlignment="Left" Margin="218,93,0,0" VerticalAlignment="Top" Width="126" Height="25">
+            <ComboBoxItem x:Name="Item11" Content="Apartment"/>
+            <ComboBoxItem x:Name="Item12" Content="House"/>
+            <ComboBoxItem x:Name="Item13" Content="Hut"/>
+        </ComboBox>
+        <TextBox HorizontalAlignment="Left" Margin="218,183,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="126"
+                Text="{Binding Path=accommodationDTO.DaysBeforeCancel, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+        <Button Name="UploadImage"  Content="Upload" HorizontalAlignment="Left" Margin="502,212,0,0" VerticalAlignment="Top" Width="54" Background="#FFC8C8C8" Click="UploadImage_Click">
+            <Button.BorderBrush>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="DimGray" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.BorderBrush>
+        </Button>
+        <Button x:Name="AccommodationAdding" Content="Add" HorizontalAlignment="Left" Margin="218,339,0,0" VerticalAlignment="Top" Width="54" Background="#FFC8C8C8" Click="AccommodationAdding_Click">
+            <Button.BorderBrush>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FF8C8C8C" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.BorderBrush>
+        </Button>
+        <Button x:Name="Cancel" Content="Cancel" HorizontalAlignment="Left" Margin="420,339,0,0" VerticalAlignment="Top" Width="54" Background="#FFC8C8C8" Foreground="#FF060606" Click="Cancel_Click">
+            <Button.BorderBrush>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FF7D7D7D" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.BorderBrush>
+        </Button>
+        <TextBox Name="path" HorizontalAlignment="Left" Margin="218,213,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="256" 
+            Text="{Binding accommodationDTO.ImagePath, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+        <ListBox x:Name="imagePaths" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="218,248,126,55"/>
+    </Grid>
+</Window>
