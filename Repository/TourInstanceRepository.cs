@@ -29,6 +29,23 @@ namespace BookingApp.Repository
             return _tourInstances;
         }
 
+        public List<TourInstance> GetFinishedTourInstances()
+        {
+            List<TourInstance> finishedTourInstances = new List<TourInstance>();
+            List<TourInstance> allTourInstances = GetAll();
+
+            foreach (TourInstance tourInstance in allTourInstances)
+            {
+                if (tourInstance.State == TourInstanceState.Finished)
+                {
+                    finishedTourInstances.Add(tourInstance);
+                }
+            }
+
+            return finishedTourInstances;
+        }
+
+
         public List<TourInstance> GetAllById(int tourId)
         {
             return _serializer.FromCSV(FilePath).Where(ti => ti.TourId == tourId).ToList(); ;

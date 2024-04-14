@@ -23,11 +23,24 @@ namespace BookingApp.Model
         public Location Location { get; set; }
         public Language Language { get; set; }
         public int LocationId { get; set; }
-
+        public int UserId { get; set; }
         public Tour()
         {
 
         }
+        public Tour(string name, string description, int maxGeusts, float duration, Location location, Language language, int userId)
+        {
+            LocationRepository locationRepository = new LocationRepository();
+            Name = name;
+            Description = description;
+            MaxGuests = maxGeusts;
+            Duration = duration;
+            //LocationId = locationId;
+            Location = location;
+            Language = language;
+            UserId = userId;
+        }
+
         public Tour(string name, string description, int maxGeusts, float duration, Location location, Language language)
         {
             LocationRepository locationRepository = new LocationRepository();
@@ -42,17 +55,10 @@ namespace BookingApp.Model
 
         public string[] ToCSV()
         {
-            MessageBox.Show(string.Format("Id: {0}", Id));
-            MessageBox.Show(string.Format("Name: {0}", Name));
-            MessageBox.Show(string.Format("Location Id: {0}", Location.Id.ToString()));
-            MessageBox.Show(string.Format("Description: {0}", Description));
-            MessageBox.Show(string.Format("Language: {0}", Language.Name));
-            MessageBox.Show(string.Format("Max Guests: {0}", MaxGuests));
-            MessageBox.Show(string.Format("Duration: {0}", Duration));
 
             string location = Location.Id.ToString();
             string[] csvValues = { Id.ToString(), Name, location, Description, Language.Id.ToString(),
-                MaxGuests.ToString(), Duration.ToString()};
+                MaxGuests.ToString(), Duration.ToString(), UserId.ToString()};
             return csvValues;
         }
 
@@ -75,6 +81,7 @@ namespace BookingApp.Model
             }
             MaxGuests = Convert.ToInt32(values[5]);
             Duration = Convert.ToSingle(values[6]);
+            UserId = Convert.ToInt32(values[7]);
         }
 
     }

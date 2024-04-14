@@ -39,6 +39,8 @@ namespace BookingApp.View.GuideView.Pages
         private void btnTourStatistics_Click(object sender, RoutedEventArgs e)
         {
             // Implementirajte logiku za dugme Tour Statistics
+            MainFramee.Navigate(new Uri("View/GuideView/Pages/TourStatisticPage.xaml", UriKind.RelativeOrAbsolute));
+            actionBar.PageName = "Tour Statistic Page";
         }
 
         private void btnTourReviews_Click(object sender, RoutedEventArgs e)

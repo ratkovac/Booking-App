@@ -25,6 +25,8 @@ namespace BookingApp.View.GuideView.Pages
     /// </summary>
     public partial class CreateTourPage : Page
     {
+        private User user;
+
         private CheckPointRepository checkPointRepository = new CheckPointRepository();
         private DateRealizationRepository dateRealizationRepository = new DateRealizationRepository();
         private TourRepository tourRepository = new TourRepository();
@@ -39,13 +41,13 @@ namespace BookingApp.View.GuideView.Pages
         private List<TextBox> CheckPoints = new List<TextBox>();
         private List<TextBox> Dates = new List<TextBox>();
 
-        public CreateTourPage()
+        public CreateTourPage(User user)
         {
             InitializeComponent();
             CheckPoints.Add(txtStartCheckPoint);
             CheckPoints.Add(txtOptionCheckPoint);
             Dates.Add(txtDates);
-
+            this.user = user;
         }
 
 
@@ -69,7 +71,8 @@ namespace BookingApp.View.GuideView.Pages
 
             Language language = CreateAndSaveLanguage(lang);
             Location location = CreateAndSaveLocation(city, country);
-            Tour tour = CreateTour(name, description, maxGuests, duration, location, language);
+            //Tour tour = CreateTour(name, description, maxGuests, duration, location, language);
+            Tour tour = CreateTour(name, description, maxGuests, duration, location, language, user.Id);
             SaveTour(tour);
 
 
@@ -86,7 +89,7 @@ namespace BookingApp.View.GuideView.Pages
         {
             foreach (DateRealization date in dates)
             {
-                TourInstance tourInstance = new TourInstance(tourId, maxGuests,date.Date, 0, 1);
+                TourInstance tourInstance = new TourInstance(tourId, maxGuests,date.Date, 0, user.Id);
                 tourInstanceRepository.Save(tourInstance);
             }
         }
@@ -125,9 +128,13 @@ namespace BookingApp.View.GuideView.Pages
             return location;
         }
 
-        private Tour CreateTour(string name, string description, int maxGuests, float duration, Location location, Language language)
+        /*private Tour CreateTour(string name, string description, int maxGuests, float duration, Location location, Language language)
         {
             return new Tour(name, description, maxGuests, duration, location, language);
+        } */
+        private Tour CreateTour(string name, string description, int maxGuests, float duration, Location location, Language language, int userId)
+        {
+            return new Tour(name, description, maxGuests, duration, location, language, userId);
         }
 
         private void SaveTour(Tour tour)
