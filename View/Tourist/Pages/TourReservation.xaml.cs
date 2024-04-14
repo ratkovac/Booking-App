@@ -69,7 +69,7 @@ namespace BookingApp.View.Tourist.Pages
         private void GenerateDatesComboBox()
         {
             var tourInstances = _tourInstanceRepository.GetAllById(SelectedTour.Id)
-                .Where(t => t.AvailableSlots > 0);
+                .Where(t => t.AvailableSlots > 0 && t.State != TourInstanceState.Finished && t.State != TourInstanceState.Cancelled);
 
             StartTimeComboBox.ItemsSource = tourInstances.Select(t => t.StartTime.ToString("g")).ToList();
             NumberOfPeopleTextBox.IsEnabled = false;
