@@ -1,6 +1,6 @@
 1|1|6|Present|False|True
 2|1|6|ActiveTour|False|False
-3|1|6|InactiveTour|True|False
+3|1|6|InactiveTour|True|True
 4|1|6|Present|False|True
 5|2|6|Present|True|True
 6|1|6|Present|True|True
@@ -9,3 +9,4 @@
 9|1|6|InactiveTour|False|False
 10|1|6|InactiveTour|False|True
 11|2|6|Present|False|True
+12|1|6|InactiveTour|False|False
