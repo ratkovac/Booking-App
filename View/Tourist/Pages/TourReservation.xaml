@@ -22,21 +22,14 @@
         <Label Content="Maksimalan broj gostiju:" FontSize="26" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="181,265,0,0" VerticalAlignment="Top" Width="300" Height="45"/>
         <TextBox x:Name="MaxGuestsTextBox" VerticalContentAlignment="Bottom" HorizontalAlignment="Left" Margin="181,305,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="209" Height="35" FontSize="26" IsEnabled="False" BorderThickness="0,0,0,3" BorderBrush="Black"/>
         <Label Content="Kljucne tacke:" FontSize="26" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="300,340,0,0" VerticalAlignment="Top" Width="170" Height="45"/>
-        <TextBox x:Name="KeyPointTextBox" HorizontalAlignment="Left" Margin="300,392,0,0" TextWrapping="Wrap" Text="" FontSize="20" VerticalAlignment="Top" Width="200" Height="100" IsEnabled="False" BorderBrush="Black" BorderThickness="3,3,3,3"/>
+        <TextBox x:Name="CheckPointTextBox" HorizontalAlignment="Left" Margin="300,392,0,0" TextWrapping="Wrap" Text="" FontSize="20" VerticalAlignment="Top" Width="200" Height="100" IsEnabled="False" BorderBrush="Black" BorderThickness="3,3,3,3"/>
         <!--<Label Content="Datum i vreme pocetka ture:" FontSize="16" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="62,517,0,0" VerticalAlignment="Top" Height="35" Width="231"/>
         <TextBox x:Name="DateStartTextBox" HorizontalAlignment="Left" Margin="62,557,0,0" TextWrapping="Wrap" Text="" FontSize="16" VerticalAlignment="Top" Width="329" Height="35" IsEnabled="False" BorderThickness="0,0,0,3" BorderBrush="Black"/>-->
         <Label Content="Trajanje ture(u satima):" FontSize="26" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="62,510,0,0" VerticalAlignment="Top" Height="45" Width="271"/>
         <TextBox x:Name="DurationTextBox" HorizontalAlignment="Left" Margin="62,557,0,0" TextWrapping="Wrap" Text="" FontSize="26" VerticalAlignment="Top" Width="129" Height="35" IsEnabled="False" BorderThickness="0,0,0,3" BorderBrush="Black"/>
         <!--<Label Content="Slike:" FontSize="16" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="457,112,0,0" VerticalAlignment="Top" Width="73" Height="30"/>-->
         <Label Content="Rezervacija ture:" FontSize="36" HorizontalAlignment="Left" Height="58" Margin="727,34,0,0" VerticalAlignment="Top" Width="304" FontWeight="Bold"/>
-        <ComboBox x:Name="RequiredSeatsComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="177" Margin="1050,180,0,0" SelectionChanged="RequiredSeatsComboBox_SelectionChanged" FontSize="14">
-            <ComboBoxItem Content="0"/>
-            <ComboBoxItem Content="1"/>
-            <ComboBoxItem Content="2"/>
-            <ComboBoxItem Content="3"/>
-            <ComboBoxItem Content="4"/>
-            <ComboBoxItem Content="5"/>
-        </ComboBox>
+        <TextBox x:Name="NumberOfPeopleTextBox" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="177" Margin="1050,180,0,0" KeyDown="NumberOfGuestsTextBox_KeyDown" FontSize="14"/>
         <!--<TextBox x:Name="NumberGuestsTextBox" Text="{Binding NumberGuest}" HorizontalAlignment="Left" Margin="1050,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="177" Height="35" FontSize="16" BorderThickness="0,0,0,3" BorderBrush="Black" TextChanged="NumberGuestsTextBox_TextChanged"/>-->
         <Label Content="Unesite zeljeni datum ture:" FontSize="20" HorizontalAlignment="Left" Margin="750,128,0,0" VerticalAlignment="Top" Height="45" Width="400"/>
         <Label Content="Unesite broj osoba koje bi isle na turu:" FontSize="20" HorizontalAlignment="Left" Margin="687,178,0,0" VerticalAlignment="Top" Height="45" Width="400"/>
@@ -44,11 +37,23 @@
         <Button Content="Otkazi" Click="ButtonBack" FontSize="26" HorizontalAlignment="Left" Margin="1115,600,0,0" VerticalAlignment="Top" Height="45" Width="110" FontWeight="Bold" Cursor="Hand"/>
         <ComboBox x:Name="StartTimeComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" SelectionChanged="ChangedStartTimeComboBox" Height="35" Width="177" Margin="1050,128,0,0" FontSize="14"/>
         <ScrollViewer Margin="0,250,0,150">
-            <StackPanel x:Name="InputGuestsStackPanel"  Width="175" Margin="1030,0,0,0"/>
+            <StackPanel x:Name="InputGuestsStackPanel"  Width="350" Margin="800,0,0,0"/>
         </ScrollViewer>
         <TextBlock x:Name="MessageBlock" HorizontalAlignment="Left" Margin="961,640,0,0" TextWrapping="Wrap" Text="" FontSize="16" VerticalAlignment="Top" Height="54" Width="358" FontStyle="Italic"/>
         <!--<ListView x:Name="ImageList"  Margin="457,147,546,414"/>-->
         <Button Content="&#60;Nazad" Cursor="Hand" Click="ButtonBack" FontSize="30" HorizontalAlignment="Left" Margin="1100,15,0,0" VerticalAlignment="Top" Height="45" Width="130" />
         <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
+        <DataGrid  x:Name="DataGridVouchers" 
+           ItemsSource="{Binding ListVoucher}"
+           SelectedItem="{Binding SelectedVoucher}"
+           SelectionMode="Single" 
+           IsReadOnly="True"
+           AutoGenerateColumns="False" Margin="450,0,0,50" Width="330" Height="150">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Number of vouchers" Binding="{Binding Id}" Width="120" />
+                <DataGridTextColumn Header="Creation date" Binding="{Binding CreationDate, StringFormat={}{0:dd.MM.yyyy}}" Width="105" />
+                <DataGridTextColumn Header="Expiration date" Binding="{Binding ExpirationDate, StringFormat={}{0:dd.MM.yyyy}}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Page>

@@ -49,7 +49,6 @@ namespace BookingApp.Model
             Languages = languageIds.Select(id => languageRepository.GetLanguageById(id)).ToList(); 
             ImagePaths = values[4].Split(',').ToList(); 
             User = userRepository.GetByID(int.Parse(values[5]));
-            DriverId = Convert.ToInt32(values[6]);
         }
         public string[] ToCSV()
         {
@@ -63,7 +62,6 @@ namespace BookingApp.Model
                 languages,
                 string.Join(",", ImagePaths),
                 User.Id.ToString(),
-                DriverId.ToString()
             };
             return values;
         }

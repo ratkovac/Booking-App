@@ -33,9 +33,16 @@ namespace BookingApp.Repository
             return _serializer.FromCSV(FilePath).Where(tg => tg.TouristId == touristId).ToList();
         }
 
+        public List<TourGuest> GetAllPresentByTourReservationId(int tourReservationId)
+        {
+            return _serializer.FromCSV(FilePath)
+                   .Where(tg => tg.TourReservationId == tourReservationId && tg.State == GuestState.Present)
+                   .ToList();
+        }
+
         public List<TourGuest> GetAllByTourInstanceId(int tourInstanceId)
         {
-            return _serializer.FromCSV(FilePath).Where(tg => tg.TourReservationId == tourInstanceId).ToList();
+            return _serializer.FromCSV(FilePath).Where(tg => tg.TourReservation.TourInstanceId == tourInstanceId).ToList();
         }
 
         public TourGuest Save(TourGuest tourGuest)

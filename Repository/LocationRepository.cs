@@ -78,5 +78,10 @@ namespace BookingApp.Repository
             var existingLocation = _locations.FirstOrDefault(location => location.City == city && location.Country == country);
             return existingLocation != null ? existingLocation.Id : 0;
         }
+        public Location? GetLocationByCityAndCountry(string city, string country)
+        {
+            return _locations.FirstOrDefault(location => location.City == city && location.Country == country);
+        }
+
     }
 }
