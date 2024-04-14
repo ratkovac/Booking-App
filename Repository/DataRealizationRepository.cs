@@ -1,6 +1,7 @@
 ﻿using BookingApp.Model;
 using BookingApp.Serializer;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,69 @@ namespace BookingApp.Repository
         {
             return _serializer.FromCSV(FilePath);
         }
+
+        public List<DateRealization> GetAllByTourId(int tourId)
+        {
+            List<DateRealization> dateRealizations = new List<DateRealization>();
+
+            string[] lines = ReadLinesFromFile(FilePath);
+
+            foreach (string line in lines)
+            {
+                DateRealization dateRealization = ParseLineToDateRealization(line);
+                if (dateRealization != null && dateRealization.TourId == tourId)
+                {
+                    dateRealizations.Add(dateRealization);
+                }
+            }
+
+            return dateRealizations;
+        }
+
+        private string[] ReadLinesFromFile(string filePath)
+        {
+            try
+            {
+                return File.ReadAllLines(filePath);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Greška prilikom čitanja linija iz datoteke: " + ex.Message);
+                return new string[0];
+            }
+        }
+
+        private DateRealization ParseLineToDateRealization(string line)
+        {
+            string[] values = line.Split('|');
+
+            int id;
+            if (!int.TryParse(values[0], out id))
+            {
+                return null;
+            }
+
+            DateTime date;
+            if (!DateTime.TryParse(values[1], out date))
+            {
+                return null;
+            }
+
+            int tourId;
+            if (!int.TryParse(values[2], out tourId))
+            {
+                return null;
+            }
+
+            return new DateRealization
+            {
+                Id = id,
+                Date = date,
+                TourId = tourId
+            };
+        }
+
+
 
         public DateRealization Save(DateRealization dateRealization)
         {

@@ -20,6 +20,15 @@
     <None Remove="Resources\Images\delete.png" />
     <None Remove="Resources\Images\edit.png" />
     <None Remove="Resources\Images\view.png" />
+    <None Remove="View\GuideView\GuideImages\navigation.png" />
+    <None Remove="View\GuideView\GuideImages\profile.png" />
+    <None Remove="View\GuideView\Pages\pozadinaNebo.jpg" />
+    <None Remove="View\Owner\star.png" />
+    <None Remove="View\Owner\user.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="View\GuideView\GuideImages\navigation.png" />
   </ItemGroup>
 
   <ItemGroup>

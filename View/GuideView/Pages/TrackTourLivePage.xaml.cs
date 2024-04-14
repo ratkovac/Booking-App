@@ -20,25 +20,28 @@ namespace BookingApp.View.GuideView.Pages
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private int _lastSelectedCheckpointId = -1;
 
-        private ObservableCollection<Tour> _tours;
-        public ObservableCollection<Tour> Tours
+
+        private ObservableCollection<TourInstance> _tourInstances;
+        public ObservableCollection<TourInstance> TourInstances
         {
-            get { return _tours; }
+            get { return _tourInstances; }
             set
             {
-                _tours = value;
+                _tourInstances = value;
                 OnPropertyChanged();
             }
         }
 
-        private Tour _selectedTour;
-        public Tour SelectedTour
+
+        private TourInstance _selectedTourInstance;
+        public TourInstance SelectedTourInstance
         {
-            get { return _selectedTour; }
+            get { return _selectedTourInstance; }
             set
             {
-                _selectedTour = value;
+                _selectedTourInstance = value;
                 OnPropertyChanged();
                 LoadCheckPoints();
             }
@@ -57,24 +60,24 @@ namespace BookingApp.View.GuideView.Pages
             }
         }
 
-        private TourRepository _tourRepository;
         private CheckPointRepository _checkPointRepository;
+        private TourInstanceRepository _tourInstanceRepository;
 
         public TrackTourLivePage()
         {
             InitializeComponent();
             DataContext = this; 
-            _tourRepository = new TourRepository();
             _checkPointRepository = new CheckPointRepository();
-            Tours = new ObservableCollection<Tour>(_tourRepository.GetToursForToday());
+            _tourInstanceRepository = new TourInstanceRepository();
+            TourInstances = new ObservableCollection<TourInstance>(_tourInstanceRepository.GetToursForToday());
+ 
         }
         
-
         private void LoadCheckPoints()
         {
-            if (SelectedTour != null)
+            if (SelectedTourInstance != null)
             {
-                CheckPoints = new ObservableCollection<CheckPoint>(_checkPointRepository.GetCheckPoints(SelectedTour.Id));
+                CheckPoints = new ObservableCollection<CheckPoint>(_checkPointRepository.GetCheckPoints(SelectedTourInstance.TourId));
             }
             else
             {
@@ -94,6 +97,8 @@ namespace BookingApp.View.GuideView.Pages
             if (currentIndex == _selectedCheckpointIndex + 1)
             {
                 _selectedCheckpointIndex = currentIndex;
+                _lastSelectedCheckpointId = checkpoint.Id;
+
 
                 if (_selectedCheckpointIndex == CheckPoints.Count - 1)
                 {
@@ -118,7 +123,7 @@ namespace BookingApp.View.GuideView.Pages
 
         private void ButtonEndTour_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectedTour != null)
+            if (SelectedTourInstance != null)
             {
                 MessageBoxResult result = MessageBox.Show("Da li ste sigurni da zelite da iznenada zavrsite turu?", "Potvrda zavrsetka ture", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
@@ -139,5 +144,29 @@ namespace BookingApp.View.GuideView.Pages
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        private void btnAddTourist_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedTourInstance != null)
+            {
+                int tourId = SelectedTourInstance.Id;
+                var touristListPage = new TouristListPage(tourId, _lastSelectedCheckpointId);
+                var window = new Window
+                {
+                    Title = "Tourist List",
+                    Content = touristListPage,
+                    Width = 430, // Širina prozora
+                    Height = 750, // Visina prozora
+                    SizeToContent = SizeToContent.Manual
+                };
+                window.ShowDialog(); // Otvori novi prozor kao dijalog
+            }
+            else
+            {
+                MessageBox.Show("Molimo izaberite turu pre nego što dodate turistu.", "Greska", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
     }
 }

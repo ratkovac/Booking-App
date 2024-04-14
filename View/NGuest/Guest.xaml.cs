@@ -17,6 +17,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BookingApp.View.NGuest;
+using BookingApp.View.ViewModel.Guest;
 using static BookingApp.Model.AccommodationTypeEnum;
 
 
@@ -49,8 +51,11 @@ namespace BookingApp.View
 
             SelectedAccommodation = new AccommodationDTO();
 
+
             Update();
             LoggedInUser = loggedInUser;
+
+            
         }
 
         private string searchText;
@@ -270,6 +275,13 @@ namespace BookingApp.View
         {
             Reservation reservation = new Reservation(SelectedAccommodation, user);
             reservation.Show();
+        }
+
+        private void MyReservations_Click(object sender, RoutedEventArgs e)
+        {
+            MyReservationViewModel myReservationViewModel = new MyReservationViewModel(LoggedInUser);
+            MyReservation myReservation = new MyReservation(myReservationViewModel);
+            myReservation.Show();
         }
     }
 }

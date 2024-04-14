@@ -3,6 +3,7 @@ using BookingApp.Model;
 using BookingApp.Serializer;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace BookingApp.Repository
@@ -56,5 +57,39 @@ namespace BookingApp.Repository
             _serializer.ToCSV(FilePath, _driveDrivens);
             return driveDriven;
         }
+        public double CalculateAveragePriceForDrives(ObservableCollection<int> driveIds)
+        {
+            var doneDrivesFilePath = "../../../Resources/Data/drivesDriven.csv";
+            var serializer = new Serializer<DriveDriven>();
+            var doneDrives = serializer.FromCSV(doneDrivesFilePath);
+
+            var averagePrice = doneDrives
+                .Where(d => driveIds.Contains(d.DriveId))
+                .Select(d => d.Price)
+                .DefaultIfEmpty(0)
+                .Average();
+
+            return averagePrice;
+        }
+        public double CalculateAverageDurationForDrives(ObservableCollection<int> driveIds)
+        {
+            var doneDrivesFilePath = "../../../Resources/Data/drivesDriven.csv";
+            var serializer = new Serializer<DriveDriven>();
+            var doneDrives = serializer.FromCSV(doneDrivesFilePath);
+
+            var durations = doneDrives
+                .Where(d => driveIds.Contains(d.DriveId))
+                .Select(d => d.Duration);
+
+            double averageDuration = 0;
+
+            if (durations.Any())
+            {
+                averageDuration = durations.Average(duration => duration.TotalSeconds);
+            }
+
+            return averageDuration;
+        }
+
     }
 }
