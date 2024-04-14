@@ -20,6 +20,8 @@
     <None Remove="Resources\Images\delete.png" />
     <None Remove="Resources\Images\edit.png" />
     <None Remove="Resources\Images\view.png" />
+    <None Remove="View\Owner\star.png" />
+    <None Remove="View\Owner\user.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,6 +46,8 @@
 
   <ItemGroup>
     <Resource Include="Images\reserve.png" />
+    <Resource Include="View\Owner\Images\star.png" />
+    <Resource Include="View\Owner\Images\user.jpg" />
   </ItemGroup>
 
 </Project>

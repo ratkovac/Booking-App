@@ -5,16 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BookingApp"
         mc:Ignorable="d"
-        Title="OwnerFrontPage" Height="450" Width="800" ResizeMode="NoResize" WindowStyle="SingleBorderWindow"
+        Title="OwnerFrontPage" Height="720" Width="1280" ResizeMode="NoResize" WindowStyle="SingleBorderWindow"
         WindowStartupLocation="CenterScreen">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="19*"/>
-            <ColumnDefinition Width="781*"/>
-        </Grid.ColumnDefinitions>
-        <Label x:Name="NewAccomodation" Content="New accomodation" HorizontalAlignment="Left" Height="34" Margin="35,118,0,0" VerticalAlignment="Top" Width="125" Grid.Column="1" MouseLeftButtonDown="NewAccomodation_MouseLeftButtonDown"/>
-        <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="296,76,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <TextBox Grid.Column="1" HorizontalAlignment="Left" Margin="296,109,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <Label x:Name="GuestGrade" Content="Grade guest" HorizontalAlignment="Left" Height="34" Margin="35,199,0,0" VerticalAlignment="Top" Width="125" Grid.Column="1" MouseLeftButtonDown="GuestGrade_MouseLeftButtonDown"/>
+        <Label x:Name="NewAccomodation" Content="New accomodation" HorizontalAlignment="Left" Height="34" Margin="61,266,0,0" VerticalAlignment="Top" Width="193" Grid.Column="1" MouseLeftButtonDown="NewAccomodation_MouseLeftButtonDown" FontSize="18" Grid.ColumnSpan="2"/>
+        <Label x:Name="GuestGrade" Content="Grade guest" HorizontalAlignment="Left" Height="34" Margin="61,305,0,0" VerticalAlignment="Top" Width="125" Grid.Column="1" MouseLeftButtonDown="GuestGrade_MouseLeftButtonDown" FontSize="18" Grid.ColumnSpan="2"/>
+        <Label x:Name="Username" HorizontalAlignment="Left" Height="34" Margin="36,156,0,0" VerticalAlignment="Top" Width="192" Grid.Column="1" FontSize="18" HorizontalContentAlignment="Center" Grid.ColumnSpan="2"/>
+        <Label x:Name="Role" HorizontalAlignment="Left" Height="34" Margin="36,195,0,0" VerticalAlignment="Top" Width="192" FontSize="14" HorizontalContentAlignment="Center"/>
+        <Grid>
+            <Border x:Name="SuperOwnerBorder" BorderBrush="Black" BorderThickness="3" CornerRadius="10"  Margin="365,51,675,447"/>
+            <Label x:Name="Username_Copy" HorizontalAlignment="Left" Height="34" Margin="382,153,0,0" VerticalAlignment="Top" Width="192" FontSize="18" HorizontalContentAlignment="Center"  Content="wefdssd"/>
+            <Label x:Name="Role_Copy" HorizontalAlignment="Left" Height="26" Margin="382,187,0,0" VerticalAlignment="Top" Width="192" FontSize="14" HorizontalContentAlignment="Center" Content="wefdssd"/>
+            <Image x:Name="SuperOwnerImage" HorizontalAlignment="Left" Height="52" VerticalAlignment="Top" Width="56" Margin="522,174,0,0"/>
+            <Image x:Name="OwnerIcon" HorizontalAlignment="Left" Height="82" VerticalAlignment="Top" Width="82" Margin="437,66,0,0" Source="/View/Owner/Images/user.jpg"/>
+        </Grid>
     </Grid>
 </Window>
