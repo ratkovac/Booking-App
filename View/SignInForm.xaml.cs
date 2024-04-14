@@ -8,6 +8,7 @@ using BookingApp.View.Owner;
 using BookingApp.View.Tourist;
 using BookingApp.View.GuideView;
 using BookingApp.Service;
+using BookingApp.View.GuideView.Pages;
 
 namespace BookingApp.View
 {
@@ -71,6 +72,8 @@ namespace BookingApp.View
                         case "Guide":
                             TourForm tourForm = new TourForm();
                             tourForm.Show();
+                            //TourManagementWindow tourManagementWindow = new TourManagementWindow();
+                            //tourManagementWindow.Show();
                             Close();
                             break;
                         case "Tourist":

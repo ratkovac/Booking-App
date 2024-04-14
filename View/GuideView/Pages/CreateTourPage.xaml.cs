@@ -31,6 +31,7 @@ namespace BookingApp.View.GuideView.Pages
         private LocationRepository locationRepository = new LocationRepository();
         private LanguageRepository languageRepository = new LanguageRepository();
         private ImageRepository imageRepository = new ImageRepository();
+        private TourInstanceRepository tourInstanceRepository = new TourInstanceRepository();
 
         private List<Tour> Tours = new List<Tour>();
         private List<string> PathImages = new List<string>();
@@ -43,7 +44,6 @@ namespace BookingApp.View.GuideView.Pages
             InitializeComponent();
             CheckPoints.Add(txtStartCheckPoint);
             CheckPoints.Add(txtOptionCheckPoint);
-
             Dates.Add(txtDates);
 
         }
@@ -77,7 +77,18 @@ namespace BookingApp.View.GuideView.Pages
             GetCheckPoints(CheckPoints, tour.Id);
             GetDateAndTimes(Dates, tour.Id);
 
+            CreateTourInstances(tour.Id, GetDateAndTimes(Dates, tour.Id), tour.MaxGuests);
+
             ClearFields();
+        }
+
+        private void CreateTourInstances(int tourId, List<DateRealization> dates, int maxGuests)
+        {
+            foreach (DateRealization date in dates)
+            {
+                TourInstance tourInstance = new TourInstance(tourId, maxGuests,date.Date, 0, 1);
+                tourInstanceRepository.Save(tourInstance);
+            }
         }
 
         private bool ValidateMaxGuests(string input, out int maxGuests)
@@ -214,12 +225,14 @@ namespace BookingApp.View.GuideView.Pages
         {
             textBox.Text = defaultText;
             textBox.Foreground = defaultBrush;
+            textBox.FontFamily = new FontFamily("Segoe UI");
         }
 
         private void SetLanguageDefault()
         {
             txtLanguage.SelectedIndex = 0;
             txtLanguage.Foreground = Brushes.Gray;
+            txtLanguage.FontFamily = new FontFamily("Segoe UI");
         }
 
 
@@ -257,31 +270,14 @@ namespace BookingApp.View.GuideView.Pages
         {
             return new TextBox
             {
-                Margin = new Thickness(19, 3, 18, 3),
+                Margin = new Thickness(5, 3, 5, 5),
                 Text = "",
                 Foreground = Brushes.Black,
-                Height = 22
+                FontFamily = new FontFamily("Segoe UI"),
+                Height = 25
             };
         }
 
-
-
-        private void btnAddImage_Click(object sender, RoutedEventArgs e)
-        {
-            Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
-            ofd.Multiselect = true;
-
-            bool? response = ofd.ShowDialog();
-
-            if (response == true)
-            {
-                foreach (var item in ofd.FileNames)
-                {
-                    PathImages.Add(item);
-                    MessageBox.Show(item);
-                }
-            }
-        }
 
 
 
@@ -341,9 +337,86 @@ namespace BookingApp.View.GuideView.Pages
                 Margin = new Thickness(19, 3, 18, 0),
                 Text = "",
                 Foreground = Brushes.Black,
+                FontFamily = new FontFamily("Segoe UI"),
                 Height = 22
             };
         }
+
+        private void btnAddImage_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
+            ofd.Multiselect = true;
+
+            bool? response = ofd.ShowDialog();
+
+            if (response == true)
+            {
+                foreach (var item in ofd.FileNames)
+                {
+                    PathImages.Add(item);
+                }
+
+                // Show only last four images
+                ShowLastFourImages();
+            }
+        }
+
+        private void ShowLastFourImages()
+        {
+            // Clear previous images
+            WrapPanel imageWrapPanel = FindName("imageeWrapPanel") as WrapPanel;
+            imageeWrapPanel.Children.Clear();
+
+            // Show only last four images
+            int startIndex = Math.Max(0, PathImages.Count - 4);
+            for (int i = startIndex; i < PathImages.Count; i++)
+            {
+                System.Windows.Controls.Image newImage = new System.Windows.Controls.Image();
+                newImage.Source = new BitmapImage(new Uri(PathImages[i]));
+                newImage.Height = 50;
+                newImage.Margin = new Thickness(5);
+                imageWrapPanel.Children.Add(newImage);
+            }
+        }
+        
+        private void btnShowAllImages_Click(object sender, RoutedEventArgs e)
+        {
+            // Clear previous images
+            WrapPanel imageWrapPanel = FindName("imageeWrapPanel") as WrapPanel;
+            imageWrapPanel.Children.Clear();
+
+            // Show all images
+            foreach (var imagePath in PathImages)
+            {
+                System.Windows.Controls.Image newImage = new System.Windows.Controls.Image();
+                newImage.Source = new BitmapImage(new Uri(imagePath));
+                newImage.Height = 50;
+                newImage.Margin = new Thickness(5);
+                imageWrapPanel.Children.Add(newImage);
+            }
+        }
+
+        private void AddImageToWrapPanel(string imagePath)
+        {
+            WrapPanel imageWrapPanel = FindName("imageeWrapPanel") as WrapPanel;
+            if (imageWrapPanel != null)
+            {
+                System.Windows.Controls.Image newImage = new System.Windows.Controls.Image();
+                newImage.Source = new BitmapImage(new Uri(imagePath));
+                newImage.Height = 50;
+                newImage.Margin = new Thickness(5);
+                imageWrapPanel.Children.Add(newImage); // Dodaj sliku u WrapPanel
+            }
+            else
+            {
+                // Handle the case where imageWrapPanel is null
+                MessageBox.Show("Greska");
+                // This could involve creating a new instance of WrapPanel or displaying an error message
+            }
+        }
+
+
+
 
         private void GotFocus(string txt, TextBox tb)
         {
@@ -366,7 +439,7 @@ namespace BookingApp.View.GuideView.Pages
 
         private void txtDates_GotFocus(object sender, RoutedEventArgs e)
         {
-            GotFocus(txtDates.Text, txtDates);
+            GotFocus("dd-MM-yyyy HH:mm", txtDates);
         }
 
         private void txtDates_LostFocus(object sender, RoutedEventArgs e)
@@ -376,7 +449,7 @@ namespace BookingApp.View.GuideView.Pages
 
         private void txtName_GotFocus(object sender, RoutedEventArgs e)
         {
-            GotFocus(txtName.Text, txtName);
+            GotFocus("Enter Name here..", txtName);
         }
 
         private void txtName_LostFocus(object sender, RoutedEventArgs e)
@@ -386,7 +459,7 @@ namespace BookingApp.View.GuideView.Pages
 
         private void txtCity_GotFocus(object sender, RoutedEventArgs e)
         {
-            GotFocus(txtCity.Text, txtCity);
+            GotFocus("Enter City here..", txtCity);
         }
 
         private void txtCity_LostFocus(object sender, RoutedEventArgs e)
@@ -396,7 +469,7 @@ namespace BookingApp.View.GuideView.Pages
 
         private void txtCountry_GotFocus(object sender, RoutedEventArgs e)
         {
-            GotFocus(txtCountry.Text, txtCountry);
+            GotFocus("Enter Country here..", txtCountry);
         }
 
         private void txtCountry_LostFocus(object sender, RoutedEventArgs e)
@@ -406,7 +479,7 @@ namespace BookingApp.View.GuideView.Pages
 
         private void txtDescription_GotFocus(object sender, RoutedEventArgs e)
         {
-            GotFocus(txtDescription.Text, txtDescription);
+            GotFocus("Enter Description here..", txtDescription);
         }
 
         private void txtDescription_LostFocus(object sender, RoutedEventArgs e)
@@ -416,7 +489,7 @@ namespace BookingApp.View.GuideView.Pages
 
         private void txtMaxGuests_GotFocus(object sender, RoutedEventArgs e)
         {
-            GotFocus(txtMaxGuests.Text, txtMaxGuests);
+            GotFocus("0", txtMaxGuests);
         }
 
         private void txtMaxGuests_LostFocus(object sender, RoutedEventArgs e)
@@ -426,7 +499,7 @@ namespace BookingApp.View.GuideView.Pages
 
         private void txtStartCheckPoint_GotFocus(object sender, RoutedEventArgs e)
         {
-            GotFocus(txtStartCheckPoint.Text, txtStartCheckPoint);
+            GotFocus("Start Point", txtStartCheckPoint);
         }
 
         private void txtStartCheckPoint_LostFocus(object sender, RoutedEventArgs e)
@@ -436,7 +509,7 @@ namespace BookingApp.View.GuideView.Pages
 
         private void txtOptionCheckPoint_GotFocus(object sender, RoutedEventArgs e)
         {
-            GotFocus(txtOptionCheckPoint.Text, txtOptionCheckPoint);
+            GotFocus("Additional Check Point", txtOptionCheckPoint);
         }
 
         private void txtOptionCheckPoint_LostFocus(object sender, RoutedEventArgs e)
@@ -446,7 +519,7 @@ namespace BookingApp.View.GuideView.Pages
 
         private void txtEndCheckPoint_GotFocus(object sender, RoutedEventArgs e)
         {
-            GotFocus(txtEndCheckPoint.Text, txtEndCheckPoint);
+            GotFocus("End Point", txtEndCheckPoint);
         }
 
         private void txtEndCheckPoint_LostFocus(object sender, RoutedEventArgs e)
@@ -456,7 +529,7 @@ namespace BookingApp.View.GuideView.Pages
 
         private void txtDuration_GotFocus(object sender, RoutedEventArgs e)
         {
-            GotFocus(txtDuration.Text, txtDuration);
+            GotFocus("Hours.Minutes", txtDuration);
         }
 
         private void txtDuration_LostFocus(object sender, RoutedEventArgs e)
@@ -473,5 +546,6 @@ namespace BookingApp.View.GuideView.Pages
         {
 
         }
+
     }
 }

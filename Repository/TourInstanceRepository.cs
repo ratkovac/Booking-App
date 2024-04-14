@@ -2,6 +2,7 @@
 using BookingApp.Repository.RepositoryInterface;
 using BookingApp.Serializer;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -88,5 +89,36 @@ namespace BookingApp.Repository
         {
             return _serializer.FromCSV(FilePath).FirstOrDefault(tourInstance => tourInstance.TourId == tourId && tourInstance.StartTime == date);
         }
+
+        public List<TourInstance> GetToursForToday()
+        {
+            DateTime today = DateTime.Now.Date;
+            string formattedToday = today.ToString("M/d/yyyy");
+
+            List<int> tourInstanceIds = GetTourIdsForToday(formattedToday);
+            return _tourInstances.Where(t => tourInstanceIds.Contains(t.Id)).ToList();
+        }
+
+        private List<int> GetTourIdsForToday(string formattedToday)
+        {
+            string[] lines = File.ReadAllLines(FilePath);
+            List<int> tourInstanceIds = new List<int>();
+
+            foreach (string line in lines)
+            {
+                string[] values = line.Split('|');
+                string[] dateParts = values[3].Split(' ')[0].Split('/'); // Razdvajanje delova datuma
+                string dateFormat = dateParts[0].PadLeft(1, '0') + "/" + dateParts[1].PadLeft(1, '0') + "/" + dateParts[2].PadLeft(4, '0'); // Formatiranje datuma u "m/d/yyyy" format
+
+                if (dateFormat == formattedToday)
+                {
+                    int tourInstanceId = Convert.ToInt32(values[0]);
+                    tourInstanceIds.Add(tourInstanceId);
+                }
+            }
+
+            return tourInstanceIds;
+        }
+
     }
 }
