@@ -70,7 +70,7 @@ namespace BookingApp.View
                             Close();
                             break;
                         case "Guide":
-                            TourForm tourForm = new TourForm();
+                            TourForm tourForm = new TourForm(user);
                             tourForm.Show();
                             //TourManagementWindow tourManagementWindow = new TourManagementWindow();
                             //tourManagementWindow.Show();

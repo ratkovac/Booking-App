@@ -27,6 +27,8 @@ namespace BookingApp.View.GuideView
     /// </summary>
     public partial class TourForm : Window, INotifyPropertyChanged
     {
+        private User user;
+
         private string _pageName;
         public string PageName
         {
@@ -46,11 +48,12 @@ namespace BookingApp.View.GuideView
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public TourForm()
+        public TourForm(User user)
         {
             InitializeComponent();
             ActionBar actionBar = new ActionBar(MainFrame);
             DataContext = this;
+            this.user = user;
         }
 
         public void btnNavigation_Click(object sender, RoutedEventArgs e)
@@ -67,7 +70,9 @@ namespace BookingApp.View.GuideView
 
         private void btnCreateTour_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Navigate(new Uri("View/GuideView/Pages/CreateTourPage.xaml", UriKind.RelativeOrAbsolute));
+            CreateTourPage createTourPage = new CreateTourPage(user);
+            MainFrame.Navigate(createTourPage);
+            //MainFrame.Navigate(new Uri("View/GuideView/Pages/CreateTourPage.xaml", UriKind.RelativeOrAbsolute));
             PageName = "Create Tour";
         }
 
@@ -79,7 +84,10 @@ namespace BookingApp.View.GuideView
 
         private void btnTourStatistics_Click(object sender, RoutedEventArgs e)
         {
+            TourStatisticPage tourStatisticPage = new TourStatisticPage(user);
             // Implementirajte logiku za dugme Tour Statistics
+            MainFrame.Navigate(tourStatisticPage);
+            PageName = "Tour Statistic Page";
         }
 
         private void btnTourReviews_Click(object sender, RoutedEventArgs e)
