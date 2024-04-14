@@ -1,5 +1,7 @@
 ﻿using BookingApp.Model;
+using BookingApp.Repository.RepositoryInterface;
 using BookingApp.Serializer;
+using BookingApp.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BookingApp.Repository
 {
-    public class TourReservationRepository
+    public class TourReservationRepository : ITourReservationRepository
     {
 
         private const string FilePath = "../../../Resources/Data/tourReservations.csv";
@@ -62,7 +64,7 @@ namespace BookingApp.Repository
             _serializer.ToCSV(FilePath, _tourReservations);
         }
 
-        public TourReservation Update(TourReservation tourReservation)
+        public void Update(TourReservation tourReservation)
         {
             int index = _tourReservations.FindIndex(t => tourReservation.Id == t.Id);
             if (index != -1)
@@ -70,22 +72,46 @@ namespace BookingApp.Repository
                 _tourReservations[index] = tourReservation;
                 _serializer.ToCSV(FilePath, _tourReservations);
             }
-            return tourReservation;
         }
 
-        public TourReservation GetByID(int id)
+        public TourReservation GetById(int id)
         {
             return _tourReservations.Find(r => r.Id == id);
         }
 
         public List<TourReservation> GetAllByUserId(int userId)
         {
-            return _serializer.FromCSV(FilePath).Where(tr => tr.UserId == userId).ToList();
+            return _serializer.FromCSV(FilePath).Where(tr => tr.TouristId == userId).ToList();
         }
 
         public List<TourReservation> GetAllByTourInstanceId(int tourInstanceId)
         {
             return _serializer.FromCSV(FilePath).Where(tr => tr.TourInstanceId == tourInstanceId).ToList();
+        }
+
+        public List<TourReservation> GetReservationsByTourInstance(TourInstance tourInstance)
+        {
+            return _tourReservations.Where(r => r.TourInstanceId == tourInstance.Id).ToList();
+        }
+        public List<TourReservation> GetReservationsByTourInstanceAndState(TourInstance tourInstance, TouristState state)
+        {
+            return _tourReservations.Where(r => r.State == state && r.TourInstanceId == tourInstance.Id).ToList();
+        }
+        public List<int> GetTouristIdsByTourInstanceAndState(TourInstance tourInstance, TouristState state)
+        {
+            List<TourReservation> wantedReservations = _tourReservations.Where(r => r.State == state && r.TourInstanceId == tourInstance.Id).ToList();
+            List<int> guestIds = wantedReservations.Select(r => r.TouristId).ToList();
+            return guestIds;
+        }
+        public TourReservation GetTourInstanceIdWhereTouristIsWaiting(Tourist tourist)
+        {
+            TourReservation reservation = _tourReservations.Find(r => r.TouristId == tourist.Id && r.State == TouristState.ActiveTour);
+            return reservation;
+        }
+        public TourReservation GetReservationByTouristAndTourInstance(TourInstance tourInstance, Tourist tourist)
+        {
+            TourReservation tourReservation = _tourReservations.Find(r => r.TouristId == tourist.Id && r.TourInstanceId == tourInstance.Id);
+            return tourReservation;
         }
     }
 

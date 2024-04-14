@@ -45,5 +45,19 @@ namespace BookingApp.View.Driver
             driveWindow.Show();
             Close();
         }
+
+        private void btnOpenStats_Click(object sender, RoutedEventArgs e)
+        {
+            Driver.Example example = new Driver.Example();
+            example.Show();
+            Close();
+        }
+
+        private void btnNotification_Click(object sender, RoutedEventArgs e)
+        {
+            Driver.NotificationPage notificationPage = new NotificationPage();
+            notificationPage.Show();
+            Close();
+        }
     }
 }

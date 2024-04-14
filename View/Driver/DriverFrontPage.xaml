@@ -8,7 +8,12 @@
         Title="DriverFrontPage" Height="450" Width="800">
     <Grid>
 
-        <Button Name="btnOpenVehicleRegistration" Content="Open Vehicle Registration" Click="btnOpenVehicleRegistration_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20"/>
-        <Button Name="btnShowDrives" Content="Open Drives" Click="btnShowDrives_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="20"/>
+        <Button Name="btnOpenVehicleRegistration" Content="Open Vehicle Registration" Click="btnOpenVehicleRegistration_Click" VerticalAlignment="Top" Margin="31,50,557,0" Width="190" Height="45"/>
+        <Button Name="btnShowDrives" Content="Open Drives" Click="btnShowDrives_Click" Margin="31,50,557, 220" Width="190" Height="45"/>
+        <Button Name="btnOpenStats" Content="Open Statistics" Click="btnOpenStats_Click" Margin="31, 0,557,50" Width="190" Height="45"/>
+        <Button Name ="btnNotification" Height="30" Width="30" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="30, 50, 250, 10" Click="btnNotification_Click"/>
+        <Border BorderBrush="Black" BorderThickness="1">
+            <Rectangle HorizontalAlignment="Left" Height="170" Margin="31,231,31,0" Stroke="Black" VerticalAlignment="Top" Width="720"/>
+        </Border>
     </Grid>
 </Window>

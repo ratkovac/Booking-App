@@ -17,13 +17,13 @@ namespace BookingApp.DTO
         private Accommodation accommodation;
         public Accommodation Accommodation
         {
-            get 
-            { 
+            get
+            {
                 return accommodation;
             }
             set
             {
-                if(value !=  accommodation)
+                if (value != accommodation)
                 {
                     accommodation = value;
                     OnPropertyChanged("AccommodationId");
@@ -55,7 +55,7 @@ namespace BookingApp.DTO
             }
             set
             {
-                if(value != user)
+                if (value != user)
                 {
                     user = value;
                     OnPropertyChanged("User");
@@ -88,7 +88,7 @@ namespace BookingApp.DTO
             }
             set
             {
-                if(value !=  startDate)
+                if (value != startDate)
                 {
                     startDate = value;
                     OnPropertyChanged("StartDate");
@@ -105,7 +105,7 @@ namespace BookingApp.DTO
             }
             set
             {
-                if(value != endDate)
+                if (value != endDate)
                 {
                     endDate = value;
                     OnPropertyChanged("EndDate");
@@ -146,6 +146,39 @@ namespace BookingApp.DTO
                 }
             }
         }
+        private double accommodationGrade;
+        public double AccommodationGrade
+        {
+            get
+            {
+                return accommodationGrade;
+            }
+            set
+            {
+                if (value != accommodationGrade)
+                {
+                    accommodationGrade = value;
+                    OnPropertyChanged("AccommoationGrade");
+                }
+            }
+        }
+        private int daysToRating;
+
+        public int DaysToRating
+        {
+            get
+            {
+                return daysToRating;
+            }
+            set
+            {
+                if (value != daysToRating)
+                {
+                    daysToRating = value;
+                    OnPropertyChanged("daysToRating");
+                }
+            }
+        }
         private int capacity;
         public int Capacity
         {
@@ -163,6 +196,7 @@ namespace BookingApp.DTO
             }
         }
 
+
         public AccommodationReservationDTO()
         {
         }
@@ -175,16 +209,18 @@ namespace BookingApp.DTO
             endDate = accommodationReservation.EndDate;
             reservationDays = accommodationReservation.ReservationDays;
             userGrade = accommodationReservation.UserGrade;
+            accommodationGrade = accommodationReservation.AccommodationGrade;
             userName = accommodationReservation.User.Username;
             accommodationName = accommodationReservation.Accommodation.Name;
             capacity = accommodationReservation.Capacity;
+
         }
         public AccommodationReservation ToAccommodationReservation()
         {
-            AccommodationReservation accommodationReservation = new AccommodationReservation(Id, accommodation, user, startDate,endDate, reservationDays,userGrade, capacity);
+            AccommodationReservation accommodationReservation = new AccommodationReservation(Id, accommodation, user, startDate, endDate, reservationDays, userGrade, accommodationGrade, capacity);
             return accommodationReservation;
         }
-        
+
         protected virtual void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)

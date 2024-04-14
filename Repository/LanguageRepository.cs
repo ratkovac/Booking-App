@@ -89,5 +89,10 @@ namespace BookingApp.Repository
             return null;
 
         }
+        public int ExistsLanguage(string name)
+        {
+            var existingLanguage = _languages.FirstOrDefault(language => language.Name == name);
+            return existingLanguage != null ? existingLanguage.Id : 0;
+        }
     }
 }

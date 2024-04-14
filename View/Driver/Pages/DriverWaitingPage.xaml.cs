@@ -18,23 +18,27 @@ using System.Windows.Threading;
 
 namespace BookingApp.View.Driver.Pages
 {
-    /// <summary>
-    /// Interaction logic for DriverWaitingPage.xaml
-    /// </summary>
+
     public partial class DriverWaitingPage : Page
     {
         private DriveDTO selectedDrive;
         private DispatcherTimer timer;
         private int remainingTimeInSeconds = 20 * 60;
         public DriveRepository _driveRepository;
-        public DriverFrontPage driverFrontPage;
-        public DriverWaitingPage(DriveDTO drive)
+        public DrivesWindow drivesWindow;
+        public SuccessfulDrivesRepository _successfulDrivesRepository;
+        public UnsuccessfulDrivesRepository _unsuccessfulDrivesRepository;
+
+
+        public DriverWaitingPage(DriveDTO drive, DrivesWindow DrivesWindow)
         {
             InitializeComponent();
             selectedDrive = drive;
             _driveRepository = new DriveRepository();
-            driverFrontPage = new DriverFrontPage(selectedDrive.Driver);
+            _successfulDrivesRepository = new SuccessfulDrivesRepository();
+            _unsuccessfulDrivesRepository = new UnsuccessfulDrivesRepository();
             StartTimer();
+            drivesWindow = DrivesWindow;
         }
 
         private void StartTimer()
@@ -52,9 +56,12 @@ namespace BookingApp.View.Driver.Pages
             if (remainingTimeInSeconds <= 0)
             {
                 timer.Stop();
-                MessageBox.Show("Vreme je isteklo!");
+                MessageBox.Show("Time's up!");
                 _driveRepository.Delete(selectedDrive.ToDrive());
-                OpenFrontPage();
+                _unsuccessfulDrivesRepository.Save(selectedDrive.ToDrive());
+
+
+                OpenDrivesPage();
             }
 
             TimeSpan timeSpan = TimeSpan.FromSeconds(remainingTimeInSeconds);
@@ -66,13 +73,18 @@ namespace BookingApp.View.Driver.Pages
         private void btnTouristArrived_Click(object sender, RoutedEventArgs e)
         {
             _driveRepository.Delete(selectedDrive.ToDrive());
-            OpenFrontPage();
+            _successfulDrivesRepository.Save(selectedDrive.ToDrive());
+
+            StartingPricePage startingPricePage = new StartingPricePage(selectedDrive, drivesWindow);
+
+            NavigationService.Navigate(startingPricePage);
+            //OpenDrivesPage();
         }
 
-        private void OpenFrontPage()
+        private void OpenDrivesPage()
         {
             Window.GetWindow(this)?.Close();
-            driverFrontPage.Show();
+            drivesWindow.RefreshDriveList();
         }
     }
 }

@@ -16,12 +16,11 @@ using System.Windows.Shapes;
 
 namespace BookingApp.View.Driver.Pages
 {
-    /// <summary>
-    /// Interaction logic for DriveReservationPage.xaml
-    /// </summary>
+
     public partial class DriveReservationPage : Page
     {
         DriveDTO selectedDrive;
+
         public DriveReservationPage(DriveDTO drive)
         {
             InitializeComponent();
@@ -30,12 +29,12 @@ namespace BookingApp.View.Driver.Pages
 
         private void btnYes_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new DriverAtAddress(selectedDrive));
+        //    NavigationService.Navigate(new DriverAtAddress(selectedDrive, DrivesWindow DriveWindow));
         }
 
         private void btnNo_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new MinutesLatePage(selectedDrive));
+          //  NavigationService.Navigate(new MinutesLatePage(selectedDrive));
         }
     }
 }

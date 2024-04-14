@@ -39,6 +39,8 @@
             <Label Content="Cancellation Deadline (Days)" Margin="0,5"/>
             <TextBox x:Name="guestsTextBoxCancel" Text="{Binding DaysBeforeCancel, UpdateSourceTrigger=PropertyChanged}" Margin="0,5"/>
 
+            <Button Content="My Reservations" Click="MyReservations_Click"/>
+
         </StackPanel>
 
         <DataGrid x:Name="dataGrid" CanUserAddRows="False" Grid.Row="1" Grid.Column="1" AutoGenerateColumns="False"

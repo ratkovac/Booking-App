@@ -1,15 +1,17 @@
 ﻿using BookingApp.Model;
 using BookingApp.Serializer;
+using BookingApp.View.Owner;
 using CLI.Observer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BookingApp.Repository.RepositoryInterface;
 
 namespace BookingApp.Repository
 {
-    public class AccommodationReservationRepository
+    public class AccommodationReservationRepository : IAccommodationReservationRepository
     {
 
         private const string FilePath = "../../../Resources/Data/reservation.csv";
@@ -52,6 +54,16 @@ namespace BookingApp.Repository
             return _accommodationReservations.Max(c => c.Id) + 1;
         }
 
+        public void Create(AccommodationReservation entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IGenericRepository<AccommodationReservation, int>.Update(AccommodationReservation entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Delete(AccommodationReservation AccommodationReservation)
         {
             _accommodationReservations = _serializer.FromCSV(FilePath);
@@ -61,6 +73,11 @@ namespace BookingApp.Repository
                 _accommodationReservations.Remove(founded);
             }
             _serializer.ToCSV(FilePath, _accommodationReservations);
+        }
+
+        public AccommodationReservation GetById(int key)
+        {
+            throw new NotImplementedException();
         }
 
         public AccommodationReservation Update(AccommodationReservation AccommodationReservation)
@@ -78,6 +95,21 @@ namespace BookingApp.Repository
         {
             return _accommodationReservations.Find(c => c.Id == accommodationId);
 
+        }
+
+        public List<AccommodationReservation> GetAllByUser(int userId)
+        {
+            List<AccommodationReservation> reservationsByUser = new List<AccommodationReservation>();
+
+            foreach (var reservation in _accommodationReservations)
+            {
+                if (reservation.User.Id == userId)
+                {
+                    reservationsByUser.Add(reservation);
+                }
+            }
+
+            return reservationsByUser;
         }
     }
 }

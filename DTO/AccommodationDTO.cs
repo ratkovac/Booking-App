@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static BookingApp.Model.AccommodationTypeEnum;
 
+
 namespace BookingApp.DTO
 {
     public class AccommodationDTO : INotifyPropertyChanged

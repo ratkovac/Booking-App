@@ -17,7 +17,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BookingApp.View.NGuest;
+using BookingApp.View.ViewModel.Guest;
 using static BookingApp.Model.AccommodationTypeEnum;
+
 
 namespace BookingApp.View
 {
@@ -48,8 +51,11 @@ namespace BookingApp.View
 
             SelectedAccommodation = new AccommodationDTO();
 
+
             Update();
             LoggedInUser = loggedInUser;
+
+            
         }
 
         private string searchText;
@@ -114,7 +120,7 @@ namespace BookingApp.View
         }
 
         private string capacity;
-        public  string Capacity
+        public string Capacity
         {
             get
             {
@@ -207,12 +213,13 @@ namespace BookingApp.View
                 return false;
 
             bool matchesSearchText = string.IsNullOrWhiteSpace(SearchText) || accommodation.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
-            bool matchesCapacity = string.IsNullOrWhiteSpace(Capacity) || accommodation.Capacity.ToString().Contains(Capacity, StringComparison.OrdinalIgnoreCase);
-            bool matchesDaysBeforeCancel = string.IsNullOrWhiteSpace(DaysBeforeCancel) || accommodation.DaysBeforeCancel.ToString().Contains(DaysBeforeCancel, StringComparison.OrdinalIgnoreCase);
+            bool matchesCapacity = string.IsNullOrWhiteSpace(Capacity) || accommodation.Capacity >= int.Parse(Capacity);
+            bool matchesDaysBeforeCancel = string.IsNullOrWhiteSpace(DaysBeforeCancel) || accommodation.DaysBeforeCancel >= int.Parse(DaysBeforeCancel);
             bool matchesMinReservationDays = string.IsNullOrWhiteSpace(MinReservationDays) || accommodation.MinReservationDays.ToString().Contains(MinReservationDays, StringComparison.OrdinalIgnoreCase);
             bool matchesLocation = string.IsNullOrWhiteSpace(SelectedLocation) || accommodation.Location.ToString().Equals(SelectedLocation, StringComparison.OrdinalIgnoreCase);
             bool matchesIsCheckedAccomodationType = IsCheckedAccomodationType(accommodation);
 
+           
             return matchesSearchText && matchesLocation && matchesCapacity && matchesDaysBeforeCancel && matchesMinReservationDays && matchesIsCheckedAccomodationType;
         }
         private void CheckBoxOption1_Changed(object sender, RoutedEventArgs e)
@@ -268,6 +275,13 @@ namespace BookingApp.View
         {
             Reservation reservation = new Reservation(SelectedAccommodation, user);
             reservation.Show();
+        }
+
+        private void MyReservations_Click(object sender, RoutedEventArgs e)
+        {
+            MyReservationViewModel myReservationViewModel = new MyReservationViewModel(LoggedInUser);
+            MyReservation myReservation = new MyReservation(myReservationViewModel);
+            myReservation.Show();
         }
     }
 }

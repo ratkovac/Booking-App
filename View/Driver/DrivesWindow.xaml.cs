@@ -28,6 +28,14 @@ namespace BookingApp.View.Driver
         UserRepository _userRepository;
         public ObservableCollection<DriveDTO> ListDrive { get; set; } = new ObservableCollection<DriveDTO>();
         public User LoggedInUser { get; }
+        public bool IsOverlayVisible
+        {
+            get { return (bool)GetValue(IsOverlayVisibleProperty); }
+            set { SetValue(IsOverlayVisibleProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsOverlayVisibleProperty =
+            DependencyProperty.Register("IsOverlayVisible", typeof(bool), typeof(DrivesWindow), new PropertyMetadata(false));
 
         public DrivesWindow(User user)
         {
@@ -58,14 +66,27 @@ namespace BookingApp.View.Driver
             if (dataGrid.SelectedItem != null)
             {
                 DriveDTO selectedDrive = dataGrid.SelectedItem as DriveDTO;
+                DriveReservationWindow reservationWindow = new DriveReservationWindow(selectedDrive, this);
 
-                DriveReservationPage driveReservationPage = new DriveReservationPage(selectedDrive);
-
-                MainFrame.Navigate(driveReservationPage);
+                reservationWindow.Owner = this;
+                reservationWindow.ShowDialog();
             }
             else
             {
                 MessageBox.Show("Please select a drive first.");
+            }
+        }
+
+        internal void RefreshDriveList()
+        {
+            ListDrive.Clear();
+
+            var drives = _driveRepository.GetDrivesByDriver(LoggedInUser);
+
+            foreach (var drive in drives)
+            {
+                DriveDTO driveDTO = new DriveDTO(drive);
+                ListDrive.Add(driveDTO);
             }
         }
     }

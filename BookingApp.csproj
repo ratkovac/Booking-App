@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="WPF\**" />
+    <EmbeddedResource Remove="WPF\**" />
+    <None Remove="WPF\**" />
+    <Page Remove="WPF\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Images\reserve.png" />
     <None Remove="Resources\Images\add.png" />
     <None Remove="Resources\Images\delete.png" />
@@ -16,6 +23,8 @@
     <None Remove="View\GuideView\GuideImages\navigation.png" />
     <None Remove="View\GuideView\GuideImages\profile.png" />
     <None Remove="View\GuideView\Pages\pozadinaNebo.jpg" />
+    <None Remove="View\Owner\star.png" />
+    <None Remove="View\Owner\user.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,7 +47,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="LiveCharts" Version="0.9.7" />
+    <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Images\reserve.png" />
+    <Resource Include="View\Owner\Images\star.png" />
+    <Resource Include="View\Owner\Images\user.jpg" />
     <Resource Include="View\GuideView\GuideImages\profile.png" />
     <Resource Include="View\GuideView\Pages\pozadinaNebo.jpg" />
   </ItemGroup>
