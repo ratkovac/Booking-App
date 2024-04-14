@@ -13,6 +13,13 @@
     <None Remove="Resources\Images\delete.png" />
     <None Remove="Resources\Images\edit.png" />
     <None Remove="Resources\Images\view.png" />
+    <None Remove="View\GuideView\GuideImages\navigation.png" />
+    <None Remove="View\GuideView\GuideImages\profile.png" />
+    <None Remove="View\GuideView\Pages\pozadinaNebo.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="View\GuideView\GuideImages\navigation.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +39,8 @@
 
   <ItemGroup>
     <Resource Include="Images\reserve.png" />
+    <Resource Include="View\GuideView\GuideImages\profile.png" />
+    <Resource Include="View\GuideView\Pages\pozadinaNebo.jpg" />
   </ItemGroup>
 
 </Project>

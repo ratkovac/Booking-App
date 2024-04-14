@@ -4,75 +4,74 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BookingApp.View.GuideView"
+        xmlns:localpages="clr-namespace:BookingApp.View.GuideView.Pages"
         ResizeMode="NoResize"
         mc:Ignorable="d"
         Title="TourForm" Height="750" Width="430">
+
+    <Window.Resources>
+        <!-- Include your existing resource dictionary here -->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="./Pages/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Add your new resource here -->
+            <ContentControl x:Key="MainFrameContent">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="430" Height="690">
+                    <!-- Button for navigating to CreateTourPage -->
+                    <Button x:Name="btnCreateTour" Content="Create Tour" Height="40" Click="btnCreateTour_Click" Margin="30, 50, 30, 10" Style="{StaticResource AddButtonStyle}"/>
+                    <Button x:Name="btnTrackTourLive" Content="Track Tour Live" Height="40" Click="btnTrackTourLive_Click" Margin="30, 30, 30, 10" Style="{StaticResource AddButtonStyle}"/>
+                    <Button x:Name="btnTourStatistics" Content="Tour Statistics" Height="40" Click="btnTourStatistics_Click" Margin="30, 30, 30, 10" Style="{StaticResource AddButtonStyle}"/>
+                    <Button x:Name="btnTourReviews" Content="Tour Reviews" Height="40" Click="btnTourReviews_Click" Margin="30, 30, 30, 10" Style="{StaticResource AddButtonStyle}"/>
+                    <Button x:Name="btnCancelTour" Content="Cancel Tour" Height="40" Click="btnCancelTour_Click" Margin="30, 30, 30, 10" Style="{StaticResource AddButtonStyle}"/>
+                    <Button x:Name="btnTourRequests" Content="Tour Requests" Height="40" Click="btnTourRequests_Click" Margin="30, 30, 30, 10" Style="{StaticResource AddButtonStyle}"/>
+                    <Button x:Name="btnCustomizeTour" Content="Customize Tour" Height="40" Click="btnCustomizeTour_Click" Margin="30, 30, 30, 10" Style="{StaticResource AddButtonStyle}"/>
+                    <Button x:Name="btnRequestsStatistics" Content="Requests Statistics" Height="40" Click="btnRequestsStatistics_Click" Margin="30, 20, 30, 10" Style="{StaticResource AddButtonStyle}"/>
+                </StackPanel>
+            </ContentControl>
+        </ResourceDictionary>
+    </Window.Resources>
+
+
+
     <Grid>
-        <DockPanel>
-            <Grid
-        Height="50"
-        Background="#FF707070"
-        DockPanel.Dock="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+        <!-- Include ActionBar -->
+        <Grid VerticalAlignment="Top"  Background="LightBlue" Height="44">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <!-- Navigation button -->
+            <Button Name="btnNavigation" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15, 0, 0,0" BorderThickness="0" Background="Transparent" Click="btnNavigation_Click">
+                <Image Source="GuideImages/navigation.png" Width="40" Height="34"/>
+            </Button>
 
-                <Button
-            x:Name="BackButton"
-            Grid.Row="0"
-            Grid.Column="0"
-            Margin="5"
-            Background="White"
-            Foreground="Black"
-            Click="BackButton_Click"
-            Content="Back"
-            Cursor="Hand"
-            IsEnabled="{Binding ElementName=MainFrame, Path=CanGoBack}"
-            ToolTip="Navigate Back" />
+            <!-- Page name -->
+            <TextBlock Grid.Column="1" Text="{Binding PageName}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-                <Menu Grid.Column="1">
-                    <MenuItem
-                    Name="CreateTourItem"
-                    Height="50"
-                    Click="CreateTourItem_Click"
-                    Cursor="Hand"
-                    Header="Create Tour"
-                    ToolTip="Go to Create Tour Page" />
-                    <MenuItem
-                    Name="TrackTourLive"
-                    Height="50"
-                    Click="TrackTourLive_Click"
-                    Cursor="Hand"
-                    Header="Track Tour Live"
-                    ToolTip="Go to Track Tour Live Page" />
-                </Menu>
-                <Button
-            x:Name="ExitButton"
-            Grid.Row="0"
-            Grid.Column="2"
-            Margin="5"
-            Width="Auto"
-            Height="Auto"
-            Background="White"
-            Foreground="Black"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Click="ExitButton_Click"
-            Cursor="Hand"
-            Content="Exit"
-            ToolTip="Close the application" />
-            </Grid>
+            <!-- Profile button -->
+            <Button Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0, 0, 15,0" BorderThickness="0" Background="Transparent">
+                <Image Source="GuideImages/profile.png" Width="40" Height="34"/>
+            </Button>
+        </Grid>
 
-            <Frame
-                x:Name="MainFrame"
-                 DockPanel.Dock="Bottom"
-                NavigationUIVisibility="Hidden" >
-                <Frame.Background>
-                    <ImageBrush ImageSource="C:\Users\janic\FAX\SEMESTAR 6\SiMS\sims-ra-2024-group-7-team-a-main\sims-ra-2024-group-7-team-a-main\View\GuideView\GuideImages\mainslika.jpeg"/>
-                </Frame.Background>
-            </Frame>
-        </DockPanel>
+        <!-- MainFrame for navigating between pages -->
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Margin="0,44,0,50">
+            <Frame.Background>
+                <ImageBrush ImageSource="C:\Users\janic\FAX\SEMESTAR 6\SiMS\ratkovac\sims-ra-2024-group-7-team-a\sims-ra-2024-group-7-team-a\View\GuideView\GuideImages\pozadinaNebo.jpg"/>
+            </Frame.Background>
+            <!-- Content area -->
+            <Frame.Content >
+                <StaticResource ResourceKey="MainFrameContent"/>
+            </Frame.Content>
+        </Frame>
+
+        <!-- Navigation bar at the bottom -->
+        <Grid VerticalAlignment="Bottom" Background="LightGray" Height="50">
+            <Button Name="btnBack" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10" Width="40" Click="btnBack_Click" Style="{StaticResource AddButtonStyle}"/>
+            <Button Content="Next" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10" Width="40" Style="{StaticResource AddButtonStyle}"/>
+        </Grid>
     </Grid>
 </Window>

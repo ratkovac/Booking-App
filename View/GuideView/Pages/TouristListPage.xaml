@@ -1,0 +1,28 @@
+﻿<Page x:Class="BookingApp.View.GuideView.Pages.TouristListPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BookingApp.View.GuideView.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="750" d:DesignWidth="430"
+      Title="TouristListPage">
+
+    <Grid>
+        <DataGrid ItemsSource="{Binding TourGuests}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Checkbox">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsPresent}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Id Touriste" Binding="{Binding Id}" Width="*" />
+                <DataGridTextColumn Header="Ime turiste" Binding="{Binding Name}" Width="*" />
+                <DataGridTextColumn Header="Godine turiste" Binding="{Binding Age}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Content="Save" Name="btnSave" Click="btnSave_Click" Width="50" Height="50"/>
+    </Grid>
+</Page>
