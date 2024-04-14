@@ -40,23 +40,52 @@ namespace BookingApp.View.GuideView.Pages
             }
         }
 
+        private List<TourGuest> _selectedTourGuests;
+        public List<TourGuest> SelectedTourGuest
+        {
+            get { return _selectedTourGuests; }
+            set
+            {
+                _selectedTourGuests = value;
+                OnPropertyChanged();
+            }
+        }
+
         private TourReservationRepository tourReservationRepository = new TourReservationRepository();
         private TourGuestRepository tourGuestRepository = new TourGuestRepository();
-        public TouristListPage(int tourId, int checkPointId)
+
+        private int checkPointId;
+        public TouristListPage(int tourId, int _checkPointId)
         {
             InitializeComponent();
             DataContext = this;
             _tourReservations = new List<TourReservation>(tourReservationRepository.GetAllByTourInstanceId(tourId));
             TourGuests = new ObservableCollection<TourGuest>(GetTourGuests(_tourReservations));
+            checkPointId = _checkPointId;
         }
 
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            // Pronađi TourGuest objekat na osnovu selektovanog checkbox-a
+            var checkBox = sender as CheckBox;
+            if (checkBox != null && checkBox.DataContext is TourGuest)
+            {
+                var tourGuest = checkBox.DataContext as TourGuest;
+
+                // Ažuriraj CheckPointId
+                tourGuest.CheckpointId = checkPointId; // checkPointId je promenljiva koju imate dostupnu u klasi
+                tourGuestRepository.Update(tourGuest);
+                // Obavesti interfejs o promeni
+                OnPropertyChanged(nameof(TourGuests));
+            }
+        }
         private List<TourGuest> GetTourGuests(List<TourReservation> tourReservations)
         {
             List<TourGuest> tourGuests = new List<TourGuest>();
 
             foreach(TourReservation tourReservation in tourReservations)
             {
-                tourGuests = tourGuestRepository.GetAllByTourInstanceId(tourReservation.Id);               
+                tourGuests = tourGuestRepository.GetAllByTourReservationId(tourReservation.Id);               
             }
 
             return tourGuests;

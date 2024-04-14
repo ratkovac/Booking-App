@@ -86,7 +86,7 @@ namespace BookingApp.View.GuideView.Pages
         {
             foreach (DateRealization date in dates)
             {
-                TourInstance tourInstance = new TourInstance(tourId, maxGuests, date.Date, 1);
+                TourInstance tourInstance = new TourInstance(tourId, maxGuests,date.Date, 0, 1);
                 tourInstanceRepository.Save(tourInstance);
             }
         }

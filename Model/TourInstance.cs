@@ -33,6 +33,14 @@ namespace BookingApp.Model
             State = state;
             //RatedTour = false;
         }
+        public TourInstance(int tourId, int availableSlots, DateTime startTime, TourInstanceState state, int guideId)
+        {
+            TourId = tourId;
+            AvailableSlots = availableSlots;
+            StartTime = startTime;
+            State = state;
+            GuideId = guideId;
+        }
 
         public static TourInstanceState GetState(string state)
         {
@@ -64,6 +72,7 @@ namespace BookingApp.Model
             StartTime.ToString(),
             State.ToString(),
             //RatedTour.ToString()
+            GuideId.ToString()
             };
         }
 
@@ -74,6 +83,7 @@ namespace BookingApp.Model
             AvailableSlots = Convert.ToInt32(values[2]);
             StartTime = DateTime.Parse(values[3]);
             State = (TourInstanceState)Enum.Parse(typeof(TourInstanceState), values[4]);
+            GuideId = Convert.ToInt32(values[5]);
             //RatedTour = bool.Parse(values[5]);
         }
     }
