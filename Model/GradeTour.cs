@@ -14,21 +14,23 @@ namespace BookingApp.Model
         public Tourist Tourist { get; set; }
         public int TourReservationId { get; set; }
         public TourReservation TourReservation { get; set; }
-        public int Grade { get; set; }
+        public List<string> Grades { get; set; }
+        //public List<string> Comments { get; set; }
         public string Comment { get; set; }
         public List<string> Images { get; set; }
         public bool IsValid { get; set; }
 
         public GradeTour()
         {
+            Grades = new List<string>();
             Images = new List<string>();
         }
-        public GradeTour(int touristId, Tourist tourist, int tourReservationId, int grade, string comment, List<string> images)
+        public GradeTour(int touristId, Tourist tourist, int tourReservationId, List<string> grades, string comment, List<string> images)
         {
             TouristId = touristId;
             Tourist = tourist;
             TourReservationId = tourReservationId;
-            Grade = grade;
+            Grades = grades;
             Comment = comment;
             Images = images;
             IsValid = true;
@@ -36,6 +38,28 @@ namespace BookingApp.Model
 
         public string[] ToCSV()
         {
+            //string GradeString = string.Join(",", Grades);
+
+            string GradeString = "";
+            foreach (string grade in Grades)
+            {
+                if (grade != Grades.Last())
+                {
+                    GradeString += grade + ",";
+                }
+            }
+            GradeString += Grades.Last();
+
+            /*string CommentString = "";
+            foreach (string comment in Comments)
+            {
+                if (comment != Comments.Last())
+                {
+                    CommentString += comment + ",";
+                }
+            }
+            CommentString += Comments.Last();*/
+
             string ImageString = "";
             foreach (string image in Images)
             {
@@ -46,8 +70,8 @@ namespace BookingApp.Model
             }
             ImageString += Images.Last();
 
-            string[] csvvalues = { Id.ToString(), TouristId.ToString(), TourReservationId.ToString(), Grade.ToString(),
-                Comment, ImageString,IsValid.ToString()};
+            string[] csvvalues = { Id.ToString(), TouristId.ToString(), TourReservationId.ToString(), GradeString,
+                Comment, ImageString, IsValid.ToString()};
             return csvvalues;
         }
 
@@ -56,7 +80,14 @@ namespace BookingApp.Model
             Id = Convert.ToInt32(values[0]);
             TouristId = Convert.ToInt32(values[1]);
             TourReservationId = Convert.ToInt32(values[2]);
-            Grade = Convert.ToInt32(values[3]);
+            foreach (string grade in values[3].Split(","))
+            {
+                Grades.Add(grade);
+            }
+            /*foreach (string comment in values[4].Split(","))
+            {
+                Comments.Add(comment);
+            }*/
             Comment = values[4];
             foreach (string image in values[5].Split(","))
             {

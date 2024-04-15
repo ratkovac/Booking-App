@@ -1,6 +1,6 @@
 ﻿using BookingApp.Model;
 using BookingApp.Service;
-using BookingApp.View.ViewModel.Tourist;
+using BookingApp.WPF.ViewModel.Tourist;
 using System;
 using System.Collections.Generic;
 using System.Linq;

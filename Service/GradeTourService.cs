@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BookingApp.Repository.RepositoryInterface;
+using BookingApp.Domain.RepositoryInterface;
 using BookingApp.DependencyInjection;
 using BookingApp.Model;
 using BookingApp.Repository;
@@ -24,7 +24,7 @@ namespace BookingApp.Service
             touristRepository = Injector.CreateInstance<ITouristRepository>();
             tourReservationRepository = new TourReservationRepository();
             InitializeTourist();
-            InitializeTour();
+            InitializeTourReservation();
         }
         private void InitializeTourist()
         {
@@ -33,7 +33,7 @@ namespace BookingApp.Service
                 item.Tourist = touristRepository.GetById(item.TouristId);
             }
         }
-        private void InitializeTour()
+        private void InitializeTourReservation()
         {
             foreach (var item in gradeTourRepository.GetAll())
             {

@@ -1,5 +1,5 @@
 ﻿using BookingApp.Model;
-using BookingApp.Repository.RepositoryInterface;
+using BookingApp.Domain.RepositoryInterface;
 using BookingApp.Serializer;
 using CLI.Observer;
 using System;
@@ -81,20 +81,6 @@ namespace BookingApp.Repository
             foreach (int id in ids)
             {
                 vouchers.Add(GetById(id));
-            }
-            return vouchers;
-        }
-
-        public List<Voucher> GetActiveVouchers(List<int> ids)
-        {
-            List<Voucher> vouchers = new List<Voucher>();
-            foreach (int id in ids)
-            {
-                Voucher voucher = GetById(id);
-                if (voucher.Used == false && voucher.ValidVoucher == true)
-                {
-                    vouchers.Add(voucher);
-                }
             }
             return vouchers;
         }

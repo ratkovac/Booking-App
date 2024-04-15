@@ -1,6 +1,6 @@
 ﻿using BookingApp.DependencyInjection;
 using BookingApp.Model;
-using BookingApp.Repository.RepositoryInterface;
+using BookingApp.Domain.RepositoryInterface;
 using CLI.Observer;
 using System;
 using System.Collections.Generic;
@@ -33,10 +33,6 @@ namespace BookingApp.Service
         public List<Voucher> GetVouchersWithIds(List<int> ids)
         {
             return voucherRepository.GetWithIds(ids);
-        }
-        public List<Voucher> GetActiveVouchersWithIds(List<int> ids)
-        {
-            return voucherRepository.GetActiveVouchers(ids);
         }
         public void Create(Voucher voucher)
         {
@@ -74,6 +70,20 @@ namespace BookingApp.Service
             foreach(Voucher voucher in GetVouchersWithIds(tourist.VoucherIds))
             {
                 if(voucher.ValidVoucher == true)
+                {
+                    vouchers.Add(voucher);
+                }
+            }
+            return vouchers;
+        }
+
+        public List<Voucher> GetActiveVouchers(List<int> ids)
+        {
+            List<Voucher> vouchers = new List<Voucher>();
+            foreach (int id in ids)
+            {
+                Voucher voucher = GetVoucherById(id);
+                if (voucher.Used == false && voucher.ValidVoucher == true)
                 {
                     vouchers.Add(voucher);
                 }

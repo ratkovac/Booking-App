@@ -1,5 +1,5 @@
 ﻿using BookingApp.Model;
-using BookingApp.Repository.RepositoryInterface;
+using BookingApp.Domain.RepositoryInterface;
 using BookingApp.Serializer;
 using BookingApp.View;
 using System;
@@ -112,6 +112,34 @@ namespace BookingApp.Repository
         {
             TourReservation tourReservation = _tourReservations.Find(r => r.TouristId == tourist.Id && r.TourInstanceId == tourInstance.Id);
             return tourReservation;
+        }
+        public List<int> FindTourInstanceIdsWhereTouristPresent(int touristId)
+        {
+            List<int> tourIds = new List<int>();
+            foreach (TourReservation reservation in GetAll())
+            {
+                if (reservation.TouristId == touristId && reservation.State == TouristState.Present && reservation.RatedTour != true)
+
+                {
+                    tourIds.Add(reservation.TourInstanceId);
+                }
+            }
+            return tourIds;
+        }
+        public List<TourReservation> GetToursWhichFinished()
+        {
+            List<TourReservation> toursFinished = new List<TourReservation>();
+            List<TourReservation> allTourInstances = GetAll();
+
+            foreach (TourReservation tourReservation in allTourInstances)
+            {
+                if (tourReservation.TourInstance.State == TourInstanceState.Finished && tourReservation.RatedTour == false)
+                {
+                    toursFinished.Add(tourReservation);
+                }
+            }
+
+            return toursFinished;
         }
     }
 

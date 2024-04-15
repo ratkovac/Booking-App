@@ -1,5 +1,6 @@
 ﻿using BookingApp.Repository;
 using BookingApp.Repository.RepositoryInterface;
+using BookingApp.Domain.RepositoryInterface;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -13,14 +14,14 @@ namespace BookingApp.DependencyInjection
     {
         private static Dictionary<Type, object> _implementations = new Dictionary<Type, object>
         {
-            { typeof(IGradeTourRepository), new GradeTourRepository() },
-            { typeof(ITourInstanceRepository), new TourInstanceRepository() },
-            { typeof(IVoucherRepository), new VoucherRepository() },
-            { typeof(ITouristRepository), new TouristRepository() },
-            { typeof(ITourReservationRepository), new TourReservationRepository() },
-            { typeof(IAccommodationReservationRepository), new AccommodationReservationRepository() },
-            { typeof(ITourGuestRepository), new TourGuestRepository() },
-            { typeof(IFastDriveRepository), new FastDriveRepository() }
+            { typeof(BookingApp.Domain.RepositoryInterface.IGradeTourRepository), new GradeTourRepository() },
+            { typeof(BookingApp.Domain.RepositoryInterface.ITourInstanceRepository), new TourInstanceRepository() },
+            { typeof(BookingApp.Domain.RepositoryInterface.IVoucherRepository), new VoucherRepository() },
+            { typeof(BookingApp.Domain.RepositoryInterface.ITouristRepository), new TouristRepository() },
+            { typeof(BookingApp.Domain.RepositoryInterface.ITourReservationRepository), new TourReservationRepository() },
+            { typeof(BookingApp.Repository.RepositoryInterface.IAccommodationReservationRepository), new AccommodationReservationRepository() },
+            { typeof(BookingApp.Domain.RepositoryInterface.ITourGuestRepository), new TourGuestRepository() },
+            { typeof(BookingApp.Domain.RepositoryInterface.IFastDriveRepository), new FastDriveRepository() }
         };
         public static T CreateInstance<T>()
         {

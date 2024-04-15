@@ -50,7 +50,7 @@ namespace BookingApp.View.Tourist.Pages
             _tourInstanceRepository = new TourInstanceRepository();
             _tourReservationRepository = new TourReservationRepository();
             _tourGuestRepository = new TourGuestRepository();
-            ListVoucher = new ObservableCollection<Voucher>(voucherService.GetActiveVouchersWithIds(tourist.VoucherIds));
+            ListVoucher = new ObservableCollection<Voucher>(voucherService.GetActiveVouchers(tourist.VoucherIds));
 
             NameTextBox.Text = selectedTour.Name;
             LocationTextBox.Text = selectedTour.Location.City;

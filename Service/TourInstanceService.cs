@@ -1,6 +1,6 @@
 ﻿using BookingApp.DependencyInjection;
 using BookingApp.Model;
-using BookingApp.Repository.RepositoryInterface;
+using BookingApp.Domain.RepositoryInterface;
 using BookingApp.Repository;
 using CLI.Observer;
 using System;

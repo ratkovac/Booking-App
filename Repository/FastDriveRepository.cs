@@ -1,5 +1,5 @@
 ﻿using BookingApp.Model;
-using BookingApp.Repository.RepositoryInterface;
+using BookingApp.Domain.RepositoryInterface;
 using BookingApp.Serializer;
 using CLI.Observer;
 using System;

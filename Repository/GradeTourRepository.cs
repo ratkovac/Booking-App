@@ -1,7 +1,7 @@
 ﻿using BookingApp.Model;
-using BookingApp.Repository.RepositoryInterface;
+using BookingApp.Domain.RepositoryInterface;
 using BookingApp.Serializer;
-using BookingApp.View.Tourist.Pages;
+using BookingApp.WPF.View.Tourist.Pages;
 using CLI.Observer;
 using System;
 using System.Collections.Generic;

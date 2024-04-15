@@ -1,7 +1,7 @@
 ﻿using BookingApp.Model;
 using BookingApp.Service;
 using BookingApp.View.Tourist.Pages;
-using BookingApp.View.ViewModel.Tourist;
+using BookingApp.WPF.ViewModel.Tourist;
 using System;
 using System.Windows;
 using System.Windows.Controls;

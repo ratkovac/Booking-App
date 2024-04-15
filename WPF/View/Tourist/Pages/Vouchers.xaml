@@ -1,0 +1,27 @@
+﻿<Page x:Class="BookingApp.WPF.View.Tourist.Pages.Vouchers"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BookingApp.WPF.View.Tourist.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="720" d:DesignWidth="1280" Background="#FF75C8F1"
+      Title="Vouchers">
+
+    <Grid>
+        <Label Content="Prikaz svih vasih vaucera:" HorizontalAlignment="Left" Margin="62,66,0,0" VerticalAlignment="Top" FontSize="50"/>
+        <DataGrid  x:Name="DataGridVouchers" 
+               ItemsSource="{Binding ListVoucher}"
+               SelectionMode="Single" 
+               IsReadOnly="True" Height="400" Width="800"
+               AutoGenerateColumns="False" Margin="0,80,0,0"  >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Voucher number" Binding="{Binding Id}" Width="200" />
+                <DataGridTextColumn Header="Creation date" Binding="{Binding CreationDate, StringFormat={}{0:dd.MM.yyyy}}" Width="200" />
+                <DataGridTextColumn Header="Expiration date" Binding="{Binding ExpirationDate, StringFormat={}{0:dd.MM.yyyy}}" Width="200" />
+                <DataGridCheckBoxColumn Header="Used" Binding="{Binding Used}" Width="100" />
+                <DataGridCheckBoxColumn Header="Valid" Binding="{Binding ValidVoucher}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

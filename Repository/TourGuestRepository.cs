@@ -1,6 +1,6 @@
 ﻿using BookingApp.Model;
 using BookingApp.Serializer;
-using BookingApp.View.Tourist.Pages;
+using BookingApp.WPF.View.Tourist.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;

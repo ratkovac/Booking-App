@@ -1,7 +1,7 @@
 ﻿using BookingApp.DependencyInjection;
 using BookingApp.Model;
 using BookingApp.Repository;
-using BookingApp.Repository.RepositoryInterface;
+using BookingApp.Domain.RepositoryInterface;
 using BookingApp.View;
 using CLI.Observer;
 using System;
@@ -76,18 +76,7 @@ namespace BookingApp.Service
         }
         public List<TourReservation> GetToursWhichFinished()
         {
-            List<TourReservation> toursFinished = new List<TourReservation>();
-            List<TourReservation> allTourInstances = GetAllReservations();
-
-            foreach (TourReservation tourReservation in allTourInstances)
-            {
-                if (tourReservation.TourInstance.State == TourInstanceState.Finished && tourReservation.RatedTour == false)
-                {
-                    toursFinished.Add(tourReservation);
-                }
-            }
-
-            return toursFinished;
+            return tourReservationRepository.GetToursWhichFinished();
         }
         public void UpdateTouristState(int touristId, TourInstance tourInstance, TouristState state)
         {
@@ -103,16 +92,7 @@ namespace BookingApp.Service
         }
         public List<int> FindTourInstanceIdsWhereTouristPresent(int touristId)
         {
-            List<int> tourIds = new List<int>();
-            foreach (TourReservation reservation in GetAllReservations())
-            {
-                if (reservation.TouristId == touristId && reservation.State == TouristState.Present && reservation.RatedTour != true)
-
-                {
-                    tourIds.Add(reservation.TourInstanceId);
-                }
-            }
-            return tourIds;
+            return tourReservationRepository.FindTourInstanceIdsWhereTouristPresent(touristId);
         }
         public void Update(TourReservation reserevation)
         {
