@@ -17,6 +17,8 @@ namespace BookingApp.View.ViewModel.Guest
     {
         public ObservableCollection<AccommodationReservationDTO> SuggestedReservations { get; set; }
         private SuggestReservationService suggestReservationsService;
+        private DelayReservationService delayReservationService;
+        public AccommodationReservationDTO SelectedReservation { get; set; }
         private AccommodationReservationDTO AccommodationReservation { get; set; }
 
         private int reservationDays;
@@ -64,9 +66,12 @@ namespace BookingApp.View.ViewModel.Guest
         public DelayReservationViewModel(AccommodationReservationDTO accommodationReservation)
         {
             suggestReservationsService = new SuggestReservationService();
+            delayReservationService = new DelayReservationService();
             suggestReservationsService.Subscribe(this);
+            delayReservationService.Subscribe(this);
             SuggestedReservations = new ObservableCollection<AccommodationReservationDTO>();
             AccommodationReservation = accommodationReservation;
+            SelectedReservation = new AccommodationReservationDTO();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -84,7 +89,16 @@ namespace BookingApp.View.ViewModel.Guest
             foreach (var accommodationReservation in SuggestedReservations)
             {
                 accommodationReservation.AccommodationName = AccommodationReservation.AccommodationName;
+                AccommodationReservation = accommodationReservation;
             }
+        }
+
+        public void CreateNewDelayReservations()
+        {
+            DelayReservation delayReservation = new DelayReservation(SelectedReservation.ToAccommodationReservation(),
+                SelectedReservation.StartDate, SelectedReservation.EndDate);
+            delayReservationService.Create(delayReservation);
+
         }
 
         public void Update()

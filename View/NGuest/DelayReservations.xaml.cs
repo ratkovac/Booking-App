@@ -31,12 +31,12 @@ namespace BookingApp.View.NGuest
 
         private void Delay_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            
         }
 
         private void ReserveButton_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            delayReservationViewModel.CreateNewDelayReservations();
         }
 
         private void Submit_Click(object sender, RoutedEventArgs e)
