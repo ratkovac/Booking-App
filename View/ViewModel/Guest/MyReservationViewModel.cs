@@ -15,9 +15,10 @@ namespace BookingApp.View.ViewModel.Guest
 {
     public class MyReservationViewModel : IObserver
     {
-        public ObservableCollection<AccommodationReservationDTO> MyReservations { get; set; }
+        public ObservableCollection<AccommodationReservationDTO> MyReservations { get; private set; }
         private AccommodationReservation accommodationReservation { get; set; }
         private User user { get; set; }
+        public AccommodationReservationDTO? SelectedReservation { get; set; }
         private AccommodationReservationService accommodationReservationService;
 
         public MyReservationViewModel(User user)
@@ -26,8 +27,8 @@ namespace BookingApp.View.ViewModel.Guest
             accommodationReservationService = new AccommodationReservationService();
             accommodationReservationService.Subscribe(this);
             MyReservations = new ObservableCollection<AccommodationReservationDTO>();
+            SelectedReservation = new AccommodationReservationDTO();
             Update();
-
         }
         public void Update()
         {
@@ -37,6 +38,11 @@ namespace BookingApp.View.ViewModel.Guest
                 MyReservations.Add(new AccommodationReservationDTO(accommodationReservation));
             }
         }
-
+        public void OnClickDelay()
+        {
+            DelayReservationViewModel delayReservationViewModel = new DelayReservationViewModel(SelectedReservation);
+            DelayReservations delayReservations = new DelayReservations(delayReservationViewModel);
+            delayReservations.Show();
+        }
     }
 }

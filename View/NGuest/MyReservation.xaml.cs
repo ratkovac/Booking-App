@@ -12,6 +12,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BookingApp.DTO;
+using BookingApp.Model;
 using BookingApp.View.ViewModel.Guest;
 
 namespace BookingApp.View.NGuest
@@ -21,20 +23,22 @@ namespace BookingApp.View.NGuest
     /// </summary>
     public partial class MyReservation : Window
     {
+        private MyReservationViewModel MyReservationViewModel { get; set; }
         public MyReservation(MyReservationViewModel myReservationViewModel)
         {
             InitializeComponent();
             this.DataContext = myReservationViewModel;
+            MyReservationViewModel = myReservationViewModel;
         }
 
         private void OnClick_Decline(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+
         }
 
         private void OnClick_Delay(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            MyReservationViewModel.OnClickDelay();
         }
     }
 }
