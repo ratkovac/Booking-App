@@ -59,7 +59,7 @@
                     <DataGridTextColumn Header="Name" Binding="{Binding AccommodationName}" ElementStyle="{StaticResource DataGridCenteringStyle}" />
                     <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate}" ElementStyle="{StaticResource DataGridCenteringStyle}" />
                     <DataGridTextColumn Header="End Date" Binding="{Binding EndDate}" ElementStyle="{StaticResource DataGridCenteringStyle}" />
-                    <DataGridTemplateColumn Header="Reserve">
+                    <DataGridTemplateColumn Header="Delay">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Padding="0" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
@@ -69,7 +69,6 @@
                                     </Button.Background>
                                 </Button>
                             </DataTemplate>
-
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
