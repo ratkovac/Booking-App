@@ -23,39 +23,67 @@ namespace BookingApp.Service
             touristRepository = Injector.CreateInstance<ITouristRepository>();
             tourInstanceRepository = Injector.CreateInstance<ITourInstanceRepository>();
             tourGuestRepository = Injector.CreateInstance<ITourGuestRepository>();
-            InitializeGuest();
-            InitializeTourInstance();
-            InitializeReservation();
-        }
-
-        private void InitializeGuest()
-        {
-            foreach (var item in tourReservationRepository.GetAll())
-            {
-                item.Tourist = touristRepository.GetById(item.TouristId);
-            }
-        }
-
-        private void InitializeReservation()
-        {
-            foreach (var item in tourGuestRepository.GetAll())
-            {
-                item.TourReservation = tourReservationRepository.GetById(item.TourReservationId);
-            }
-        }
-
-        private void InitializeTourInstance()
-        {
-            foreach (var item in tourReservationRepository.GetAll())
-            {
-                item.TourInstance = tourInstanceRepository.GetById(item.TourInstanceId);
-            }
         }
 
         public List<TourGuest> GetAll()
         {
             return tourGuestRepository.GetAll();
         }
+
+        public TourGuest Save(TourGuest tourGuest)
+        {
+            return tourGuestRepository.Save(tourGuest);
+        }
+
+        public void SaveMultiple(List<TourGuest> tourGuests)
+        {
+            tourGuestRepository.SaveMultiple(tourGuests);
+        }
+
+        public void Delete(TourGuest tourGuest)
+        {
+            tourGuestRepository.Delete(tourGuest);
+        }
+
+        public void Update(TourGuest tourGuest)
+        {
+            tourGuestRepository.Update(tourGuest);
+        }
+
+        public TourGuest GetById(int id)
+        {
+            return tourGuestRepository.GetById(id);
+        }
+
+        public List<TourGuest> GetByTouristAndReservationId(int tourReservationId, int touristId)
+        {
+            return tourGuestRepository.GetByTouristAndReservationId(tourReservationId, touristId);
+        }
+        public List<TourGuest> GetAllByTouristId(int touristId)
+        {
+            return tourGuestRepository.GetAllByTouristId(touristId);
+        }
+
+        public List<TourGuest> GetAllPresentByTourReservationId(int tourReservationId)
+        {
+            return tourGuestRepository.GetAllPresentByTourReservationId(tourReservationId);
+        }
+
+        public List<TourGuest> GetAllByTourInstanceId(int tourInstanceId)
+        {
+            return tourGuestRepository.GetAllByTourInstanceId(tourInstanceId);
+        }
+
+        public List<TourGuest> GetAllByTourReservationId(int tourReservationId)
+        {
+            return tourGuestRepository.GetAllByTourReservationId(tourReservationId);
+        }
+
+        public int GetTouristNumberByTourReservationId(int tourReservationId)
+        {
+            return tourGuestRepository.GetTouristNumberByTourReservationId(tourReservationId);
+        }
+
 
     }
 }

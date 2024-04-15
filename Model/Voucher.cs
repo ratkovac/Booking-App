@@ -27,6 +27,13 @@ namespace BookingApp.Model
             Used = used;
             ValidVoucher = validVoucher;
         }
+        public Voucher(DateTime creationDate, DateTime expirationDate, bool used, bool validVoucher)
+        {
+            CreationDate = creationDate;
+            ExpirationDate = expirationDate;
+            Used = used;
+            ValidVoucher = validVoucher;
+        }
 
         public void FromCSV(string[] values)
         {

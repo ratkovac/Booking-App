@@ -87,17 +87,23 @@ namespace BookingApp.View.GuideView
             TourStatisticPage tourStatisticPage = new TourStatisticPage(user);
             // Implementirajte logiku za dugme Tour Statistics
             MainFrame.Navigate(tourStatisticPage);
-            PageName = "Tour Statistic Page";
+            PageName = "Tour Statistic";
         }
 
         private void btnTourReviews_Click(object sender, RoutedEventArgs e)
         {
-            // Implementirajte logiku za dugme Tour Reviews
+            TourReviewsPage tourReviewsPage = new TourReviewsPage(user);
+            // Implementirajte logiku za dugme Tour Statistics
+            MainFrame.Navigate(tourReviewsPage);
+            PageName = "Tour Reviews";
         }
 
         private void btnCancelTour_Click(object sender, RoutedEventArgs e)
         {
-            // Implementirajte logiku za dugme Cancel Tour
+            CancelTourPage cancelTourPage = new CancelTourPage(user);
+            // Implementirajte logiku za dugme Tour Statistics
+            MainFrame.Navigate(cancelTourPage);
+            PageName = "Cancel Tour";
         }
 
         private void btnTourRequests_Click(object sender, RoutedEventArgs e)

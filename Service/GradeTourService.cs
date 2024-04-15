@@ -44,6 +44,11 @@ namespace BookingApp.Service
         {
             return gradeTourRepository.GetAll();
         }
+
+        public GradeTour GetById(int id)
+        {
+            return gradeTourRepository.GetById(id);
+        }
         public List<GradeTour> GetAllRatingsByTour(TourReservation tourReservation)
         {
             return gradeTourRepository.GetAllRatingsByTour(tourReservation);
