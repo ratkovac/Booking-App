@@ -19,10 +19,10 @@ namespace BookingApp.View.Tourist.Pages
     /// <summary>
     /// Interaction logic for FastDrive.xaml
     /// </summary>
-    public partial class FastDrive : Page
+    public partial class FastDrivePage : Page
     {
         private FastDriveViewModel viewModel;
-        public FastDrive(FastDriveViewModel fastDriveViewModel)
+        public FastDrivePage(FastDriveViewModel fastDriveViewModel)
         {
             InitializeComponent();
             this.DataContext = fastDriveViewModel;

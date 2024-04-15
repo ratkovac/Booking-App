@@ -32,7 +32,7 @@ namespace BookingApp.View.Tourist
         private void FastDrive_Click(object sender, RoutedEventArgs e)
         {
             FastDriveViewModel fastDriveViewModel = new FastDriveViewModel(Tourist.User);
-            MainFrame.Navigate(new BookingApp.View.Tourist.Pages.FastDrive(fastDriveViewModel));
+            MainFrame.Navigate(new BookingApp.View.Tourist.Pages.FastDrivePage(fastDriveViewModel));
         }
         private void FinishedTours_Click(object sender, RoutedEventArgs e)
         {
