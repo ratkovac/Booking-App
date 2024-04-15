@@ -6,10 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using BookingApp.Repository.RepositoryInterface;
 
 namespace BookingApp.Repository
 {
-    public class CheckPointRepository
+    public class CheckPointRepository : ICheckPointRepository
     {
         private const string FilePath = "../../../Resources/Data/checkpoints.csv";
 
@@ -28,6 +29,11 @@ namespace BookingApp.Repository
             return _serializer.FromCSV(FilePath);
         }
 
+        public CheckPoint GetById(int id)
+        {
+            return _checkPoints.Find(r => r.Id == id);
+        }
+
         public CheckPoint Save(CheckPoint checkPoint)
         {
             checkPoint.Id = NextId();
@@ -35,6 +41,14 @@ namespace BookingApp.Repository
             _checkPoints.Add(checkPoint);
             _serializer.ToCSV(FilePath, _checkPoints);
             return checkPoint;
+        }
+
+        public void Create(CheckPoint checkPoint)
+        {
+            checkPoint.Id = NextId();
+            _checkPoints = _serializer.FromCSV(FilePath);
+            _checkPoints.Add(checkPoint);
+            _serializer.ToCSV(FilePath, _checkPoints);
         }
 
         public int NextId()
@@ -55,7 +69,7 @@ namespace BookingApp.Repository
             _serializer.ToCSV(FilePath, _checkPoints);
         }
 
-        public CheckPoint Update(CheckPoint checkPoint)
+        public void Update(CheckPoint checkPoint)
         {
             _checkPoints = _serializer.FromCSV(FilePath);
             CheckPoint current = _checkPoints.Find(c => c.Id == checkPoint.Id);
@@ -63,7 +77,6 @@ namespace BookingApp.Repository
             _checkPoints.Remove(current);
             _checkPoints.Insert(index, checkPoint);
             _serializer.ToCSV(FilePath, _checkPoints);
-            return checkPoint;
         }
 
         private string[] ReadLinesFromFile(string filePath)
