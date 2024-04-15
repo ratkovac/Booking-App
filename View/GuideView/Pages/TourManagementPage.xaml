@@ -1,0 +1,45 @@
+﻿<Window x:Class="BookingApp.View.GuideView.Pages.TourManagementWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:local="clr-namespace:BookingApp.View.GuideView.Pages"
+        mc:Ignorable="d" 
+        d:DesignHeight="750" d:DesignWidth="430"
+        Title="TourManagementWindow">
+
+    <Window.Resources>
+        <!-- Include your resource dictionary here -->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <!-- Include ActionBar -->
+        <local:ActionBar x:Name="actionBar" Grid.Row="0" PageName="Tour Management" VerticalAlignment="Top"/>
+
+        <!-- MainFrame for navigating between pages -->
+        <Frame x:Name="MainFramee" NavigationUIVisibility="Hidden" Margin="0,44,0,0">
+            <Frame.Background>
+                <ImageBrush ImageSource="pozadinaNebo.jpg"/>
+            </Frame.Background>
+            <!-- Content area -->
+            <Frame.Content>
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="430" Height="706">
+                    <!-- Button for navigating to CreateTourPage -->
+                    <Button x:Name="btnCreateTour" Content="Create Tour" Height="40" Click="btnCreateTour_Click" Margin="30, 50, 30, 10" Style="{StaticResource AddButtonStyle}"/>
+                    <Button x:Name="btnTrackTourLive" Content="Track Tour Live" Height="40" Click="btnTrackTourLive_Click" Margin="30, 30, 30, 10" Style="{StaticResource AddButtonStyle}"/>
+                    <Button x:Name="btnTourStatistics" Content="Tour Statistics" Height="40" Click="btnTourStatistics_Click" Margin="30, 30, 30, 10" Style="{StaticResource AddButtonStyle}"/>
+                    <Button x:Name="btnTourReviews" Content="Tour Reviews" Height="40" Click="btnTourReviews_Click" Margin="30, 30, 30, 10" Style="{StaticResource AddButtonStyle}"/>
+                    <Button x:Name="btnCancelTour" Content="Cancel Tour" Height="40" Click="btnCancelTour_Click" Margin="30, 30, 30, 10" Style="{StaticResource AddButtonStyle}"/>
+                    <Button x:Name="btnTourRequests" Content="Tour Requests" Height="40" Click="btnTourRequests_Click" Margin="30, 30, 30, 10" Style="{StaticResource AddButtonStyle}"/>
+                    <Button x:Name="btnCustomizeTour" Content="Customize Tour" Height="40" Click="btnCustomizeTour_Click" Margin="30, 30, 30, 10" Style="{StaticResource AddButtonStyle}"/>
+                    <Button x:Name="btnRequestsStatistics" Content="Requests Statistics" Height="40" Click="btnRequestsStatistics_Click" Margin="30, 30, 30, 10" Style="{StaticResource AddButtonStyle}"/>
+                </StackPanel>
+            </Frame.Content>
+        </Frame>
+    </Grid>
+</Window>
