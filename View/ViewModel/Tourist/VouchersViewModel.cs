@@ -11,15 +11,15 @@ namespace BookingApp.View.ViewModel.Tourist
 {
     public class VouchersViewModel
     {
-        public BookingApp.Model.Tourist tourist { get; set; }
+        public BookingApp.Model.Tourist Tourist { get; set; }
         public ObservableCollection<Voucher> ListVoucher { get; set; }
 
         private VoucherService voucherService;
         public VouchersViewModel(BookingApp.Model.Tourist t)
         {
-            tourist = t;
+            Tourist = t;
             voucherService = new VoucherService();
-            ListVoucher = new ObservableCollection<Voucher>(voucherService.GetVouchersWithIds(tourist.VoucherIds));
+            ListVoucher = new ObservableCollection<Voucher>(voucherService.GetVouchersWithIds(Tourist.VoucherIds));
         }
     }
 }

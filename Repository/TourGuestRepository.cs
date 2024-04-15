@@ -44,6 +44,16 @@ namespace BookingApp.Repository
         {
             return _serializer.FromCSV(FilePath).Where(tg => tg.TourReservation.TourInstanceId == tourInstanceId).ToList();
         }
+        public List<TourGuest> GetAllByTourReservationId(int tourReservationId)
+        {
+            return _serializer.FromCSV(FilePath).Where(tg => tg.TourReservationId == tourReservationId).ToList();
+        }
+
+        public int GetTouristNumberByTourReservationId(int tourReservationId)
+        {
+            List<TourGuest> guests = GetAllByTourReservationId(tourReservationId);
+            return guests.Count;
+        }
 
         public TourGuest Save(TourGuest tourGuest)
         {
