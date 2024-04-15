@@ -86,6 +86,20 @@ namespace BookingApp.Repository
             _addresses = _serializer.FromCSV(FilePath);
             return _addresses.FirstOrDefault(loc => loc.Street.Equals(street, StringComparison.OrdinalIgnoreCase) && loc.Number.Equals(number, StringComparison.OrdinalIgnoreCase));
         }
+        public int? GetLocationIdByAddressId(int addressId)
+        {
+            _addresses = _serializer.FromCSV(FilePath);
+            var matchingAddress = _addresses.FirstOrDefault(loc => loc.Id == addressId);
+
+            if (matchingAddress != null)
+            {
+                return matchingAddress.LocationId;
+            }
+            else
+            {
+                return null; 
+            }
+        }
 
         public void Subscribe(IObserver observer)
         {

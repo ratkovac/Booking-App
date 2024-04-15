@@ -53,10 +53,6 @@
 
   <ItemGroup>
     <Resource Include="Images\reserve.png" />
-    <Resource Include="View\Owner\Images\star.png" />
-    <Resource Include="View\Owner\Images\user.jpg" />
-    <Resource Include="View\GuideView\GuideImages\profile.png" />
-    <Resource Include="View\GuideView\Pages\pozadinaNebo.jpg" />
   </ItemGroup>
 
 </Project>
