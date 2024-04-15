@@ -48,6 +48,10 @@ namespace BookingApp.Service
         {
             return tourInstanceRepository.GetAll();
         }
+        public TourInstance GetById(int id)
+        {
+            return tourInstanceRepository.GetById(id);
+        }
         public void Create(TourInstance tourInstances)
         {
             tourInstanceRepository.Create(tourInstances);

@@ -89,7 +89,7 @@ namespace BookingApp.Service
 
             return toursFinished;
         }
-        public void UpdateTouristsState(int touristId, TourInstance tourInstance, TouristState state)
+        public void UpdateTouristState(int touristId, TourInstance tourInstance, TouristState state)
         {
             TourReservation reservation = GetReservationsByTourInstance(tourInstance).Find(r => r.TouristId == touristId);
             reservation.State = state;

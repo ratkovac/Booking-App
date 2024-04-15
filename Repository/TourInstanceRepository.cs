@@ -124,8 +124,8 @@ namespace BookingApp.Repository
             foreach (string line in lines)
             {
                 string[] values = line.Split('|');
-                string[] dateParts = values[3].Split(' ')[0].Split('/'); // Razdvajanje delova datuma
-                string dateFormat = dateParts[0].PadLeft(1, '0') + "/" + dateParts[1].PadLeft(1, '0') + "/" + dateParts[2].PadLeft(4, '0'); // Formatiranje datuma u "m/d/yyyy" format
+                string[] dateParts = values[3].Split(' ')[0].Split('/');
+                string dateFormat = dateParts[0].PadLeft(1, '0') + "/" + dateParts[1].PadLeft(1, '0') + "/" + dateParts[2].PadLeft(4, '0');
 
                 if (dateFormat == formattedToday)
                 {
