@@ -10,6 +10,7 @@
     <Grid>
         <Label x:Name="NewAccomodation" Content="New accomodation" HorizontalAlignment="Left" Height="34" Margin="61,266,0,0" VerticalAlignment="Top" Width="193" Grid.Column="1" MouseLeftButtonDown="NewAccomodation_MouseLeftButtonDown" FontSize="18" Grid.ColumnSpan="2"/>
         <Label x:Name="GuestGrade" Content="Grade guest" HorizontalAlignment="Left" Height="34" Margin="61,305,0,0" VerticalAlignment="Top" Width="125" Grid.Column="1" MouseLeftButtonDown="GuestGrade_MouseLeftButtonDown" FontSize="18" Grid.ColumnSpan="2"/>
+        <Label x:Name="AccommodationGrades" Content="All owner grades" HorizontalAlignment="Left" Height="34" Margin="61,344,0,0" VerticalAlignment="Top" Width="167" FontSize="18" MouseLeftButtonDown="AccommodationGrades_MouseLeftButtonDown"/>
         <Label x:Name="Username" HorizontalAlignment="Left" Height="34" Margin="36,156,0,0" VerticalAlignment="Top" Width="192" Grid.Column="1" FontSize="18" HorizontalContentAlignment="Center" Grid.ColumnSpan="2"/>
         <Label x:Name="Role" HorizontalAlignment="Left" Height="34" Margin="36,195,0,0" VerticalAlignment="Top" Width="192" FontSize="14" HorizontalContentAlignment="Center"/>
         <Grid>

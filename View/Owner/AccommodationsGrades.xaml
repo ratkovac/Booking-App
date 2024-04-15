@@ -1,0 +1,28 @@
+<Window x:Class="BookingApp.View.Owner.AccommodationsGrades"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BookingApp"
+        mc:Ignorable="d"
+        Title="Grades" Height="450" Width="800" ResizeMode="NoResize" WindowStyle="SingleBorderWindow"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <DataGrid x:Name="AccommodationGradesGrid"
+                  AutoGenerateColumns="False"
+                  ItemsSource="{Binding accommodationGrades}"
+                  SelectionMode="Single" IsReadOnly="True" Margin="76,30,76,87">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Guest" Binding="{Binding Username}"/>
+                <DataGridTextColumn Header="Accommodation" Binding="{Binding AccommodationName}" />
+                <DataGridTextColumn Header="Cleanliness" Binding="{Binding Cleanliness}" />
+                <DataGridTextColumn Header="Correctness" Binding="{Binding Correctness}" />
+                <DataGridTextColumn Header="Overall grade" Binding="{Binding OverallGrade}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label Content="Avarage rating:" HorizontalAlignment="Left" Margin="94,363,0,0" VerticalAlignment="Top" FontSize="22"/>
+        <Label x:Name="Avarage" Content="4.75" HorizontalAlignment="Left" Margin="256,363,0,0" VerticalAlignment="Top" FontSize="22"/>
+        <Button x:Name="Close" Content="Close" HorizontalAlignment="Left" VerticalAlignment="Top" Height="39" Width="77" FontSize="16" Margin="647,366,0,0" Click="Close_Click"/>
+
+    </Grid>
+</Window>
