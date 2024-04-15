@@ -21,7 +21,9 @@ namespace BookingApp.DependencyInjection
             { typeof(BookingApp.Domain.RepositoryInterface.ITourReservationRepository), new TourReservationRepository() },
             { typeof(BookingApp.Repository.RepositoryInterface.IAccommodationReservationRepository), new AccommodationReservationRepository() },
             { typeof(BookingApp.Domain.RepositoryInterface.ITourGuestRepository), new TourGuestRepository() },
-            { typeof(BookingApp.Domain.RepositoryInterface.IFastDriveRepository), new FastDriveRepository() }
+            { typeof(BookingApp.Repository.RepositoryInterface.IGradeAccommodationRepository), new GradeAccommodationRepository() },
+            { typeof(BookingApp.Domain.RepositoryInterface.IFastDriveRepository), new FastDriveRepository() }, 
+            { typeof(BookingApp.Repository.RepositoryInterface.IDelayReservationRepository), new DelayReservationRepository() }
         };
         public static T CreateInstance<T>()
         {
