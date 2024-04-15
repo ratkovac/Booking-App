@@ -15,6 +15,8 @@ namespace BookingApp.Model
         public string Caption { get; set; }
 
         public string Text { get; set; }
+
+        public FastDrive fastDrive { get; set; }
         
         public DriveNotification(string caption, string text)
         {

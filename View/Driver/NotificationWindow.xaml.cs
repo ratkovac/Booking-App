@@ -1,52 +1,86 @@
 ﻿using BookingApp.Model;
+using BookingApp.Repository;
+using BookingApp.View.Tourist.Pages;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace BookingApp.View.Driver
 {
     public partial class NotificationWindow : Window
     {
-        private ObservableCollection<string> notificationCaptions = new ObservableCollection<string>();
-
         private ObservableCollection<DriveNotification> notifications = new ObservableCollection<DriveNotification>();
 
+        private DispatcherTimer _timer;
+
         private User LoggedDriver;
-  
+
+        private DateTime StartTime;
+
+        private FastDriveRepository _fastDriveRepository;
+
+        private VehicleRepository _vehicleRepository;
+
+        private DriveRepository _driveRepository;
+
+        ObservableCollection<int> locations = new ObservableCollection<int>();
+        ObservableCollection<FastDrive> fastDrives = new ObservableCollection<FastDrive>();
+
         public NotificationWindow(User driver)
         {
             InitializeComponent();
 
-            NotificationList.ItemsSource = notificationCaptions;
+            NotificationList.ItemsSource = notifications;
+            NotificationList.DisplayMemberPath = "Caption";
             LoggedDriver = driver;
+            _fastDriveRepository = new FastDriveRepository();
+            _vehicleRepository = new VehicleRepository();
+            _driveRepository = new DriveRepository();
 
-            DriveNotification newNotification1 = new DriveNotification("Naslov1", "Tekst1");
-            notifications.Add(newNotification1);
-            notificationCaptions.Add(newNotification1.Caption);
-            DriveNotification newNotification2 = new DriveNotification("Naslov2", "Tekst2");
-            notifications.Add(newNotification2);
-            notificationCaptions.Add(newNotification2.Caption);
-            DriveNotification newNotification3 = new DriveNotification("Naslov3", "Tekst3");
-            notifications.Add(newNotification3);
-            notificationCaptions.Add(newNotification3.Caption);
-            DriveNotification newNotification4 = new DriveNotification("Naslov4", "Tekst4");
-            notifications.Add(newNotification4);
-            notificationCaptions.Add(newNotification4.Caption);
+            locations = _vehicleRepository.GetLocationsByDriver(LoggedDriver);
+            fastDrives = _fastDriveRepository.GetDrivesByLocations(locations);
+            RefreshNotifications();
+            StartTimer();
+            StartTime = DateTime.Now;
         }
 
-        private void AddNotification_Click(object sender, RoutedEventArgs e)
+        private void StartTimer()
         {
-            DriveNotification newNotification = new DriveNotification("Naslov", "Tekst");
-            notifications.Add(newNotification); 
-            notificationCaptions.Add(newNotification.Caption); 
+            _timer = new DispatcherTimer();
+            _timer.Interval = TimeSpan.FromSeconds(10);
+            _timer.Tick += Timer_Tick;
+            _timer.Start();
         }
 
-        private void RemoveNotification_Click(object sender, RoutedEventArgs e)
+        private void Timer_Tick(object? sender, EventArgs e)
         {
-            if (NotificationList.SelectedIndex != -1)
+            RefreshNotifications();
+        }
+
+        private void FilterByTime(ObservableCollection<DriveNotification> notifications)
+        {
+            foreach (DriveNotification notification in notifications)
             {
-                int selectedIndex = NotificationList.SelectedIndex;
-                notifications.RemoveAt(selectedIndex);
-                notificationCaptions.RemoveAt(selectedIndex);
+                TimeSpan duration = DateTime.Now - notification.fastDrive.TimeOfReservation;
+                if (duration.TotalMinutes > 5)
+                {
+                    _fastDriveRepository.Delete(notification.fastDrive);
+                    fastDrives.Remove(notification.fastDrive);
+                }
+            }
+        }
+
+        private void RefreshNotifications()
+        {
+            FilterByTime(notifications);
+            notifications.Clear();
+            CheckSelectedNotification();
+            foreach (var fastDrive in fastDrives)
+            {
+                DriveNotification newNotification = new DriveNotification($"Brza voznja{fastDrive.Id}", "Da li prihvatate brzu voznju?");
+                newNotification.fastDrive = fastDrive;
+                notifications.Add(newNotification);
             }
         }
 
@@ -58,16 +92,66 @@ namespace BookingApp.View.Driver
                 {
                     int selectedIndex = NotificationList.SelectedIndex;
                     MessageDisplay.Text = notifications[selectedIndex].Caption;
+                    NotificationText.Text = notifications[selectedIndex].Text;
                 }
             }
         }
 
-        private void FastDrivesCheck()
+        public ObservableCollection<FastDrive> FilterFastDrives(ObservableCollection<FastDrive> fastDrives)
         {
-            //_fastDrivesRepository = new FastDrivesRepository();
-            //_fastDrivesRepository.checkFastDrivesForDriversLocation();
+            DateTime currentTime = DateTime.Now;
 
+            for (int i = fastDrives.Count - 1; i >= 0; i--)
+            {
+                FastDrive fastDrive = fastDrives[i];
+                TimeSpan timeDifference = currentTime - fastDrive.TimeOfReservation;
 
+                if (timeDifference.TotalMinutes > 5)
+                {
+                    _fastDriveRepository.Delete(fastDrive);
+                    fastDrives.RemoveAt(i);
+                    RefreshNotifications();
+                }
+            }
+            return fastDrives;
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            if (NotificationList.SelectedItem != null)
+            {
+                int selectedIndex = NotificationList.SelectedIndex;
+                if (selectedIndex != -1)
+                {
+                    fastDrives.RemoveAt(selectedIndex);
+                }
+            }
+        }
+
+        private void btnAccept_Click(object sender, RoutedEventArgs e)
+        {
+            if (NotificationList.SelectedItem != null)
+            {
+                if (NotificationList.SelectedIndex != -1)
+                {
+                    int i = NotificationList.SelectedIndex;
+                    FastDrive fastDrive = fastDrives[i];
+                    Drive drive = new Drive(fastDrive, LoggedDriver);
+                    _driveRepository.Save(drive);
+                    _fastDriveRepository.Delete(fastDrive);
+                    fastDrives.Remove(fastDrive);
+                    RefreshNotifications();
+                }
+            }
+        }
+        private void CheckSelectedNotification()
+        {
+            if (NotificationList.SelectedItem == null || !notifications.Contains(NotificationList.SelectedItem as DriveNotification))
+            {
+                MessageDisplay.Text = "";
+                NotificationText.Text = "";
+                NotificationList.SelectedItem = null;
+            }
         }
     }
 }
