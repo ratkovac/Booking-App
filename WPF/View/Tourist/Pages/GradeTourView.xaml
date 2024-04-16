@@ -10,28 +10,51 @@
         <SolidColorBrush Color="#FF75C8F1" />
     </Page.Background>
 
-    <Grid>
-        <Label Content="Rate the tour!" HorizontalAlignment="Left" Margin="65,25,0,0" VerticalAlignment="Top" FontSize="40"/>
+    <ScrollViewer>
+        <StackPanel>
 
-        <Label Content="Tour Grade:" FontSize="30" HorizontalAlignment="Left" Margin="43,115,0,0" VerticalAlignment="Top" Width="170" VerticalContentAlignment="Top" HorizontalContentAlignment="Right"/>
-        <ComboBox x:Name="NumberPicker" FontSize="20" HorizontalAlignment="Left" Margin="230,130,0,0" VerticalAlignment="Top" Width="60" SelectedIndex="0">
-            <ComboBoxItem Content="1"/>
-            <ComboBoxItem Content="2"/>
-            <ComboBoxItem Content="3"/>
-            <ComboBoxItem Content="4"/>
-            <ComboBoxItem Content="5"/>
-        </ComboBox>
+            <ItemsControl ItemsSource="{Binding ReviewForms}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="10" Margin="5" BorderThickness="1" BorderBrush="Black">
+                            <StackPanel Margin="5">
+                                <TextBlock Text="{Binding Guest.Name}" FontWeight="Bold" Margin="0,0,0,5" />
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                    <TextBlock Text="Ocenite turu od 1 do 5: " VerticalAlignment="Center" />
+                                    <ComboBox Width="50" VerticalAlignment="Center"
+                                ItemsSource="{Binding Ratings}"
+                                SelectedItem="{Binding SelectedRating, Mode=TwoWay}" />
 
-        <Label Content="Additional comment:" FontSize="30" HorizontalAlignment="Left" Margin="40,250,0,0" VerticalAlignment="Top" Width="300" HorizontalContentAlignment="Right"/>
-        <TextBox x:Name="AddedComentBox" HorizontalAlignment="Left" Height="120" Margin="370,220,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="350" Background="#FFB9BDF9"/>
-        <Label Content="Add an image:" FontSize="30" HorizontalAlignment="Left" Margin="55,400,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Right"/>
-        <TextBox x:Name="ImagesBox" IsEnabled="False" HorizontalAlignment="Left" Margin="370,370,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="350" Height="120" Background="#FFB9BDF9"/>
+                                </StackPanel>
+                                <TextBox Text="{Binding Comment}" Height="60" TextWrapping="Wrap" 
+                                 Margin="0,0,0,5" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Dodajte slike: " VerticalAlignment="Center" />
+                                    <Button Content="+" Width="25" Height="25" VerticalAlignment="Center" Margin="5,0,0,0" Click="AddPictureButton_Click" />
+                                    <ItemsControl ItemsSource="{Binding ImagePaths}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                    <TextBlock Text="{Binding}" Margin="5,0,5,0"/>
+                                                    <Button Content="-" Width="25" Height="25" Margin="5,0,0,0" 
+                Click="RemovePictureButton_Click" 
+                Tag="{Binding}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
 
-        <Button Content="Rate" Cursor="Hand" FontSize="30" HorizontalAlignment="Left" Margin="350,550,0,0" VerticalAlignment="Top" Height="50" Width="130" Background="Blue" Foreground="White" Click="Rating_Click"/>
-        <Button Content="Guest ratings" Cursor="Hand" FontSize="30" HorizontalAlignment="Left" Margin="450,120,0,0" VerticalAlignment="Top" Height="50" Width="200" Background="Blue" Foreground="White" Click="GuestRatingsButton_Click"/>
-        <Button HorizontalAlignment="Left" Margin="750,410,0,0" VerticalAlignment="Top" Height="39" Width="40" Click="BrowseButton_Click" Background="Transparent">
-            <Image Source="/Resources/Images/add.png" Cursor="Hand" Height="30"/>
-        </Button>
-        <Button Content="&#60;Nazad" Cursor="Hand" Click="ButtonBack" FontSize="18" Width="90" Height="46" HorizontalAlignment="Left" Margin="900,40,0,0" VerticalAlignment="Top"/>
-    </Grid>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <Button Content="Potvrdi ocene" Width="100" Click="ConfirmButton_Click" Margin="5,0,0,0" />
+            </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
 </Page>

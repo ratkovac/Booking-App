@@ -1,5 +1,5 @@
 ﻿using BookingApp.Model;
-using BookingApp.View.Tourist.Pages;
+using BookingApp.WPF.View.Tourist.Pages;
 using BookingApp.Service;
 using CLI.Observer;
 using System;
@@ -47,7 +47,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
         {
             if (SelectedTourReservation != null)
             {
-                var gradeTour = new GradeTourView(SelectedTourReservation, Tourist, tourReservationService);
+                var gradeTour = new GradeTourView(SelectedTourReservation, Tourist.Id);
                 NavigateToGradeTour?.Invoke();
             }
             else

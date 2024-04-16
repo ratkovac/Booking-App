@@ -1,6 +1,7 @@
 ﻿using BookingApp.Model;
 using BookingApp.Repository;
 using BookingApp.Service;
+using BookingApp.WPF.ViewModel.Tourist;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,112 +21,46 @@ namespace BookingApp.WPF.View.Tourist.Pages
 {
     public partial class GradeTourView : Page
     {
-        public BookingApp.Model.Tourist Tourist { get; set; }
-        public BookingApp.Model.TourReservation TourReservation { get; set; }
-        public List<string> tourGrades = new List<string>();
-        public List<string> comments = new List<string>();
-        private GradeTourService gradeTourService { get; set; }
-        private TourReservationService tourReservationService { get; set; }
-        private TourGuestRepository tourGuestRepository { get; set; }
+        private GradeTourViewModel _viewModel;
 
-        public GradeTourView(BookingApp.Model.TourReservation tourReservation, BookingApp.Model.Tourist t, TourReservationService trs)
+        public GradeTourView(BookingApp.Model.TourReservation tourRes, int touristId)
         {
             InitializeComponent();
-            DataContext = this;
-
-            Tourist = t;
-            TourReservation = tourReservation;
-            gradeTourService = new GradeTourService();
-            tourGuestRepository = new TourGuestRepository();
-            tourReservationService = trs;
+            _viewModel = new GradeTourViewModel(tourRes, touristId);
+            DataContext = _viewModel;
         }
 
-        private void GuestRatingsButton_Click(object sender, RoutedEventArgs e)
+        private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
-            tourGrades = FindTourGradesForAllGuests();
+            _viewModel.SaveReviews();
         }
 
-        private void Rating_Click(object sender, RoutedEventArgs e)
+        private void AddPictureButton_Click(object sender, RoutedEventArgs e)
         {
-            string touristGrade = FindTourGrade();
-            tourGrades.Add(touristGrade);
+            var button = sender as Button;
+            var gradeTourFormViewModel = button.DataContext as GradeTourFormViewModel;
 
-            if (tourGrades.Count == 0)
-            {
-                MessageBox.Show("Morate ocijeniti turu!");
-                return;
-            }
-
-            List<string> imageList = GetImageList();
-            GradeTour gradeTour = new GradeTour(Tourist.Id, Tourist, TourReservation.Id, tourGrades, AddedComentBox.Text, imageList);
-            gradeTourService.Create(gradeTour);
-            TourReservation.RatedTour = true;
-            tourReservationService.Update(TourReservation);
+            _viewModel.AddPicture(gradeTourFormViewModel);
         }
 
-        private List<string> FindTourGradesForAllGuests()
-        {
-            List<TourGuest> presentGuests = tourGuestRepository.GetAllPresentByTourReservationId(TourReservation.Id);
-            List<string> tourGrades = presentGuests.Select(guest =>
-            {
-                GradeDialog gradeDialog = new GradeDialog();
-                return gradeDialog.ShowDialog() == true ? gradeDialog.GetTourGrade() : "0";
-            }).ToList();
 
-            return tourGrades;
+        private void RemovePictureButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var imagePath = button.Tag as string;
+            var itemControl = FindParent<ItemsControl>(button);
+            var gradeTourFormViewModel = itemControl.DataContext as GradeTourFormViewModel;
+
+            _viewModel.RemovePicture(gradeTourFormViewModel, imagePath);
         }
 
-        private string FindTourGrade()
+        public static T FindParent<T>(DependencyObject child) where T : DependencyObject
         {
-            ComboBoxItem selectedItem = (ComboBoxItem)NumberPicker.SelectedItem;
-            if (selectedItem != null)
-            {
-                return selectedItem.Content.ToString();
-            }
-            return "0";
-        }
-
-        private List<string> GetImageList()
-        {
-            List<string> imageList = new List<string>();
-            if (!string.IsNullOrEmpty(ImagesBox.Text))
-            {
-                string images = ImagesBox.Text.Remove(ImagesBox.Text.Length - 1, 1);
-                imageList.AddRange(images.Split(','));
-            }
-            else
-            {
-                imageList.Add("");
-            }
-            return imageList;
-        }
-
-        private void BrowseButton_Click(object sender, RoutedEventArgs e)
-        {
-            Microsoft.Win32.OpenFileDialog openFileDlg = new Microsoft.Win32.OpenFileDialog();
-            Nullable<bool> result = openFileDlg.ShowDialog();
-
-            string apsolutePath = "";
-            if (result == true)
-            {
-                apsolutePath = openFileDlg.FileName;
-            }
-            else
-            {
-                return;
-            }
-            ImagesBox.Text += GetRelativePath(apsolutePath) + ",";
-        }
-        private string GetRelativePath(string apsolutePath)
-        {
-            string[] helpString = apsolutePath.Split('\\');
-            string nameFile = helpString.Last();
-            return "/Resources/Images/" + nameFile;
-        }
-
-        private void ButtonBack(object sender, RoutedEventArgs e)
-        {
-            NavigationService.GoBack();
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+            if (parentObject == null) return null;
+            T parent = parentObject as T;
+            if (parent != null) return parent;
+            return FindParent<T>(parentObject);
         }
     }
 }
