@@ -19,7 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BookingApp.View.Tourist.Pages
+namespace BookingApp.WPF.View.Tourist.Pages
 {
 
     public partial class TourReservation : Page
@@ -50,7 +50,7 @@ namespace BookingApp.View.Tourist.Pages
             _tourInstanceRepository = new TourInstanceRepository();
             _tourReservationRepository = new TourReservationRepository();
             _tourGuestRepository = new TourGuestRepository();
-            ListVoucher = new ObservableCollection<Voucher>(voucherService.GetActiveVouchersWithIds(tourist.VoucherIds));
+            ListVoucher = new ObservableCollection<Voucher>(voucherService.GetActiveVouchers(tourist.VoucherIds));
 
             NameTextBox.Text = selectedTour.Name;
             LocationTextBox.Text = selectedTour.Location.City;
@@ -69,7 +69,7 @@ namespace BookingApp.View.Tourist.Pages
         private void GenerateDatesComboBox()
         {
             var tourInstances = _tourInstanceRepository.GetAllById(SelectedTour.Id)
-                .Where(t => t.AvailableSlots > 0);
+                .Where(t => t.AvailableSlots > 0 && t.State != TourInstanceState.Finished && t.State != TourInstanceState.Cancelled);
 
             StartTimeComboBox.ItemsSource = tourInstances.Select(t => t.StartTime.ToString("g")).ToList();
             NumberOfPeopleTextBox.IsEnabled = false;

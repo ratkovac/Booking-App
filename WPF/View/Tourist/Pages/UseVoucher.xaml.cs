@@ -1,4 +1,4 @@
-﻿using BookingApp.View.ViewModel.Tourist;
+﻿using BookingApp.WPF.ViewModel.Tourist;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,22 +14,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BookingApp.View.Tourist.Pages
+namespace BookingApp.WPF.View.Tourist.Pages
 {
-    /// <summary>
-    /// Interaction logic for FastDrive.xaml
-    /// </summary>
-    public partial class FastDrivePage : Page
+    public partial class UseVoucher : Page
     {
-        private FastDriveViewModel viewModel;
-        public FastDrivePage(FastDriveViewModel fastDriveViewModel)
+        private UseVoucherViewModel viewModel;
+        public UseVoucher(UseVoucherViewModel useVoucherViewModel)
         {
             InitializeComponent();
-            this.DataContext = fastDriveViewModel;
-            viewModel = fastDriveViewModel;
+            this.DataContext = useVoucherViewModel;
+            viewModel = useVoucherViewModel;
         }
 
-        private void Reservation_Click(object sender, RoutedEventArgs e)
+        private void ReservationClick(object sender, RoutedEventArgs e)
         {
             MessageBox.Show(viewModel.Reservation());
         }

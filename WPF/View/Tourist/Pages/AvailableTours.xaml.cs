@@ -6,11 +6,8 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace BookingApp.View.Tourist.Pages
+namespace BookingApp.WPF.View.Tourist.Pages
 {
-    /// <summary>
-    /// Interaction logic for AvailableTours.xaml
-    /// </summary>
     public partial class AvailableTours : Page, INotifyPropertyChanged
     {
 

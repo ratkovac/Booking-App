@@ -14,18 +14,19 @@ namespace BookingApp.DependencyInjection
         private static Dictionary<Type, object> _implementations = new Dictionary<Type, object>
         {
             { typeof(IGradeTourRepository), new GradeTourRepository() },
-            //{ typeof(ITourInstanceRepository), new TourInstanceRepository() },
-            //{ typeof(IVoucherRepository), new VoucherRepository() },
-            //{ typeof(ITouristRepository), new TouristRepository() },
+            { typeof(ITourInstanceRepository), new TourInstanceRepository() },
+            { typeof(IVoucherRepository), new VoucherRepository() },
+            { typeof(ITouristRepository), new TouristRepository() },
             { typeof(ITourReservationRepository), new TourReservationRepository() },
             { typeof(IAccommodationReservationRepository), new AccommodationReservationRepository() },
             { typeof(ITourGuestRepository), new TourGuestRepository() },
             { typeof(IGradeAccommodationRepository), new GradeAccommodationRepository() },
-            { typeof(IFastDriveRepository), new FastDriveRepository() }, 
-            { typeof(IDelayReservationRepository), new DelayReservationRepository() },
             { typeof(ICanceledReservationRepository), new CanceledReservationRepository() },
-            { typeof(IDriverStatsRepository), new DriverStatsRepository() }
-
+            { typeof(IFastDriveRepository), new FastDriveRepository() },
+            { typeof(IDelayReservationRepository), new DelayReservationRepository() },
+            { typeof(IDriverStatsRepository), new DriverStatsRepository() },
+            { typeof(IReservedDriveRepository), new ReservedDriveRepository() },
+            { typeof(ITourImageRepository), new TourImageRepository() }
         };
         public static T CreateInstance<T>()
         {

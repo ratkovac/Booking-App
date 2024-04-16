@@ -1,6 +1,6 @@
 ﻿using BookingApp.Model;
 using BookingApp.Repository;
-using BookingApp.View.Tourist.Pages;
+using BookingApp.WPF.View.Tourist.Pages;
 using BookingApp.ViewModel.Driver;
 using System;
 using System.Collections.ObjectModel;

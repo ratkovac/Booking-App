@@ -1,6 +1,6 @@
 ﻿using BookingApp.Model;
 using BookingApp.Service;
-using BookingApp.View.ViewModel.Tourist;
+using BookingApp.WPF.ViewModel.Tourist;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BookingApp.View.Tourist.Pages
+namespace BookingApp.WPF.View.Tourist.Pages
 {
     public partial class FinishedTours : Page
     {
@@ -41,7 +41,7 @@ namespace BookingApp.View.Tourist.Pages
 
         private void NavigateToGradeTour()
         {
-            var gradeTour = new GradeTourView(viewModel.SelectedTourReservation, viewModel.Tourist, viewModel.tourReservationService);
+            var gradeTour = new GradeTourView(viewModel.SelectedTourReservation, viewModel.Tourist.Id);
             NavigationService.Navigate(gradeTour);
         }
 

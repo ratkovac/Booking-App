@@ -17,7 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BookingApp.View.Tourist.Pages
+namespace BookingApp.WPF.View.Tourist.Pages
 {
     public partial class DriveReservation : Page
     {
@@ -25,8 +25,6 @@ namespace BookingApp.View.Tourist.Pages
         public Location SelectedLocation { get; set; }
         public int DetailedStartAddressId { get; set; }
         public int DetailedEndAddressId { get; set; }
-        //public Address DetailedStartAddress { get; set; }
-        //public Address DetailedEndAddress { get; set; }
         public User SelectedDriver { get; set; }
         public int AddressId { get; set; }
         public string CountryName { get; set; }
@@ -188,10 +186,8 @@ namespace BookingApp.View.Tourist.Pages
             {
                 int minute = int.Parse(selectedMinuteItem.Content.ToString());
 
-                // Formatiramo datum i vrijeme u željeni format
                 string formattedDateTime = $"{dateDp.SelectedDate.Value.Day}.{dateDp.SelectedDate.Value.Month}.{dateDp.SelectedDate.Value.Year}. {hour.ToString("00")}:{minute.ToString("00")}:00";
 
-                // Parsiramo formatirani string u DateTime objekt
                 DateTime resultDateTime;
                 if (DateTime.TryParseExact(formattedDateTime, "d.M.yyyy. HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out resultDateTime))
                 {

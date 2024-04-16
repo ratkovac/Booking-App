@@ -1,8 +1,8 @@
 ﻿using BookingApp.Model;
 using BookingApp.Repository;
-using BookingApp.Repository.RepositoryInterface;
+using BookingApp.Domain.RepositoryInterface;
 using BookingApp.Service;
-using BookingApp.View.Tourist.Pages;
+using BookingApp.WPF.View.Tourist.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
