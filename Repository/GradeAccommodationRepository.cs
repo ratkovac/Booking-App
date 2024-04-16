@@ -26,14 +26,6 @@ namespace BookingApp.Repository
             _gradeAccommodations = _serializer.FromCSV(FilePath);
             GradeAccommodationSubject = new Subject();
         }
-        public GradeAccommodation Save(GradeAccommodation GradeAccommodation)
-        {
-            GradeAccommodation.Id = NextId();
-            _gradeAccommodations = _serializer.FromCSV(FilePath);
-            _gradeAccommodations.Add(GradeAccommodation);
-            _serializer.ToCSV(FilePath, _gradeAccommodations);
-            return GradeAccommodation;
-        }
         public List<GradeAccommodation> GetAll()
         {
             return _gradeAccommodations;
@@ -51,7 +43,10 @@ namespace BookingApp.Repository
 
         public void Create(GradeAccommodation entity)
         {
-            throw new NotImplementedException();
+            entity.Id = NextId();
+            _gradeAccommodations = _serializer.FromCSV(FilePath);
+            _gradeAccommodations.Add(entity);
+            _serializer.ToCSV(FilePath, _gradeAccommodations);
         }
         void IGenericRepository<GradeAccommodation, int>.Update(GradeAccommodation entity)
         {
@@ -76,7 +71,7 @@ namespace BookingApp.Repository
 
         public GradeAccommodation GetById(int key)
         {
-            throw new NotImplementedException();
+            return _gradeAccommodations.Find(c => c.Id == key);
         }
         public List<GradeAccommodation> GetAllByUser(int userId)
         {

@@ -30,6 +30,10 @@ namespace BookingApp.Service
         {
             _repository.Subscribe(observer);
         }
+
+        public List<DelayReservation> GetAll()
+        {
+            return _repository.GetAll();
         public DelayReservation? GetByID(int delayReservationId)
         {
             return _repository.GetById(delayReservationId);

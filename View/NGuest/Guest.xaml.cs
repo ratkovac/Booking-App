@@ -17,6 +17,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BookingApp.Service;
 using BookingApp.View.NGuest;
 using BookingApp.View.ViewModel.Guest;
 using static BookingApp.Model.AccommodationTypeEnum;
@@ -35,6 +36,9 @@ namespace BookingApp.View
         public ObservableCollection<AccommodationDTO> Accommodations { get; set; }
         public ObservableCollection<string> Locations { get; set; }
         public ICollectionView FilteredAccommodations { get; set; }
+
+        private DelayReservationService delayReservationService { get; set; }
+        private ObservableCollection<DelayReservation> DelayReservations { get; set; }
         public User LoggedInUser { get; set; }
         public Guest(User loggedInUser)
         {
@@ -51,6 +55,8 @@ namespace BookingApp.View
 
             SelectedAccommodation = new AccommodationDTO();
 
+            delayReservationService = new DelayReservationService();
+            DelayReservations = new ObservableCollection<DelayReservation>();
 
             Update();
             LoggedInUser = loggedInUser;
@@ -262,6 +268,18 @@ namespace BookingApp.View
             {
                 Locations.Add(location.ToString());
             }
+
+            DelayReservations.Clear();
+            foreach (DelayReservation delayReservation in delayReservationService.GetAll())
+            {
+                DelayReservations.Add(delayReservation);
+                if (delayReservation.Status == DelayReservationStatusEnum.Approved ||
+                    delayReservation.Status == DelayReservationStatusEnum.Declined)
+                {
+                    MyReservationsButton.Background = Brushes.Red;
+                }
+            }
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -273,7 +291,7 @@ namespace BookingApp.View
 
         private void OnClickButton(object sender, RoutedEventArgs e)
         {
-            Reservation reservation = new Reservation(SelectedAccommodation, user);
+            Reservation reservation = new Reservation(SelectedAccommodation, LoggedInUser);
             reservation.Show();
         }
 
@@ -286,7 +304,9 @@ namespace BookingApp.View
 
         private void Rate_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            RateAcciommodationViewModel rateAcciommodationViewModel = new RateAcciommodationViewModel(LoggedInUser);
+            RateAccommodations rateAccommodations = new RateAccommodations(rateAcciommodationViewModel);
+            rateAccommodations.Show();
         }
     }
 }

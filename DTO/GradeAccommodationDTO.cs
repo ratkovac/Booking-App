@@ -149,7 +149,7 @@ namespace BookingApp.DTO
         }
         public GradeAccommodation ToGradeAccommodation()
         {
-            GradeAccommodation gradeAccommodation = new GradeAccommodation(Id, accommodationReservation, cleanliness, correctness, comment);
+            GradeAccommodation gradeAccommodation = new GradeAccommodation(accommodationReservation.Id, cleanliness, correctness, comment);
             return gradeAccommodation;
         }
         protected virtual void OnPropertyChanged(string name)

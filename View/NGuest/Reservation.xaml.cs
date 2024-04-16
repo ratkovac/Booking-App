@@ -47,6 +47,8 @@ namespace BookingApp.View
 
             AvailableAccommodationPeriods = new ObservableCollection<AccommodationReservationDTO>();
 
+            this.User = user;
+
             Update();
         }
 
@@ -60,6 +62,7 @@ namespace BookingApp.View
                     AccommodationReservations.Add(new AccommodationReservationDTO(accommodationReservation));
                 }
             }
+
         }
 
 
@@ -233,9 +236,13 @@ namespace BookingApp.View
 
         private void Submit_Click(object sender, RoutedEventArgs e)
         {
+            AvailableAccommodationPeriods.Clear();
+
             SuggestReservation(startDate, endDate);
             if (AvailableAccommodationPeriods.Count == 0)
                 SuggestReservation(startDate.AddDays(-5), endDate.AddDays(5));
+
+            Update();
         }
 
         private void SuggestReservation(DateOnly startDate, DateOnly endDate)
@@ -315,7 +322,7 @@ namespace BookingApp.View
                     EndDate = start.AddDays(reservationDays - 1),
                     ReservationDays = reservationDays,
                     Accommodation = SelectedAccommodation.ToAccommodation(),
-                    User = SelectedAccommodation.User
+                    User = user
                 };
 
                 if (insertAtBeginning)
@@ -337,6 +344,7 @@ namespace BookingApp.View
                 selectedReservation.Accommodation.MinReservationDays <= reservationDays)
             {
                 selectedReservation.Capacity = capacity;
+                SelectedReservation.User = User;
                 AccommodationReservationRepository.Save(selectedReservation.ToAccommodationReservation());
                 MessageBox.Show("Uspjesno ste izvrsili rezervaciju");
             }
