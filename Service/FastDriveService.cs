@@ -15,11 +15,15 @@ namespace BookingApp.Service
     public class FastDriveService
     {
         private IFastDriveRepository fastDriveRepository;
+        private readonly VehicleRepository _vehicleRepository;
+        private readonly DriveRepository _driveRepository;
         private LocationRepository _locationRepository { get; set; }
         private AddressRepository _addressRepository { get; set; }
         public FastDriveService()
         {
             fastDriveRepository = Injector.CreateInstance<IFastDriveRepository>();
+            _vehicleRepository = new VehicleRepository();
+            _driveRepository = new DriveRepository();
             _locationRepository = new LocationRepository();
             _addressRepository = new AddressRepository();
         }
@@ -46,6 +50,10 @@ namespace BookingApp.Service
         public void Update(FastDrive fastDrive)
         {
             fastDriveRepository.Update(fastDrive);
+        }
+        public void SaveDrive(Drive drive)
+        {
+            _driveRepository.Save(drive);
         }
         public void Subscribe(IObserver observer)
         {

@@ -23,6 +23,7 @@ namespace BookingApp.Model
         public double Delay { get; set; }
         public int DriverId { get; set; }
 
+
         public FastDrive()
         {
         }
@@ -34,6 +35,7 @@ namespace BookingApp.Model
             Date = date;
             TimeOfReservation = timeOfReservation;
             Guest = guest;
+            GuestId = guest.Id;
             DriveStatusId = driveStatusId;
             Delay = delay;
             DriverId = driverId;
