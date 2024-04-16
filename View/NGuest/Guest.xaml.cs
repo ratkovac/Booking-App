@@ -283,5 +283,10 @@ namespace BookingApp.View
             MyReservation myReservation = new MyReservation(myReservationViewModel);
             myReservation.Show();
         }
+
+        private void Rate_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
