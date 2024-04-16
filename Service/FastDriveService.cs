@@ -1,5 +1,6 @@
 ﻿using BookingApp.DependencyInjection;
 using BookingApp.Model;
+using BookingApp.Repository;
 using BookingApp.Repository.RepositoryInterface;
 using CLI.Observer;
 using System;
@@ -13,9 +14,13 @@ namespace BookingApp.Service
     public class FastDriveService
     {
         private IFastDriveRepository fastDriveRepository;
+        private readonly VehicleRepository _vehicleRepository;
+        private readonly DriveRepository _driveRepository;
         public FastDriveService()
         {
             fastDriveRepository = Injector.CreateInstance<IFastDriveRepository>();
+            _vehicleRepository = new VehicleRepository();
+            _driveRepository = new DriveRepository();
         }
         public int NextId()
         {
@@ -40,6 +45,10 @@ namespace BookingApp.Service
         public void Update(FastDrive fastDrive)
         {
             fastDriveRepository.Update(fastDrive);
+        }
+        public void SaveDrive(Drive drive)
+        {
+            _driveRepository.Save(drive);
         }
         public void Subscribe(IObserver observer)
         {

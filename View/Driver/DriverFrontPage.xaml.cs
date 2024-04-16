@@ -48,7 +48,7 @@ namespace BookingApp.View.Driver
 
         private void btnOpenStats_Click(object sender, RoutedEventArgs e)
         {
-            Driver.Example example = new Driver.Example();
+            Driver.Example example = new Driver.Example(LoggedInUser);
             example.Show();
             Close();
         }
