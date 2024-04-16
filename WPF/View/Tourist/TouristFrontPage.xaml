@@ -11,8 +11,8 @@
             <Button Name="HelpButton" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="80,0,0,0" Height="78" Width="200" Background="Transparent" BorderThickness="1 1 1 0" BorderBrush="White">
                 <TextBlock Text="Pomoć" FontSize="55" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Button>
-            <Button HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,240,0" Height="78" Width="200" Background="Transparent" BorderThickness="1 1 1 0" BorderBrush="White">
-                <TextBlock Text="Profil" FontSize="55" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Button HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,240,0" Height="78" Width="330" Background="Transparent" BorderThickness="1 1 1 0" BorderBrush="White" Click="Notification_Click">
+                <TextBlock Text="Obavještenja" FontSize="55" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Button>
             <Button HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,40,0" Height="78" Width="200" Background="Transparent" BorderThickness="1 1 1 0" BorderBrush="White">
                 <TextBlock Text="Odjava" FontSize="55" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center"/>

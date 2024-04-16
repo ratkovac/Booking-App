@@ -20,25 +20,26 @@
                             <StackPanel Margin="5">
                                 <TextBlock Text="{Binding Guest.Name}" FontWeight="Bold" Margin="0,0,0,5" />
                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                                    <TextBlock Text="Ocenite turu od 1 do 5: " VerticalAlignment="Center" />
+                                    <TextBlock Text="Rate the tour: " VerticalAlignment="Center" />
                                     <ComboBox Width="50" VerticalAlignment="Center"
                                 ItemsSource="{Binding Ratings}"
                                 SelectedItem="{Binding SelectedRating, Mode=TwoWay}" />
 
                                 </StackPanel>
-                                <TextBox Text="{Binding Comment}" Height="60" TextWrapping="Wrap" 
-                                 Margin="0,0,0,5" />
+                                <TextBlock Text="Add a comment: " VerticalAlignment="Center" />
+                                <TextBox Text="{Binding Comment}" Height="60" Width="300" TextWrapping="Wrap" 
+                                 Margin="0,0,920,5" />
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Dodajte slike: " VerticalAlignment="Center" />
-                                    <Button Content="+" Width="25" Height="25" VerticalAlignment="Center" Margin="5,0,0,0" Click="AddPictureButton_Click" />
+                                    <TextBlock Text="Add pictures of the tour: " VerticalAlignment="Center" />
+                                    <Button Width="25" Height="25" VerticalAlignment="Center" Margin="5,0,0,0" Click="AddPictureButton_Click" Background="Transparent">
+                                        <Image Source="/BookingApp;component/Resources/Images/add.png" Width="20" Height="20" />
+                                    </Button>
                                     <ItemsControl ItemsSource="{Binding ImagePaths}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                                     <TextBlock Text="{Binding}" Margin="5,0,5,0"/>
-                                                    <Button Content="-" Width="25" Height="25" Margin="5,0,0,0" 
-                Click="RemovePictureButton_Click" 
-                Tag="{Binding}"/>
+                                                    <Button Content="-" Width="25" Height="25" Margin="5,0,0,0" Click="RemovePictureButton_Click" Tag="{Binding}"/>
                                                 </StackPanel>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
@@ -52,9 +53,8 @@
             </ItemsControl>
 
             <StackPanel Orientation="Horizontal" Margin="10">
-                <Button Content="Potvrdi ocene" Width="100" Click="ConfirmButton_Click" Margin="5,0,0,0" />
+                <Button Content="Confirm ratings" Width="100" Click="ConfirmButton_Click" Margin="5,0,0,0" />
             </StackPanel>
-
         </StackPanel>
     </ScrollViewer>
 </Page>

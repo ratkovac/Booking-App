@@ -224,7 +224,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
                 DetailedEndAddressId = AddNewAddress(EndStreet);
             }
 
-            FastDrive fastDrive = new FastDrive(DetailedStartAddressId, DetailedEndAddressId, departure, DateTime.Now, Tourist, 2, 0);
+            FastDrive fastDrive = new FastDrive(DetailedStartAddressId, DetailedEndAddressId, departure, DateTime.Now, Tourist, 2, 0, 0);
             _fastDriveRepository.Save(fastDrive);
             return "Rezervacija uspješna";
         }

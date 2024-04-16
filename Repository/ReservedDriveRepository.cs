@@ -4,16 +4,15 @@ using BookingApp.Serializer;
 using CLI.Observer;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BookingApp.Repository
 {
-    public class FastDriveRepository : IFastDriveRepository
+    public class ReservedDriveRepository : IReservedDriveRepository
     {
-        private const string FilePath = "../../../Resources/Data/fastDrives.csv";
+        private const string FilePath = "../../../Resources/Data/reservedDrives.csv";
 
         private readonly Serializer<FastDrive> _serializer;
         private List<IObserver> observers;
@@ -21,7 +20,7 @@ namespace BookingApp.Repository
         private AddressRepository _addressRepository;
 
 
-        public FastDriveRepository()
+        public ReservedDriveRepository()
         {
             _serializer = new Serializer<FastDrive>();
             _fastDrives = _serializer.FromCSV(FilePath);
@@ -80,18 +79,6 @@ namespace BookingApp.Repository
             return _fastDrives.Find(fd => fd.Id == id);
         }
 
-        public List<FastDrive> GetByTourist(int touristId)
-        {
-            _fastDrives = _serializer.FromCSV(FilePath);
-            return _fastDrives.FindAll(r => r.GuestId == touristId);
-        }
-
-        public List<FastDrive> GetDrivesForToday()
-        {
-            _fastDrives = _serializer.FromCSV(FilePath);
-            return _fastDrives.FindAll(fd => fd.Date.Date == DateTime.Today);
-        }
-
         public void Subscribe(IObserver observer)
         {
             observers.Add(observer);
@@ -108,31 +95,6 @@ namespace BookingApp.Repository
             {
                 observer.Update();
             }
-        }
-
-        public int IsFastDriveAccepted(FastDrive fastDrive)
-        {
-            if (fastDrive.DriverId != 0) return fastDrive.DriverId;
-            else return -1;
-        }
-
-        public ObservableCollection<FastDrive> GetDrivesByLocations(ObservableCollection<int> locations)
-        {
-            var drivesForLocations = new ObservableCollection<FastDrive>();
-
-            foreach (var fastDrive in _fastDrives)
-            {
-                int? startLocationId = _addressRepository.GetLocationIdByAddressId(fastDrive.StartAddress.Id);
-                int? endLocationId = _addressRepository.GetLocationIdByAddressId(fastDrive.EndAddress.Id);
-
-                if (startLocationId.HasValue && locations.Contains(startLocationId.Value) ||
-                    endLocationId.HasValue && locations.Contains(endLocationId.Value))
-                {
-                    drivesForLocations.Add(fastDrive);
-                }
-            }
-
-            return drivesForLocations;
         }
     }
 }

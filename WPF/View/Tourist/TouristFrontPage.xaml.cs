@@ -1,8 +1,10 @@
 ﻿using BookingApp.Model;
+using BookingApp.Repository;
 using BookingApp.Service;
 using BookingApp.WPF.View.Tourist.Pages;
 using BookingApp.WPF.ViewModel.Tourist;
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
@@ -14,9 +16,12 @@ namespace BookingApp.WPF.View.Tourist
         public BookingApp.Model.Tourist Tourist { get; set; }
         public FinishedToursViewModel FinishedToursViewModel { get; set; }
         public TourReservationService _tourReservationService { get; set; }
+        public UserRepository _userRepository { get; set; }
         public TouristService _touristService { get; set; }
         public TourInstanceService _tourInstanceService { get; set; }
         public VoucherService _voucherService { get; set; }
+        public FastDriveRepository _fastDriveRepository { get; set; }
+        public ReservedDriveRepository _reservedDriveRepository { get; set; }
         public TouristFrontPage(BookingApp.Model.Tourist tourist)
         {
             InitializeComponent();
@@ -26,6 +31,9 @@ namespace BookingApp.WPF.View.Tourist
             _touristService = new TouristService();
             _tourInstanceService = new TourInstanceService();
             _voucherService = new VoucherService();
+            _fastDriveRepository = new FastDriveRepository();
+            _userRepository = new UserRepository();
+            _reservedDriveRepository = new ReservedDriveRepository();
             CheckTouristReservation();
             /*if (_tourReservationService.GetTourInstanceIdWhereTouristIsWaiting(Tourist) != null)
             {
@@ -39,6 +47,29 @@ namespace BookingApp.WPF.View.Tourist
                 }
             }
             _voucherService.UpdateValidVouchers();*/
+        }
+
+        public void CheckForNotification()
+        {
+            var fastDrive = _fastDriveRepository.GetAll().FirstOrDefault();
+
+            if (fastDrive != null)
+            {
+                int driverId = _fastDriveRepository.IsFastDriveAccepted(fastDrive);
+
+                if (driverId != -1)
+                {
+                    User driver = _userRepository.GetByID(driverId);
+                    MessageBox.Show($"Driver {driver.Username} has accepted your reservation!", "Notification", MessageBoxButton.OK);
+                    _reservedDriveRepository.Save(fastDrive);
+                }
+
+                _fastDriveRepository.Delete(fastDrive);
+            }
+            else
+            {
+                return;
+            }
         }
 
         public void CheckTouristReservation()
@@ -56,6 +87,11 @@ namespace BookingApp.WPF.View.Tourist
                 _touristService.GiveVoucherForGuestWhenFiveTimePresent(Tourist.Id);
                 MessageBox.Show("Cestitamo! Uspjesno ste osvojili vaucer!");
             }
+        }
+
+        private void Notification_Click(object sender, RoutedEventArgs e)
+        {
+            CheckForNotification();
         }
 
         private void AvailableTours_Click(object sender, RoutedEventArgs e)

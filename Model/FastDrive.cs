@@ -21,12 +21,13 @@ namespace BookingApp.Model
         public User Guest { get; set; }
         public int DriveStatusId { get; set; }
         public double Delay { get; set; }
+        public int DriverId { get; set; }
 
         public FastDrive()
         {
         }
 
-        public FastDrive(int startAddressId, int endAddressId, DateTime date, DateTime timeOfReservation, User guest, int driveStatusId, double delay)
+        public FastDrive(int startAddressId, int endAddressId, DateTime date, DateTime timeOfReservation, User guest, int driveStatusId, double delay, int driverId)
         {
             StartAddressId = startAddressId;
             EndAddressId = endAddressId;
@@ -35,6 +36,7 @@ namespace BookingApp.Model
             Guest = guest;
             DriveStatusId = driveStatusId;
             Delay = delay;
+            DriverId = driverId;
         }
 
         public string[] ToCSV()
@@ -48,13 +50,14 @@ namespace BookingApp.Model
                 TimeOfReservation.ToString(),
                 guestId,
                 DriveStatusId.ToString(),
-                Delay.ToString() };
+                Delay.ToString(),
+                DriverId.ToString() };
             return csvValues;
         }
 
         public void FromCSV(string[] values)
         {
-            if (values.Length != 8)
+            if (values.Length != 9)
             {
                 throw new ArgumentException("Neispravan format CSV podataka.");
             }
@@ -75,7 +78,7 @@ namespace BookingApp.Model
             Delay = Convert.ToDouble(values[7]);
             UserRepository userRepository = new UserRepository();
             Guest = userRepository.GetByID(GuestId);
-
+            DriverId = Convert.ToInt32(values[8]);
         }
     }
 }
