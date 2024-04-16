@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BookingApp.Domain.RepositoryInterface;
+using BookingApp.Repository.RepositoryInterface;
 using BookingApp.DependencyInjection;
 using BookingApp.Model;
 using BookingApp.Repository;
@@ -15,7 +15,6 @@ namespace BookingApp.Service
     {
         private IGradeTourRepository gradeTourRepository;
         private ITouristRepository touristRepository;
-        private TourInstanceRepository tourInstanceRepository;
         private TourReservationRepository tourReservationRepository;
 
         public GradeTourService()
@@ -43,6 +42,11 @@ namespace BookingApp.Service
         public List<GradeTour> GetAll()
         {
             return gradeTourRepository.GetAll();
+        }
+
+        public GradeTour GetById(int id)
+        {
+            return gradeTourRepository.GetById(id);
         }
         public List<GradeTour> GetAllRatingsByTour(TourReservation tourReservation)
         {

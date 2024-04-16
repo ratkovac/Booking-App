@@ -1,5 +1,5 @@
 ﻿using BookingApp.Model;
-using BookingApp.Domain.RepositoryInterface;
+using BookingApp.Repository.RepositoryInterface;
 using BookingApp.Serializer;
 using System;
 using System.IO;
@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.AccessControl;
 
 namespace BookingApp.Repository
 {
@@ -102,6 +103,38 @@ namespace BookingApp.Repository
             return _tourInstances.Find(r => r.Id == id);
         }
 
+        public List<TourInstance> GetByUserId(int userId)
+        {
+            return _tourInstances.Where(r => r.GuideId == userId).ToList();
+        }
+
+        public List<TourInstance> GetFinishedByUserId(int userId)
+        {
+            _tourInstances = GetByUserId(userId);
+
+            _tourInstances.RemoveAll(tourInstance => tourInstance.State != TourInstanceState.Finished);
+
+            if (_tourInstances.Count == 0)
+            {
+                return new List<TourInstance>();
+            }
+
+            return _tourInstances;
+        }
+
+        public List<TourInstance> GetInactiveToursByUser(int userId)
+        {
+            _tourInstances = GetByUserId(userId);
+
+            _tourInstances.RemoveAll(tourInstance => tourInstance.State != TourInstanceState.Inactive);
+
+            if (_tourInstances.Count == 0)
+            {
+                return new List<TourInstance>();
+            }
+
+            return _tourInstances;
+        }
         public TourInstance GetByIdAndDate(int tourId, DateTime date)
         {
             return _serializer.FromCSV(FilePath).FirstOrDefault(tourInstance => tourInstance.TourId == tourId && tourInstance.StartTime == date);

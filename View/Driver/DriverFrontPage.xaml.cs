@@ -55,8 +55,8 @@ namespace BookingApp.View.Driver
 
         private void btnNotification_Click(object sender, RoutedEventArgs e)
         {
-            Driver.NotificationPage notificationPage = new NotificationPage();
-            notificationPage.Show();
+            Driver.NotificationWindow notificationWindow = new NotificationWindow(LoggedInUser);
+            notificationWindow.Show();
             Close();
         }
     }

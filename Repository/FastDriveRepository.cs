@@ -1,9 +1,10 @@
 ﻿using BookingApp.Model;
-using BookingApp.Domain.RepositoryInterface;
+using BookingApp.Repository.RepositoryInterface;
 using BookingApp.Serializer;
 using CLI.Observer;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,11 +18,15 @@ namespace BookingApp.Repository
         private readonly Serializer<FastDrive> _serializer;
         private List<IObserver> observers;
         private List<FastDrive> _fastDrives;
+        private AddressRepository _addressRepository;
+
 
         public FastDriveRepository()
         {
             _serializer = new Serializer<FastDrive>();
             _fastDrives = _serializer.FromCSV(FilePath);
+            _addressRepository = new AddressRepository();
+
         }
 
         public FastDrive Save(FastDrive fastDrive)
@@ -104,5 +109,24 @@ namespace BookingApp.Repository
                 observer.Update();
             }
         }
+        public ObservableCollection<FastDrive> GetDrivesByLocations(ObservableCollection<int> locations)
+        {
+            var drivesForLocations = new ObservableCollection<FastDrive>();
+
+            foreach (var fastDrive in _fastDrives)
+            {
+                int? startLocationId = _addressRepository.GetLocationIdByAddressId(fastDrive.StartAddress.Id);
+                int? endLocationId = _addressRepository.GetLocationIdByAddressId(fastDrive.EndAddress.Id);
+
+                if (startLocationId.HasValue && locations.Contains(startLocationId.Value) ||
+                    endLocationId.HasValue && locations.Contains(endLocationId.Value))
+                {
+                    drivesForLocations.Add(fastDrive);
+                }
+            }
+
+            return drivesForLocations;
+        }
+
     }
 }

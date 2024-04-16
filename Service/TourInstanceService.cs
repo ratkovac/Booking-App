@@ -1,6 +1,6 @@
 ﻿using BookingApp.DependencyInjection;
 using BookingApp.Model;
-using BookingApp.Domain.RepositoryInterface;
+using BookingApp.Repository.RepositoryInterface;
 using BookingApp.Repository;
 using CLI.Observer;
 using System;
@@ -44,13 +44,34 @@ namespace BookingApp.Service
 
             return toursFinished;
         }
-        public List<TourInstance> GetAll()
+        public List<TourInstance> GetInactiveToursByUser(int userId)
         {
-            return tourInstanceRepository.GetAll();
+            return tourInstanceRepository.GetInactiveToursByUser(userId);
         }
+
+        public List<TourInstance> GetFinishedTourInstances()
+        {
+            return tourInstanceRepository.GetFinishedTourInstances();
+        }
+
         public TourInstance GetById(int id)
         {
             return tourInstanceRepository.GetById(id);
+        }
+
+        public List<TourInstance> GetByUserId(int userId)
+        {
+            return tourInstanceRepository.GetByUserId(userId);
+        }
+
+        public List<TourInstance> GetFinishedByUserId(int userId)
+        {
+            return tourInstanceRepository.GetFinishedByUserId(userId);
+        }
+
+        public List<TourInstance> GetAll()
+        {
+            return tourInstanceRepository.GetAll();
         }
         public void Create(TourInstance tourInstances)
         {
