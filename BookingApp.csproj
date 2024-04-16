@@ -53,6 +53,8 @@
 
   <ItemGroup>
     <Resource Include="Images\reserve.png" />
+    <Resource Include="View\Owner\star.png" />
+    <Resource Include="View\Owner\user.jpg" />
   </ItemGroup>
 
 </Project>

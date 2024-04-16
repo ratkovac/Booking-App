@@ -26,10 +26,20 @@ namespace BookingApp.View.Owner
             Role_Copy.Content = LoggedInUser.Role;
             if (ownerFrontPageViewModel.SuperOwner(LoggedInUser))
             {
-                SuperOwnerImage.Source = new BitmapImage(new Uri("/View/Owner/Images/star.png", UriKind.Relative));
+                SuperOwnerImage.Source = new BitmapImage(new Uri("/View/Owner/star.png", UriKind.Relative));
                 SuperOwnerBorder.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFF7B421"));
             }
+            delayRequestWarning();
         }
+        private void delayRequestWarning()
+        {
+            DelayRequestsViewModel delayRequestsViewModel = new DelayRequestsViewModel(LoggedInUser);
+            if (delayRequestsViewModel.DelayRequestsNumber() > 0)
+            {
+                DelayRequests.Foreground = Brushes.Red;
+            }
+        }
+
 
         private void NewAccomodation_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -56,6 +66,13 @@ namespace BookingApp.View.Owner
             {
                 MessageBox.Show("Still, you have unrated guests!\nFirst, you need to rate all your guests to see how they've rated you!", "Rate guests!", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
+        }
+
+        private void DelayRequests_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DelayRequestsViewModel delayRequestsViewModel = new DelayRequestsViewModel(LoggedInUser);
+            DelayRequests delayRequests = new DelayRequests(delayRequestsViewModel);
+            delayRequests.Show();
         }
     }
 }

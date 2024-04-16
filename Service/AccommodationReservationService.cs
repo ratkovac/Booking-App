@@ -37,6 +37,10 @@ namespace BookingApp.Service
         {
             _repository.Delete(accommodationReservation);
         }
+        public void Update(AccommodationReservation AccommodationReservation)
+        {
+            _repository.Update(AccommodationReservation);
+        }
 
         public void Subscribe(IObserver observer)
         {
