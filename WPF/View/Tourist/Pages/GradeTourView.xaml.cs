@@ -30,37 +30,42 @@ namespace BookingApp.WPF.View.Tourist.Pages
             DataContext = _viewModel;
         }
 
-        private void ConfirmButton_Click(object sender, RoutedEventArgs e)
-        {
-            _viewModel.SaveReviews();
-        }
-
         private void AddPictureButton_Click(object sender, RoutedEventArgs e)
         {
-            var button = sender as Button;
-            var gradeTourFormViewModel = button.DataContext as GradeTourFormViewModel;
+            if (!(sender is Button button))
+            {
+                return;
+            }
+
+            if (!(button.DataContext is GradeTourFormViewModel gradeTourFormViewModel))
+            {
+                return;
+            }
 
             _viewModel.AddPicture(gradeTourFormViewModel);
-        }
-
-
-        private void RemovePictureButton_Click(object sender, RoutedEventArgs e)
-        {
-            var button = sender as Button;
-            var imagePath = button.Tag as string;
-            var itemControl = FindParent<ItemsControl>(button);
-            var gradeTourFormViewModel = itemControl.DataContext as GradeTourFormViewModel;
-
-            _viewModel.RemovePicture(gradeTourFormViewModel, imagePath);
         }
 
         public static T FindParent<T>(DependencyObject child) where T : DependencyObject
         {
             DependencyObject parentObject = VisualTreeHelper.GetParent(child);
-            if (parentObject == null) return null;
-            T parent = parentObject as T;
-            if (parent != null) return parent;
-            return FindParent<T>(parentObject);
+
+            while (parentObject != null)
+            {
+                if (parentObject is T parent)
+                {
+                    return parent;
+                }
+
+                parentObject = VisualTreeHelper.GetParent(parentObject);
+            }
+
+            return null;
+        }
+
+
+        private void ConfirmButton_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.SaveReviews();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using BookingApp.Model;
 using BookingApp.Repository;
+using BookingApp.Repository.RepositoryInterface;
 using BookingApp.Service;
 using Microsoft.Win32;
 using System;
@@ -19,7 +20,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
 
         private GradeTourService _gradeTourService;
         private TourReservationService _tourReservationService;
-        private ImageRepository _imageRepository;
+        private TourImageRepository _tourImageRepository;
         private TourGuestRepository _tourGuestRepository;
 
         public int TouristId { get; set; }
@@ -28,7 +29,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
         {
             TouristId = touristId;
             _gradeTourService = new GradeTourService();
-            _imageRepository = new ImageRepository();
+            _tourImageRepository = new TourImageRepository();
             _tourGuestRepository = new TourGuestRepository();
             _tourReservationService = new TourReservationService();
             SelectedTourReservation = tourReservation;
@@ -51,39 +52,35 @@ namespace BookingApp.WPF.ViewModel.Tourist
 
         public void AddPicture(GradeTourFormViewModel reviewTourFormViewModel)
         {
+            string[] selectedFiles = OpenImageFileDialog();
+
+            if (selectedFiles != null)
+            {
+                foreach (var file in selectedFiles)
+                {
+                    reviewTourFormViewModel.ImagePaths.Add(file);
+                }
+            }
+        }
+
+        private string[] OpenImageFileDialog()
+        {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg|All files (*.*)|*.*";
             openFileDialog.Multiselect = true;
+
             if (openFileDialog.ShowDialog() == true)
             {
-                reviewTourFormViewModel.ImagePaths.Add(openFileDialog.FileName);
+                return openFileDialog.FileNames;
+            }
 
-            }
-        }
-        public void RemovePicture(GradeTourFormViewModel reviewForm, string imagePath)
-        {
-            if (reviewForm != null && reviewForm.ImagePaths.Contains(imagePath))
-            {
-                reviewForm.ImagePaths.Remove(imagePath);
-            }
+            return null;
         }
 
         public void SaveReviews()
         {
-            foreach (var reviewForm in ReviewForms)
-            {
-                GradeTour grade = new GradeTour(SelectedTourReservation.Id, TouristId, reviewForm.Guest.Id, reviewForm.SelectedRating, reviewForm.Comment, true);
-                _gradeTourService.Create(grade);
-                foreach (var path in reviewForm.ImagePaths)
-                {
-                    Image image = new Image(path, grade.Id, TouristId);
-                    _imageRepository.Save(image);
-                }
-            }
-            SelectedTourReservation.RatedTour = true;
-            _tourReservationService.Update(SelectedTourReservation);
+            _gradeTourService.SaveReviews(ReviewForms, SelectedTourReservation.Id, TouristId);
         }
-
 
     }
 }

@@ -117,5 +117,15 @@ namespace BookingApp.Service
         {
             return GetAllReservations().Where(r => r.TouristId == touristId).ToList();
         }
+        public void MarkTourReservationAsRated(int tourReservationId)
+        {
+            var tourReservation = tourReservationRepository.GetById(tourReservationId);
+
+            if (tourReservation != null)
+            {
+                tourReservation.RatedTour = true;
+                tourReservationRepository.Update(tourReservation);
+            }
+        }
     }
 }

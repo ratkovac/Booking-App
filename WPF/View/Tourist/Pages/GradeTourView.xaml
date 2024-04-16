@@ -22,8 +22,8 @@
                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                                     <TextBlock Text="Rate the tour: " VerticalAlignment="Center" />
                                     <ComboBox Width="50" VerticalAlignment="Center"
-                                ItemsSource="{Binding Ratings}"
-                                SelectedItem="{Binding SelectedRating, Mode=TwoWay}" />
+                                ItemsSource="{Binding Grades}"
+                                SelectedItem="{Binding SelectedGrade, Mode=TwoWay}" />
 
                                 </StackPanel>
                                 <TextBlock Text="Add a comment: " VerticalAlignment="Center" />
@@ -39,7 +39,6 @@
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                                     <TextBlock Text="{Binding}" Margin="5,0,5,0"/>
-                                                    <Button Content="-" Width="25" Height="25" Margin="5,0,0,0" Click="RemovePictureButton_Click" Tag="{Binding}"/>
                                                 </StackPanel>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>

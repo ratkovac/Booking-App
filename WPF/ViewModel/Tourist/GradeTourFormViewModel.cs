@@ -11,22 +11,22 @@ namespace BookingApp.WPF.ViewModel.Tourist
 {
     public class GradeTourFormViewModel : INotifyPropertyChanged
     {
-        private int _selectedRating;
+        private int _selectedGrade;
         public TourGuest Guest { get; set; }
         public string Comment { get; set; }
         public ObservableCollection<string> ImagePaths { get; set; } = new ObservableCollection<string>();
 
-        public List<int> Ratings { get; } = new List<int> { 1, 2, 3, 4, 5 };
+        public List<int> Grades { get; } = new List<int> { 1, 2, 3, 4, 5 };
 
-        public int SelectedRating
+        public int SelectedGrade
         {
-            get => _selectedRating;
+            get => _selectedGrade;
             set
             {
-                if (_selectedRating != value)
+                if (_selectedGrade != value)
                 {
-                    _selectedRating = value;
-                    OnPropertyChanged(nameof(SelectedRating));
+                    _selectedGrade = value;
+                    OnPropertyChanged(nameof(SelectedGrade));
                 }
             }
         }
