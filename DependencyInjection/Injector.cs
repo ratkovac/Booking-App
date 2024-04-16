@@ -19,11 +19,13 @@ namespace BookingApp.DependencyInjection
             //{ typeof(ITouristRepository), new TouristRepository() },
             { typeof(ITourReservationRepository), new TourReservationRepository() },
             { typeof(IAccommodationReservationRepository), new AccommodationReservationRepository() },
+            { typeof(IAccommodationRepository), new AccommodationRepository() },
             { typeof(ITourGuestRepository), new TourGuestRepository() },
             { typeof(IGradeAccommodationRepository), new GradeAccommodationRepository() },
             { typeof(IFastDriveRepository), new FastDriveRepository() }, 
             { typeof(IDelayReservationRepository), new DelayReservationRepository() },
-            { typeof(ICanceledReservationRepository), new CanceledReservationRepository() }
+            { typeof(ICanceledReservationRepository), new CanceledReservationRepository() },
+            { typeof(IImageRepository), new ImageRepository() }
         };
         public static T CreateInstance<T>()
         {

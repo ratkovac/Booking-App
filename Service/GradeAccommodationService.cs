@@ -23,6 +23,11 @@ namespace BookingApp.Service
         {
             return _repository.GetAll();
         }
+
+        public void Create(GradeAccommodation entity)
+        {
+            _repository.Create(entity);
+        }
         public List<GradeAccommodation> GetAllByUser(int userId)
         {
             return _repository.GetAllByUser(userId);

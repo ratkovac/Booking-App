@@ -27,5 +27,10 @@ namespace BookingApp.Service
         {
             _repository.Subscribe(observer);
         }
+
+        public List<DelayReservation> GetAll()
+        {
+            return _repository.GetAll();
+        }
     }
 }

@@ -39,7 +39,7 @@
             <Label Content="Cancellation Deadline (Days)" Margin="0,5"/>
             <TextBox x:Name="guestsTextBoxCancel" Text="{Binding DaysBeforeCancel, UpdateSourceTrigger=PropertyChanged}" Margin="0,5"/>
 
-            <Button Content="My Reservations" Click="MyReservations_Click" Margin="10px"/>
+            <Button x:Name="MyReservationsButton" Content="My Reservations" Click="MyReservations_Click" Margin="10px"/>
             <Button Content="Rate" Click="Rate_Click" Margin="10px"/>
 
         </StackPanel>
