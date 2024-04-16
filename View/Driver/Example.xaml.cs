@@ -6,6 +6,8 @@ using System.Windows.Controls;
 using System.Globalization;
 using BookingApp.Repository;
 using System.Collections.ObjectModel;
+using BookingApp.ViewModel.Driver;
+using BookingApp.Model;
 
 namespace BookingApp.View.Driver
 {
@@ -14,7 +16,25 @@ namespace BookingApp.View.Driver
     /// </summary>
     public partial class Example : Window
     {
-        private readonly SuccessfulDrivesRepository _successfulDrivesRepository;
+        public User LoggedDriver {  get; set; }
+
+        StatisticsViewModel viewModel { get; set; }
+        public Example(User driver)
+        {
+            InitializeComponent();
+
+            LoggedDriver = driver;
+            viewModel = new StatisticsViewModel(LoggedDriver);
+            DataContext = viewModel;
+        }
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            viewModel.Back_Click();
+            Window.GetWindow(this)?.Close();
+        }
+    }
+}
+        /*private readonly SuccessfulDrivesRepository _successfulDrivesRepository;
         private readonly DrivesDrivenRepository _drivesDrivenRepository;
 
         public Example()
@@ -140,4 +160,4 @@ namespace BookingApp.View.Driver
             return _successfulDrivesRepository.GetNumberOfDrivesByMonthAndYear(month, 2024);
         }
     }
-}
+}*/
