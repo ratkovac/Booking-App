@@ -40,18 +40,18 @@ namespace BookingApp.Repository
             }
             _serializer.ToCSV(FilePath, _successfulDrives);
         }
-        public ObservableCollection<int> GetDriveIdsByMonthAndYear(int month, int year)
+        public ObservableCollection<int> GetDriveIdsByMonthAndYear(int month, int year, int driverId)
         {
             var drivesInMonth = _successfulDrives
-                .Where(drive => drive.Date.Month == month && drive.Date.Year == year)
+                .Where(drive => drive.Date.Month == month && drive.Date.Year == year && drive.DriverId == driverId)
                 .Select(drive => drive.Id);
 
             return new ObservableCollection<int>(drivesInMonth);
         }
-        public int GetNumberOfDrivesByMonthAndYear(int month, int year)
+        public int GetNumberOfDrivesByMonthAndYear(int month, int year, int driverId)
         {
             var drivesInMonth = _successfulDrives
-                .Count(drive => drive.Date.Month == month && drive.Date.Year == year);
+                .Count(drive => drive.Date.Month == month && drive.Date.Year == year && drive.DriverId == driverId);
 
             return drivesInMonth;
         }

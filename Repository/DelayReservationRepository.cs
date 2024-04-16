@@ -52,10 +52,6 @@ namespace BookingApp.Repository
             _serializer.ToCSV(FilePath, _delayReservations);
         }
 
-        void IGenericRepository<DelayReservation, int>.Update(DelayReservation entity)
-        {
-            throw new NotImplementedException();
-        }
 
         public void Delete(DelayReservation delayReservation)
         {
@@ -71,10 +67,10 @@ namespace BookingApp.Repository
 
         public DelayReservation GetById(int key)
         {
-            throw new NotImplementedException();
+            return _delayReservations.Find(c => c.Id == key);
         }
 
-        public DelayReservation Update(DelayReservation delayReservation)
+        public void Update(DelayReservation delayReservation)
         {
             _delayReservations = _serializer.FromCSV(FilePath);
             DelayReservation current = _delayReservations.Find(c => c.Id == delayReservation.Id);
@@ -83,7 +79,6 @@ namespace BookingApp.Repository
             _delayReservations.Insert(index, delayReservation);
             _serializer.ToCSV(FilePath, _delayReservations);
             DelayReservationSubject.NotifyObservers();
-            return delayReservation;
         }
         /*public List<DelayReservation> GetByUser(User user)
         {

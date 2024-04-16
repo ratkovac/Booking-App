@@ -58,10 +58,6 @@ namespace BookingApp.Repository
             throw new NotImplementedException();
         }
 
-        void IGenericRepository<AccommodationReservation, int>.Update(AccommodationReservation entity)
-        {
-            throw new NotImplementedException();
-        }
 
         public void Delete(AccommodationReservation AccommodationReservation)
         {
@@ -76,10 +72,10 @@ namespace BookingApp.Repository
 
         public AccommodationReservation GetById(int key)
         {
-            throw new NotImplementedException();
+            return _accommodationReservations.Find(c => c.Id == key);
         }
 
-        public AccommodationReservation Update(AccommodationReservation AccommodationReservation)
+        public void Update(AccommodationReservation AccommodationReservation)
         {
             _accommodationReservations = _serializer.FromCSV(FilePath);
             AccommodationReservation current = _accommodationReservations.Find(c => c.Id == AccommodationReservation.Id);
@@ -87,10 +83,9 @@ namespace BookingApp.Repository
             _accommodationReservations.Remove(current);
             _accommodationReservations.Insert(index, AccommodationReservation);
             _serializer.ToCSV(FilePath, _accommodationReservations);
-            return AccommodationReservation;
         }
 
-        public AccommodationReservation? GetByID(int accommodationId)
+        public AccommodationReservation GetByID(int accommodationId)
         {
             return _accommodationReservations.Find(c => c.Id == accommodationId);
 

@@ -109,6 +109,13 @@ namespace BookingApp.Repository
                 observer.Update();
             }
         }
+
+        public int IsFastDriveAccepted(FastDrive fastDrive)
+        {
+            if (fastDrive.DriverId != 0) return fastDrive.DriverId;
+            else return -1;
+        }
+
         public ObservableCollection<FastDrive> GetDrivesByLocations(ObservableCollection<int> locations)
         {
             var drivesForLocations = new ObservableCollection<FastDrive>();
@@ -127,6 +134,5 @@ namespace BookingApp.Repository
 
             return drivesForLocations;
         }
-
     }
 }

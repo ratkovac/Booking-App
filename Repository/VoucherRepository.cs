@@ -85,20 +85,6 @@ namespace BookingApp.Repository
             return vouchers;
         }
 
-        public List<Voucher> GetActiveVouchers(List<int> ids)
-        {
-            List<Voucher> vouchers = new List<Voucher>();
-            foreach (int id in ids)
-            {
-                Voucher voucher = GetById(id);
-                if (voucher.Used == false && voucher.ValidVoucher == true)
-                {
-                    vouchers.Add(voucher);
-                }
-            }
-            return vouchers;
-        }
-
         public void Subscribe(IObserver observer)
         {
             observers.Add(observer);

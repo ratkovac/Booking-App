@@ -8,13 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="WPF\**" />
-    <EmbeddedResource Remove="WPF\**" />
-    <None Remove="WPF\**" />
-    <Page Remove="WPF\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="Images\reserve.png" />
     <None Remove="Resources\Images\add.png" />
     <None Remove="Resources\Images\delete.png" />
@@ -49,10 +42,29 @@
   <ItemGroup>
     <PackageReference Include="LiveCharts" Version="0.9.7" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
+    <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Images\reserve.png" />
+    <Resource Include="View\Owner\star.png" />
+    <Resource Include="View\Owner\user.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="WPF\View\Tourist\Pages\AvailableTours.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="WPF\View\Tourist\Pages\DriveReservation.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="WPF\View\Tourist\TouristFrontPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Domain\Model\" />
   </ItemGroup>
 
 </Project>

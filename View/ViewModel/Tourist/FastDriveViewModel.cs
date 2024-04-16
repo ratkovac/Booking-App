@@ -28,6 +28,7 @@ namespace BookingApp.View.ViewModel.Tourist
         public LocationRepository _locationRepository { get; set; }
         public AddressRepository _addressRepository { get; set; }
         public FastDriveRepository _fastDriveRepository { get; set; }
+        public FastDriveService _fastDriveService { get; set; }
 
         private ObservableCollection<string> _countries;
         public ObservableCollection<string> Countries
@@ -136,6 +137,7 @@ namespace BookingApp.View.ViewModel.Tourist
             _locationRepository = new LocationRepository();
             _addressRepository = new AddressRepository();
             _fastDriveRepository = new FastDriveRepository();
+            _fastDriveService = new FastDriveService();
             DepartureDate = DateTime.Today;
         }
 
@@ -160,11 +162,6 @@ namespace BookingApp.View.ViewModel.Tourist
                                             .ToList();
         }
 
-        private void UpdateComboBoxItems(ComboBox comboBox, List<string> items)
-        {
-            comboBox.ItemsSource = items;
-        }
-
         private void InputCities()
         {
             string selectedCountry = SelectedCountry;
@@ -176,7 +173,7 @@ namespace BookingApp.View.ViewModel.Tourist
                 return;
             }
 
-            var cities = GetCitiesByCountry(selectedCountry);
+            var cities = _fastDriveService.GetCitiesByCountry(selectedCountry);
 
             if (cities.Count > 0)
             {
@@ -188,68 +185,10 @@ namespace BookingApp.View.ViewModel.Tourist
             }
         }
 
-        private List<KeyValuePair<int, string>> GetCitiesByCountry(string country)
-        {
-            return new LocationRepository().GetAll()
-                                            .Where(location => location.Country == country)
-                                            .Select(location => new KeyValuePair<int, string>(location.Id, location.City))
-                                            .Distinct()
-                                            .OrderBy(pair => pair.Value)
-                                            .ToList();
-        }
-
         private void UpdateCityComboBox(List<KeyValuePair<int, string>> items)
         {
             Cities = new ObservableCollection<string>(items.Select(city => city.Value).ToList());
         }
-
-        private void InputAddress()
-        {
-            if (SelectedCity != null)
-            {
-                string input = StartStreet.Trim();
-                int cityId = _locationRepository.GetCityIdByName(SelectedCity);
-
-                if (string.IsNullOrEmpty(input))
-                {
-                    StartStreet = "";
-                    return;
-                }
-
-                string[] parts = input.Split(',');
-                if (parts.Length != 2)
-                {
-                    MessageBox.Show("Neispravan format unosa. Molimo unesite ulicu i broj odvojene zarezom.");
-                    return;
-                }
-
-                string streetName = parts[0].Trim();
-                string streetNumber = parts[1].Trim();
-
-                var streets = _addressRepository.GetAll()
-                    .Where(address => address.LocationId == cityId && address.Street.Equals(streetName, StringComparison.OrdinalIgnoreCase) && address.Number.Equals(streetNumber, StringComparison.OrdinalIgnoreCase))
-                    .Select(address => address.Street)
-                    .Distinct()
-                    .OrderBy(street => street)
-                    .ToList();
-
-                StartStreet = string.Join(Environment.NewLine, streets);
-            }
-            else
-            {
-                StartStreet = ""; // Ako nije odabran grad, postavljamo StartStreet na prazan string
-            }
-        }
-
-
-        /*private void InputAddressForCity()
-        {
-            InputAddress();
-            if (!string.IsNullOrEmpty(SelectedCity))
-            {
-                SelectedLocation = _locationRepository.GetLocationByCityAndCountry(SelectedCity, SelectedCountry);
-            }
-        }*/
 
         private void SetDetailedAddressId(string address, bool isStartAddress)
         {
@@ -269,34 +208,9 @@ namespace BookingApp.View.ViewModel.Tourist
             }
         }
 
-        private DateTime CreateDateTimeFromSelections(DateTime DepartureDate, string DepartureHour, string SelectedMinute)
-        {
-            // Parsiranje stringa sata u integer vrednost
-            int hour = int.Parse(DepartureHour);
-
-            // Parsiranje stringa minuta u integer vrednost
-            int minute = int.Parse(SelectedMinute);
-
-            // Provera da li su sati i minuti u validnom opsegu
-            if (hour < 0 || hour > 23 || minute < 0 || minute > 59)
-            {
-                // Ako nisu u validnom opsegu, možete vratiti neku podrazumevanu vrednost ili podići izuzetak
-                throw new ArgumentException("Nevažeći sati ili minuti.");
-            }
-
-            // Kreiranje DateTime objekta koristeći odabrani datum, sat i minutu
-            DateTime selectedDateTime = new DateTime(DepartureDate.Year, DepartureDate.Month, DepartureDate.Day, hour, minute, 0);
-
-            return selectedDateTime;
-        }
-
-
-
-
-
         public string Reservation()
         {
-            DateTime departure = CreateDateTimeFromSelections(DepartureDate, DepartureHour, SelectedMinute);
+            DateTime departure = _fastDriveService.CreateDateTimeFromSelections(DepartureDate, DepartureHour, SelectedMinute);
 
             SetDetailedAddressId(StartStreet, true);
             SetDetailedAddressId(EndStreet, false);
@@ -310,7 +224,7 @@ namespace BookingApp.View.ViewModel.Tourist
                 DetailedEndAddressId = AddNewAddress(EndStreet);
             }
 
-            FastDrive fastDrive = new FastDrive(DetailedStartAddressId, DetailedEndAddressId, departure, DateTime.Now, Tourist, 2, 0);
+            FastDrive fastDrive = new FastDrive(DetailedStartAddressId, DetailedEndAddressId, departure, DateTime.Now, Tourist, 2, 0, 0);
             _fastDriveRepository.Save(fastDrive);
             return "Rezervacija uspješna";
         }
@@ -318,30 +232,7 @@ namespace BookingApp.View.ViewModel.Tourist
 
         private int AddNewAddress(string address)
         {
-            string[] parts = address.Split(',');
-
-            if (parts.Length != 2)
-            {
-                MessageBox.Show("Neispravan format unosa. Molimo unesite ulicu i broj odvojene zarezom.");
-                return 0;
-            }
-
-            string streetName = parts[0].Trim();
-            string streetNumber = parts[1].Trim();
-
-            AddressRepository addressRepository = new AddressRepository();
-
-            Address newAddress = new Address
-            {
-                Id = addressRepository.NextId(),
-                Location = SelectedLocation,
-                Street = streetName,
-                Number = streetNumber
-            };
-
-            addressRepository.Save(newAddress);
-
-            return newAddress.Id;
+            return _fastDriveService.AddNewAddress(address, SelectedCity, SelectedCountry);
         }
     }
 }
