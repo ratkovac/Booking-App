@@ -75,6 +75,10 @@ namespace BookingApp.Repository
         {
             return _gradeTour.Where(r => r.Id == tourReservation.Id).ToList();
         }
+        public bool HasTouristGradedTour(int touristId, int tourInstanceId)
+        {
+            return _gradeTour.Any(r => r.TouristId == touristId && r.TourReservation.TourInstanceId == tourInstanceId);
+        }
         public void Subscribe(IObserver observer)
         {
             observers.Add(observer);

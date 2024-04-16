@@ -22,8 +22,7 @@ namespace BookingApp.View.Tourist.Pages
     {
         public BookingApp.Model.Tourist Tourist { get; set; }
         public BookingApp.Model.TourReservation TourReservation { get; set; }
-        public List<string> tourGrades = new List<string>();
-        public List<string> comments = new List<string>();
+        public TourGuest TourGuest { get; set; }
         private GradeTourService gradeTourService { get; set; }
         private TourReservationService tourReservationService { get; set; }
         private TourGuestRepository tourGuestRepository { get; set; }
@@ -40,64 +39,42 @@ namespace BookingApp.View.Tourist.Pages
             tourReservationService = trs;
         }
 
-        private void GuestRatingsButton_Click(object sender, RoutedEventArgs e)
-        {
-            tourGrades = FindTourGradesForAllGuests();
-        }
-
         private void Rating_Click(object sender, RoutedEventArgs e)
         {
-            string touristGrade = FindTourGrade();
-            tourGrades.Add(touristGrade);
-
-            if (tourGrades.Count == 0)
+            int tourGrade = FindTourGrade();
+            if (tourGrade == 0)
             {
                 MessageBox.Show("Morate ocijeniti turu!");
                 return;
             }
 
-            List<string> imageList = GetImageList();
-            GradeTour gradeTour = new GradeTour(Tourist.Id, Tourist, TourReservation.Id, tourGrades, AddedComentBox.Text, imageList);
-            gradeTourService.Create(gradeTour);
-            TourReservation.RatedTour = true;
-            tourReservationService.Update(TourReservation);
-        }
-
-        private List<string> FindTourGradesForAllGuests()
-        {
-            List<TourGuest> presentGuests = tourGuestRepository.GetAllPresentByTourReservationId(TourReservation.Id);
-            List<string> tourGrades = presentGuests.Select(guest =>
-            {
-                GradeDialog gradeDialog = new GradeDialog();
-                return gradeDialog.ShowDialog() == true ? gradeDialog.GetTourGrade() : "0";
-            }).ToList();
-
-            return tourGrades;
-        }
-
-        private string FindTourGrade()
-        {
-            ComboBoxItem selectedItem = (ComboBoxItem)NumberPicker.SelectedItem;
-            if (selectedItem != null)
-            {
-                return selectedItem.Content.ToString();
-            }
-            return "0";
-        }
-
-        private List<string> GetImageList()
-        {
             List<string> imageList = new List<string>();
             if (!string.IsNullOrEmpty(ImagesBox.Text))
             {
                 string images = ImagesBox.Text.Remove(ImagesBox.Text.Length - 1, 1);
-                imageList.AddRange(images.Split(','));
+                foreach (string image in images.Split(','))
+                {
+                    imageList.Add(image);
+                }
             }
             else
             {
                 imageList.Add("");
             }
-            return imageList;
+            GradeTour gradeTour = new GradeTour(Tourist.Id, Tourist, TourReservation.Id, TourGuest.Id, tourGrade, AddedComentBox.Text, imageList);
+            gradeTourService.Create(gradeTour);
+            TourReservation.RatedTour = true;
+            tourReservationService.Update(TourReservation);
+        }
+        private int FindTourGrade()
+        {
+            ComboBoxItem selectedItem = (ComboBoxItem)NumberPicker.SelectedItem;
+            int selectedGrade;
+            if (selectedItem != null && int.TryParse(selectedItem.Content.ToString(), out selectedGrade))
+            {
+                return selectedGrade;
+            }
+            return 0;
         }
 
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
