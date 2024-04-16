@@ -35,6 +35,21 @@ namespace BookingApp.Model
             Capacity = capacity;
         }
 
+        public AccommodationReservation(int accommodationId, int userId, DateOnly startDate, DateOnly endDate, int reservationDays, double userGrade, double accommodationGrade, int capacity)
+        {
+            AccommodationRepository accommodationRepository = new AccommodationRepository();
+            UserRepository userRepository = new UserRepository();
+
+            Accommodation = accommodationRepository.GetByID(accommodationId);
+            User = userRepository.GetByID(userId);
+            StartDate = startDate;
+            EndDate = endDate;
+            ReservationDays = reservationDays;
+            UserGrade = userGrade;
+            AccommodationGrade = accommodationGrade;
+            Capacity = capacity;
+        }
+
         public AccommodationReservation()
         {
         }
@@ -58,7 +73,6 @@ namespace BookingApp.Model
             return values;
         }
 
-
         public void FromCSV(string[] values)
         {
 
@@ -81,6 +95,18 @@ namespace BookingApp.Model
             Capacity = Convert.ToInt32(values[8]);
         }
 
+        public override string ToString()
+        {
+            return $" {Id} |" +
+                   $" {Accommodation.Id} |" +
+                   $" {User.Id} |" +
+                   $" {StartDate.ToString("yyyy-MM-dd")} |" +
+                   $" {EndDate.ToString("yyyy-MM-dd")} |" +
+                   $" {ReservationDays} |" +
+                   $" {UserGrade} |" +
+                   $" {AccommodationGrade} |" +
+                   $" {Capacity}";
+        }
 
         private void ApplyParsedDates(DateTime startDateDateTime, DateTime endDateDateTime)
         {
