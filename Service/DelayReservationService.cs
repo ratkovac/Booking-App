@@ -22,10 +22,21 @@ namespace BookingApp.Service
         {
             _repository.Create(delayReservation);
         }
-
+        public List<DelayReservation> GetAll()
+        {
+            return _repository.GetAll();
+        }
         public void Subscribe(IObserver observer)
         {
             _repository.Subscribe(observer);
+        }
+        public DelayReservation? GetByID(int delayReservationId)
+        {
+            return _repository.GetById(delayReservationId);
+        }
+        public void Update(DelayReservation delayReservation)
+        {
+            _repository.Update(delayReservation);
         }
     }
 }
