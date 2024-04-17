@@ -28,12 +28,6 @@ namespace BookingApp.WPF.View.Tourist.Pages
             viewModel = finishedToursViewModel;
             viewModel.NavigateToGradeTour = NavigateToGradeTour;
         }
-
-        /*private void RateTour_Click(object sender, RoutedEventArgs e)
-        {
-            var gradeTour = new GradeTourView(SelectedTourInstance, Tourist, tourReservationService);
-            NavigationService.Navigate(gradeTour);
-        }*/
         private void RateTour_Click(object sender, RoutedEventArgs e)
         {
             viewModel.GradeTour();
@@ -44,13 +38,5 @@ namespace BookingApp.WPF.View.Tourist.Pages
             var gradeTour = new GradeTourView(viewModel.SelectedTourReservation, viewModel.Tourist.Id);
             NavigationService.Navigate(gradeTour);
         }
-
-        /*private void Home_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (DataContext is FinishedToursViewModel viewModel)
-            {
-                navigationService.Navigate(new AvailableTours(viewModel.Tourist));
-            }
-        }*/
     }
 }

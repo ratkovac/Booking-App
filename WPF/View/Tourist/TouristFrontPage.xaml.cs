@@ -45,8 +45,8 @@ namespace BookingApp.WPF.View.Tourist
                     _tourReservationService.UpdateTouristState(Tourist.Id, tourInstance, TouristState.Present);
                     CheckTouristReservation();
                 }
-            }
-            _voucherService.UpdateValidVouchers();*/
+            }*/
+            //_voucherService.UpdateValidVouchers();
         }
 
         public void CheckForNotification()
@@ -62,9 +62,13 @@ namespace BookingApp.WPF.View.Tourist
                     User driver = _userRepository.GetByID(driverId);
                     MessageBox.Show($"Driver {driver.Username} has accepted your reservation!", "Notification", MessageBoxButton.OK);
                     _reservedDriveRepository.Save(fastDrive);
+                    _fastDriveRepository.Delete(fastDrive);
                 }
 
-                _fastDriveRepository.Delete(fastDrive);
+                if (DateTime.Now - fastDrive.TimeOfReservation > TimeSpan.FromMinutes(5))
+                {
+                    _fastDriveRepository.Delete(fastDrive);
+                }
             }
             else
             {
@@ -119,6 +123,10 @@ namespace BookingApp.WPF.View.Tourist
         {
             VouchersViewModel vouchersViewModel = new VouchersViewModel(Tourist);
             MainFrame.Navigate(new Vouchers(vouchersViewModel));
+        }
+        private void Tours_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new MyTours(Tourist.User));
         }
     }
 }
