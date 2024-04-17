@@ -7,11 +7,14 @@ using LiveCharts.Wpf;
 using BookingApp.Model;
 using System.Windows;
 using BookingApp.View.Driver;
+using System.ComponentModel;
 
 namespace BookingApp.ViewModel.Driver
 {
     public class StatisticsViewModel : BaseViewModel
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private readonly SuccessfulDrivesRepository _successfulDrivesRepository;
         private readonly DrivesDrivenRepository _drivesDrivenRepository;
         private readonly DriverStatsRepository _driverStatsRepository;
@@ -25,33 +28,61 @@ namespace BookingApp.ViewModel.Driver
         public int BonusPointsValue { get; set; }
         public int CancelledDrivesValue { get; set; }
 
-        // Dodatni propertiji za maksimalne vrednosti ProgressBar-ova
         public int MaxFastDrivesValue { get; set; } = 15;
         public int MaxBonusPointsValue { get; set; } = 50;
         public int MaxCancelledDrivesValue { get; set; } = 15;
         public event EventHandler NazadClicked;
 
+        private ObservableCollection<string> comboBoxItems;
+        public ObservableCollection<string> ComboBoxItems
+        {
+            get { return comboBoxItems; }
+            set
+            {
+                comboBoxItems = value;
+                OnPropertyChanged("ComboBoxItems");
+            }
+        }
+        private string _year;
+        public string Year
+        {
+            get { return _year; }
+            set
+            {
+                if (_year != value)
+                {
+                    _year = value;
+                    OnPropertyChanged(nameof(Year));
+                    SeriesCollection1.Clear();
+                    SeriesCollection2.Clear();
+                    SeriesCollection3.Clear();
+                    InitializeCharts();
+                }
+            }
+        }
+
         public StatisticsViewModel(User driver)
         {
-            LoggedDriver = driver;
-            _successfulDrivesRepository = new SuccessfulDrivesRepository();
-            _drivesDrivenRepository = new DrivesDrivenRepository();
-            _driverStatsRepository = new DriverStatsRepository();   
-
             SeriesCollection1 = new SeriesCollection();
             SeriesCollection2 = new SeriesCollection();
             SeriesCollection3 = new SeriesCollection();
+            LoggedDriver = driver;
+            _successfulDrivesRepository = new SuccessfulDrivesRepository();
+            _drivesDrivenRepository = new DrivesDrivenRepository();
+            _driverStatsRepository = new DriverStatsRepository();
+            ComboBoxItems = _successfulDrivesRepository.GetYears();
+            Year = "2024";
 
             InitializeCharts();
         }
 
         private void InitializeCharts()
         {
+
             DriverStats driverStats = _driverStatsRepository.GetByDriverId(LoggedDriver.Id);
             FastDrivesValue = driverStats.FastDrives;
             BonusPointsValue = driverStats.BonusPoints;
             CancelledDrivesValue = driverStats.CancelledDrives;
-            // Kreiranje podataka za grafikon 1
             ChartValues<double> avgPrices = new ChartValues<double>();
             for (int i = 1; i <= 12; i++)
             {
@@ -67,7 +98,6 @@ namespace BookingApp.ViewModel.Driver
 
             SeriesCollection1.Add(seriesLine1);
 
-            // Kreiranje podataka za grafikon 2
             ChartValues<double> avgDurations = new ChartValues<double>();
             for (int i = 1; i <= 12; i++)
             {
@@ -83,7 +113,6 @@ namespace BookingApp.ViewModel.Driver
 
             SeriesCollection2.Add(seriesLine2);
 
-            // Kreiranje podataka za grafikon 3
             ChartValues<double> Counts = new ChartValues<double>();
             for (int i = 1; i <= 12; i++)
             {
@@ -102,25 +131,29 @@ namespace BookingApp.ViewModel.Driver
 
         private double FindAvgPrice(int month)
         {
-            ObservableCollection<int> idsPerMonth = _successfulDrivesRepository.GetDriveIdsByMonthAndYear(month, 2024, LoggedDriver.Id);
+            ObservableCollection<int> idsPerMonth = _successfulDrivesRepository.GetDriveIdsByMonthAndYear(month, int.Parse(Year), LoggedDriver.Id);
             return _drivesDrivenRepository.CalculateAveragePriceForDrives(idsPerMonth);
         }
 
         private double FindAvgDuration(int month)
         {
-            ObservableCollection<int> idsPerMonth = _successfulDrivesRepository.GetDriveIdsByMonthAndYear(month, 2024, LoggedDriver.Id);
+            ObservableCollection<int> idsPerMonth = _successfulDrivesRepository.GetDriveIdsByMonthAndYear(month, int.Parse(Year), LoggedDriver.Id);
             return _drivesDrivenRepository.CalculateAverageDurationForDrives(idsPerMonth);
         }
 
         private int FindNumberOfDrivesForMonth(int month)
         {
-            return _successfulDrivesRepository.GetNumberOfDrivesByMonthAndYear(month, 2024, LoggedDriver.Id);
+            return _successfulDrivesRepository.GetNumberOfDrivesByMonthAndYear(month, int.Parse(Year), LoggedDriver.Id);
         }
 
         internal void Back_Click()
         {
             DriverFrontPage driverFrontPage = new DriverFrontPage(LoggedDriver);
             driverFrontPage.Show();
+        }
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

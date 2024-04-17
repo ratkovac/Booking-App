@@ -9,6 +9,11 @@
         Title="Example" Height="450" Width="800">
 
     <Grid Margin="10">
+        <ComboBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,10,10"
+          ItemsSource="{Binding ComboBoxItems}"
+          SelectedItem="{Binding Year, Mode=TwoWay}"
+          >
+        </ComboBox>
         <Button x:Name="btnBack" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Click="btnBack_Click"/>
         <lvc:CartesianChart Name="MyChart1" Width="250" Height="170" HorizontalAlignment="Left" VerticalAlignment="Bottom" Series="{Binding SeriesCollection1}">
         </lvc:CartesianChart>

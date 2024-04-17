@@ -55,6 +55,15 @@ namespace BookingApp.Repository
 
             return drivesInMonth;
         }
+        public ObservableCollection<string> GetYears()
+        {
+            var years = _successfulDrives
+                .Select(drive => drive.Date.Year.ToString()) 
+                .Distinct() 
+                .OrderBy(year => year) 
+                .ToList();
 
+            return new ObservableCollection<string>(years);
+        }
     }
 }
