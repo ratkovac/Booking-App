@@ -41,8 +41,7 @@ namespace BookingApp.View.Driver.Pages
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            // Povećava početnu cenu za 1 svaku sekundu
-            driveDriven.Price += 1;
+            driveDriven.Price += 5;
 
             TimeSpan duration = DateTime.Now - startTime;
             driveDriven.Duration = duration;
@@ -53,9 +52,7 @@ namespace BookingApp.View.Driver.Pages
 
         private void btnEndDrive_Click(object sender, RoutedEventArgs e)
         {
-            // Prekida tajmer kada se klikne dugme "End Drive"
             _timer.Stop();
-            // Dodajte logiku za završetak vožnje ovde
             _drivesDrivenRepository.Save(driveDriven);
             OpenDrivesPage();
         }

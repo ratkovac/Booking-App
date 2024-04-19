@@ -92,7 +92,7 @@ public class DriverNotificationViewModel : BaseViewModel
         foreach (DriveNotification notification in notifications)
         {
             TimeSpan duration = DateTime.Now - notification.fastDrive.TimeOfReservation;
-            if (duration.TotalMinutes > 5)
+            if (duration.TotalMinutes > 0.2)
             {
                 _fastDriveService.Delete(notification.fastDrive);
                 fastDrives.Remove(notification.fastDrive);
@@ -102,7 +102,7 @@ public class DriverNotificationViewModel : BaseViewModel
     private bool FilterOneByTime(DriveNotification notification)
     {
         TimeSpan duration = DateTime.Now - notification.fastDrive.TimeOfReservation;
-        if (duration.TotalMinutes > 5)
+        if (duration.TotalMinutes > 0.2)
             {
             return false;
         }
