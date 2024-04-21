@@ -17,6 +17,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BookingApp.GUI_Elements;
 using BookingApp.Service;
 using BookingApp.View.NGuest;
 using BookingApp.View.ViewModel.Guest;
@@ -58,10 +59,10 @@ namespace BookingApp.View
             delayReservationService = new DelayReservationService();
             DelayReservations = new ObservableCollection<DelayReservation>();
 
+
             Update();
             LoggedInUser = loggedInUser;
 
-            
         }
 
         private string searchText;
@@ -235,7 +236,7 @@ namespace BookingApp.View
 
         bool IsCheckedAccomodationType(AccommodationDTO accommodation)
         {
-            bool anyChecked = checkBoxOption1.IsChecked.GetValueOrDefault() ||
+            /*bool anyChecked = checkBoxOption1.IsChecked.GetValueOrDefault() ||
                               checkBoxOption2.IsChecked.GetValueOrDefault() ||
                               checkBoxOption3.IsChecked.GetValueOrDefault();
 
@@ -250,7 +251,8 @@ namespace BookingApp.View
             bool matchesTypeHouse = checkBoxOption3.IsChecked.GetValueOrDefault() &&
                                     accommodation.Type == AccommodationType.House;
 
-            return matchesTypeApartment || matchesTypeHut || matchesTypeHouse;
+            return matchesTypeApartment || matchesTypeHut || matchesTypeHouse;*/
+            return true;
         }
         public void Update()
         {
@@ -276,7 +278,7 @@ namespace BookingApp.View
                 if (delayReservation.Status == DelayReservationStatusEnum.Approved ||
                     delayReservation.Status == DelayReservationStatusEnum.Declined)
                 {
-                    MyReservationsButton.Background = Brushes.Red;
+                    //MyReservationsButton.Background = Brushes.Red;
                 }
             }
 
@@ -289,11 +291,6 @@ namespace BookingApp.View
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void OnClickButton(object sender, RoutedEventArgs e)
-        {
-            Reservation reservation = new Reservation(SelectedAccommodation, LoggedInUser);
-            reservation.Show();
-        }
 
         private void MyReservations_Click(object sender, RoutedEventArgs e)
         {
@@ -307,6 +304,36 @@ namespace BookingApp.View
             RateAcciommodationViewModel rateAcciommodationViewModel = new RateAcciommodationViewModel(LoggedInUser);
             RateAccommodations rateAccommodations = new RateAccommodations(rateAcciommodationViewModel);
             rateAccommodations.Show();
+        }
+
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
+        }
+        private void ContentControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var contentControl = sender as ContentControl;
+            if (contentControl != null)
+            {
+                var accommodation = contentControl.DataContext as AccommodationDTO;
+                if (accommodation != null)
+                {
+                    ItemsControlExtensions.SetSelectedItem(contentControl, accommodation);
+                    Reservation reservationPage = new Reservation(accommodation, LoggedInUser);
+                    Frame mainFrame = this.Template.FindName("MainFrame", this) as Frame;
+                    if (mainFrame != null)
+                    {
+                        mainFrame.Navigate(reservationPage);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Prazan");
+                    }
+                }
+            }
         }
     }
 }

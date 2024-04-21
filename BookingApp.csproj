@@ -8,6 +8,34 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Fonts\Poppins-Black.ttf" />
+    <None Remove="Fonts\Poppins-BlackItalic.ttf" />
+    <None Remove="Icon\back.png" />
+    <None Remove="Icon\back1.png" />
+    <None Remove="Icon\building.png" />
+    <None Remove="Icon\calendar %281%29.png" />
+    <None Remove="Icon\calendar %281%29ch.png" />
+    <None Remove="Icon\calendar - Copy.png" />
+    <None Remove="Icon\calendar.png" />
+    <None Remove="Icon\dollar.png" />
+    <None Remove="Icon\favorite - Copy.png" />
+    <None Remove="Icon\favorite.png" />
+    <None Remove="Icon\group - Copy.png" />
+    <None Remove="Icon\group.png" />
+    <None Remove="Icon\home.png" />
+    <None Remove="Icon\location.png" />
+    <None Remove="Icon\logout - Copy.png" />
+    <None Remove="Icon\logout.png" />
+    <None Remove="Icon\menu-svgrepo-com.png" />
+    <None Remove="Icon\next - Copy.png" />
+    <None Remove="Icon\next.png" />
+    <None Remove="Icon\numberOfGuest.png" />
+    <None Remove="Icon\opened-door-aperture.png" />
+    <None Remove="Icon\star.png" />
+    <None Remove="Icon\zoom.png" />
+    <None Remove="Images\Accommodation.jpg" />
+    <None Remove="Images\apartment1.jpg" />
+    <None Remove="Images\apartment2.jpg" />
     <None Remove="Images\reserve.png" />
     <None Remove="Resources\Images\add.png" />
     <None Remove="Resources\Images\delete.png" />
@@ -16,11 +44,42 @@
     <None Remove="View\GuideView\GuideImages\navigation.png" />
     <None Remove="View\GuideView\GuideImages\profile.png" />
     <None Remove="View\GuideView\Pages\pozadinaNebo.jpg" />
+    <None Remove="View\NGuest\menu-svgrepo-com.png" />
     <None Remove="View\Owner\star.png" />
     <None Remove="View\Owner\user.jpg" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Fonts\Poppins-Black.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\Poppins-BlackItalic.ttf" />
+    <Resource Include="Icon\back.png" />
+    <Resource Include="Icon\back1.png" />
+    <Resource Include="Icon\building.png" />
+    <Resource Include="Icon\calendar (1).png" />
+    <Resource Include="Icon\calendar (1)ch.png" />
+    <Resource Include="Icon\calendar - Copy.png" />
+    <Resource Include="Icon\calendar.png" />
+    <Resource Include="Icon\dollar.png" />
+    <Resource Include="Icon\favorite - Copy.png" />
+    <Resource Include="Icon\favorite.png" />
+    <Resource Include="Icon\group - Copy.png" />
+    <Resource Include="Icon\group.png" />
+    <Resource Include="Icon\home.png" />
+    <Resource Include="Icon\location.png" />
+    <Resource Include="Icon\logout - Copy.png" />
+    <Resource Include="Icon\logout.png" />
+    <Resource Include="Icon\menu-svgrepo-com.png" />
+    <Resource Include="Icon\next - Copy.png" />
+    <Resource Include="Icon\next.png" />
+    <Resource Include="Icon\numberOfGuest.png" />
+    <Resource Include="Icon\opened-door-aperture.png" />
+    <Resource Include="Icon\star.png" />
+    <Resource Include="Icon\zoom.png" />
+    <Resource Include="Images\Accommodation.jpg" />
+    <Resource Include="Images\apartment1.jpg" />
+    <Resource Include="Images\apartment2.jpg" />
     <Resource Include="View\GuideView\GuideImages\navigation.png" />
   </ItemGroup>
 
@@ -47,6 +106,7 @@
 
   <ItemGroup>
     <Resource Include="Images\reserve.png" />
+    <Resource Include="View\NGuest\menu-svgrepo-com.png" />
     <Resource Include="View\Owner\star.png" />
     <Resource Include="View\Owner\user.jpg" />
   </ItemGroup>
@@ -65,6 +125,7 @@
 
   <ItemGroup>
     <Folder Include="Domain\Model\" />
+    <Folder Include="WPF\Styles\" />
   </ItemGroup>
 
 </Project>

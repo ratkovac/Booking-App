@@ -4,6 +4,548 @@
              xmlns:local="clr-namespace:BookingApp"
              StartupUri="/View/SignInForm.xaml">
     <Application.Resources>
-         
+
+        <FontFamily x:Key="PoppinsBlack">pack://application:,,,/Fonts/Poppins-Black.ttf#Poppins</FontFamily>
+        <BitmapImage x:Key="NextIcon" UriSource="Icon/next.png"/>
+        <BitmapImage x:Key="Next1" UriSource="Icon/next - Copy.png" />
+        <BitmapImage x:Key="Back" UriSource="Icon/back.png"/>
+        <BitmapImage x:Key="Back1" UriSource="Icon/back1.png" />
+
+
+        <Style x:Key="SearchBoxStyle" TargetType="TextBox">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="Padding" Value="8,5"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Grid>
+                            <Border x:Name="SearchBorder"
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            Background="{TemplateBinding Background}" 
+                            CornerRadius="4">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Image Source="C:\Users\Korisnik\OneDrive\Radna površina\ProjekatSIMS\sims-ra-2024-group-7-team-a\Icon\zoom.png"
+                                   Grid.Column="0"        
+                                   Width="16" 
+                                   Height="16" 
+                                   Stretch="Uniform" 
+                                   Margin="5"/>
+
+                                    <TextBox x:Name="SearchTextBox"
+                                     Text="{TemplateBinding Text}" 
+                                     Grid.Column="1" 
+                                     Padding="2"
+                                     Background="Transparent"
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Right"
+                                     BorderThickness="0"/>
+
+                                    <TextBlock x:Name="PlaceholderTextBlock"
+                                       Text="Search Here..."
+                                       Grid.Column="1"
+                                       Foreground="LightGray"
+                                       IsHitTestVisible="False"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Right"
+                                       Margin="0,0,5,0"
+                                       Visibility="Collapsed"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Text" Value="">
+                                <Setter TargetName="PlaceholderTextBlock" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+
+                            <Trigger Property="Text" Value="{x:Null}">
+                                <Setter TargetName="PlaceholderTextBlock" Property="Visibility" Value="Collapsed"/>
+                            </Trigger>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" Value="Brown" TargetName="SearchBorder"/>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Width" To="250" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Width" To="230" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="Brown" TargetName="SearchBorder"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="IconStyle3" TargetType="Button">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="LightGray"/>
+            <Setter Property="Padding" Value="8,5"/>
+            <Setter Property="Background" Value="#F5F5F5"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}" Opacity="{TemplateBinding Opacity}" CornerRadius="50"/>
+                            <Image x:Name="IconImage" Source="Icon/calendar (1).png" Width="30" Stretch="Uniform"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="IconImage" Property="Source" Value="Icon/calendar (1)ch.png"/>
+                                <Setter Property="Background" Value="Brown"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="IconStyle1" TargetType="Button">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="LightGray"/>
+            <Setter Property="Padding" Value="8,5"/>
+            <Setter Property="Background" Value="#F5F5F5"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}" Opacity="{TemplateBinding Opacity}" CornerRadius="50"/>
+                            <Image x:Name="IconImage" Source="C:\Users\Korisnik\OneDrive\Radna površina\ProjekatSIMS\sims-ra-2024-group-7-team-a\Icon\favorite.png" Width="30" Stretch="Uniform"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="IconImage" Property="Source" Value="C:\Users\Korisnik\OneDrive\Radna površina\ProjekatSIMS\sims-ra-2024-group-7-team-a\Icon\favorite - Copy.png"/>
+                                <Setter Property="Background" Value="Brown"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="IconStyle2" TargetType="Button">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="Padding" Value="8,5"/>
+            <Setter Property="Background" Value="#F5F5F5"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}" Opacity="{TemplateBinding Opacity}" CornerRadius="50"/>
+                            <Image x:Name="IconImage" Source="C:\Users\Korisnik\OneDrive\Radna površina\ProjekatSIMS\sims-ra-2024-group-7-team-a\Icon\calendar.png" Width="30" Stretch="Uniform"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="IconImage" Property="Source" Value="C:\Users\Korisnik\OneDrive\Radna površina\ProjekatSIMS\sims-ra-2024-group-7-team-a\Icon\calendar - Copy.png"/>
+                                <Setter Property="Background" Value="Brown"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="IconStyle4" TargetType="Button">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="LightGray"/>
+            <Setter Property="Padding" Value="8,5"/>
+            <Setter Property="Background" Value="#F5F5F5"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}" Opacity="{TemplateBinding Opacity}" CornerRadius="50"/>
+                            <Image x:Name="IconImage" Source="C:\Users\Korisnik\OneDrive\Radna površina\ProjekatSIMS\sims-ra-2024-group-7-team-a\Icon\group.png" Width="30" Stretch="Uniform"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="IconImage" Property="Source" Value="C:\Users\Korisnik\OneDrive\Radna površina\ProjekatSIMS\sims-ra-2024-group-7-team-a\Icon\group - Copy.png"/>
+                                <Setter Property="Background" Value="Brown"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="IconStyle5" TargetType="Button">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="Padding" Value="8,5"/>
+            <Setter Property="Background" Value="#F5F5F5"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}" Opacity="{TemplateBinding Opacity}" CornerRadius="50"/>
+                            <Image x:Name="IconImage" Source="C:\Users\Korisnik\OneDrive\Radna površina\ProjekatSIMS\sims-ra-2024-group-7-team-a\Icon\logout.png" Width="30" Stretch="Uniform"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="IconImage" Property="Source" Value="C:\Users\Korisnik\OneDrive\Radna površina\ProjekatSIMS\sims-ra-2024-group-7-team-a\Icon\logout - Copy.png"/>
+                                <Setter Property="Background" Value="Brown"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="IconStyleHome" TargetType="Button">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8,5"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border Opacity="{TemplateBinding Opacity}" CornerRadius="50"/>
+                            <Image x:Name="IconImage" Source="Icon/home.png" Width="30" Stretch="Uniform"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="AccommodationItemControl" TargetType="ContentControl">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="Padding" Value="8,5"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontFamily" Value="Tahoma"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ContentControl">
+                        <Border BorderThickness="{TemplateBinding BorderThickness}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            Background="{TemplateBinding Background}" 
+                            CornerRadius="4"
+                            Margin="10"
+                            Padding="1">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Image -->
+                                <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="3"
+                                       Source="/Images/Accommodation.jpg"
+                                       Stretch="Fill" 
+                                       Width="150"
+                                       Margin="0"
+                                       HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Stretch"
+                                       Panel.ZIndex="2"/>
+
+                                <Rectangle x:Name="BackgroundRectangle" Grid.Column="1" Grid.Row="0" RadiusX="10" RadiusY="10"
+                                           HorizontalAlignment="Left" Fill="Brown" Opacity="0.5"
+                                           Width="100" Height="Auto" Margin="-10,0,0,0"
+                                           Panel.ZIndex="1"/>
+
+                                <TextBlock Text="{Binding Name}" Grid.Column="1" Grid.Row="0"
+                                       Padding="2" Background="Transparent"
+                                       FontSize="20"
+                                       FontFamily="{StaticResource PoppinsBlack}"
+                                       VerticalAlignment="Center" HorizontalAlignment="Left"/>
+
+                                <!-- Location -->
+                                <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left">
+                                    <Image Source="C:\Users\Korisnik\OneDrive\Radna površina\ProjekatSIMS\sims-ra-2024-group-7-team-a\Icon\location.png"
+                                       Width="30" Height="30" Stretch="Uniform" Margin="5"/>
+                                    <TextBlock Text="{Binding DisplayLocation}"
+                                           Padding="2" Background="Transparent"
+                                           FontSize="15"
+                                           VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left">
+                                    <Image Source="Icon/building.png"
+                                           Width="30" Height="30" Stretch="Uniform" Margin="5"/>
+                                    <TextBlock Text="{Binding Type}"
+                                               Padding="2" Background="Transparent"
+                                               FontSize="15"
+                                               VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,5,0">
+                                    <Image Source="Icon/dollar.png"
+                                           Width="30" Height="30" Stretch="Uniform" Margin="5"/>
+                                    <TextBlock Text="100$/Day"
+                                               Padding="2" Background="Transparent"
+                                               FontSize="15"
+                                               VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Right" Margin="0,0,5,0">
+                                    <Path Data="M 10,1 L 12,7 H 18 L 13,11 L 15,17 L 10,13 L 5,17 L 7,11 L 2,7 H 8 z"
+                                          Fill="Gold" Stretch="Fill"
+                                          Width="20" Height="20" Margin="2"/>
+                                    <Path Data="M 10,1 L 12,7 H 18 L 13,11 L 15,17 L 10,13 L 5,17 L 7,11 L 2,7 H 8 z"
+                                          Fill="Gold" Stretch="Fill"
+                                          Width="20" Height="20" Margin="2"/>
+                                    <Path Data="M 10,1 L 12,7 H 18 L 13,11 L 15,17 L 10,13 L 5,17 L 7,11 L 2,7 H 8 z"
+                                          Fill="Gold" Stretch="Fill"
+                                          Width="20" Height="20" Margin="2"/>
+                                    <Path Data="M 10,1 L 12,7 H 18 L 13,11 L 15,17 L 10,13 L 5,17 L 7,11 L 2,7 H 8 z"
+                                          Fill="Gold" Stretch="Fill"
+                                          Width="20" Height="20" Margin="2"/>
+                                    <Path Data="M 10,1 L 12,7 H 18 L 13,11 L 15,17 L 10,13 L 5,17 L 7,11 L 2,7 H 8 z"
+                                          Fill="Gold" Stretch="Fill"
+                                          Width="20" Height="20" Margin="2"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="Black" Opacity="0.5" Direction="320" ShadowDepth="5" BlurRadius="5"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="BackgroundRectangle"
+                                                             Storyboard.TargetProperty="Width"
+                                                             To="250" Duration="0:0:0.3"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="BackgroundRectangle"
+                                                             Storyboard.TargetProperty="Width"
+                                                             To="100" Duration="0:0:0.3"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="FilterSortButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5"
+                                Opacity="0.8"
+                                BorderBrush="Brown">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key ="NavBarButton" TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="NextButton" TargetType="Button">
+            <Setter Property="Background" Value="#170A1C"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                CornerRadius="50" Padding="7" Opacity="0.8">
+                            <Image x:Name="image" Source="Icon/next - Copy.png" Width="20"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Source" Storyboard.TargetName="image">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="{StaticResource NextIcon}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" 
+                                                        Storyboard.TargetName="border" To="White" Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" Storyboard.TargetName="border" 
+                                                         To="0.8" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Source" Storyboard.TargetName="image">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="{StaticResource Next1}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" 
+                                                        Storyboard.TargetName="border" To="#170A1C" Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" Storyboard.TargetName="border" 
+                                                         To="1" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PreviousButton" TargetType="Button">
+            <Setter Property="Background" Value="#170A1C"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                CornerRadius="50" Padding="7" Opacity="0.8">
+                            <Image x:Name="image" Source="Icon/back1.png" Width="20"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Source" Storyboard.TargetName="image">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="{StaticResource Back}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" 
+                                                        Storyboard.TargetName="border" To="White" Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" Storyboard.TargetName="border" 
+                                                         To="0.8" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Source" Storyboard.TargetName="image">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="{StaticResource Back1}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" 
+                                                        Storyboard.TargetName="border" To="#170A1C" Duration="0:0:0.2"/>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" Storyboard.TargetName="border" 
+                                                         To="1" Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="AkoBudeTrebalo" TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderThickness="1" BorderBrush="Brown" CornerRadius="50">
+                            <Image Image.Source="Icon/next.png"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Brown"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" BorderThickness="1" BorderBrush="Brown" CornerRadius="50">
+                                    <Image Image.Source="Icon/next - Copy.png"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="AccommodationName" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontFamily" Value="{StaticResource PoppinsBlack}"/>
+            <Setter Property="Foreground" Value="#C5283D"/>
+        </Style>
+
+        <Style x:Key="AccommodationItems" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="{StaticResource PoppinsBlack}"/>
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+
     </Application.Resources>
 </Application>
