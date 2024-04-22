@@ -5,6 +5,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:local="clr-namespace:BookingApp.View"
       xmlns:converter="clr-namespace:BookingApp.Converter"
+      xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
       mc:Ignorable="d"
       Title="Reservation" Height="768" Width="1024">
     <Page.Resources>
@@ -18,7 +19,7 @@
                     <RowDefinition Height="1"/>
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="350"/>
-                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
@@ -112,7 +113,6 @@
                         </Border>
                     </StackPanel>
                 </Border>
-
 
                 <Border Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="340" Width="1000" CornerRadius="20" Opacity="0.9">
                     <DockPanel Width="1000" Height="340">
@@ -246,6 +246,13 @@
                         </Grid>
                     </DockPanel>
                 </Border>
+                
+                <Border Grid.Row="4">
+                    <StackPanel Orientation="Horizontal">
+                    </StackPanel>
+                </Border>
+
+
                 
             </Grid>
         </Border>
