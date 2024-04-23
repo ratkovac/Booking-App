@@ -107,7 +107,6 @@
             <Setter Property="Padding" Value="8,5"/>
             <Setter Property="Background" Value="#F5F5F5"/>
             <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="FontFamily" Value="Tahoma"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="FontSize" Value="10"/>
             <Setter Property="Template">
@@ -134,7 +133,6 @@
             <Setter Property="Padding" Value="8,5"/>
             <Setter Property="Background" Value="#F5F5F5"/>
             <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="FontFamily" Value="Tahoma"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="FontSize" Value="10"/>
             <Setter Property="Template">
@@ -284,7 +282,6 @@
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
 
-                                <!-- Image -->
                                 <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="3"
                                        Source="/Images/Accommodation.jpg"
                                        Stretch="Fill" 
@@ -305,7 +302,6 @@
                                        FontFamily="{StaticResource PoppinsBlack}"
                                        VerticalAlignment="Center" HorizontalAlignment="Left"/>
 
-                                <!-- Location -->
                                 <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left">
                                     <Image Source="C:\Users\Korisnik\OneDrive\Radna površina\ProjekatSIMS\sims-ra-2024-group-7-team-a\Icon\location.png"
                                        Width="30" Height="30" Stretch="Uniform" Margin="5"/>
@@ -546,6 +542,232 @@
             <Setter Property="FontFamily" Value="{StaticResource PoppinsBlack}"/>
             <Setter Property="Foreground" Value="Black"/>
         </Style>
+        <Style TargetType="DatePicker" x:Key="ReservationDatePicker">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Padding" Value="20,0"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DatePicker">
+                        <Border>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Padding="0,0,10,0" VerticalAlignment="Center" Text="{Binding SelectedDate, RelativeSource={RelativeSource TemplatedParent}, StringFormat='yyyy-MM-dd'}"/>
+                                <ToggleButton x:Name="DateToggle" Content="📅">
+                                    <ToggleButton.Style>
+                                        <Style TargetType="ToggleButton">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                        </Style>
+                                    </ToggleButton.Style>
+                                </ToggleButton>
+                                <Popup IsOpen="{Binding IsChecked, ElementName=DateToggle, Mode=TwoWay}" Opacity="0.7">
+                                    <Border Background="#F0F0F0" CornerRadius="10" Padding="10">
+                                        <Calendar SelectedDate="{Binding Path=SelectedDate, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                                  DisplayDate="{Binding Path=DisplayDate, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                                  Background="#F0F0F0"
+                                                  Cursor="Hand"
+                                                  BorderThickness="0">
+                                            <Calendar.CalendarDayButtonStyle>
+                                                <Style TargetType="CalendarDayButton">
+                                                    <Setter Property="Padding" Value="6"/>
+                                                    <Setter Property="Background" Value="#C5283D"/>
+                                                    <Setter Property="Margin" Value="4"/>
+                                                    <Setter Property="BorderThickness" Value="1"/>
+                                                    <Setter Property="BorderBrush" Value="White"/>
+                                                    <Setter Property="FontSize" Value="16"/>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="CalendarDayButton">
+                                                                <Border x:Name="Border"
+                                                                Background="{TemplateBinding Background}"
+                                                                Padding="{TemplateBinding Padding}"
+                                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                                CornerRadius="10">
+                                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                </Border>
+                                                                <ControlTemplate.Triggers>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter TargetName="Border" Property="Background" Value="White"/>
+                                                                        <Setter TargetName="Border" Property="Opacity" Value="0.7"/>
+                                                                        <Setter Property="Foreground" Value="Black"/>
+                                                                    </Trigger>
+                                                                    <Trigger Property="IsToday" Value="True">
+                                                                        <Setter TargetName="Border" Property="Background" Value="White"/>
+                                                                        <Setter Property="Foreground" Value="Black"/>
+                                                                    </Trigger>
+                                                                </ControlTemplate.Triggers>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Setter Property="Foreground" Value="White"/>
+                                                </Style>
+                                            </Calendar.CalendarDayButtonStyle>
+                                            <Calendar.CalendarButtonStyle>
+                                                <Style TargetType="CalendarButton">
+                                                    <Setter Property="Background" Value="Yellow"/>
+                                                    <Setter Property="Foreground" Value="#2F4F4F"/>
+                                                    <Setter Property="FontSize" Value="18"/>
+                                                    <Setter Property="BorderThickness" Value="1"/>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="CalendarButton">
+                                                                <Border Background="{TemplateBinding Background}"
+                                                                        BorderBrush="Black"
+                                                                        BorderThickness="1"
+                                                                        CornerRadius="50">
+                                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                        VerticalAlignment="Center"
+                                                                        Content="{TemplateBinding Content}">
+                                                                        <ContentPresenter.Resources>
+                                                                            <Style TargetType="TextBlock">
+                                                                                <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                                                <Setter Property="FontSize" Value="{Binding FontSize, RelativeSource={RelativeSource AncestorType=CalendarButton}}"/>
+                                                                            </Style>
+                                                                        </ContentPresenter.Resources>
+                                                                    </ContentPresenter>
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </Calendar.CalendarButtonStyle>
+                                        </Calendar>
+                                    </Border>
+                                </Popup>
+                            </StackPanel>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SubmitButton" TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="5"
+                        Opacity="0.8"
+                        BorderBrush="#E9724C"
+                        x:Name="border">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="border"
+                                                    Storyboard.TargetProperty="Background.Color"
+                                                    To="#E9724C"
+                                                    Duration="0:0:0.3"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="border"
+                                                    Storyboard.TargetProperty="Background.Color"
+                                                    To="White"
+                                                    Duration="0:0:0.3"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ReservationItemControl" TargetType="ContentControl">
+            <Setter Property="Padding" Value="8,5"/>
+            <Setter Property="Background" Value="#E3170A"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ContentControl">
+                        <Border x:Name="MainBorder"
+                                Background="{TemplateBinding Background}" 
+                                CornerRadius="4"
+                                Margin="10"
+                                Opacity="0.9"
+                                Width="800"
+                                Height="80">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="250"/>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="250"/>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <TextBlock Text="Start date:"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="15" FontFamily="{StaticResource PoppinsBlack}"/>
+
+                                    <TextBlock Text="{Binding StartDate}"  FontSize="15" FontFamily="{StaticResource PoppinsBlack}"
+                                               Margin="5,0"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </StackPanel>
+
+                                <Path x:Name="DiagonalLine1" Grid.Column="1" Stroke="#ffff" StrokeThickness="3"
+                                      Data="M 0,80 L 80,0" 
+                                      VerticalAlignment="Center" HorizontalAlignment="Center"
+                                      Stretch="Fill"/>
+
+                                <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <TextBlock Text="End date:"  FontSize="15" FontFamily="{StaticResource PoppinsBlack}"
+                                       Padding="5,0,0,0" Margin="5,0"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                                    <TextBlock Text="{Binding EndDate}"  FontSize="15" FontFamily="{StaticResource PoppinsBlack}"
+                                       Padding="0,0,5,0" Margin="5,0"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </StackPanel>
+
+                                <Path x:Name="DiagonalLine2" Grid.Column="3" Stroke="#ffff" StrokeThickness="3"
+                                      Data="M 0,80 L 80,0" 
+                                      VerticalAlignment="Center" HorizontalAlignment="Center"
+                                      Stretch="Fill"/>
+
+                                <StackPanel Grid.Column="4" Margin="5" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <TextBlock Text="Reserve"  FontSize="15" FontFamily="{StaticResource PoppinsBlack}"
+                                       Padding="5,0,0,0" Margin="5,0"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <Image x:Name="ReserveIcon" Source="Icon/trueBlue.png"
+                                           Width="20" Height="20" Stretch="Uniform" Margin="5"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="MainBorder" Property="Background" Value="#81171B"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter TargetName="DiagonalLine1" Property="Stroke" Value="White"/>
+                                <Setter TargetName="DiagonalLine2" Property="Stroke" Value="White"/>
+                                <Setter TargetName="ReserveIcon" Property="Source" Value="Icon/trueBlue.png"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers> 
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
 
     </Application.Resources>
 </Application>

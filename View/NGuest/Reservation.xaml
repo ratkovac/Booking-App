@@ -5,11 +5,11 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:local="clr-namespace:BookingApp.View"
       xmlns:converter="clr-namespace:BookingApp.Converter"
-      xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+      xmlns:sys="clr-namespace:System;assembly=System.Runtime"
       mc:Ignorable="d"
       Title="Reservation" Height="768" Width="1024">
     <Page.Resources>
-        
+        <converter:DateOnlyToDateTimeConverter x:Key="DateOnlyToDateTimeConverter"/>
     </Page.Resources>
     <Grid>
         <Border CornerRadius="20" Background="White" Margin="20">
@@ -20,8 +20,8 @@
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="350"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <Border Grid.Row="0" Margin="10,0,0,0">
@@ -246,14 +246,43 @@
                         </Grid>
                     </DockPanel>
                 </Border>
-                
+
                 <Border Grid.Row="4">
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" Margin="20,10">
+                            <Label Content="CheckIn:" FontSize="20" Padding="20,0" Margin="10"/>
+                            <DatePicker Style="{StaticResource ReservationDatePicker}"
+                                        SelectedDate="{Binding StartDate, Converter={StaticResource DateOnlyToDateTimeConverter}}"
+                                        DisplayDateStart="{x:Static sys:DateTime.Today}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="20,10">
+                            <Label Content="CheckOut:" FontSize="20" Padding="20,0" Margin="10"/>
+                            <DatePicker Style="{StaticResource ReservationDatePicker}"
+                                        SelectedDate="{Binding EndDate, Converter={StaticResource DateOnlyToDateTimeConverter}}"
+                                        DisplayDateStart="{x:Static sys:DateTime.Today}" />
+                        </StackPanel>
                     </StackPanel>
                 </Border>
-
-
-                
+                <Border Grid.Row="5">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" Margin="20,10">
+                            <Label Content="Number of Guests:" FontSize="20" Padding="20,0" Margin="10"/>
+                            <TextBox Text="{Binding Capacity}" FontSize="20" Padding="10" Width="200"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="20,10">
+                            <Label Content="Number of Days:" FontSize="20" Padding="20,0" Margin="10"/>
+                            <TextBox Text="{Binding ReservationDays}" FontSize="20" Padding="10" Width="200"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="6" CornerRadius="10">
+                    <Button Content="Find Available Dates"
+                            Style="{StaticResource SubmitButton}"
+                            Width="300"
+                            Height="60"
+                            Click="Submit_Click"/>
+                </Border>
+                <Frame x:Name="AccommodationFrame" Grid.RowSpan="6" NavigationUIVisibility="Hidden" Margin="10"/>
             </Grid>
         </Border>
         <Frame x:Name="ReservationPage" Grid.RowSpan="6" NavigationUIVisibility="Hidden" Margin="10"/>

@@ -32,6 +32,8 @@
     <None Remove="Icon\numberOfGuest.png" />
     <None Remove="Icon\opened-door-aperture.png" />
     <None Remove="Icon\star.png" />
+    <None Remove="Icon\true.png" />
+    <None Remove="Icon\trueBlue.png" />
     <None Remove="Icon\zoom.png" />
     <None Remove="Images\Accommodation.jpg" />
     <None Remove="Images\apartment1.jpg" />
@@ -76,6 +78,8 @@
     <Resource Include="Icon\numberOfGuest.png" />
     <Resource Include="Icon\opened-door-aperture.png" />
     <Resource Include="Icon\star.png" />
+    <Resource Include="Icon\true.png" />
+    <Resource Include="Icon\trueBlue.png" />
     <Resource Include="Icon\zoom.png" />
     <Resource Include="Images\Accommodation.jpg" />
     <Resource Include="Images\apartment1.jpg" />
