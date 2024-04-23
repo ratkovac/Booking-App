@@ -4,6 +4,7 @@ using BookingApp.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Media;
 
 namespace BookingApp.Model
 {
@@ -14,6 +15,8 @@ namespace BookingApp.Model
         public Tourist Tourist { get; set; }
         public int TourReservationId { get; set; }
         public TourReservation TourReservation { get; set; }
+        public int TourGuestId { get; set; }
+        public TourGuest TourGuest { get; set; }
         public int Grade { get; set; }
         public string Comment { get; set; }
         public List<string> Images { get; set; }
@@ -21,8 +24,18 @@ namespace BookingApp.Model
 
         public GradeTour()
         {
-            Images = new List<string>();
         }
+
+        public GradeTour(int tourId, int touristId, int tourGuestId, int grade, string comment, bool isValid)
+        {
+            TourReservationId = tourId;
+            TouristId = touristId;
+            TourGuestId = tourGuestId;
+            Grade = grade;
+            Comment = comment;
+            IsValid = isValid;
+        }
+
         public GradeTour(int touristId, Tourist tourist, int tourReservationId, int grade, string comment, List<string> images)
         {
             TouristId = touristId;
@@ -34,35 +47,28 @@ namespace BookingApp.Model
             IsValid = true;
         }
 
-        public string[] ToCSV()
-        {
-            string ImageString = "";
-            foreach (string image in Images)
-            {
-                if (image != Images.Last())
-                {
-                    ImageString += image + ",";
-                }
-            }
-            ImageString += Images.Last();
-
-            string[] csvvalues = { Id.ToString(), TouristId.ToString(), TourReservationId.ToString(), Grade.ToString(),
-                Comment, ImageString,IsValid.ToString()};
-            return csvvalues;
-        }
-
         public void FromCSV(string[] values)
         {
-            Id = Convert.ToInt32(values[0]);
-            TouristId = Convert.ToInt32(values[1]);
-            TourReservationId = Convert.ToInt32(values[2]);
-            Grade = Convert.ToInt32(values[3]);
-            Comment = values[4];
-            foreach (string image in values[5].Split(","))
-            {
-                Images.Add(image);
-            }
-            IsValid = Convert.ToBoolean(values[6]);
+            Id = int.Parse(values[0]);
+            TourReservationId = int.Parse(values[1]);
+            TouristId = int.Parse(values[2]);
+            TourGuestId = int.Parse(values[3]);
+            Grade = int.Parse(values[4]);
+            Comment = values[5];
+            IsValid = bool.Parse(values[6]);
+        }
+
+        public string[] ToCSV()
+        {
+            return new string[] {
+                Id.ToString(),
+                TourReservationId.ToString(),
+                TouristId.ToString(),
+                TourGuestId.ToString(),
+                Grade.ToString(),
+                Comment,
+                IsValid.ToString()
+            };
         }
     }
 }

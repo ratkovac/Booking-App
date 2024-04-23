@@ -2,10 +2,12 @@
 using BookingApp.Repository.RepositoryInterface;
 using BookingApp.Serializer;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.AccessControl;
 
 namespace BookingApp.Repository
 {
@@ -27,6 +29,23 @@ namespace BookingApp.Repository
         {
             return _tourInstances;
         }
+
+        public List<TourInstance> GetFinishedTourInstances()
+        {
+            List<TourInstance> finishedTourInstances = new List<TourInstance>();
+            List<TourInstance> allTourInstances = GetAll();
+
+            foreach (TourInstance tourInstance in allTourInstances)
+            {
+                if (tourInstance.State == TourInstanceState.Finished)
+                {
+                    finishedTourInstances.Add(tourInstance);
+                }
+            }
+
+            return finishedTourInstances;
+        }
+
 
         public List<TourInstance> GetAllById(int tourId)
         {
@@ -84,9 +103,72 @@ namespace BookingApp.Repository
             return _tourInstances.Find(r => r.Id == id);
         }
 
+        public List<TourInstance> GetByUserId(int userId)
+        {
+            return _tourInstances.Where(r => r.GuideId == userId).ToList();
+        }
+
+        public List<TourInstance> GetFinishedByUserId(int userId)
+        {
+            _tourInstances = GetByUserId(userId);
+
+            _tourInstances.RemoveAll(tourInstance => tourInstance.State != TourInstanceState.Finished);
+
+            if (_tourInstances.Count == 0)
+            {
+                return new List<TourInstance>();
+            }
+
+            return _tourInstances;
+        }
+
+        public List<TourInstance> GetInactiveToursByUser(int userId)
+        {
+            _tourInstances = GetByUserId(userId);
+
+            _tourInstances.RemoveAll(tourInstance => tourInstance.State != TourInstanceState.Inactive);
+
+            if (_tourInstances.Count == 0)
+            {
+                return new List<TourInstance>();
+            }
+
+            return _tourInstances;
+        }
         public TourInstance GetByIdAndDate(int tourId, DateTime date)
         {
             return _serializer.FromCSV(FilePath).FirstOrDefault(tourInstance => tourInstance.TourId == tourId && tourInstance.StartTime == date);
         }
+
+        public List<TourInstance> GetToursForToday()
+        {
+            DateTime today = DateTime.Now.Date;
+            string formattedToday = today.ToString("M/d/yyyy");
+
+            List<int> tourInstanceIds = GetTourIdsForToday(formattedToday);
+            return _tourInstances.Where(t => tourInstanceIds.Contains(t.Id)).ToList();
+        }
+
+        private List<int> GetTourIdsForToday(string formattedToday)
+        {
+            string[] lines = File.ReadAllLines(FilePath);
+            List<int> tourInstanceIds = new List<int>();
+
+            foreach (string line in lines)
+            {
+                string[] values = line.Split('|');
+                string[] dateParts = values[3].Split(' ')[0].Split('/');
+                string dateFormat = dateParts[0].PadLeft(1, '0') + "/" + dateParts[1].PadLeft(1, '0') + "/" + dateParts[2].PadLeft(4, '0');
+
+                if (dateFormat == formattedToday)
+                {
+                    int tourInstanceId = Convert.ToInt32(values[0]);
+                    tourInstanceIds.Add(tourInstanceId);
+                }
+            }
+
+            return tourInstanceIds;
+        }
+
     }
 }

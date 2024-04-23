@@ -1,0 +1,126 @@
+﻿<Page x:Class="BookingApp.View.NGuest.SuggestedReservations"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BookingApp.View.NGuest"
+      xmlns:guiElements="clr-namespace:BookingApp.GUI_Elements"
+      mc:Ignorable="d" 
+      Title="SuggestedReservations" Height="768" Width="1024">
+
+    <Grid>
+        <Border CornerRadius="20" Background="White" Margin="20">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="1"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" Margin="10,0,0,0">
+                    <Button HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="0" Margin="0">
+                        <Image Source="/View/NGuest/menu-svgrepo-com.png" Height="20" Width="20" Stretch="Fill"/>
+                    </Button>
+                </Border>
+
+                <Border Grid.Row="0" HorizontalAlignment="Right" CornerRadius="50" Width="40" Height="40" Margin="5">
+                    <Grid>
+                        <Button Style="{StaticResource IconStyleHome}"/>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="1" Background="Brown" Height="1" VerticalAlignment="Bottom">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" Direction="270" ShadowDepth="3" Opacity="0.5"/>
+                    </Border.Effect>
+                </Border>
+
+                <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <StackPanel Orientation="Horizontal">
+                        <Border CornerRadius="50" Width="40" Height="40" Margin="5">
+                            <Grid>
+                                <Border BorderThickness="0">
+                                    <Button Style="{StaticResource NavBarButton}" BorderThickness="0" Cursor="Hand">
+                                        <Image x:Name="IconImage" Source="../../Icon/favorite.png" Width="30" Stretch="Uniform"/>
+                                    </Button>
+                                </Border>
+                            </Grid>
+                        </Border>
+
+                        <Border CornerRadius="50" Width="40" Height="40" Margin="5">
+                            <Grid>
+                                <Border>
+                                    <Button Style="{StaticResource NavBarButton}" BorderThickness="0" Cursor="Hand">
+                                        <Image x:Name="IconImage2" Source="../../Icon/calendar.png" Width="30" Stretch="Uniform" />
+                                    </Button>
+                                </Border>
+                            </Grid>
+                        </Border>
+
+                        <Border CornerRadius="50" Width="40" Height="40" Margin="5">
+                            <Border>
+                                <Button Style="{StaticResource NavBarButton}" BorderThickness="0" Cursor="Hand">
+                                    <Image x:Name="IconImage3" Source="../../Icon/calendar (1).png" Opacity="0.9" Width="30" Stretch="Uniform"/>
+                                </Button>
+                            </Border>
+                        </Border>
+
+                        <Border CornerRadius="50" Width="40" Height="40" Margin="5">
+                            <Border>
+                                <Button Style="{StaticResource NavBarButton}" BorderThickness="0" Cursor="Hand">
+                                    <Image x:Name="IconImage4" Source="../../Icon/group.png" Width="30" Stretch="Uniform"/>
+                                </Button>
+                            </Border>
+                        </Border>
+
+                        <Border CornerRadius="50" Width="40" Height="40" Margin="5">
+                            <Grid>
+                                <Border>
+                                    <Button Style="{StaticResource NavBarButton}" BorderThickness="0" Cursor="Hand">
+                                        <Image x:Name="IconImage5" Source="../../Icon/logout.png" Width="30" Stretch="Uniform"/>
+                                    </Button>
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+
+                <Border Grid.Row="2">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
+                        <TextBlock Text="{Binding SelectedAccommodation.Name}" Style="{StaticResource AccommodationName}" HorizontalAlignment="Center"/>
+                        <Border Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Canvas Width="400" Height="5" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Path Fill="#C5283D">
+                                    <Path.Data>
+                                        <PathGeometry>
+                                            <PathFigure StartPoint="0,0">
+                                                <LineSegment Point="395,0"/>
+                                                <LineSegment Point="400,5"/>
+                                                <LineSegment Point="5,5"/>
+                                                <LineSegment Point="0,0"/>
+                                            </PathFigure>
+                                        </PathGeometry>
+                                    </Path.Data>
+                                </Path>
+                            </Canvas>
+                        </Border>
+                    </StackPanel>
+                </Border>
+
+                <ScrollViewer Grid.Row="5" VerticalScrollBarVisibility="Auto" Padding="0,0,0,10" Margin="10">
+                    <ItemsControl ItemsSource="{Binding Reservations}"
+                                  guiElements:ItemsControlExtensions.SelectedItem="{Binding SelectedAccommodation, Mode=TwoWay}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <ContentControl Style="{StaticResource ReservationItemControl}"
+                                                MouseLeftButtonDown="ContentControl_MouseLeftButtonDown"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+        <Frame x:Name="SuggestedReservationsFrame" Grid.RowSpan="6" NavigationUIVisibility="Hidden" Margin="10"/>
+    </Grid>
+</Page>

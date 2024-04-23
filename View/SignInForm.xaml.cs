@@ -5,9 +5,10 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using BookingApp.View.Owner;
-using BookingApp.View.Tourist;
+using BookingApp.WPF.View.Tourist;
 using BookingApp.View.GuideView;
 using BookingApp.Service;
+using BookingApp.View.GuideView.Pages;
 
 namespace BookingApp.View
 {
@@ -20,7 +21,7 @@ namespace BookingApp.View
         private readonly UserRepository _repository;
 
         private int loggedUserId;
-        
+
         private string _username;
         public string Username
         {
@@ -69,8 +70,10 @@ namespace BookingApp.View
                             Close();
                             break;
                         case "Guide":
-                            TourForm tourForm = new TourForm();
+                            TourForm tourForm = new TourForm(user);
                             tourForm.Show();
+                            //TourManagementWindow tourManagementWindow = new TourManagementWindow();
+                            //tourManagementWindow.Show();
                             Close();
                             break;
                         case "Tourist":
@@ -107,6 +110,6 @@ namespace BookingApp.View
             }
 
         }
-       
+
     }
 }

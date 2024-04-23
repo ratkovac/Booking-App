@@ -73,6 +73,20 @@ namespace BookingApp.Model
             Guest = guest;
         }
 
+        public Drive(FastDrive fastDrive, User driver)
+        {
+            Id = fastDrive.Id;
+            DriverId = driver.Id;
+            Driver = driver;
+            StartAddress = fastDrive.StartAddress;
+            EndAddress = fastDrive.EndAddress;
+            StartAddressId = StartAddress.Id;
+            EndAddressId = EndAddress.Id;
+            Date = fastDrive.Date;
+            Guest = fastDrive.Guest;
+            GuestId = fastDrive.GuestId;
+        }
+
         public string[] ToCSV()
         {
             string driverId = Driver.Id.ToString();

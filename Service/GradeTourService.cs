@@ -8,6 +8,7 @@ using BookingApp.Repository.RepositoryInterface;
 using BookingApp.DependencyInjection;
 using BookingApp.Model;
 using BookingApp.Repository;
+using BookingApp.WPF.ViewModel.Tourist;
 
 namespace BookingApp.Service
 {
@@ -15,16 +16,19 @@ namespace BookingApp.Service
     {
         private IGradeTourRepository gradeTourRepository;
         private ITouristRepository touristRepository;
-        private TourInstanceRepository tourInstanceRepository;
+        private TourReservationService tourReservationService;
         private TourReservationRepository tourReservationRepository;
+        private ITourImageRepository tourImageRepository;
 
         public GradeTourService()
         {
             gradeTourRepository = Injector.CreateInstance<IGradeTourRepository>();
             touristRepository = Injector.CreateInstance<ITouristRepository>();
+            tourImageRepository = Injector.CreateInstance<ITourImageRepository>();
             tourReservationRepository = new TourReservationRepository();
+            tourReservationService = new TourReservationService();
             InitializeTourist();
-            InitializeTour();
+            InitializeTourReservation();
         }
         private void InitializeTourist()
         {
@@ -33,7 +37,7 @@ namespace BookingApp.Service
                 item.Tourist = touristRepository.GetById(item.TouristId);
             }
         }
-        private void InitializeTour()
+        private void InitializeTourReservation()
         {
             foreach (var item in gradeTourRepository.GetAll())
             {
@@ -43,6 +47,11 @@ namespace BookingApp.Service
         public List<GradeTour> GetAll()
         {
             return gradeTourRepository.GetAll();
+        }
+
+        public GradeTour GetById(int id)
+        {
+            return gradeTourRepository.GetById(id);
         }
         public List<GradeTour> GetAllRatingsByTour(TourReservation tourReservation)
         {
@@ -68,6 +77,21 @@ namespace BookingApp.Service
         public void Subscribe(IObserver observer)
         {
             gradeTourRepository.Subscribe(observer);
+        }
+        public void SaveReviews(IEnumerable<GradeTourFormViewModel> reviewForms, int tourReservationId, int touristId)
+        {
+            foreach (var reviewForm in reviewForms)
+            {
+                GradeTour grade = new GradeTour(tourReservationId, touristId, reviewForm.Guest.Id, reviewForm.SelectedGrade, reviewForm.Comment, true);
+                gradeTourRepository.Create(grade);
+                foreach (var path in reviewForm.ImagePaths)
+                {
+                    TourImage tourImage = new TourImage(path, grade.Id, touristId);
+                    tourImageRepository.Create(tourImage);
+                }
+            }
+
+            tourReservationService.MarkTourReservationAsRated(tourReservationId);
         }
     }
 }

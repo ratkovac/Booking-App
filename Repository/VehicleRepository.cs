@@ -106,5 +106,17 @@ namespace BookingApp.Repository
             List<Vehicle> filteredVehicles = _vehicles.FindAll(v => v.User.Id == user.Id);
             return new ObservableCollection<Vehicle>(filteredVehicles);
         }
+        public ObservableCollection<int> GetLocationsByDriver(User user)
+        {
+            _vehicles = _serializer.FromCSV(FilePath);
+
+            var locationIds = _vehicles
+                .Where(vehicle => vehicle.User.Id == user.Id)
+                .SelectMany(vehicle => vehicle.Locations.Select(location => location.Id))
+                .Distinct()
+                .ToList();
+
+            return new ObservableCollection<int>(locationIds);
+        }
     }
 }

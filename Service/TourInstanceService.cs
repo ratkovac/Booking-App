@@ -44,6 +44,31 @@ namespace BookingApp.Service
 
             return toursFinished;
         }
+        public List<TourInstance> GetInactiveToursByUser(int userId)
+        {
+            return tourInstanceRepository.GetInactiveToursByUser(userId);
+        }
+
+        public List<TourInstance> GetFinishedTourInstances()
+        {
+            return tourInstanceRepository.GetFinishedTourInstances();
+        }
+
+        public TourInstance GetById(int id)
+        {
+            return tourInstanceRepository.GetById(id);
+        }
+
+        public List<TourInstance> GetByUserId(int userId)
+        {
+            return tourInstanceRepository.GetByUserId(userId);
+        }
+
+        public List<TourInstance> GetFinishedByUserId(int userId)
+        {
+            return tourInstanceRepository.GetFinishedByUserId(userId);
+        }
+
         public List<TourInstance> GetAll()
         {
             return tourInstanceRepository.GetAll();

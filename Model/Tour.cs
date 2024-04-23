@@ -23,51 +23,55 @@ namespace BookingApp.Model
         public Location Location { get; set; }
         public Language Language { get; set; }
         public int LocationId { get; set; }
-
+        public int UserId { get; set; }
         public Tour()
         {
 
         }
+        public Tour(string name, string description, int maxGeusts, float duration, Location location, Language language, int userId)
+        {
+            LocationRepository locationRepository = new LocationRepository();
+            Name = name;
+            Description = description;
+            MaxGuests = maxGeusts;
+            Duration = duration;
+            //LocationId = locationId;
+            Location = location;
+            Language = language;
+            UserId = userId;
+        }
+
         public Tour(string name, string description, int maxGeusts, float duration, Location location, Language language)
         {
             LocationRepository locationRepository = new LocationRepository();
             Name = name;
             Description = description;
             MaxGuests = maxGeusts;
-            Duration = duration;     
+            Duration = duration;
+            //LocationId = locationId;
             Location = location;
             Language = language;
         }
 
         public string[] ToCSV()
-        {         
+        {
+
             string location = Location.Id.ToString();
-            string language = Language.Id.ToString();
-            string[] csvValues = { Id.ToString(), Name, location, Description, language, 
-                MaxGuests.ToString(), Duration.ToString()};
+            string[] csvValues = { Id.ToString(), Name, location, Description, Language.Id.ToString(),
+                MaxGuests.ToString(), Duration.ToString(), UserId.ToString()};
             return csvValues;
         }
 
         public void FromCSV(string[] values)
         {
+
+
             Id = Convert.ToInt32(values[0]);
             Name = values[1];
-            ParseLocation(values);
-            Description = values[3];
-            ParseLanguage(values);
-            MaxGuests = Convert.ToInt32(values[5]);
-            Duration = Convert.ToSingle(values[6]);
-        }
-
-        private void ParseLocation(string[] values)
-        {
             int locationId = Convert.ToInt32(values[2]);
             LocationRepository locationRepository = new LocationRepository();
             Location = locationRepository.GetLocationById(locationId);
-        }
-
-        private void ParseLanguage(string[] values)
-        {
+            Description = values[3];
             int languageId = Convert.ToInt32(values[4]);
             LanguageRepository languageRepository = new LanguageRepository();
             Language language = languageRepository.GetLanguageById(languageId);
@@ -75,6 +79,9 @@ namespace BookingApp.Model
             {
                 Language = language;
             }
+            MaxGuests = Convert.ToInt32(values[5]);
+            Duration = Convert.ToSingle(values[6]);
+            UserId = Convert.ToInt32(values[7]);
         }
 
     }

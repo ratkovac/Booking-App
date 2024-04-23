@@ -15,7 +15,9 @@ namespace BookingApp.Repository.RepositoryInterface
         public List<TourReservation> GetReservationsByTourInstanceAndState(TourInstance tourInstance, TouristState state);
         public TourReservation GetReservationByTouristAndTourInstance(TourInstance tourInstance, Tourist guest);
         public TourReservation GetTourInstanceIdWhereTouristIsWaiting(Tourist tourist);
-
+        public List<TourReservation> GetAllByTourInstanceId(int tourInstanceId);
+        public List<int> FindTourInstanceIdsWhereTouristPresent(int touristId);
+        public List<TourReservation> GetToursWhichFinished();
         public void Subscribe(IObserver observer)
         {
 

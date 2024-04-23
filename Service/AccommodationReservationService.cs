@@ -28,6 +28,20 @@ namespace BookingApp.Service
             return _repository.GetAll();
         }
 
+        public AccommodationReservation GetById(int id)
+        {
+            return _repository.GetById(id);
+        }
+
+        public void Delete(AccommodationReservation accommodationReservation)
+        {
+            _repository.Delete(accommodationReservation);
+        }
+        public void Update(AccommodationReservation AccommodationReservation)
+        {
+            _repository.Update(AccommodationReservation);
+        }
+
         public void Subscribe(IObserver observer)
         {
             _repository.Subscribe(observer);

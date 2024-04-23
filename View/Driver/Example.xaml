@@ -7,9 +7,33 @@
         xmlns:local="clr-namespace:BookingApp.View.Driver"
         mc:Ignorable="d"
         Title="Example" Height="450" Width="800">
-    <Grid>
-        <lvc:CartesianChart Name="MyChart">
-            <!-- Vaš kod ovdje -->
+
+    <Grid Margin="10">
+        <Button x:Name="btnBack" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Click="btnBack_Click"/>
+        <lvc:CartesianChart Name="MyChart1" Width="250" Height="170" HorizontalAlignment="Left" VerticalAlignment="Bottom" Series="{Binding SeriesCollection1}">
         </lvc:CartesianChart>
+        <lvc:CartesianChart Name="MyChart2" Width="250" Height="170" HorizontalAlignment="Center" VerticalAlignment="Bottom" Series="{Binding SeriesCollection2}">
+        </lvc:CartesianChart>
+        <lvc:CartesianChart Name="MyChart3" Width="250" Height="170" HorizontalAlignment="Right" VerticalAlignment="Bottom" Series="{Binding SeriesCollection3}">
+        </lvc:CartesianChart>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,121,0,0">
+            <StackPanel.Resources>
+                <Style TargetType="ProgressBar">
+                    <Setter Property="Width" Value="150"/>
+                    <Setter Property="Height" Value="15"/>
+                    <Setter Property="Margin" Value="0"/>
+                </Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                    <Setter Property="Margin" Value="0,5"/>
+                </Style>
+            </StackPanel.Resources>
+            <TextBlock Text="Fast drives"/>
+            <ProgressBar Name="FastDrivesProgressBar" Value="{Binding FastDrivesValue}" Maximum="{Binding MaxFastDrivesValue}"/>
+            <TextBlock Text="Bonus points"/>
+            <ProgressBar Name="BonusPointsProgressBar" Value="{Binding BonusPointsValue}" Maximum="{Binding MaxBonusPointsValue}"/>
+            <TextBlock Text="Cancelled drives"/>
+            <ProgressBar Name="CancelledDrivesProgressBar" Value="{Binding CancelledDrivesValue}" Maximum="{Binding MaxCancelledDrivesValue}"/>
+        </StackPanel>
     </Grid>
 </Window>
