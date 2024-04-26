@@ -385,21 +385,28 @@ namespace BookingApp.View.GuideView.Pages
                 imageWrapPanel.Children.Add(newImage);
             }
         }
-        
+
         private void btnShowAllImages_Click(object sender, RoutedEventArgs e)
         {
-            // Clear previous images
             WrapPanel imageWrapPanel = FindName("imageeWrapPanel") as WrapPanel;
             imageWrapPanel.Children.Clear();
 
-            // Show all images
-            foreach (var imagePath in PathImages)
+            if (btnShowAllImages.Content.ToString() == "-")
             {
-                System.Windows.Controls.Image newImage = new System.Windows.Controls.Image();
-                newImage.Source = new BitmapImage(new Uri(imagePath));
-                newImage.Height = 50;
-                newImage.Margin = new Thickness(5);
-                imageWrapPanel.Children.Add(newImage);
+                ShowLastFourImages();
+                btnShowAllImages.Content = "+";
+            }
+            else
+            {
+                foreach (var imagePath in PathImages)
+                {
+                    System.Windows.Controls.Image newImage = new System.Windows.Controls.Image();
+                    newImage.Source = new BitmapImage(new Uri(imagePath));
+                    newImage.Height = 50;
+                    newImage.Margin = new Thickness(5);
+                    imageWrapPanel.Children.Add(newImage);
+                }
+                btnShowAllImages.Content = "-";
             }
         }
 

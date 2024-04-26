@@ -16,13 +16,14 @@ namespace BookingApp.Service
     {
 
         private ITouristRepository touristRepository;
-        private VoucherService voucherService;
-        private UserRepository userRepository = new UserRepository();
+        private IVoucherRepository voucherRepository;
+        private UserRepository userRepository;
 
         public TouristService()
         {
             touristRepository = Injector.CreateInstance<ITouristRepository>();
-            voucherService = new VoucherService();
+            voucherRepository = Injector.CreateInstance<IVoucherRepository>();
+            userRepository = new UserRepository();
             InitializeUser();
         }
         public Tourist GetTouristByUserId(int userId)
@@ -74,16 +75,16 @@ namespace BookingApp.Service
         public void GiveVoucher(int id, int years)
         {
             Tourist tourist = touristRepository.GetById(id);
-            Voucher voucher = new Voucher(voucherService.NextId(), DateTime.Now, DateTime.Now.AddYears(years), false, true);
-            voucherService.Create(voucher);
+            Voucher voucher = new Voucher(voucherRepository.NextId(), DateTime.Now, DateTime.Now.AddYears(years), false, true);
+            voucherRepository.Create(voucher);
             tourist.VoucherIds.Add(voucher.Id);
             Update(tourist);
         }
         public void GiveVoucherForGuestWhenFiveTimePresent(int id)
         {
             Tourist tourist = touristRepository.GetById(id);
-            Voucher voucher = new Voucher(voucherService.NextId(), DateTime.Now, DateTime.Now.AddMonths(6), false, true);
-            voucherService.Create(voucher);
+            Voucher voucher = new Voucher(voucherRepository.NextId(), DateTime.Now, DateTime.Now.AddMonths(6), false, true);
+            voucherRepository.Create(voucher);
             tourist.VoucherIds.Add(voucher.Id);
             Update(tourist);
         }

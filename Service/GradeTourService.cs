@@ -15,14 +15,15 @@ namespace BookingApp.Service
     {
         private IGradeTourRepository gradeTourRepository;
         private ITouristRepository touristRepository;
-        private TourInstanceRepository tourInstanceRepository;
-        private TourReservationRepository tourReservationRepository;
+        private ITourInstanceRepository tourInstanceRepository;
+        private ITourReservationRepository tourReservationRepository;
 
         public GradeTourService()
         {
             gradeTourRepository = Injector.CreateInstance<IGradeTourRepository>();
             touristRepository = Injector.CreateInstance<ITouristRepository>();
-            tourReservationRepository = new TourReservationRepository();
+            tourReservationRepository = Injector.CreateInstance<ITourReservationRepository>();
+            tourInstanceRepository = Injector.CreateInstance<ITourInstanceRepository>();
             InitializeTourist();
             InitializeTour();
         }

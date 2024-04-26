@@ -39,17 +39,22 @@ namespace BookingApp.View.GuideView.Pages
 
         private void btnCancelTour_Click(object sender, RoutedEventArgs e)
         {
-            var selectedInstance = (TourInstance)ListBoxTourInstances.SelectedItem;
-            var result = MessageBox.Show("Da li želite da otkažete turu sa ID: " + selectedInstance.Id.ToString() + "?", "Potvrda", MessageBoxButton.YesNo);
+            if (ListBoxTourInstances.SelectedItem == null)
+            {
+                MessageBox.Show("Please select tour you want to cancel","CANCEL",MessageBoxButton.OK,MessageBoxImage.Error);
+                return;
+            }
+            var selectedInstance = (ViewModel.Guide.CancelTourViewModel.Tours)ListBoxTourInstances.SelectedItem;
+            var result = MessageBox.Show("Da li želite da otkažete turu sa ID: " + selectedInstance.TourInstanceId.ToString() + "?", "Potvrda", MessageBoxButton.YesNo);
 
             if (result == MessageBoxResult.Yes)
             {
-                if (selectedInstance != null)
-                {
+                //if (selectedInstance != null)
+                //{
                     viewModel.CancelTour(selectedInstance);
-                }
+                //}
             }
-            MessageBox.Show("Uspesno otkazana tura sa ID:" + selectedInstance.Id.ToString());
+            MessageBox.Show("Uspesno otkazana tura sa ID:" + selectedInstance.TourInstanceId.ToString());
 
         }
 
