@@ -92,7 +92,7 @@ namespace BookingApp.View.Owner
             int tourId = -1;
             foreach (string path in pathImage)
             {
-                imageRepository.Save(new Model.Image(path, accommodation.Id, tourId));
+                imageRepository.Create(new Model.Image(path, accommodation.Id, tourId));
             }
             pathImage.Clear();
 

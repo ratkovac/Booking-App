@@ -1,0 +1,29 @@
+<Window x:Class="BookingApp.View.Owner.DelayRequests"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BookingApp"
+        mc:Ignorable="d"
+        Title="Delay requests" Height="450" Width="800" ResizeMode="NoResize" WindowStyle="SingleBorderWindow"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="0,0,0,-16">
+        <DataGrid x:Name="DelayRequestsGrid"
+                  AutoGenerateColumns="False"
+                  ItemsSource="{Binding delayRequests}"
+                  SelectionMode="Single" IsReadOnly="True" Margin="76,30,76,87" SelectionChanged="DelayRequestsGrid_SelectionChanged">
+            <DataGrid.Columns>
+				<DataGridTextColumn Header="ID" Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="Guest" Binding="{Binding UserName}"/>
+                <DataGridTextColumn Header="Accommodation" Binding="{Binding AccommodationName}" />
+                <DataGridTextColumn Header="Old start date" Binding="{Binding OldStartDate}" />
+                <DataGridTextColumn Header="Old end date" Binding="{Binding OldEndDate}" />
+                <DataGridTextColumn Header="New start date" Binding="{Binding NewStartDate}" />
+                <DataGridTextColumn Header="New end date" Binding="{Binding NewEndDate}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="Accept" Content="Accept request" HorizontalAlignment="Left" Margin="76,376,0,0" VerticalAlignment="Top" FontSize="18" Height="36" Width="135" Click="Accept_Click"/>
+        <Button x:Name="Decline" Content="Decline request" HorizontalAlignment="Center" Margin="0,376,0,0" VerticalAlignment="Top" FontSize="18" Height="36" Width="136" Click="Decline_Click"/>
+        <Button x:Name="Close" Content="Close" HorizontalAlignment="Left" Margin="588,376,0,0" VerticalAlignment="Top" FontSize="18" Height="36" Width="136" Click="Close_Click"/>
+    </Grid>
+</Window>

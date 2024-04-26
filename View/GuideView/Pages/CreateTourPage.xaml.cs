@@ -210,7 +210,7 @@ namespace BookingApp.View.GuideView.Pages
             foreach (string pathImage in pathImages)
             {
                 Model.Image image = new Model.Image(pathImage, -1, tourId);
-                imageRepository.Save(image);
+                imageRepository.Create(image);
             }
         }
         private void ClearFields()

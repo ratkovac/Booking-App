@@ -21,12 +21,13 @@ namespace BookingApp.Model
         public List<Voucher> Vouchers { get; set; }
         public DateTime BirthDate { get; set; }
         public string PhoneNumber { get; set; }
+        public int NumberOfToursAttended { get; set; }
 
         public Tourist()
         {
             VoucherIds = new List<int>();
         }
-        public Tourist(int id, string name, string lastname, string adress, string email, int userId, DateTime birthDate, string phoneNumber)
+        public Tourist(int id, string name, string lastname, string adress, string email, int userId, DateTime birthDate, string phoneNumber, int numberOfToursAttended)
         {
             Id = id;
             Name = name;
@@ -37,6 +38,7 @@ namespace BookingApp.Model
             VoucherIds = new List<int>();
             BirthDate = birthDate;
             PhoneNumber = phoneNumber;
+            NumberOfToursAttended = numberOfToursAttended;
         }
 
         public void FromCSV(string[] values)
@@ -57,6 +59,7 @@ namespace BookingApp.Model
             }
             BirthDate = DateTime.Parse(values[7]);
             PhoneNumber = values[8];
+            NumberOfToursAttended = Convert.ToInt32(values[9]);
         }
 
         public string[] ToCSV()
@@ -73,7 +76,7 @@ namespace BookingApp.Model
                 }
                 VoucherString += VoucherIds.Last();
             }
-            string[] csvvalues = { Id.ToString(), Name, LastName, Adress, Email, UserId.ToString(), VoucherString, BirthDate.ToString(), PhoneNumber };
+            string[] csvvalues = { Id.ToString(), Name, LastName, Adress, Email, UserId.ToString(), VoucherString, BirthDate.ToString(), PhoneNumber, NumberOfToursAttended.ToString() };
             return csvvalues;
         }
     }

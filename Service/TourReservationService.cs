@@ -87,20 +87,9 @@ namespace BookingApp.Service
         }
         public List<TourReservation> GetToursWhichFinished()
         {
-            List<TourReservation> toursFinished = new List<TourReservation>();
-            List<TourReservation> allTourInstances = GetAllReservations();
-
-            foreach (TourReservation tourReservation in allTourInstances)
-            {
-                if (tourReservation.TourInstance.State == TourInstanceState.Finished && tourReservation.RatedTour == false)
-                {
-                    toursFinished.Add(tourReservation);
-                }
-            }
-
-            return toursFinished;
+            return tourReservationRepository.GetToursWhichFinished();
         }
-        public void UpdateTouristsState(int touristId, TourInstance tourInstance, TouristState state)
+        public void UpdateTouristState(int touristId, TourInstance tourInstance, TouristState state)
         {
             TourReservation reservation = GetReservationsByTourInstance(tourInstance).Find(r => r.TouristId == touristId);
             reservation.State = state;
@@ -114,16 +103,7 @@ namespace BookingApp.Service
         }
         public List<int> FindTourInstanceIdsWhereTouristPresent(int touristId)
         {
-            List<int> tourIds = new List<int>();
-            foreach (TourReservation reservation in GetAllReservations())
-            {
-                if (reservation.TouristId == touristId && reservation.State == TouristState.Present && reservation.RatedTour != true)
-
-                {
-                    tourIds.Add(reservation.TourInstanceId);
-                }
-            }
-            return tourIds;
+            return tourReservationRepository.FindTourInstanceIdsWhereTouristPresent(touristId);
         }
         public void Update(TourReservation reserevation)
         {
@@ -136,6 +116,16 @@ namespace BookingApp.Service
         public List<TourReservation> GetReservationsForGuest(int touristId)
         {
             return GetAllReservations().Where(r => r.TouristId == touristId).ToList();
+        }
+        public void MarkTourReservationAsRated(int tourReservationId)
+        {
+            var tourReservation = tourReservationRepository.GetById(tourReservationId);
+
+            if (tourReservation != null)
+            {
+                tourReservation.RatedTour = true;
+                tourReservationRepository.Update(tourReservation);
+            }
         }
     }
 }

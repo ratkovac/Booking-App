@@ -33,7 +33,7 @@ namespace BookingApp.View.ViewModel.Tourist
             tourInstanceService = new TourInstanceService();
             tourReservationRepository = new TourReservationRepository();
             touristService = new TouristService();
-            ListVoucher = new ObservableCollection<Voucher>(voucherService.GetActiveVouchersWithIds(tourist.VoucherIds));
+            ListVoucher = new ObservableCollection<Voucher>(voucherService.GetActiveVouchers(tourist.VoucherIds));
 
         }
 

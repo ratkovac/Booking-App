@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using BookingApp.View.Owner;
-using BookingApp.View.Tourist;
+using BookingApp.WPF.View.Tourist;
 using BookingApp.View.GuideView;
 using BookingApp.Service;
 using BookingApp.View.GuideView.Pages;
@@ -21,7 +21,7 @@ namespace BookingApp.View
         private readonly UserRepository _repository;
 
         private int loggedUserId;
-        
+
         private string _username;
         public string Username
         {
@@ -110,6 +110,6 @@ namespace BookingApp.View
             }
 
         }
-       
+
     }
 }

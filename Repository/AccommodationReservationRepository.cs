@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using BookingApp.Repository.RepositoryInterface;
 
 namespace BookingApp.Repository
@@ -19,8 +20,6 @@ namespace BookingApp.Repository
         private readonly Serializer<AccommodationReservation> _serializer;
 
         private List<AccommodationReservation> _accommodationReservations;
-
-        private AccommodationRepository _accommodationRepository;
 
         public Subject AccommodationReservationSubject;
 
@@ -59,10 +58,6 @@ namespace BookingApp.Repository
             throw new NotImplementedException();
         }
 
-        void IGenericRepository<AccommodationReservation, int>.Update(AccommodationReservation entity)
-        {
-            throw new NotImplementedException();
-        }
 
         public void Delete(AccommodationReservation AccommodationReservation)
         {
@@ -77,10 +72,10 @@ namespace BookingApp.Repository
 
         public AccommodationReservation GetById(int key)
         {
-            throw new NotImplementedException();
+            return _accommodationReservations.Find(c => c.Id == key);
         }
 
-        public AccommodationReservation Update(AccommodationReservation AccommodationReservation)
+        public void Update(AccommodationReservation AccommodationReservation)
         {
             _accommodationReservations = _serializer.FromCSV(FilePath);
             AccommodationReservation current = _accommodationReservations.Find(c => c.Id == AccommodationReservation.Id);
@@ -88,10 +83,9 @@ namespace BookingApp.Repository
             _accommodationReservations.Remove(current);
             _accommodationReservations.Insert(index, AccommodationReservation);
             _serializer.ToCSV(FilePath, _accommodationReservations);
-            return AccommodationReservation;
         }
 
-        public AccommodationReservation? GetByID(int accommodationId)
+        public AccommodationReservation GetByID(int accommodationId)
         {
             return _accommodationReservations.Find(c => c.Id == accommodationId);
 

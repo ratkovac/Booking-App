@@ -65,13 +65,6 @@ namespace BookingApp.Service
         {
             touristRepository.Subscribe(observer);
         }
-        public int GetAgeOnTour(Tourist tourist, TourInstance tourInstance)
-        {
-            int age = tourInstance.StartTime.Year - tourist.BirthDate.Year;
-            if (tourist.BirthDate.DayOfYear > DateTime.Now.DayOfYear)
-                age--;
-            return age;
-        }
         public void GiveVoucher(int id, int years)
         {
             Tourist tourist = touristRepository.GetById(id);

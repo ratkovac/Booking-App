@@ -11,7 +11,6 @@ namespace BookingApp.Repository.RepositoryInterface
     public interface IVoucherRepository : IGenericRepository<Voucher, int>
     {
         public List<Voucher> GetWithIds(List<int> ids);
-        public List<Voucher> GetActiveVouchers(List<int> ids);
 
         public void Subscribe(IObserver observer)
         {

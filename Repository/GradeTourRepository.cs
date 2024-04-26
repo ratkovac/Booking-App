@@ -1,7 +1,7 @@
 ﻿using BookingApp.Model;
 using BookingApp.Repository.RepositoryInterface;
 using BookingApp.Serializer;
-using BookingApp.View.Tourist.Pages;
+using BookingApp.WPF.View.Tourist.Pages;
 using CLI.Observer;
 using System;
 using System.Collections.Generic;
@@ -74,6 +74,10 @@ namespace BookingApp.Repository
         public List<GradeTour> GetAllRatingsByTour(BookingApp.Model.TourReservation tourReservation)
         {
             return _gradeTour.Where(r => r.Id == tourReservation.Id).ToList();
+        }
+        public bool HasTouristGradedTour(int touristId, int tourInstanceId)
+        {
+            return _gradeTour.Any(r => r.TouristId == touristId && r.TourReservation.TourInstanceId == tourInstanceId);
         }
         public void Subscribe(IObserver observer)
         {
