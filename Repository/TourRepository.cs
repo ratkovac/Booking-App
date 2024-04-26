@@ -10,10 +10,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using BookingApp.Repository.RepositoryInterface;
 
 namespace BookingApp.Repository
 {
-    public class TourRepository
+    public class TourRepository : ITourRepository
     {
         private const string FilePath = "../../../Resources/Data/tours.csv";
 
@@ -43,6 +44,14 @@ namespace BookingApp.Repository
             _serializer.ToCSV(FilePath, _tours);
             return tour;
         }
+        public void Create(Tour tour)
+        {
+            tour.Id = NextId();
+            _tours = _serializer.FromCSV(FilePath);
+            _tours.Add(tour);
+            TourSubject.NotifyObservers();
+            _serializer.ToCSV(FilePath, _tours);
+        }
 
         public int NextId()
         {
@@ -67,7 +76,7 @@ namespace BookingApp.Repository
 
         }
 
-        public Tour Update(Tour tour)
+        public void Update(Tour tour)
         {
             _tours = _serializer.FromCSV(FilePath);
             Tour current = _tours.Find(t => t.Id == tour.Id);
@@ -76,7 +85,6 @@ namespace BookingApp.Repository
             _tours.Insert(index, tour); 
             _serializer.ToCSV(FilePath, _tours);
             TourSubject.NotifyObservers();
-            return tour;
         }
 
         public List<Tour> GetToursForToday()

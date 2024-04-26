@@ -8,42 +8,61 @@
       d:DesignHeight="750" d:DesignWidth="430"
       Title="TourStatisticPage">
 
+    <Page.Resources>
+        <!-- Include your resource dictionary here -->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    
     <StackPanel Orientation="Vertical">
-        <Grid Margin="20, 40, 20, 10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="{Binding BestTour.Id}"/>
-            <TextBlock Grid.Column="1" Text="{Binding BestTour.Name}"/>
-            <TextBlock Grid.Column="2" Text="{Binding MostTourists}" HorizontalAlignment="Center"/>
-        </Grid>
-        <StackPanel Orientation="Horizontal" Margin="40, 10, 40, 20">
-            <CheckBox Name="cbOverall" Content="Overall" Margin="5, 10, 100, 10" IsChecked="True" Checked="cbOverall_Checked"/>
-            <CheckBox Name="cbSpecificYear" Content="Specific Year" Margin="5, 10, 10, 10" Checked="cbSpecificYear_Checked"/>
-            <TextBox Name="txtYear" Width="75" Margin="5, 10, 10, 10"/>
-        </StackPanel>
-        <StackPanel Orientation="Vertical" Margin="20">
-            <ComboBox x:Name="cbTour" Grid.Row="0" ItemsSource="{Binding TourInstances}" DisplayMemberPath="Id" 
-                    SelectedItem="{Binding SelectedTourInstance}" SelectionChanged="cbTour_SelectionChanged" Margin="10,0,0,0"/>
-            <Grid Height="120" Margin="10">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+        <GroupBox Margin="40,20,40,0"  Style="{StaticResource StyleForGroupBox}">
+            <GroupBox.Header>
+                <TextBlock Text="★ Most Visted Tour" FontSize="12"/>
+            </GroupBox.Header>
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Under 18 years:" VerticalAlignment="Center"/>
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Between 18-50 years:" VerticalAlignment="Center"/>
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="Above 50 years:" VerticalAlignment="Center"/>
-                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding AgeGroups.Under18}" VerticalAlignment="Center"/>
-                <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding AgeGroups.Between18And50}" VerticalAlignment="Center"/>
-                <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding AgeGroups.Above50}" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="0" Style="{StaticResource StyleForTextBlock}">
+                    <Run Text="{Binding BestTour.Id}" FontSize="15" />
+                    <Run Text=" |" FontSize="15"/>
+                </TextBlock>
+                <TextBlock Grid.Column="1" Text="{Binding BestTour.Name}" FontSize="15" Style="{StaticResource StyleForTextBlock}"/>
+                <TextBlock Grid.Column="2" Text="{Binding MostTourists}" HorizontalAlignment="Left" FontSize="15"  Style="{StaticResource StyleForTextBlock}"/>
             </Grid>
+        </GroupBox>
+        <StackPanel Orientation="Horizontal" Margin="40, 10, 40, 20">
+            <CheckBox x:Name="cbOverall" Content="Overall" Margin="5, 10, 100, 10" IsChecked="True" Checked="cbOverall_Checked"/>
+            <CheckBox x:Name="cbSpecificYear" Content="Specific Year" Margin="5, 10, 10, 10" Checked="cbSpecificYear_Checked"/>
+            <TextBox Name="txtYear" Width="75" Margin="5, 10, 10, 10"/>
         </StackPanel>
+        <GroupBox Header="Tour Stats" Margin="40,20,40,0"  Style="{StaticResource StyleForGroupBox}">
+            <StackPanel Orientation="Vertical" Margin="20">
+                <ComboBox x:Name="cbTour" Grid.Row="0" ItemsSource="{Binding TourInstances}" DisplayMemberPath="Id" 
+                    SelectedItem="{Binding SelectedTourInstance}" SelectionChanged="cbTour_SelectionChanged" Margin="10,0,0,0" Style="{StaticResource ComboBoxStyle}"/>
+                <Grid Height="120" Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Under 18 years:" VerticalAlignment="Center" Style="{StaticResource StyleForTextBlock}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Between 18-50 years:" VerticalAlignment="Center" Style="{StaticResource StyleForTextBlock}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Above 50 years:" VerticalAlignment="Center" Style="{StaticResource StyleForTextBlock}"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding AgeGroups.Under18}" VerticalAlignment="Center" Style="{StaticResource StyleForTextBlock}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding AgeGroups.Between18And50}" VerticalAlignment="Center" Style="{StaticResource StyleForTextBlock}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding AgeGroups.Above50}" VerticalAlignment="Center" Style="{StaticResource StyleForTextBlock}"/>
+                </Grid>
+            </StackPanel>
+        </GroupBox>
     </StackPanel>
 </Page>

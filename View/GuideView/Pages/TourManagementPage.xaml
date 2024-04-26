@@ -24,20 +24,23 @@
         <!-- MainFrame for navigating between pages -->
         <Frame x:Name="MainFramee" NavigationUIVisibility="Hidden" Margin="0,44,0,0">
             <Frame.Background>
-                <ImageBrush ImageSource="pozadinaNebo.jpg"/>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#87CEEB" Offset="0"/>
+                    <GradientStop Color="#4682B4" Offset="1"/>
+                </LinearGradientBrush>
             </Frame.Background>
             <!-- Content area -->
             <Frame.Content>
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="430" Height="706">
                     <!-- Button for navigating to CreateTourPage -->
-                    <Button x:Name="btnCreateTour" Content="Create Tour" Height="40" Click="btnCreateTour_Click" Margin="30, 50, 30, 10" Style="{StaticResource AddButtonStyle}"/>
-                    <Button x:Name="btnTrackTourLive" Content="Track Tour Live" Height="40" Click="btnTrackTourLive_Click" Margin="30, 30, 30, 10" Style="{StaticResource AddButtonStyle}"/>
-                    <Button x:Name="btnTourStatistics" Content="Tour Statistics" Height="40" Click="btnTourStatistics_Click" Margin="30, 30, 30, 10" Style="{StaticResource AddButtonStyle}"/>
-                    <Button x:Name="btnTourReviews" Content="Tour Reviews" Height="40" Click="btnTourReviews_Click" Margin="30, 30, 30, 10" Style="{StaticResource AddButtonStyle}"/>
-                    <Button x:Name="btnCancelTour" Content="Cancel Tour" Height="40" Click="btnCancelTour_Click" Margin="30, 30, 30, 10" Style="{StaticResource AddButtonStyle}"/>
-                    <Button x:Name="btnTourRequests" Content="Tour Requests" Height="40" Click="btnTourRequests_Click" Margin="30, 30, 30, 10" Style="{StaticResource AddButtonStyle}"/>
-                    <Button x:Name="btnCustomizeTour" Content="Customize Tour" Height="40" Click="btnCustomizeTour_Click" Margin="30, 30, 30, 10" Style="{StaticResource AddButtonStyle}"/>
-                    <Button x:Name="btnRequestsStatistics" Content="Requests Statistics" Height="40" Click="btnRequestsStatistics_Click" Margin="30, 30, 30, 10" Style="{StaticResource AddButtonStyle}"/>
+                    <Button x:Name="btnCreateTour" Content="Create Tour" Height="80" Click="btnCreateTour_Click" Margin="5, 50, 5, 0" Style="{StaticResource AddButtonStyle}"/>
+                    <Button x:Name="btnTrackTourLive" Content="Track Tour Live" Height="80" Click="btnTrackTourLive_Click" Margin="5, 0, 5, 0" Style="{StaticResource AddButtonStyle}"/>
+                    <Button x:Name="btnTourStatistics" Content="Tour Statistics" Height="80" Click="btnTourStatistics_Click" Margin="5, 0, 5, 0"  Style="{StaticResource AddButtonStyle}"/>
+                    <Button x:Name="btnTourReviews" Content="Tour Reviews" Height="80" Click="btnTourReviews_Click" Margin="5, 0, 5, 0" Style="{StaticResource AddButtonStyle}"/>
+                    <Button x:Name="btnCancelTour" Content="Cancel Tour" Height="80" Click="btnCancelTour_Click" Margin="5, 0, 5, 0" Style="{StaticResource AddButtonStyle}"/>
+                    <Button x:Name="btnTourRequests" Content="Tour Requests" Height="80" Click="btnTourRequests_Click" Margin="5, 0, 5, 0" Style="{StaticResource AddButtonStyle}"/>
+                    <Button x:Name="btnCustomizeTour" Content="Customize Tour" Height="80" Click="btnCustomizeTour_Click" Margin="5, 0, 5, 0" Style="{StaticResource AddButtonStyle}"/>
+                    <Button x:Name="btnRequestsStatistics" Content="Requests Statistics" Height="80" Click="btnRequestsStatistics_Click" Margin="5, 0, 5, 0" Style="{StaticResource AddButtonStyle}"/>
                 </StackPanel>
             </Frame.Content>
         </Frame>

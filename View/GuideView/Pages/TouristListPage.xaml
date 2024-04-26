@@ -8,14 +8,14 @@
       d:DesignHeight="750" d:DesignWidth="430"
       Title="TouristListPage">
 
+
     <Grid>
         <DataGrid ItemsSource="{Binding TourGuests}" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Checkbox">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsPresent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              Checked="CheckBox_Checked" />
+                            <CheckBox IsChecked="{Binding CheckpointId, Mode=OneWay}" Checked="CheckBox_Checked"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
