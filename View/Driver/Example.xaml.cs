@@ -24,11 +24,39 @@ namespace BookingApp.View.Driver
             LoggedDriver = driver;
             viewModel = new StatisticsViewModel(LoggedDriver);
             DataContext = viewModel;
+            MessageBox.Show("If you need any kind of Help Press CTRL+H", "Help");
         }
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
             viewModel.Back_Click();
             Window.GetWindow(this)?.Close();
+        }
+
+        private void btnOpenVehicleRegistration_Click(object sender, RoutedEventArgs e)
+        {
+            Driver.VehicleRegistrationWindow vehicleRegistrationWindow = new Driver.VehicleRegistrationWindow(LoggedDriver);
+            vehicleRegistrationWindow.Show();
+            Close();
+        }
+
+
+        private void btnShowDrives_Click(object sender, RoutedEventArgs e)
+        {
+            Driver.DrivesWindow driveWindow = new Driver.DrivesWindow(LoggedDriver);
+            driveWindow.Show();
+            Close();
+        }
+
+        private void btnNotifications_Click(object sender, RoutedEventArgs e)
+        {
+            Driver.NotificationWindow notificationWindow = new NotificationWindow(LoggedDriver);
+            notificationWindow.Show();
+            Close();
+        }
+
+        private void btnHelp_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

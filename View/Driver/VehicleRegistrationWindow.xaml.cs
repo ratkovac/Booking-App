@@ -43,6 +43,9 @@ namespace BookingApp.View.Driver
 
         public DriverFrontPage driverFrontPage;
         public ObservableCollection<VehicleDTO> VehicleDTOList { get; set; } = new ObservableCollection<VehicleDTO>();
+        public ObservableCollection<Language> Languages { get; set; } = new ObservableCollection<Language>();
+        public ObservableCollection<Language> SelectedLanguages { get; set; } = new ObservableCollection<Language>();
+        private List<int> selectedLanguageIndexes = new List<int>();
 
 
         public VehicleRegistrationWindow(User user)
@@ -56,6 +59,8 @@ namespace BookingApp.View.Driver
             vehicleDTO = new VehicleDTO();
             _languageRepository = new LanguageRepository();
             Window_Loaded(this, null);
+
+            Languages = new ObservableCollection<Language>(_languageRepository.GetAllLanguages());
 
 
             driverFrontPage = new DriverFrontPage(user);
@@ -177,7 +182,7 @@ namespace BookingApp.View.Driver
         List<Language> languages = new List<Language>();
         private void AddLanguage_Click(object sender, RoutedEventArgs e)
         {
-            string languageName = LanguagesTextBox.Text;
+            /*string languageName = LanguagesTextBox.Text;
 
             if (!string.IsNullOrWhiteSpace(languageName))
             {
@@ -187,7 +192,7 @@ namespace BookingApp.View.Driver
                 {
                     Language language = new Language(languageId, languageName);
                     languages.Add(language);
-                    LanguagesTextBox.Text = "";
+                    //LanguagesTextBox.Text = "";
                     LanguagesLabelError.Content = "Language added successfully. ";
                     LanguagesLabelError.Foreground = Brushes.Black;
                     LanguagesLabelError.FontSize = 10;
@@ -204,7 +209,7 @@ namespace BookingApp.View.Driver
                 LanguagesLabelError.Content = "Type language first. ";
                 CountryLabelError.Foreground = Brushes.Red;
                 LanguagesLabelError.FontSize = 10;
-            }
+            }*/
         }
         private void LanguageError()
         {
@@ -227,7 +232,13 @@ namespace BookingApp.View.Driver
                 LocationError();
                 return null;
             }
-            vehicle.Languages = languages;
+            var selectedLanguages = Languages.Where(language => selectedLanguageIndexes.Contains(language.Id)).ToList();
+            if (selectedLanguages.Count == 0)
+            {
+                // Obavijestite korisnika ako nije odabrao jezik
+                MessageBox.Show("Please select at least one language.");
+                return null;
+            }
             vehicle.Locations = locations;
             vehicle.DriverId = LoggedInUser.Id;
             vehicle.Capacity = int.Parse(MaxCapacityTextBox.Text);
@@ -280,8 +291,27 @@ namespace BookingApp.View.Driver
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
-            Window.GetWindow(this)?.Close();
-            driverFrontPage.Show();
+            Driver.Example example = new Driver.Example(LoggedInUser);
+            example.Show();
+            Close();
+        }
+        private void LanguageCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            var checkBox = sender as CheckBox;
+            var language = checkBox.DataContext as Language;
+
+            // Dodajemo odabrani jezik u listu SelectedLanguages
+            SelectedLanguages.Add(language);
+        }
+
+        // Metoda koja se poziva kada se odznači jezik
+        private void LanguageCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            var checkBox = sender as CheckBox;
+            var language = checkBox.DataContext as Language;
+
+            // Uklanjamo odabrani jezik iz liste SelectedLanguages
+            SelectedLanguages.Remove(language);
         }
 
     }

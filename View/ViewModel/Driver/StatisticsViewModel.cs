@@ -8,6 +8,7 @@ using BookingApp.Model;
 using System.Windows;
 using BookingApp.View.Driver;
 using System.ComponentModel;
+using System.Windows.Media;
 
 namespace BookingApp.ViewModel.Driver
 {
@@ -70,7 +71,7 @@ namespace BookingApp.ViewModel.Driver
             _successfulDrivesRepository = new SuccessfulDrivesRepository();
             _drivesDrivenRepository = new DrivesDrivenRepository();
             _driverStatsRepository = new DriverStatsRepository();
-            ComboBoxItems = _successfulDrivesRepository.GetYears();
+            ComboBoxItems = new ObservableCollection<string>(_successfulDrivesRepository.GetYears());
             Year = "2024";
 
             InitializeCharts();
@@ -93,7 +94,10 @@ namespace BookingApp.ViewModel.Driver
             LineSeries seriesLine1 = new LineSeries
             {
                 Title = "Average Price",
-                Values = avgPrices
+                Values = avgPrices,
+                Stroke = Brushes.Black,
+                PointForeground = Brushes.Black,
+                StrokeThickness = 2
             };
 
             SeriesCollection1.Add(seriesLine1);
@@ -108,7 +112,10 @@ namespace BookingApp.ViewModel.Driver
             LineSeries seriesLine2 = new LineSeries
             {
                 Title = "Average Duration",
-                Values = avgDurations
+                Values = avgDurations,
+                Stroke = Brushes.Black,
+                PointForeground = Brushes.Black,
+                StrokeThickness = 2
             };
 
             SeriesCollection2.Add(seriesLine2);
@@ -123,7 +130,10 @@ namespace BookingApp.ViewModel.Driver
             LineSeries seriesLine3 = new LineSeries
             {
                 Title = "Number of Drives",
-                Values = Counts
+                Values = Counts,
+                Stroke = Brushes.Black,
+                PointForeground = Brushes.Black,
+                StrokeThickness = 2
             };
 
             SeriesCollection3.Add(seriesLine3);
@@ -131,13 +141,13 @@ namespace BookingApp.ViewModel.Driver
 
         private double FindAvgPrice(int month)
         {
-            ObservableCollection<int> idsPerMonth = _successfulDrivesRepository.GetDriveIdsByMonthAndYear(month, int.Parse(Year), LoggedDriver.Id);
+            ObservableCollection<int> idsPerMonth = new ObservableCollection<int>(_successfulDrivesRepository.GetDriveIdsByMonthAndYear(month, int.Parse(Year), LoggedDriver.Id));
             return _drivesDrivenRepository.CalculateAveragePriceForDrives(idsPerMonth);
         }
 
         private double FindAvgDuration(int month)
         {
-            ObservableCollection<int> idsPerMonth = _successfulDrivesRepository.GetDriveIdsByMonthAndYear(month, int.Parse(Year), LoggedDriver.Id);
+            ObservableCollection<int> idsPerMonth = new ObservableCollection<int>(_successfulDrivesRepository.GetDriveIdsByMonthAndYear(month, int.Parse(Year), LoggedDriver.Id));
             return _drivesDrivenRepository.CalculateAverageDurationForDrives(idsPerMonth);
         }
 

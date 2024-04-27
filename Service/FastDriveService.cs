@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace BookingApp.Service
 {
@@ -53,6 +54,15 @@ namespace BookingApp.Service
         public void Subscribe(IObserver observer)
         {
             fastDriveRepository.Subscribe(observer);
+        }
+
+        internal bool CheckDuration(double duration)
+        {
+            if (duration > 35)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

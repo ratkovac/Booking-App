@@ -49,5 +49,11 @@ namespace BookingApp.View.Driver
             }
         }
 
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            Driver.Example example = new Driver.Example(LoggedDriver);
+            example.Show();
+            Close();
+        }
     }
 }

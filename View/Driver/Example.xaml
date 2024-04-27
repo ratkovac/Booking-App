@@ -6,39 +6,185 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BookingApp.View.Driver"
         mc:Ignorable="d"
-        Title="Example" Height="450" Width="800">
+        Title="Example" Height="500" Width="1000"
+        MinHeight="500" MaxHeight="500"
+        MinWidth="1000" MaxWidth="1000">
 
-    <Grid Margin="10">
-        <ComboBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,10,10,10"
-          ItemsSource="{Binding ComboBoxItems}"
-          SelectedItem="{Binding Year, Mode=TwoWay}"
-          >
-        </ComboBox>
-        <Button x:Name="btnBack" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Click="btnBack_Click"/>
-        <lvc:CartesianChart Name="MyChart1" Width="250" Height="170" HorizontalAlignment="Left" VerticalAlignment="Bottom" Series="{Binding SeriesCollection1}">
-        </lvc:CartesianChart>
-        <lvc:CartesianChart Name="MyChart2" Width="250" Height="170" HorizontalAlignment="Center" VerticalAlignment="Bottom" Series="{Binding SeriesCollection2}">
-        </lvc:CartesianChart>
-        <lvc:CartesianChart Name="MyChart3" Width="250" Height="170" HorizontalAlignment="Right" VerticalAlignment="Bottom" Series="{Binding SeriesCollection3}">
-        </lvc:CartesianChart>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,121,0,0">
-            <StackPanel.Resources>
-                <Style TargetType="ProgressBar">
-                    <Setter Property="Width" Value="150"/>
-                    <Setter Property="Height" Value="15"/>
-                    <Setter Property="Margin" Value="0"/>
-                </Style>
-                <Style TargetType="TextBlock">
-                    <Setter Property="HorizontalAlignment" Value="Center"/>
-                    <Setter Property="Margin" Value="0,5"/>
-                </Style>
-            </StackPanel.Resources>
-            <TextBlock Text="Fast drives"/>
-            <ProgressBar Name="FastDrivesProgressBar" Value="{Binding FastDrivesValue}" Maximum="{Binding MaxFastDrivesValue}"/>
-            <TextBlock Text="Bonus points"/>
-            <ProgressBar Name="BonusPointsProgressBar" Value="{Binding BonusPointsValue}" Maximum="{Binding MaxBonusPointsValue}"/>
-            <TextBlock Text="Cancelled drives"/>
-            <ProgressBar Name="CancelledDrivesProgressBar" Value="{Binding CancelledDrivesValue}" Maximum="{Binding MaxCancelledDrivesValue}"/>
-        </StackPanel>
+    <Window.Resources>
+        <!-- Stil za dugmice -->
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="20">
+                            <!-- Radijus zaobljenja ivica -->
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Stil za ComboBox -->
+        <Style TargetType="ComboBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="0" Background="PaleTurquoise">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0">
+                    <StackPanel Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="2" Height="Auto" Width="Auto" MinHeight="200" MinWidth="200" Margin="0,80,60,0">
+                        <Button x:Name="btnOpenVehicleRegistration"  Content="Vehicle Registration" Height="Auto" MinHeight="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Click="btnOpenVehicleRegistration_Click"/>
+                        <Button x:Name="btnShowDrives" Content="Drives" Height="Auto" MinHeight="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Click="btnShowDrives_Click"/>
+                        <Button x:Name ="btnNotifications" Content="Notifications" Height="Auto" MinHeight="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Click="btnNotifications_Click"/>
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="20" Margin="20 0 20 10">
+                        <!-- Zaobljenost ivica -->
+                        <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="30 120 30 10" Width="Auto" Height="Auto">
+                            <StackPanel.Resources>
+                                <!-- Stil za ProgressBar -->
+                                <Style TargetType="ProgressBar">
+                                    <Setter Property="Width" Value="150"/>
+                                    <Setter Property="Height" Value="15"/>
+                                    <Setter Property="Margin" Value="0"/>
+                                    <Setter Property="Foreground" Value="PaleTurquoise"/>
+                                    <Setter Property="BorderThickness" Value="2"/>
+                                    <Setter Property="BorderBrush" Value="Black"/>
+                                    <!-- Promenjena boja progress bara -->
+                                    <Setter Property="Background" Value="White"/>
+                                    <!-- Promenjena pozadina progress bara -->
+                                </Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="Black"/>
+                                    <!-- Boja teksta -->
+                                    <Setter Property="FontSize" Value="16"/>
+                                    <!-- Veličina fonta -->
+                                    <Setter Property="FontFamily" Value="Segoe UI"/>
+                                    <!-- Font -->
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                    <!-- Boldiranje -->
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="Margin" Value="0,5"/>
+                                </Style>
+                            </StackPanel.Resources >
+                            <TextBlock Text="Fast drives" Width="Auto" Height="Auto" MinHeight="20"/>
+                            <ProgressBar Name="FastDrivesProgressBar" Value="{Binding FastDrivesValue}" Maximum="{Binding MaxFastDrivesValue}" Width="Auto" Height="Auto" MinHeight="20"/>
+                            <TextBlock Text="Bonus points" Width="Auto" Height="Auto" MinHeight="20"/>
+                            <ProgressBar Name="BonusPointsProgressBar" Value="{Binding BonusPointsValue}" Maximum="{Binding MaxBonusPointsValue}" Width="Auto" Height="Auto" MinHeight="20"/>
+                            <TextBlock Text="Cancelled drives" Width="Auto" Height="Auto" MinHeight="20"/>
+                            <ProgressBar Name="CancelledDrivesProgressBar" Value="{Binding CancelledDrivesValue}" Maximum="{Binding MaxCancelledDrivesValue}" Width="Auto" Height="Auto" MinHeight="20"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <ComboBox Grid.Column="0"  HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,10,10,10"
+                      ItemsSource="{Binding ComboBoxItems}"
+                      SelectedItem="{Binding Year, Mode=TwoWay}" />
+                    <Button x:Name="btnHelp" VerticalAlignment="Bottom" FontSize="14" HorizontalAlignment="Center" Width="100" Height="61" Margin="0,0,0,0" Click="btnHelp_Click">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="0,0,0,0">    
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                                <Setter Property="BorderBrush" Value="Black"/>
+                                <Setter Property="FontFamily" Value="Segoe UI"/>
+                            </Style>
+                        </Button.Style>
+                        <TextBlock TextWrapping="Wrap" TextAlignment="Center">
+                            <Run>For Help Click</Run>
+                            <LineBreak />
+                            <Run>CTRL+H</Run>
+                        </TextBlock>
+                    </Button>
+                </Grid>
+                <lvc:CartesianChart Name="MyChart1" Grid.Column="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Series="{Binding SeriesCollection1}">
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Foreground="Black">
+                        </lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis Foreground="Black">
+                        </lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
+                </lvc:CartesianChart>
+
+                <lvc:CartesianChart Name="MyChart2" Grid.Column="2"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Series="{Binding SeriesCollection2}">
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Foreground="Black">
+                        </lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis Foreground="Black">
+                        </lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
+                </lvc:CartesianChart>
+
+                <lvc:CartesianChart Name="MyChart3" Grid.Column="3"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Series="{Binding SeriesCollection3}">
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Foreground="Black">
+                        </lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis Foreground="Black">
+                        </lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
+                </lvc:CartesianChart>
+            </Grid>
+        </Grid>
     </Grid>
+
 </Window>

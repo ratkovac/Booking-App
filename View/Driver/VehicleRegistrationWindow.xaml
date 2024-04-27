@@ -84,18 +84,32 @@
                     <Label x:Name="MaxCapacityLabelError" Grid.Column="1" Height="21" Width="24" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Margin="0 0 0 0"/>
                 </StackPanel>
                 <Label Content="Languages"></Label>
-                <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
-                    <TextBox Name="LanguagesTextBox" Width="124" Text=""/>
-                    <Button Content="+" Click="AddLanguage_Click" Width="24" Margin="10 0 0 0"/>
-                </StackPanel>
+                <GroupBox Header="Languages">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <ItemsControl Grid.Column="0" ItemsSource="{Binding Languages}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected, Mode=TwoWay}" Checked="LanguageCheckBox_Checked" Unchecked="LanguageCheckBox_Unchecked"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <Grid Grid.Column="1"></Grid>
+                    </Grid>
+                </GroupBox>
                 <Label x:Name="LanguagesLabelError" Height="30" HorizontalContentAlignment="Left" VerticalContentAlignment="Top"/>
                 <Button x:Name="btnAddImage" Content="Add Image" Click="btnAddImage_Click" Width="158" HorizontalAlignment="Left" Margin="0 0 0 10"/>
                 <Button x:Name="btnRegisterVehicle" Content="Register Vehicle" Width="158" Height="24" HorizontalAlignment="Left" Click="btnRegisterVehicle_Click"/>
             </StackPanel>
         </GroupBox>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10 20">
-            <Button x:Name="btnHelp" Content="Help(CTRL+H)" Width="111" Height="41" Margin="10 10 10 0" Click="btnHelp_Click"/>
-            <Button x:Name="btnBack" Content="&#8592;" FontSize="16" HorizontalAlignment="Left" Width="40" Height="32" Margin="10 10 10 10" Click="btnBack_Click"/>
+            <Button x:Name="btnBack" Content="&#8592;" FontSize="16" HorizontalAlignment="Left" Width="40" Height="32" Margin="10 0 10 10" Click="btnBack_Click"/>
+            <Button x:Name="btnHelp" Content="Help(CTRL+H)" Width="90" Height="41" Margin="10 0 10 0" Click="btnHelp_Click"/>
         </StackPanel>
     </Grid>
 </Window>

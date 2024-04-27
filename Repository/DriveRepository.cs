@@ -69,11 +69,11 @@ namespace BookingApp.Repository
             return drive;
         }
 
-        public ObservableCollection<Drive> GetDrivesByDriver(User user)
+        public List<Drive> GetDrivesByDriver(User user)
         {
             _drives = _serializer.FromCSV(FilePath);
             List<Drive> filteredDrives = _drives.FindAll(c => c.Driver.Id == user.Id);
-            return new ObservableCollection<Drive>(filteredDrives);
+            return new List<Drive>(filteredDrives);
         }
 
         public List<Drive> GetByDriverId(int driverId)

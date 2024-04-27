@@ -84,8 +84,8 @@ namespace BookingApp.View
                             Close();
                             break;
                         case "Driver":
-                            Driver.DriverFrontPage driverFrontPage = new Driver.DriverFrontPage(user);
-                            driverFrontPage.Show();
+                            Driver.Example example = new Driver.Example(user);
+                            example.Show();
                             Close();
                             break;
                         default:
