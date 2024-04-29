@@ -18,7 +18,6 @@
             <Setter Property="Padding" Value="8,5"/>
             <Setter Property="Background" Value="White"/>
             <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="FontFamily" Value="Tahoma"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="FontSize" Value="10"/>
             <Setter Property="Template">
@@ -36,7 +35,7 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Image Source="C:\Users\Korisnik\OneDrive\Radna površina\ProjekatSIMS\sims-ra-2024-group-7-team-a\Icon\zoom.png"
+                                    <Image Source="\Icon\zoom.png"
                                    Grid.Column="0"        
                                    Width="16" 
                                    Height="16" 
@@ -258,7 +257,6 @@
             <Setter Property="Padding" Value="8,5"/>
             <Setter Property="Background" Value="White"/>
             <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="FontFamily" Value="Tahoma"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="FontSize" Value="10"/>
             <Setter Property="Template">
@@ -542,6 +540,7 @@
             <Setter Property="FontFamily" Value="{StaticResource PoppinsBlack}"/>
             <Setter Property="Foreground" Value="Black"/>
         </Style>
+
         <Style TargetType="DatePicker" x:Key="ReservationDatePicker">
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="Padding" Value="20,0"/>
