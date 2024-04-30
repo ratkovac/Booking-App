@@ -19,11 +19,8 @@ namespace BookingApp.WPF.ViewModel.Tourist
         public ObservableCollection<Voucher> ListVoucher { get; set; }
 
         private VoucherService voucherService;
-
         private TourInstanceService tourInstanceService;
-
-        private TourReservationRepository tourReservationRepository;
-        private TouristService touristService;
+        private TourReservationService tourReservationService;
 
         public UseVoucherViewModel(BookingApp.Model.Tourist t, TourInstance ti)
         {
@@ -31,8 +28,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
             tourInstance = ti;
             voucherService = new VoucherService();
             tourInstanceService = new TourInstanceService();
-            tourReservationRepository = new TourReservationRepository();
-            touristService = new TouristService();
+            tourReservationService = new TourReservationService();
             ListVoucher = new ObservableCollection<Voucher>(voucherService.GetActiveVouchers(tourist.VoucherIds));
 
         }
@@ -51,7 +47,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
             {
                 reservation = new TourReservation(tourInstance.Id, tourist.Id, true, false);
             }
-            tourReservationRepository.Save(reservation);
+            tourReservationService.Create(reservation);
             tourInstance.AvailableSlots -= numberGuests;
             tourInstanceService.Update(tourInstance);
             return "Rezervacija uspjesna! \nKorisnik " + tourist.Name + " " + tourist.LastName +
