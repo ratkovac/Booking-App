@@ -23,6 +23,8 @@
                 <DataGridTextColumn Header="AccommodationType" Binding="{Binding Accommodation.Type}" ElementStyle="{StaticResource DataGridCenteringStyle}" />
                 <DataGridTextColumn Header="Capacity" Binding="{Binding Capacity}" ElementStyle="{StaticResource DataGridCenteringStyle}" />
                 <DataGridTextColumn Header="DaysBeforeCancel" Binding="{Binding Accommodation.DaysBeforeCancel}" ElementStyle="{StaticResource DataGridCenteringStyle}" />
+                <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate}" ElementStyle="{StaticResource DataGridCenteringStyle}" />
+                <DataGridTextColumn Header="End Date" Binding="{Binding EndDate}" ElementStyle="{StaticResource DataGridCenteringStyle}" />
                 <DataGridTemplateColumn Header="Delay">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

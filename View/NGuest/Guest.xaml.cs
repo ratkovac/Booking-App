@@ -17,6 +17,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BookingApp.GUI_Elements;
+using BookingApp.Service;
 using BookingApp.View.NGuest;
 using BookingApp.View.ViewModel.Guest;
 using static BookingApp.Model.AccommodationTypeEnum;
@@ -35,6 +37,9 @@ namespace BookingApp.View
         public ObservableCollection<AccommodationDTO> Accommodations { get; set; }
         public ObservableCollection<string> Locations { get; set; }
         public ICollectionView FilteredAccommodations { get; set; }
+
+        private DelayReservationService delayReservationService { get; set; }
+        private ObservableCollection<DelayReservation> DelayReservations { get; set; }
         public User LoggedInUser { get; set; }
         public Guest(User loggedInUser)
         {
@@ -51,11 +56,13 @@ namespace BookingApp.View
 
             SelectedAccommodation = new AccommodationDTO();
 
+            delayReservationService = new DelayReservationService();
+            DelayReservations = new ObservableCollection<DelayReservation>();
+
 
             Update();
             LoggedInUser = loggedInUser;
 
-            
         }
 
         private string searchText;
@@ -229,7 +236,7 @@ namespace BookingApp.View
 
         bool IsCheckedAccomodationType(AccommodationDTO accommodation)
         {
-            bool anyChecked = checkBoxOption1.IsChecked.GetValueOrDefault() ||
+            /*bool anyChecked = checkBoxOption1.IsChecked.GetValueOrDefault() ||
                               checkBoxOption2.IsChecked.GetValueOrDefault() ||
                               checkBoxOption3.IsChecked.GetValueOrDefault();
 
@@ -244,7 +251,8 @@ namespace BookingApp.View
             bool matchesTypeHouse = checkBoxOption3.IsChecked.GetValueOrDefault() &&
                                     accommodation.Type == AccommodationType.House;
 
-            return matchesTypeApartment || matchesTypeHut || matchesTypeHouse;
+            return matchesTypeApartment || matchesTypeHut || matchesTypeHouse;*/
+            return true;
         }
         public void Update()
         {
@@ -262,6 +270,18 @@ namespace BookingApp.View
             {
                 Locations.Add(location.ToString());
             }
+
+            DelayReservations.Clear();
+            foreach (DelayReservation delayReservation in delayReservationService.GetAll())
+            {
+                DelayReservations.Add(delayReservation);
+                if (delayReservation.Status == DelayReservationStatusEnum.Approved ||
+                    delayReservation.Status == DelayReservationStatusEnum.Declined)
+                {
+                    //MyReservationsButton.Background = Brushes.Red;
+                }
+            }
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -271,17 +291,49 @@ namespace BookingApp.View
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void OnClickButton(object sender, RoutedEventArgs e)
-        {
-            Reservation reservation = new Reservation(SelectedAccommodation, user);
-            reservation.Show();
-        }
 
         private void MyReservations_Click(object sender, RoutedEventArgs e)
         {
             MyReservationViewModel myReservationViewModel = new MyReservationViewModel(LoggedInUser);
             MyReservation myReservation = new MyReservation(myReservationViewModel);
             myReservation.Show();
+        }
+
+        private void Rate_Click(object sender, RoutedEventArgs e)
+        {
+            RateAcciommodationViewModel rateAcciommodationViewModel = new RateAcciommodationViewModel(LoggedInUser);
+            RateAccommodations rateAccommodations = new RateAccommodations(rateAcciommodationViewModel);
+            rateAccommodations.Show();
+        }
+
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
+        }
+        private void ContentControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var contentControl = sender as ContentControl;
+            if (contentControl != null)
+            {
+                var accommodation = contentControl.DataContext as AccommodationDTO;
+                if (accommodation != null)
+                {
+                    ItemsControlExtensions.SetSelectedItem(contentControl, accommodation);
+                    Reservation reservationPage = new Reservation(accommodation, LoggedInUser);
+                    Frame mainFrame = this.Template.FindName("MainFrame", this) as Frame;
+                    if (mainFrame != null)
+                    {
+                        mainFrame.Navigate(reservationPage);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Prazan");
+                    }
+                }
+            }
         }
     }
 }

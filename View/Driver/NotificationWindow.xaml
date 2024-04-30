@@ -9,7 +9,7 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0" Margin="10">
-            <ListBox Name="NotificationList" SelectionChanged="NotificationList_SelectionChanged" Width="200" Height="414"/>
+            <ListBox x:Name="NotificationList" ItemsSource="{Binding Notifications}" SelectedItem="{Binding SelectedNotification}" SelectionChanged="SelectionChanged" DisplayMemberPath="Caption"/>
             <!--<Button Content="Dodaj Notifikaciju" Click="AddNotification_Click" Margin="0 10"/>
             <Button Content="Ukloni Notifikaciju" Click="RemoveNotification_Click"/> -->
         </StackPanel>
@@ -17,17 +17,22 @@
         <!-- Right Panel: Message Display -->
         <StackPanel Grid.Column="1" Margin="10">
             <!-- Message Display -->
-            <TextBox Name="MessageDisplay" IsReadOnly="True" FontSize="23" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Height="75">
+            <TextBox Name="MessageDisplay" IsReadOnly="True" FontSize="23" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Height="75" Text="{Binding MessageDisplay}">
                 <TextBox.Style>
                     <Style TargetType="TextBox">
                         <Setter Property="FontWeight" Value="Bold"/>
                     </Style>
                 </TextBox.Style>
             </TextBox>
-            <TextBox Name="NotificationText" IsReadOnly="True" FontSize="20" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Height="257" Margin="0,10,0,0"/>
+            <TextBox Name="NotificationText" IsReadOnly="True" FontSize="20" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Height="257" Margin="0,10,0,0" Text="{Binding NotificationText}">
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-                <Button x:Name="btnCancel" Content="Cancel" Width="125" Margin="0,0,10,0" Height="44" Click="btnCancel_Click"/>
-                <Button x:Name="btnAccept" Content="Accept" Width="125" Click="btnAccept_Click"/>
+                <Button x:Name="btnCancel" Content="Cancel" Width="125" Margin="0,0,10,0" Height="44" Click="btnCancel_Click" Visibility="Collapsed"/>
+                <Button x:Name="btnAccept" Content="Accept" Width="125" Click="btnAccept_Click" Visibility="Collapsed"/>
             </StackPanel>
         </StackPanel>
     </Grid>

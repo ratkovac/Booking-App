@@ -33,7 +33,7 @@ namespace BookingApp.View.NGuest
 
         private void OnClick_Decline(object sender, RoutedEventArgs e)
         {
-
+            MyReservationViewModel.DeleteOnClick();
         }
 
         private void OnClick_Delay(object sender, RoutedEventArgs e)

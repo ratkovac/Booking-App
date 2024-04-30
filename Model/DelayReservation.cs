@@ -39,17 +39,19 @@ namespace BookingApp.Model
 
         public string[] ToCSV()
         {
+            string read = Read ? "READ" : "UNREAD";
             string[] values =
             {
                 Id.ToString(),
                 Reservation.Id.ToString(),
                 NewStartDate.ToString("yyyy-MM-dd"),
                 NewEndDate.ToString("yyyy-MM-dd"),
-                ("UNREAD"),
-                ("Pending")
+                read,
+                Status.ToString()
             };
             return values;
         }
+
 
 
         public void FromCSV(string[] values)
@@ -65,7 +67,7 @@ namespace BookingApp.Model
             startDateDateTime = DateTime.Parse(values[2], CultureInfo.InvariantCulture);
             endDateDateTime = DateTime.Parse(values[3], CultureInfo.InvariantCulture);
             ApplyParsedDates(startDateDateTime, endDateDateTime);
-            Read = values[4].Contains("READ");
+            Read = values[4].Contains("READ") ? true : false;
             bool success = Enum.TryParse(values[5], out DelayReservationStatusEnum status);
             Status = status;
         }

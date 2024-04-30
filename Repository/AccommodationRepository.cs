@@ -7,10 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using BookingApp.Repository.RepositoryInterface;
+using BookingApp.View.Owner;
 
 namespace BookingApp.Repository
 {
-    public class AccommodationRepository 
+    public class AccommodationRepository : IAccommodationRepository
     {
         private const string FilePath = "../../../Resources/Data/accommodations.csv";
 
@@ -51,6 +53,16 @@ namespace BookingApp.Repository
             return _accommodations.Max(c => c.Id) + 1;
         }
 
+        public void Create(Accommodation entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IGenericRepository<Accommodation, int>.Update(Accommodation entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Delete(Accommodation accommodation) 
         {
             _accommodations = _serializer.FromCSV(FilePath);
@@ -61,6 +73,11 @@ namespace BookingApp.Repository
             }
             AccommodationSubject.NotifyObservers();
             _serializer.ToCSV(FilePath, _accommodations);
+        }
+
+        public Accommodation GetById(int key)
+        {
+            return _accommodations.Find(c => c.Id == key);
         }
 
         public Accommodation Update(Accommodation accommodation)
@@ -74,6 +91,7 @@ namespace BookingApp.Repository
             AccommodationSubject.NotifyObservers();
             return accommodation;
         }
+
         /*public List<Accommodation> GetByUser(User user)
         {
             _accommodations = _serializer.FromCSV(FilePath);

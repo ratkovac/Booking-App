@@ -6,10 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+ using BookingApp.Repository.RepositoryInterface;
 
-namespace BookingApp.Repository
+ namespace BookingApp.Repository
 {
-    public class ImageRepository
+    public class ImageRepository : IImageRepository
     {
         private const string FilePath = "../../../Resources/Data/images.csv";
 
@@ -27,17 +28,6 @@ namespace BookingApp.Repository
         {
             return _serializer.FromCSV(FilePath);
         }
-
-
-        public Image Save(Image image)
-        {
-            image.Id = NextId();
-            _images = _serializer.FromCSV(FilePath);
-            _images.Add(image);
-            _serializer.ToCSV(FilePath, _images);
-            return image;
-        }
-
         public int NextId()
         {
             _images = _serializer.FromCSV(FilePath);
@@ -48,12 +38,30 @@ namespace BookingApp.Repository
             return _images.Max(i => i.Id) + 1;
         }
 
+        public void Create(Image entity)
+        {
+            entity.Id = NextId();
+            _images = _serializer.FromCSV(FilePath);
+            _images.Add(entity);
+            _serializer.ToCSV(FilePath, _images);
+        }
+
+        void IGenericRepository<Image, int>.Update(Image entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Delete(Image image)
         {
             _images = _serializer.FromCSV(FilePath);
             Image founded = _images.Find(i => i.Id == image.Id);
             _images.Remove(founded);
             _serializer.ToCSV(FilePath, _images);
+        }
+
+        public Image GetById(int key)
+        {
+            return _images.Find(c => c.Id == key);
         }
 
         public Image Update(Image image)
