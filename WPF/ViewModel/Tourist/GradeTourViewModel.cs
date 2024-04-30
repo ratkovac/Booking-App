@@ -19,9 +19,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
         public ObservableCollection<GradeTourFormViewModel> ReviewForms { get; set; }
 
         private GradeTourService _gradeTourService;
-        private TourReservationService _tourReservationService;
-        private TourImageRepository _tourImageRepository;
-        private TourGuestRepository _tourGuestRepository;
+        private TourGuestService _tourGuestService;
 
         public int TouristId { get; set; }
 
@@ -29,9 +27,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
         {
             TouristId = touristId;
             _gradeTourService = new GradeTourService();
-            _tourImageRepository = new TourImageRepository();
-            _tourGuestRepository = new TourGuestRepository();
-            _tourReservationService = new TourReservationService();
+            _tourGuestService = new TourGuestService();
             SelectedTourReservation = tourReservation;
             ReviewForms = new ObservableCollection<GradeTourFormViewModel>();
             SetReviewForms();
@@ -39,7 +35,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
 
         private void SetReviewForms()
         {
-            List<TourGuest> guests = _tourGuestRepository.GetAllByTourReservationId(SelectedTourReservation.Id);
+            List<TourGuest> guests = _tourGuestService.GetAllByTourReservationId(SelectedTourReservation.Id);
 
             foreach (var guest in guests)
             {

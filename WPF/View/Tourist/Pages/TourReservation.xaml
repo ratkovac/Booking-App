@@ -50,7 +50,7 @@
            IsReadOnly="True"
            AutoGenerateColumns="False" Margin="450,0,0,50" Width="330" Height="150">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Number of vouchers" Binding="{Binding Id}" Width="120" />
+                <DataGridTextColumn Header="Voucher id" Binding="{Binding Id}" Width="120" />
                 <DataGridTextColumn Header="Creation date" Binding="{Binding CreationDate, StringFormat={}{0:dd.MM.yyyy}}" Width="105" />
                 <DataGridTextColumn Header="Expiration date" Binding="{Binding ExpirationDate, StringFormat={}{0:dd.MM.yyyy}}" Width="*" />
             </DataGrid.Columns>

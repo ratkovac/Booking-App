@@ -15,8 +15,9 @@ namespace BookingApp.Model
         public int AvailableSlots { get; set; }
         public DateTime StartTime { get; set; }
         public TourInstanceState State { get; set; }
-        //public bool RatedTour { get; set; }
         public Tour Tour { get; set; }
+        public string CurrentCheckpoint { get; set; }
+        public bool IsCompleted { get; set; }
 
         public int GuideId { get; set; }
 
@@ -31,7 +32,8 @@ namespace BookingApp.Model
             AvailableSlots = availableSlots;
             StartTime = startTime;
             State = state;
-            //RatedTour = false;
+            CurrentCheckpoint = "START";
+            IsCompleted = false;
         }
         public TourInstance(int tourId, int availableSlots, DateTime startTime, TourInstanceState state, int guideId)
         {
@@ -40,6 +42,8 @@ namespace BookingApp.Model
             StartTime = startTime;
             State = state;
             GuideId = guideId;
+            CurrentCheckpoint = "START";
+            IsCompleted = false;
         }
 
         public static TourInstanceState GetState(string state)
@@ -71,8 +75,9 @@ namespace BookingApp.Model
             AvailableSlots.ToString(),
             StartTime.ToString(),
             State.ToString(),
-            //RatedTour.ToString()
-            GuideId.ToString()
+            GuideId.ToString(),
+            IsCompleted.ToString(),
+            CurrentCheckpoint
             };
         }
 
@@ -84,7 +89,8 @@ namespace BookingApp.Model
             StartTime = DateTime.Parse(values[3]);
             State = (TourInstanceState)Enum.Parse(typeof(TourInstanceState), values[4]);
             GuideId = Convert.ToInt32(values[5]);
-            //RatedTour = bool.Parse(values[5]);
+            IsCompleted = bool.Parse(values[6]);
+            CurrentCheckpoint = values[7];
         }
     }
 }
