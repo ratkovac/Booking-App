@@ -57,7 +57,7 @@ namespace BookingApp.Repository
             _serializer.ToCSV(FilePath, _driveDrivens);
             return driveDriven;
         }
-        public double CalculateAveragePriceForDrives(ObservableCollection<int> driveIds)
+        public double CalculateAveragePriceForDrives(List<int> driveIds)
         {
             var doneDrivesFilePath = "../../../Resources/Data/drivesDriven.csv";
             var serializer = new Serializer<DriveDriven>();
@@ -71,7 +71,7 @@ namespace BookingApp.Repository
 
             return averagePrice;
         }
-        public double CalculateAverageDurationForDrives(ObservableCollection<int> driveIds)
+        public double CalculateAverageDurationForDrives(List<int> driveIds)
         {
             var doneDrivesFilePath = "../../../Resources/Data/drivesDriven.csv";
             var serializer = new Serializer<DriveDriven>();

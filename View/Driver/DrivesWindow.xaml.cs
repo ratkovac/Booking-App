@@ -89,5 +89,10 @@ namespace BookingApp.View.Driver
                 ListDrive.Add(driveDTO);
             }
         }
+
+        private void btnCanelDrive_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

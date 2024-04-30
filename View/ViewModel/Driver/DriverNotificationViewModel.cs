@@ -13,7 +13,8 @@ public class DriverNotificationViewModel : BaseViewModel
     private DateTime StartTime;
 
     private ObservableCollection<DriveNotification> _notifications;
-    FastDriveService fastDriveService = new FastDriveService();
+    private ObservableCollection<DriveNotification> CancelledNotifications;
+
     public User LoggedDriver {  get; set; }
     ObservableCollection<int> locations = new ObservableCollection<int>();
     ObservableCollection<FastDrive> fastDrives = new ObservableCollection<FastDrive>();
@@ -50,7 +51,8 @@ public class DriverNotificationViewModel : BaseViewModel
 
     public DriverNotificationViewModel(User driver)
     {
-        _fastDriveService = fastDriveService;
+        _fastDriveService = new FastDriveService();
+        CancelledNotifications = new ObservableCollection<DriveNotification>();  
         LoggedDriver = driver;
         LoadNotifications();
         StartTimer();
@@ -100,7 +102,17 @@ public class DriverNotificationViewModel : BaseViewModel
             {
                 if (newNotification.fastDrive.DriverId == 0)
                 {
+                    if(!CancelledNotifications.Contains(newNotification))
                     Notifications.Add(newNotification);
+                }
+            }
+            else
+            {
+                if (newNotification.fastDrive.DriverId == 0)
+                {
+                    FastDrive fastDriveEnd = newNotification.fastDrive;
+                    fastDriveEnd.DriverId = _fastDriveService.GetAvailableDriver();
+                    _fastDriveService.Update(fastDriveEnd);
                 }
             }
         }
@@ -124,6 +136,7 @@ public class DriverNotificationViewModel : BaseViewModel
             Notifications.Remove(selectedNotification);
             MessageDisplay = "";
             NotificationText = "";
+            _fastDriveService.AddBonusPoints(LoggedDriver.Id);
         }
     }
 
@@ -132,8 +145,9 @@ public class DriverNotificationViewModel : BaseViewModel
         if (parameter is DriveNotification selectedNotification)
         {
             FastDrive fastDrive = selectedNotification.fastDrive;
-            fastDrive.DriverId = -1;
-            _fastDriveService.Update(selectedNotification.fastDrive);
+            //fastDrive.DriverId = 0;
+            //_fastDriveService.Update(selectedNotification.fastDrive);
+            CancelledNotifications.Add(selectedNotification);
             Notifications.Remove(selectedNotification);
             MessageDisplay = "";
             NotificationText = "";

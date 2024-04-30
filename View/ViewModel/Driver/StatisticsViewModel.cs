@@ -9,6 +9,8 @@ using System.Windows;
 using BookingApp.View.Driver;
 using System.ComponentModel;
 using System.Windows.Media;
+using BookingApp.Service;
+using System.Collections.Generic;
 
 namespace BookingApp.ViewModel.Driver
 {
@@ -16,9 +18,7 @@ namespace BookingApp.ViewModel.Driver
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private readonly SuccessfulDrivesRepository _successfulDrivesRepository;
-        private readonly DrivesDrivenRepository _drivesDrivenRepository;
-        private readonly DriverStatsRepository _driverStatsRepository;
+        public DriverStatsService driverStatsService;
 
         public SeriesCollection SeriesCollection1 { get; set; }
         public SeriesCollection SeriesCollection2 { get; set; }
@@ -68,10 +68,8 @@ namespace BookingApp.ViewModel.Driver
             SeriesCollection2 = new SeriesCollection();
             SeriesCollection3 = new SeriesCollection();
             LoggedDriver = driver;
-            _successfulDrivesRepository = new SuccessfulDrivesRepository();
-            _drivesDrivenRepository = new DrivesDrivenRepository();
-            _driverStatsRepository = new DriverStatsRepository();
-            ComboBoxItems = new ObservableCollection<string>(_successfulDrivesRepository.GetYears());
+            driverStatsService = new DriverStatsService();
+            ComboBoxItems = new ObservableCollection<string>(driverStatsService.GetYears());
             Year = "2024";
 
             InitializeCharts();
@@ -80,7 +78,7 @@ namespace BookingApp.ViewModel.Driver
         private void InitializeCharts()
         {
 
-            DriverStats driverStats = _driverStatsRepository.GetByDriverId(LoggedDriver.Id);
+            DriverStats driverStats = driverStatsService.GetStatsByDriverId(LoggedDriver.Id);
             FastDrivesValue = driverStats.FastDrives;
             BonusPointsValue = driverStats.BonusPoints;
             CancelledDrivesValue = driverStats.CancelledDrives;
@@ -141,19 +139,19 @@ namespace BookingApp.ViewModel.Driver
 
         private double FindAvgPrice(int month)
         {
-            ObservableCollection<int> idsPerMonth = new ObservableCollection<int>(_successfulDrivesRepository.GetDriveIdsByMonthAndYear(month, int.Parse(Year), LoggedDriver.Id));
-            return _drivesDrivenRepository.CalculateAveragePriceForDrives(idsPerMonth);
+            List<int> idsPerMonth = new List<int>(driverStatsService.GetDrivesByMonthAndYear(month, int.Parse(Year), LoggedDriver.Id));
+            return driverStatsService.GetAveragePriceForDrives(idsPerMonth);
         }
 
         private double FindAvgDuration(int month)
         {
-            ObservableCollection<int> idsPerMonth = new ObservableCollection<int>(_successfulDrivesRepository.GetDriveIdsByMonthAndYear(month, int.Parse(Year), LoggedDriver.Id));
-            return _drivesDrivenRepository.CalculateAverageDurationForDrives(idsPerMonth);
+            List<int> idsPerMonth = new List<int>(driverStatsService.GetDrivesByMonthAndYear(month, int.Parse(Year), LoggedDriver.Id));
+            return driverStatsService.GetAverageDuration(idsPerMonth);
         }
 
         private int FindNumberOfDrivesForMonth(int month)
         {
-            return _successfulDrivesRepository.GetNumberOfDrivesByMonthAndYear(month, int.Parse(Year), LoggedDriver.Id);
+            return driverStatsService.GetNumberOfDrives(month, int.Parse(Year), LoggedDriver.Id);
         }
 
         internal void Back_Click()

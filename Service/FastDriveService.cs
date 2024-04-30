@@ -17,11 +17,13 @@ namespace BookingApp.Service
         private IFastDriveRepository fastDriveRepository;
         private readonly VehicleRepository _vehicleRepository;
         private readonly DriveRepository _driveRepository;
+        private readonly DriverStatsRepository _driverStatsRepository;
         public FastDriveService()
         {
             fastDriveRepository = Injector.CreateInstance<IFastDriveRepository>();
             _vehicleRepository = new VehicleRepository();
             _driveRepository = new DriveRepository();
+            _driverStatsRepository = new DriverStatsRepository();
         }
         public int NextId()
         {
@@ -58,11 +60,35 @@ namespace BookingApp.Service
 
         internal bool CheckDuration(double duration)
         {
-            if (duration > 35)
+            if (duration > 6)
             {
                 return false;
             }
             return true;
+        }
+
+        internal int GetAvailableDriver()
+        {
+            return _driveRepository.GetAvailableDriverId();
+        }
+
+        public void AddBonusPoints(int id)
+        {
+            var driverStats = _driverStatsRepository.GetByDriverId(id);
+
+            if (driverStats != null)
+            {
+                if (driverStats.FastDrives <= 15)
+                {
+                    driverStats.FastDrives += 1;
+                }
+                else
+                {
+                    driverStats.BonusPoints += 5;
+                }
+
+                _driverStatsRepository.Update(driverStats);
+            }
         }
     }
 }

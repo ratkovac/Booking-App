@@ -24,7 +24,6 @@ namespace BookingApp.View.Driver
             LoggedDriver = driver;
             viewModel = new StatisticsViewModel(LoggedDriver);
             DataContext = viewModel;
-            MessageBox.Show("If you need any kind of Help Press CTRL+H", "Help");
         }
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
