@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="WPF\Styles\**" />
+    <EmbeddedResource Remove="WPF\Styles\**" />
+    <None Remove="WPF\Styles\**" />
+    <Page Remove="WPF\Styles\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Fonts\Poppins-Black.ttf" />
     <None Remove="Fonts\Poppins-BlackItalic.ttf" />
     <None Remove="Icon\back.png" />
@@ -42,6 +49,10 @@
     <None Remove="Resources\Images\add.png" />
     <None Remove="Resources\Images\delete.png" />
     <None Remove="Resources\Images\edit.png" />
+    <None Remove="Resources\Images\language.png" />
+    <None Remove="Resources\Images\notifications.png" />
+    <None Remove="Resources\Images\profile.png" />
+    <None Remove="Resources\Images\theme.png" />
     <None Remove="Resources\Images\view.png" />
     <None Remove="View\GuideView\GuideImages\navigation.png" />
     <None Remove="View\GuideView\GuideImages\profile.png" />
@@ -84,6 +95,18 @@
     <Resource Include="Images\Accommodation.jpg" />
     <Resource Include="Images\apartment1.jpg" />
     <Resource Include="Images\apartment2.jpg" />
+    <Content Include="Resources\Images\language.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\notifications.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\profile.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\theme.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="View\GuideView\GuideImages\navigation.png" />
   </ItemGroup>
 
@@ -130,7 +153,6 @@
 
   <ItemGroup>
     <Folder Include="Domain\Model\" />
-    <Folder Include="WPF\Styles\" />
   </ItemGroup>
 
 </Project>

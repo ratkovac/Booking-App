@@ -79,8 +79,8 @@ namespace BookingApp.View
                         case "Tourist":
                             TouristService touristService = new TouristService();
                             BookingApp.Model.Tourist tourist = touristService.GetTouristByUserId(user.Id);
-                            TouristFrontPage touristFrontPage = new TouristFrontPage(tourist);
-                            touristFrontPage.Show();
+                            TouristMainPage touristMainPage = new TouristMainPage(tourist);
+                            touristMainPage.Show();
                             Close();
                             break;
                         case "Driver":
