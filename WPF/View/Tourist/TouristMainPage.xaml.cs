@@ -103,7 +103,7 @@ namespace BookingApp.WPF.View.Tourist
             }
         }
 
-        private void Notification_Click(object sender, RoutedEventArgs e)
+        private void Notification_Click(object sender, MouseButtonEventArgs e)
         {
             CheckForNotification();
         }
@@ -124,20 +124,24 @@ namespace BookingApp.WPF.View.Tourist
             FastDriveViewModel fastDriveViewModel = new FastDriveViewModel(Tourist.User);
             FrameHomePage.Navigate(new BookingApp.WPF.View.Tourist.Pages.FastDrivePage(fastDriveViewModel));
         }
-        /*private void FinishedTours_Click(object sender, RoutedEventArgs e)
+        private void FinishedTours_Click(object sender, RoutedEventArgs e)
         {
             FinishedToursViewModel finishedToursViewModel = new FinishedToursViewModel(Tourist);
             FrameHomePage.Navigate(new FinishedTours(finishedToursViewModel));
-        }*/
+        }
         private void Vouchers_Click(object sender, RoutedEventArgs e)
         {
             VouchersViewModel vouchersViewModel = new VouchersViewModel(Tourist);
             FrameHomePage.Navigate(new Vouchers(vouchersViewModel));
         }
-        /*private void Tours_Click(object sender, RoutedEventArgs e)
+        private void Tours_Click(object sender, RoutedEventArgs e)
         {
             FrameHomePage.Navigate(new MyTours(Tourist.User));
-        }*/
+        }
+        private void Profile_Click(object sender, MouseButtonEventArgs e)
+        {
+            FrameHomePage.Navigate(new MyProfile(Tourist));
+        }
         private void BackToSignIn(object sender, RoutedEventArgs e)
         {
             SignInForm signInForm = new SignInForm();
