@@ -116,7 +116,7 @@ namespace BookingApp.WPF.View.Tourist
 
         private void DriveReservation_Click(object sender, RoutedEventArgs e)
         {
-            DriveReservation driveReservation = new DriveReservation(Tourist.User);
+            DriveReservationView driveReservation = new DriveReservationView(Tourist.User);
             FrameHomePage.Navigate(driveReservation);
         }
         private void FastDrive_Click(object sender, RoutedEventArgs e)
