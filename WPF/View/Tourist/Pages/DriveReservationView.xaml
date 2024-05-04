@@ -79,7 +79,7 @@
             </StackPanel>
 
             <Button Content="Reserve drive!" HorizontalAlignment="Center" Click="Reservation_Click" Margin="350,30,0,0"/>
-            <Button Content="Cancel" Click="Reservation_Click" Margin="80,-60,0,0"/>
+            <Button Content="Cancel" Margin="80,-60,0,0"/>
         </StackPanel>
         <StackPanel Margin="480,150,0,0">
             <StackPanel.Resources>
