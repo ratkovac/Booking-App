@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.Windows.Media;
 using BookingApp.Service;
 using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace BookingApp.ViewModel.Driver
 {
@@ -25,10 +26,61 @@ namespace BookingApp.ViewModel.Driver
         public SeriesCollection SeriesCollection3 { get; set; }
 
         public User LoggedDriver {  get; set; }
-        public int FastDrivesValue { get; set; }
-        public int BonusPointsValue { get; set; }
-        public int CancelledDrivesValue { get; set; }
+        private int _fastDrivesValue;
+        public int FastDrivesValue
+        {
+            get { return _fastDrivesValue; }
+            set
+            {
+                if (_fastDrivesValue != value)
+                {
+                    _fastDrivesValue = value;
+                    OnPropertyChanged(nameof(FastDrivesValue));
+                    SuperDriverVisibility = value == 15 ? Visibility.Visible : Visibility.Collapsed;
+                }
+            }
+        }
 
+        private int _bonusPointsValue;
+        public int BonusPointsValue
+        {
+            get { return _bonusPointsValue; }
+            set
+            {
+                if (_bonusPointsValue != value)
+                {
+                    _bonusPointsValue = value;
+                    OnPropertyChanged(nameof(BonusPointsValue));
+                }
+            }
+        }
+
+        private int _cancelledDrivesValue;
+        public int CancelledDrivesValue
+        {
+            get { return _cancelledDrivesValue; }
+            set
+            {
+                if (_cancelledDrivesValue != value)
+                {
+                    _cancelledDrivesValue = value;
+                    OnPropertyChanged(nameof(CancelledDrivesValue));
+                }
+            }
+        }
+        private Visibility _superDriverVisibility;
+        public Visibility SuperDriverVisibility
+        {
+            get { return _superDriverVisibility; }
+            set
+            {
+                if (_superDriverVisibility != value)
+                {
+                    _superDriverVisibility = value;
+                    OnPropertyChanged(nameof(SuperDriverVisibility));
+                }
+            }
+        }
         public int MaxFastDrivesValue { get; set; } = 15;
         public int MaxBonusPointsValue { get; set; } = 50;
         public int MaxCancelledDrivesValue { get; set; } = 15;
@@ -61,6 +113,68 @@ namespace BookingApp.ViewModel.Driver
                 }
             }
         }
+        private int _numberOfDrives;
+        public int NumberOfDrives
+        {
+            get { return _numberOfDrives; }
+            set
+            {
+                if (_numberOfDrives != value)
+                {
+                    _numberOfDrives = value;
+                    OnPropertyChanged(nameof(NumberOfDrives));
+                }
+            }
+        }
+
+        private double _averagePrice;
+        public double AveragePrice
+        {
+            get { return _averagePrice; }
+            set
+            {
+                if (_averagePrice != value)
+                {
+                    _averagePrice = value;
+                    OnPropertyChanged(nameof(AveragePrice));
+                }
+            }
+        }
+
+        private double _averageDurationSeconds;
+        public double AverageDurationSeconds
+        {
+            get { return _averageDurationSeconds; }
+            set
+            {
+                if (_averageDurationSeconds != value)
+                {
+                    _averageDurationSeconds = value;
+                    OnPropertyChanged(nameof(AverageDurationSeconds));
+                    OnPropertyChanged(nameof(AverageDuration));
+                }
+            }
+        }
+        public TimeSpan AverageDuration
+        {
+            get { return TimeSpan.FromSeconds(AverageDurationSeconds); }
+        }
+
+        private string _currentYear;
+        public string CurrentYear
+        {
+            get { return _currentYear; }
+            set
+            {
+                if (_currentYear != value)
+                {
+                    _currentYear = value;
+                    OnPropertyChanged(nameof(CurrentYear));
+                }
+            }
+        }
+
+
 
         public StatisticsViewModel(User driver)
         {
@@ -69,16 +183,23 @@ namespace BookingApp.ViewModel.Driver
             SeriesCollection3 = new SeriesCollection();
             LoggedDriver = driver;
             driverStatsService = new DriverStatsService();
+            driverStatsService.RefreshStats();
             ComboBoxItems = new ObservableCollection<string>(driverStatsService.GetYears());
             Year = "2024";
+            SuperDriverVisibility = FastDrivesValue == 15 ? Visibility.Visible : Visibility.Collapsed;
+            int ThisYear = DateTime.Now.Year;
+            CurrentYear = ThisYear.ToString();
+            AverageDurationSeconds = driverStatsService.GetAverageDurationInYear(ThisYear, LoggedDriver.Id);
+            AveragePrice = driverStatsService.GetAveragePriceInYear(ThisYear, LoggedDriver.Id);
+            NumberOfDrives = driverStatsService.GetNumberOfDrivesInYear(ThisYear, LoggedDriver.Id);
 
             InitializeCharts();
         }
 
         private void InitializeCharts()
         {
-
-            DriverStats driverStats = driverStatsService.GetStatsByDriverId(LoggedDriver.Id);
+            DriverStats driverStats = new DriverStats();
+            driverStats = driverStatsService.GetStatsByDriverId(LoggedDriver.Id);
             FastDrivesValue = driverStats.FastDrives;
             BonusPointsValue = driverStats.BonusPoints;
             CancelledDrivesValue = driverStats.CancelledDrives;
@@ -154,14 +275,10 @@ namespace BookingApp.ViewModel.Driver
             return driverStatsService.GetNumberOfDrives(month, int.Parse(Year), LoggedDriver.Id);
         }
 
-        internal void Back_Click()
-        {
-            DriverFrontPage driverFrontPage = new DriverFrontPage(LoggedDriver);
-            driverFrontPage.Show();
-        }
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
     }
 }

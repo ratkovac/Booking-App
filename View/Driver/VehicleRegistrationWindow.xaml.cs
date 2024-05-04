@@ -222,17 +222,12 @@ namespace BookingApp.View.Driver
         {
             Vehicle vehicle = new Vehicle();
 
-            if (languages.Count == 0)
-            {
-                LanguageError();
-                return null;
-            }
             if( locations.Count == 0)
             {
                 LocationError();
                 return null;
             }
-            var selectedLanguages = Languages.Where(language => selectedLanguageIndexes.Contains(language.Id)).ToList();
+            var selectedLanguages = LanguagesListBox.SelectedItems.Cast<Language>().ToList();
             if (selectedLanguages.Count == 0)
             {
                 // Obavijestite korisnika ako nije odabrao jezik
@@ -240,6 +235,7 @@ namespace BookingApp.View.Driver
                 return null;
             }
             vehicle.Locations = locations;
+            vehicle.Languages = selectedLanguages;
             vehicle.DriverId = LoggedInUser.Id;
             vehicle.Capacity = int.Parse(MaxCapacityTextBox.Text);
             vehicle.ImagePaths = ImageList;
@@ -295,7 +291,17 @@ namespace BookingApp.View.Driver
             example.Show();
             Close();
         }
-        private void LanguageCheckBox_Checked(object sender, RoutedEventArgs e)
+        private void MaxCapacityTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !IsTextAllowed(e.Text);
+        }
+
+        private bool IsTextAllowed(string text)
+        {
+            // Proverava da li je uneseni tekst broj
+            return int.TryParse(text, out _);
+        }
+        /*private void LanguageCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             var checkBox = sender as CheckBox;
             var language = checkBox.DataContext as Language;
@@ -312,7 +318,7 @@ namespace BookingApp.View.Driver
 
             // Uklanjamo odabrani jezik iz liste SelectedLanguages
             SelectedLanguages.Remove(language);
-        }
+        }*/
 
     }
 }

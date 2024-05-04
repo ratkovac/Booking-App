@@ -65,5 +65,21 @@ namespace BookingApp.Repository
 
             return new List<string>(years);
         }
+        public int GetNumberOfDrivesByYear(int year, int driverId)
+        {
+            int numberOfDrives = _successfulDrives
+                .Count(drive => drive.Date.Year == year && drive.DriverId == driverId);
+
+            return numberOfDrives;
+        }
+        public List<int> GetDriveIdsByYear(int year, int driverId)
+        {
+            var driveIds = _successfulDrives
+                .Where(drive => drive.Date.Year == year && drive.DriverId == driverId)
+                .Select(drive => drive.Id)
+                .ToList();
+
+            return driveIds;
+        }
     }
 }

@@ -60,6 +60,7 @@ namespace BookingApp.View.Driver.Pages
         {
             Window.GetWindow(this)?.Close();
             drivesWindow.RefreshDriveList();
+            drivesWindow.MakeVisible();
         }
     }
 }

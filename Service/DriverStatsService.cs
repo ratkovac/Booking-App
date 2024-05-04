@@ -16,10 +16,12 @@ namespace BookingApp.Service
         private IDriverStatsRepository driverStatsRepository;
         private readonly SuccessfulDrivesRepository _successfulDrivesRepository;
         private readonly DrivesDrivenRepository _drivesDrivenRepository;
+        private readonly DriverStatsUpdateRepository _driverStatsUpdateRepository;
 
         public DriverStatsService()
         {
             driverStatsRepository = Injector.CreateInstance<IDriverStatsRepository>();
+            _driverStatsUpdateRepository = new DriverStatsUpdateRepository();
             _successfulDrivesRepository = new SuccessfulDrivesRepository();
             _drivesDrivenRepository = new DrivesDrivenRepository(); 
         }
@@ -60,6 +62,7 @@ namespace BookingApp.Service
         }
         public DriverStats GetStatsByDriverId(int id)
         {
+            driverStatsRepository = new DriverStatsRepository();
             return driverStatsRepository.GetByDriverId(id);
         }
 
@@ -78,6 +81,29 @@ namespace BookingApp.Service
         public int GetNumberOfDrives(int month, int year, int id)
         {
             return _successfulDrivesRepository.GetNumberOfDrivesByMonthAndYear(month, year, id);
+        }
+        public void RefreshStats()
+        {
+            driverStatsRepository.UpdateFromDriverStatsUpdates(_driverStatsUpdateRepository);
+        }
+
+        public List<int> GetDrivesByYear(int year, int driverId)
+        {
+            return _successfulDrivesRepository.GetDriveIdsByYear(year, driverId);
+        }
+        public int GetNumberOfDrivesInYear(int year, int driverId)
+        {
+            return _successfulDrivesRepository.GetNumberOfDrivesByYear(year, driverId);
+        }
+        public double GetAveragePriceInYear(int year, int driverId)
+        {
+            List<int> drives = _successfulDrivesRepository.GetDriveIdsByYear(year, driverId);
+            return _drivesDrivenRepository.CalculateAveragePriceForDrives(drives);
+        }
+        public double GetAverageDurationInYear(int year, int driverId)
+        {
+            List<int> drives = _successfulDrivesRepository.GetDriveIdsByYear(year, driverId);
+            return _drivesDrivenRepository.CalculateAverageDurationForDrives(drives);      
         }
 
         public void Subscribe(IObserver observer)

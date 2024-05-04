@@ -55,5 +55,10 @@ namespace BookingApp.View.Driver
             example.Show();
             Close();
         }
+
+        private void btnHelp_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

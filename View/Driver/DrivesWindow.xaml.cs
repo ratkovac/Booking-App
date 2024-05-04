@@ -26,6 +26,9 @@ namespace BookingApp.View.Driver
 
         DriveRepository _driveRepository;
         UserRepository _userRepository;
+        public UnsuccessfulDrivesRepository _unsuccessfulDriveRepository;
+        public DriverStatsUpdateRepository _driverStatsUpdateRepository;
+        public DriverStatsRepository _driverStatsRepository;
         public ObservableCollection<DriveDTO> ListDrive { get; set; } = new ObservableCollection<DriveDTO>();
         public User LoggedInUser { get; }
         public bool IsOverlayVisible
@@ -40,10 +43,14 @@ namespace BookingApp.View.Driver
         public DrivesWindow(User user)
         {
             LoggedInUser = user;
-            InitializeComponent(); 
+            InitializeComponent();
+            IsOverlayVisible = false;
             DataContext = this;
             _userRepository = new UserRepository();
             _driveRepository = new DriveRepository();
+            _unsuccessfulDriveRepository = new UnsuccessfulDrivesRepository();
+            _driverStatsRepository = new DriverStatsRepository();
+            _driverStatsUpdateRepository = new DriverStatsUpdateRepository();
             Window_Loaded(this, null);
         }
 
@@ -69,6 +76,7 @@ namespace BookingApp.View.Driver
                 DriveReservationWindow reservationWindow = new DriveReservationWindow(selectedDrive, this);
 
                 reservationWindow.Owner = this;
+                IsOverlayVisible = true;
                 reservationWindow.ShowDialog();
             }
             else
@@ -92,7 +100,41 @@ namespace BookingApp.View.Driver
 
         private void btnCanelDrive_Click(object sender, RoutedEventArgs e)
         {
+            if (dataGrid.SelectedItem != null)
+            {
+                DriveDTO selectedDrive = dataGrid.SelectedItem as DriveDTO;
 
+                _unsuccessfulDriveRepository.Save(selectedDrive.ToDrive());
+                _driveRepository.Delete(selectedDrive.ToDrive());
+                DriverStatsUpdate update = new DriverStatsUpdate(LoggedInUser.Id);
+                update.CancelledDrivesUpdate = 1;
+                _driverStatsUpdateRepository.Create(update);
+                DriverStats stats = _driverStatsRepository.GetById(LoggedInUser.Id);
+                stats.CancelledDrives += 1;
+                _driverStatsRepository.Update(stats);
+                RefreshDriveList();
+            }
+            else
+            {
+                MessageBox.Show("Please select a drive first.");
+            }
+        }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            Driver.Example example = new Driver.Example(LoggedInUser);
+            example.Show();
+            Close();
+        }
+
+        private void btnHelp_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        internal void MakeVisible()
+        {
+            IsOverlayVisible = false;
         }
     }
 }

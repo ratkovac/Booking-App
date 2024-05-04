@@ -18,12 +18,14 @@ namespace BookingApp.Service
         private readonly VehicleRepository _vehicleRepository;
         private readonly DriveRepository _driveRepository;
         private readonly DriverStatsRepository _driverStatsRepository;
+        private readonly DriverStatsUpdateRepository _driverStatsUpdateRepository;
         public FastDriveService()
         {
             fastDriveRepository = Injector.CreateInstance<IFastDriveRepository>();
             _vehicleRepository = new VehicleRepository();
             _driveRepository = new DriveRepository();
             _driverStatsRepository = new DriverStatsRepository();
+            _driverStatsUpdateRepository = new DriverStatsUpdateRepository();
         }
         public int NextId()
         {
@@ -76,15 +78,20 @@ namespace BookingApp.Service
         {
             var driverStats = _driverStatsRepository.GetByDriverId(id);
 
+            DriverStatsUpdate update = new DriverStatsUpdate(id);
             if (driverStats != null)
             {
                 if (driverStats.FastDrives <= 15)
                 {
                     driverStats.FastDrives += 1;
+                    update.FastDrivesUpdate += 1;
+                    _driverStatsUpdateRepository.Create(update);
                 }
                 else
                 {
                     driverStats.BonusPoints += 5;
+                    update.BonusPointsUpdate += 5;
+                    _driverStatsUpdateRepository.Create(update);
                 }
 
                 _driverStatsRepository.Update(driverStats);
