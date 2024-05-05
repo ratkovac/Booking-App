@@ -87,7 +87,7 @@
 
     <Grid>
         <StackPanel Orientation="Vertical" Background="AliceBlue" Margin="0,0,950,0">
-            <Grid Height="575" Width="330">
+            <Grid Height="575" Width="300">
                 <Image Source="/Resources/Images/theme.png" Width="65" Height="65" Margin="0,0,215,480"/>
                 <Ellipse Width="65" Height="65" Margin="0,0,70,480">
                     <Ellipse.Fill>
@@ -96,7 +96,7 @@
                 </Ellipse>
                 <Image Source="/Resources/Images/notifications.png" Width="79" Height="79" Margin="70,0,0,480" MouseDown="Notification_Click"/>
                 <Image Source="/Resources/Images/profile.png" Width="65" Height="65" Margin="215,0,0,480" MouseDown="Profile_Click"/>
-                <Button Content="Home page" Click="AvailableTours_Click" CommandParameter="1" Margin="0,0,0,320" HorizontalAlignment="Center"/>
+                <Button Content="Home page" Click="AvailableTours_Click" Margin="0,0,0,320" HorizontalAlignment="Center"/>
                 <ToggleButton Content="My reservations" Margin="0,0,0,180" HorizontalAlignment="Center" Checked="ToggleButton_Checked">
                     <ToggleButton.Template>
                         <ControlTemplate TargetType="ToggleButton">
@@ -112,8 +112,8 @@
                                 <Popup Name="Popup" PlacementTarget="{Binding ElementName=toggleButton}" Placement="Bottom" StaysOpen="False" IsOpen="{Binding IsChecked, ElementName=toggleButton}">
                                     <Border BorderThickness="0" BorderBrush="Gray" Background="Gray">
                                         <StackPanel>
-                                            <Button Content="My reservations" Click="Tours_Click" CommandParameter="6" Margin="0"/>
-                                            <Button Content="Finished tours" Click="FinishedTours_Click" CommandParameter="6" Margin="0"/>
+                                            <Button Content="My reservations" Click="Tours_Click" Margin="0"/>
+                                            <Button Content="Finished tours" Click="FinishedTours_Click" Margin="0"/>
                                         </StackPanel>
                                     </Border>
                                 </Popup>
@@ -136,8 +136,8 @@
                                 <Popup Name="Popup" PlacementTarget="{Binding ElementName=toggleButton}" Placement="Bottom" StaysOpen="False" IsOpen="{Binding IsChecked, ElementName=toggleButton}">
                                     <Border BorderThickness="0" BorderBrush="Gray" Background="Gray">
                                         <StackPanel>
-                                            <Button Content="Tour request" CommandParameter="6" Margin="0"/>
-                                            <Button Content="My tour requests" CommandParameter="6" Margin="0"/>
+                                            <Button Content="Tour request" Margin="0"/>
+                                            <Button Content="My tour requests" Margin="0"/>
                                         </StackPanel>
                                     </Border>
                                 </Popup>
@@ -160,8 +160,8 @@
                                 <Popup Name="Popup" PlacementTarget="{Binding ElementName=toggleButton}" Placement="Bottom" StaysOpen="False" IsOpen="{Binding IsChecked, ElementName=toggleButton}">
                                     <Border BorderThickness="0" BorderBrush="Gray" Background="Gray">
                                         <StackPanel>
-                                            <Button Content="Complex tour request" CommandParameter="6" Margin="0"/>
-                                            <Button Content="My complex tour requests" FontSize="22" CommandParameter="6" Margin="0"/>
+                                            <Button Content="Complex tour request" Margin="0"/>
+                                            <Button Content="My complex tour requests" FontSize="22" Margin="0"/>
                                         </StackPanel>
                                     </Border>
                                 </Popup>
@@ -184,8 +184,8 @@
                                 <Popup Name="Popup" PlacementTarget="{Binding ElementName=toggleButton}" Placement="Bottom" StaysOpen="False" IsOpen="{Binding IsChecked, ElementName=toggleButton}">
                                     <Border BorderThickness="0" BorderBrush="Gray" Background="Gray">
                                         <StackPanel>
-                                            <Button Content="Drive reservation" Click="DriveReservation_Click" CommandParameter="5" Margin="0"/>
-                                            <Button Content="Fast drive reservation" Click="FastDrive_Click" CommandParameter="6" Margin="0"/>
+                                            <Button Content="Drive reservation" Click="DriveReservation_Click" Margin="0"/>
+                                            <Button Content="Fast drive reservation" Click="FastDrive_Click" Margin="0"/>
                                         </StackPanel>
                                     </Border>
                                 </Popup>
@@ -193,10 +193,10 @@
                         </ControlTemplate>
                     </ToggleButton.Template>
                 </ToggleButton>
-                <Button Content="Vouchers" Click="Vouchers_Click" CommandParameter="4" Margin="0,380,0,0" HorizontalAlignment="Center"/>
+                <Button Content="Vouchers" Click="Vouchers_Click" Margin="0,380,0,0" HorizontalAlignment="Center"/>
             </Grid>
-            <Grid Height="140" Width="275">
-                <Button Content="Log out" Click="BackToSignIn" CommandParameter="1" Margin="0,0,0,50" HorizontalAlignment="Center"/>
+            <Grid Height="140" Width="280">
+                <Button Content="Log out" Click="BackToSignIn" Margin="0,0,0,50" HorizontalAlignment="Center"/>
             </Grid>
         </StackPanel>
 

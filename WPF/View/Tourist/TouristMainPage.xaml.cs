@@ -132,7 +132,7 @@ namespace BookingApp.WPF.View.Tourist
         private void Vouchers_Click(object sender, RoutedEventArgs e)
         {
             VouchersViewModel vouchersViewModel = new VouchersViewModel(Tourist);
-            FrameHomePage.Navigate(new Vouchers(vouchersViewModel));
+            FrameHomePage.Navigate(new VouchersView(vouchersViewModel));
         }
         private void Tours_Click(object sender, RoutedEventArgs e)
         {
