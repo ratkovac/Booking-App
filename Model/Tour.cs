@@ -24,6 +24,7 @@ namespace BookingApp.Model
         public Language Language { get; set; }
         public int LocationId { get; set; }
         public int UserId { get; set; }
+        public string ImagePath { get; set; }
         public Tour()
         {
 
@@ -58,7 +59,7 @@ namespace BookingApp.Model
 
             string location = Location.Id.ToString();
             string[] csvValues = { Id.ToString(), Name, location, Description, Language.Id.ToString(),
-                MaxGuests.ToString(), Duration.ToString(), UserId.ToString()};
+                MaxGuests.ToString(), Duration.ToString(), UserId.ToString(), ImagePath};
             return csvValues;
         }
 
@@ -82,6 +83,7 @@ namespace BookingApp.Model
             MaxGuests = Convert.ToInt32(values[5]);
             Duration = Convert.ToSingle(values[6]);
             UserId = Convert.ToInt32(values[7]);
+            ImagePath = values[8];
         }
 
     }

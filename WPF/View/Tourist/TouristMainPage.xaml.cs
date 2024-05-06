@@ -45,6 +45,8 @@ namespace BookingApp.WPF.View.Tourist
             _userRepository = new UserRepository();
             _reservedDriveRepository = new ReservedDriveRepository();
             CheckTouristReservation();
+            TourDisplay tourDisplay = new TourDisplay(tourist);
+            FrameHomePage.Navigate(tourDisplay);
             /*if (_tourReservationService.GetTourInstanceIdWhereTouristIsWaiting(Tourist) != null)
             {
                 int tourInstanceId = _tourReservationService.GetTourInstanceIdWhereTouristIsWaiting(Tourist).TourInstanceId;
@@ -110,8 +112,8 @@ namespace BookingApp.WPF.View.Tourist
 
         private void AvailableTours_Click(object sender, RoutedEventArgs e)
         {
-            AvailableTours availableToursPage = new AvailableTours(Tourist);
-            FrameHomePage.Navigate(availableToursPage);
+            TourDisplay tourDisplay = new TourDisplay(Tourist);
+            FrameHomePage.Navigate(tourDisplay);
         }
 
         private void DriveReservation_Click(object sender, RoutedEventArgs e)
