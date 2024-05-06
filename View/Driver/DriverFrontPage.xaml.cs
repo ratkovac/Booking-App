@@ -41,9 +41,9 @@ namespace BookingApp.View.Driver
 
         private void btnShowDrives_Click(object sender, RoutedEventArgs e)
         {
-            Driver.DrivesWindow driveWindow = new Driver.DrivesWindow(LoggedInUser);
+            /*Driver.DrivesWindow driveWindow = new Driver.DrivesWindow(LoggedInUser);
             driveWindow.Show();
-            Close();
+            Close();*/
         }
 
         private void btnOpenStats_Click(object sender, RoutedEventArgs e)

@@ -12,7 +12,7 @@
 
     <Window.Resources>
         <Style TargetType="Button">
-            <Setter Property="Background" Value="White"/>
+            <Setter Property="Background" Value="{Binding IsSuperDriverColor}"/>
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="BorderBrush" Value="Black"/>
             <Setter Property="FontSize" Value="16"/>
@@ -41,7 +41,7 @@
         </Style>
 
         <Style TargetType="ComboBox">
-            <Setter Property="Background" Value="White"/>
+            <Setter Property="Background" Value="{Binding IsSuperDriverColor}"/>
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="BorderBrush" Value="Black"/>
             <Setter Property="FontSize" Value="16"/>
@@ -49,7 +49,7 @@
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
         <Style TargetType="Button" x:Key="HelpButtonStyle">
-            <Setter Property="Background" Value="White"/>
+            <Setter Property="Background" Value="{Binding IsSuperDriverColor}"/>
             <Setter Property="BorderBrush" Value="Black"/>
             <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="Template">
@@ -73,7 +73,7 @@
 
     </Window.Resources>
 
-    <Grid Margin="0" Background="PaleTurquoise">
+    <Grid Margin="0" Background="{Binding IsSuperDriverColorBack}">
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -95,16 +95,18 @@
 
                 <Grid Grid.Column="0">
                     <Grid>
-                        <Border BorderBrush="Black" BorderThickness="1" Margin="75,30,95,252"  Visibility="{Binding SuperDriverVisibility}">
-                            <StackPanel x:Name="SuperDriverPanel" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="{Binding SuperDriverVisibility}">
-                                <Image Source="C:\Users\DELL\source\repos\sims-ra-2024-group-7-team-a\Images\star.png" Width="40" Height="40"/>
-                                <Label FontSize="20" Height="40" VerticalAlignment="Center" Background="White">
+                        <StackPanel x:Name="SuperDriverPanel" Orientation="Horizontal" Margin="25,30,45,232" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="{Binding SuperDriverVisibility}">
+                                <Label FontSize="40" Height="80" VerticalAlignment="Center">
                                     <Label.Content>
-                                        <TextBlock FontFamily="Segoe UI" FontWeight="Bold" FontStyle="Italic" Foreground="Black">SuperDriver</TextBlock>
+                                        <TextBlock FontFamily="Segoe UI" FontWeight="Bold" FontStyle="Italic" Foreground="White">
+                                            <TextBlock.Effect>
+                                                <DropShadowEffect Color="Black" ShadowDepth="3" BlurRadius="4"/>
+                                            </TextBlock.Effect>
+                                           SuperDriver
+                                        </TextBlock>
                                     </Label.Content>
                                 </Label>
                             </StackPanel>
-                        </Border>
                     </Grid>
                     <StackPanel Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="2" Height="Auto" Width="Auto" MinHeight="200" MinWidth="200" Margin="0,80,60,0">
                         <Button x:Name="btnOpenVehicleRegistration" Content="Vehicle Registration" Height="Auto" MinHeight="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Click="btnOpenVehicleRegistration_Click"/>
@@ -113,14 +115,14 @@
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Column="1">
-                    <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="0 0 20 20" Margin="20 0 20 10">
+                    <Border Background="{Binding IsSuperDriverColor}" BorderBrush="Black" BorderThickness="1" CornerRadius="0 0 20 20" Margin="20 0 20 10">
                         <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0 0 0 0" Width="Auto" Height="Auto">
                             <StackPanel.Resources>
                                 <Style TargetType="ProgressBar">
                                     <Setter Property="Width" Value="150"/>
                                     <Setter Property="Height" Value="15"/>
                                     <Setter Property="Margin" Value="0"/>
-                                    <Setter Property="Foreground" Value="PaleTurquoise"/>
+                                    <Setter Property="Foreground" Value="{Binding IsSuperDriverColorBack}"/>
                                     <Setter Property="BorderThickness" Value="2"/>
                                     <Setter Property="BorderBrush" Value="Black"/>
                                     <Setter Property="Background" Value="Black"/>
@@ -146,7 +148,7 @@
                     </Border>
                 </Grid>
                 <Grid Grid.Column="2">
-                    <Border Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="0 0 20 20" Margin="20 0 20 10">
+                    <Border Background="{Binding IsSuperDriverColor}" BorderBrush="Black" BorderThickness="1" CornerRadius="0 0 20 20" Margin="20 0 20 10">
                         <StackPanel Margin="10 40 10 10">
                             <TextBlock FontWeight="Bold" FontSize="20" Margin="10,10,10,5">
                                 <Run Text="Stats for "/>

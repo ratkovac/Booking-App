@@ -110,5 +110,9 @@ namespace BookingApp.Service
         {
             driverStatsRepository.Subscribe(observer);
         }
+        public bool CheckIfFastDrivesFull(int fd)
+        {
+            return (fd == 15);
+        }
     }
 }

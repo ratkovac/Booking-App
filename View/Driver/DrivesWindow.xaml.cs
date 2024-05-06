@@ -39,8 +39,32 @@ namespace BookingApp.View.Driver
 
         public static readonly DependencyProperty IsOverlayVisibleProperty =
             DependencyProperty.Register("IsOverlayVisible", typeof(bool), typeof(DrivesWindow), new PropertyMetadata(false));
+        private string _colorOne;
+        public string ColorOne
+        {
+            get { return _colorOne; }
+            set
+            {
+                if (_colorOne != value)
+                {
+                    _colorOne = value;
+                }
+            }
+        }
+        private string _colorTwo;
+        public string ColorTwo
+        {
+            get { return _colorTwo; }
+            set
+            {
+                if (_colorTwo != value)
+                {
+                    _colorTwo = value;
+                }
+            }
+        }
 
-        public DrivesWindow(User user)
+        public DrivesWindow(User user, bool isFastDriver)
         {
             LoggedInUser = user;
             InitializeComponent();
@@ -51,7 +75,22 @@ namespace BookingApp.View.Driver
             _unsuccessfulDriveRepository = new UnsuccessfulDrivesRepository();
             _driverStatsRepository = new DriverStatsRepository();
             _driverStatsUpdateRepository = new DriverStatsUpdateRepository();
+            CheckIfFastDriver(isFastDriver);
             Window_Loaded(this, null);
+        }
+
+        private void CheckIfFastDriver(bool isFastDriver)
+        {
+            if (isFastDriver == true)
+            {
+                ColorOne = "White";
+                ColorTwo = "LightBlue";
+            }
+            else
+            {
+                ColorOne = "PaleTurquoise";
+                ColorTwo = "White";
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

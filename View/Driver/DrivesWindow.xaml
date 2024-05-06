@@ -12,7 +12,7 @@
             <Setter Property="BorderThickness" Value="2"/>
         </Style>
         <Style TargetType="Button" x:Key="ButtonStyle">
-            <Setter Property="Background" Value="White"/>
+            <Setter Property="Background" Value="{Binding ColorTwo}"/>
             <Setter Property="BorderBrush" Value="Black"/>
             <Setter Property="BorderThickness" Value="2"/>
         </Style>
@@ -26,28 +26,28 @@
         <DataGrid x:Name="dataGrid" Grid.Row="0" ItemsSource="{Binding ListDrive}" AutoGenerateColumns="False" SelectionMode="Single" IsReadOnly="True">
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
-                    <Setter Property="Background" Value="PaleTurquoise"/>
+                    <Setter Property="Background" Value="{Binding ColorOne}"/>
                     <Setter Property="FontFamily" Value="Segoe UI"/>
                     <Setter Property="FontStyle" Value="Italic"/>
                 </Style>
             </DataGrid.ColumnHeaderStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Tourist Name" Binding="{Binding Guest.Username}" Width="Auto"/>
-                <DataGridTextColumn Header="Start City" Binding="{Binding StartAddress.Location.City}" Width="Auto"/>
-                <DataGridTextColumn Header="Start Country" Binding="{Binding StartAddress.Location.Country}" Width="Auto"/>
-                <DataGridTextColumn Header="Start Street" Binding="{Binding StartAddress.Street}" Width="Auto"/>
-                <DataGridTextColumn Header="Start Number" Binding="{Binding StartAddress.Number}" Width="Auto"/>
-                <DataGridTextColumn Header="End City" Binding="{Binding EndAddress.Location.City}" Width="Auto"/>
-                <DataGridTextColumn Header="End Country" Binding="{Binding EndAddress.Location.Country}" Width="Auto"/>
-                <DataGridTextColumn Header="End Street" Binding="{Binding EndAddress.Street}" Width="Auto"/>
-                <DataGridTextColumn Header="End Number" Binding="{Binding EndAddress.Number}" Width="Auto"/>
-                <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="*"/>
+                <DataGridTextColumn Header="Tourist Name" Binding="{Binding Guest.Username}" Width="3*"/>
+                <DataGridTextColumn Header="Start City" Binding="{Binding StartAddress.Location.City}" Width="3*"/>
+                <DataGridTextColumn Header="Start Country" Binding="{Binding StartAddress.Location.Country}" Width="3*"/>
+                <DataGridTextColumn Header="Start Street" Binding="{Binding StartAddress.Street}" Width="3*"/>
+                <DataGridTextColumn Header="Num" Binding="{Binding StartAddress.Number}" Width="*"/>
+                <DataGridTextColumn Header="Start City" Binding="{Binding EndAddress.Location.City}" Width="3*"/>
+                <DataGridTextColumn Header="End Country" Binding="{Binding EndAddress.Location.Country}" Width="3*"/>
+                <DataGridTextColumn Header="End Street" Binding="{Binding EndAddress.Street}" Width="3*"/>
+                <DataGridTextColumn Header="Num" Binding="{Binding EndAddress.Number}" Width="*"/>
+                <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="4*"/>
             </DataGrid.Columns>
         </DataGrid>
 
         <Grid Grid.Row="1">
             <Grid.Background>
-                <SolidColorBrush Color="PaleTurquoise"/>
+                <SolidColorBrush Color="{Binding ColorOne}"/>
             </Grid.Background>
 
             <Border Background="Black" Height="3" VerticalAlignment="Top"/>

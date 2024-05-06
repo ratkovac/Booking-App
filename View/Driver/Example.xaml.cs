@@ -40,7 +40,7 @@ namespace BookingApp.View.Driver
 
         private void btnShowDrives_Click(object sender, RoutedEventArgs e)
         {
-            Driver.DrivesWindow driveWindow = new Driver.DrivesWindow(LoggedDriver);
+            Driver.DrivesWindow driveWindow = new Driver.DrivesWindow(LoggedDriver, viewModel.IsFastDriver());
             driveWindow.Show();
             Close();
         }
