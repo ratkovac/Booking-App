@@ -81,13 +81,13 @@ namespace BookingApp.WPF.View.Tourist.Pages
             }
         }
 
-        private void Tour_Description_Click(object sender, RoutedEventArgs e)
+        private void TourDescription_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
             Tour selectedTour = (Tour)button.DataContext;
 
-            var tour_reservation = new TourReservation(selectedTour, Tourist);
-            NavigationService.Navigate(tour_reservation);
+            var tourDescription = new TourDescription(selectedTour, Tourist);
+            NavigationService.Navigate(tourDescription);
         }
 
         public void Update()

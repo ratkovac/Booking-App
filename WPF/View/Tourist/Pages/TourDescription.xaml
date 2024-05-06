@@ -9,8 +9,10 @@
       Title="Tour Description">
 
     <Grid>
-        <Label Content="Where do you want to go?" FontWeight="Bold" FontSize="45" HorizontalAlignment="Left" Margin="50,30,0,0" VerticalAlignment="Top"/>
-        <StackPanel Margin="40,150,0,0">
+        <Label FontWeight="Bold" FontSize="55" Width="400" HorizontalAlignment="Left" Margin="50,35,0,0" VerticalAlignment="Top">
+            <TextBox x:Name="NameTextBox" IsReadOnly="True" BorderThickness="0" Background="LightBlue" Width="400" TextDecorations="Underline"/>
+        </Label>
+        <StackPanel Margin="50,140,0,0">
             <StackPanel.Resources>
                 <Style TargetType="Label">
                     <Setter Property="FontSize" Value="25"/>
@@ -33,10 +35,9 @@
                         <Setter.Value>
                             <ControlTemplate TargetType="Button">
                                 <Border Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"
-                    BorderThickness="{TemplateBinding BorderThickness}">
-                                    <ContentPresenter HorizontalAlignment="Center"
-              VerticalAlignment="Center"/>
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Border>
                             </ControlTemplate>
                         </Setter.Value>
@@ -51,37 +52,41 @@
                 </Style>
             </StackPanel.Resources>
 
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                <Label Content="Country:" Width="120"/>
-                <ComboBox x:Name="CountryComboBox" FontSize="25" Width="240" Height="40" Margin="0,0,0,0" SelectedItem="{Binding SelectedCountry, Mode=TwoWay}" ItemsSource="{Binding Countries}"/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                <Label Content="City:" Width="65"/>
+                <TextBox x:Name="CityTextBox" Margin="0,5,0,0" IsReadOnly="True" BorderThickness="0" Width="240" Background="LightBlue" FontSize="25"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                <Label Content="City:" Width="70"/>
-                <ComboBox x:Name="CityComboBox" FontSize="25" Width="290" Height="40" Margin="0,0,0,0" SelectedItem="{Binding SelectedCity, Mode=TwoWay}" ItemsSource="{Binding Cities}"/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                <Label Content="Country:" Width="115"/>
+                <TextBox x:Name="CountryTextBox" Margin="0,5,0,0" IsReadOnly="True" BorderThickness="0" Width="240" Background="LightBlue" FontSize="25"/>
             </StackPanel>
 
-            <Label FontWeight="Bold" FontSize="27" HorizontalAlignment="Left" Margin="0,10,0,15" VerticalAlignment="Top">
-                <TextBlock TextDecorations="Underline">Current address:</TextBlock>
-            </Label>
-
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                <Label Content="Street:" Width="90"/>
-                <TextBox x:Name="startStreetTextBox" FontSize="25" Width="270" Height="40" Margin="0,0,8,0" Text="{Binding StartStreet, Mode=TwoWay}"/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                <Label Content="Duration:" Width="120"/>
+                <TextBox x:Name="DurationTextBox" Margin="0,5,0,0" IsReadOnly="True" BorderThickness="0" Width="240" Background="LightBlue" FontSize="25"/>
             </StackPanel>
 
-            <Label FontWeight="Bold" FontSize="27" HorizontalAlignment="Left" Margin="0,10,0,15" VerticalAlignment="Top">
-                <TextBlock TextDecorations="Underline">Destination:</TextBlock>
-            </Label>
-
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                <Label Content="Street:" Width="90"/>
-                <TextBox x:Name="endStreetTextBox" FontSize="25" Width="270" Height="40" Margin="0,0,100,0" Text="{Binding EndStreet, Mode=TwoWay}"/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                <Label Content="Language:" Width="135"/>
+                <TextBox x:Name="LanguageTextBox" Margin="0,5,0,0" IsReadOnly="True" BorderThickness="0" Width="240" Background="LightBlue" FontSize="25"/>
             </StackPanel>
 
-            <Button Content="Book Tour!" HorizontalAlignment="Center" Margin="350,30,0,0"/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                <Label Content="Maximum guests:" Width="220"/>
+                <TextBox x:Name="MaxGuestsTextBox" Margin="0,5,0,0" IsReadOnly="True" BorderThickness="0" Width="80" Background="LightBlue" FontSize="25"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" Width="300" Margin="5,0,0,0" HorizontalAlignment="Left">
+                <Label Content="Starting times:" Width="190" Margin="-10,0,110,0"/>
+                <TextBox x:Name="StartTimesTextBox" IsReadOnly="True" BorderBrush="CornflowerBlue" BorderThickness="3" Width="300" Height="100" Background="LightBlue" FontSize="25"/>
+            </StackPanel>
+
+            <Button Content="Book tour!" HorizontalAlignment="Center" Margin="400,30,0,0"/>
+            <!--<Button Content="View gallery" HorizontalAlignment="Center" Margin="400,-1080,0,0"/>-->
+            <Button Content="View gallery" HorizontalAlignment="Center" Margin="-600,-60,0,0"/>
         </StackPanel>
-        <StackPanel Margin="480,150,0,0">
+        <StackPanel Margin="480,140,0,0">
             <StackPanel.Resources>
                 <Style TargetType="Label">
                     <Setter Property="FontSize" Value="25"/>
@@ -90,28 +95,14 @@
                 </Style>
             </StackPanel.Resources>
 
-            <StackPanel Orientation="Vertical" Margin="0,0,0,15">
-                <Label FontWeight="Bold" FontSize="27" HorizontalAlignment="Left" Margin="0,0,0,15" VerticalAlignment="Top">
-                    <TextBlock TextDecorations="Underline">Departure date:</TextBlock>
-                </Label>
-                <DatePicker x:Name="dateDp" FontSize="27" Width="330" Height="40" Margin="0,0,120,0" SelectedDate="{Binding DepartureDate, Mode=TwoWay}"/>
+            <StackPanel Orientation="Vertical" Width="370" HorizontalAlignment="Left">
+                <Label Content="Description:" Width="160" Margin="0,0,140,0"/>
+                <TextBox x:Name="DescriptionTextBox" IsReadOnly="True" BorderBrush="CornflowerBlue" BorderThickness="3" Width="330" Margin="40,0,0,0" Height="170" Background="LightBlue" FontSize="25"/>
             </StackPanel>
 
-            <StackPanel Orientation="Vertical" Margin="0,0,0,15">
-                <Label FontWeight="Bold" FontSize="27" HorizontalAlignment="Left" Margin="0,10,0,15" VerticalAlignment="Top">
-                    <TextBlock TextDecorations="Underline">Departure time:</TextBlock>
-                </Label>
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Time:" Width="90"/>
-                    <TextBox x:Name="hourTextBox" FontSize="27" Width="70" Height="40" Margin="0,0,10,0" Text="{Binding DepartureHour, Mode=TwoWay}"/>
-                    <TextBlock FontSize="30">:</TextBlock>
-                    <ComboBox x:Name="minuteComboBox" FontSize="27" Width="70" Height="40" Margin="10,0,0,0" Text="{Binding SelectedMinute, Mode=TwoWay}">
-                        <ComboBoxItem Content="00"/>
-                        <ComboBoxItem Content="15"/>
-                        <ComboBoxItem Content="30"/>
-                        <ComboBoxItem Content="45"/>
-                    </ComboBox>
-                </StackPanel>
+            <StackPanel Orientation="Vertical" Width="370" Margin="0,30,0,0" HorizontalAlignment="Left">
+                <Label Content="Checkpoints:" Width="160" Margin="0,0,140,0"/>
+                <TextBox x:Name="CheckPointTextBox" IsReadOnly="True" BorderBrush="CornflowerBlue" BorderThickness="3" Width="330" Margin="40,0,0,0" Height="100" Background="LightBlue" FontSize="25"/>
             </StackPanel>
         </StackPanel>
     </Grid>

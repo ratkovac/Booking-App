@@ -74,13 +74,13 @@
                                 </TextBlock>
                             </StackPanel>
                             <StackPanel Grid.Column="2" VerticalAlignment="Center">
-                                <Button Content="See more" Click="Tour_Description_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="40"/>
+                                <Button Content="See more" Click="TourDescription_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="40"/>
                             </StackPanel>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </Border>
-        <Button Content="Book tour!" HorizontalAlignment="Left" VerticalAlignment="Top" Click="Tour_Reservation" Margin="550,560,0,0" FontSize="25"/>
+        <Button Content="Book tour!" HorizontalAlignment="Left" VerticalAlignment="Top" Click="Tour_Reservation" Margin="578,555,0,0" FontSize="25"/>
     </Grid>
 </Page>
