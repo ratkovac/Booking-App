@@ -26,6 +26,7 @@ namespace BookingApp.WPF.View.Tourist.Pages
         public TourInstance SelectedTourInstance { get; set; }
         public Tour SelectedTour { get; set; }
         public List<CheckPoint> CheckPoints { get; set; }
+        public BookingApp.Model.Tourist Tourist { get; set; }
 
         private readonly CheckPointRepository _checkPointRepository;
         private readonly TourInstanceRepository _tourInstanceRepository;
@@ -36,6 +37,7 @@ namespace BookingApp.WPF.View.Tourist.Pages
             DataContext = this;
             UserId = tourist.Id;
             SelectedTour = selectedTour;
+            Tourist = tourist;
 
             _checkPointRepository = new CheckPointRepository();
             _tourInstanceRepository = new TourInstanceRepository();
@@ -64,6 +66,19 @@ namespace BookingApp.WPF.View.Tourist.Pages
                 startTimes.AppendLine(instance.StartTime.ToString("g"));
             }
             StartTimesTextBox.Text = startTimes.ToString();
+        }
+
+        private void Tour_Reservation(object sender, RoutedEventArgs e)
+        {
+            if (SelectedTour != null)
+            {
+                var tour_reservation = new TourReservation(SelectedTour, Tourist);
+                NavigationService.Navigate(tour_reservation);
+            }
+            else
+            {
+                MessageBox.Show("Morate selektovati turu da bi ste vidjeli vise detalja o njoj!");
+            }
         }
     }
 }
