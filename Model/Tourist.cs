@@ -13,7 +13,7 @@ namespace BookingApp.Model
         public int Id { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
-        public string Adress { get; set; }
+        public string Address { get; set; }
         public string Email { get; set; }
         public int UserId { get; set; }
         public User User { get; set; }
@@ -22,23 +22,25 @@ namespace BookingApp.Model
         public DateTime BirthDate { get; set; }
         public string PhoneNumber { get; set; }
         public int NumberOfToursAttended { get; set; }
+        public string ProfilePicture { get; set; }
 
         public Tourist()
         {
             VoucherIds = new List<int>();
         }
-        public Tourist(int id, string name, string lastname, string adress, string email, int userId, DateTime birthDate, string phoneNumber, int numberOfToursAttended)
+        public Tourist(int id, string name, string lastname, string adress, string email, int userId, DateTime birthDate, string phoneNumber, int numberOfToursAttended, string profilePicture)
         {
             Id = id;
             Name = name;
             LastName = lastname;
-            Adress = adress;
+            Address = adress;
             Email = email;
             UserId = userId;
             VoucherIds = new List<int>();
             BirthDate = birthDate;
             PhoneNumber = phoneNumber;
             NumberOfToursAttended = numberOfToursAttended;
+            ProfilePicture = profilePicture;
         }
 
         public void FromCSV(string[] values)
@@ -46,7 +48,7 @@ namespace BookingApp.Model
             Id = Convert.ToInt32(values[0]);
             Name = values[1];
             LastName = values[2];
-            Adress = values[3];
+            Address = values[3];
             Email = values[4];
             UserId = Convert.ToInt32(values[5]);
             if (values[6] != "")
@@ -60,6 +62,7 @@ namespace BookingApp.Model
             BirthDate = DateTime.Parse(values[7]);
             PhoneNumber = values[8];
             NumberOfToursAttended = Convert.ToInt32(values[9]);
+            ProfilePicture = values[10];
         }
 
         public string[] ToCSV()
@@ -76,7 +79,7 @@ namespace BookingApp.Model
                 }
                 VoucherString += VoucherIds.Last();
             }
-            string[] csvvalues = { Id.ToString(), Name, LastName, Adress, Email, UserId.ToString(), VoucherString, BirthDate.ToString(), PhoneNumber, NumberOfToursAttended.ToString() };
+            string[] csvvalues = { Id.ToString(), Name, LastName, Address, Email, UserId.ToString(), VoucherString, BirthDate.ToString(), PhoneNumber, NumberOfToursAttended.ToString(), ProfilePicture };
             return csvvalues;
         }
     }
