@@ -7,6 +7,8 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +23,7 @@ using System.Windows.Shapes;
 
 namespace BookingApp.View.Driver
 {
-    public partial class DrivesWindow : Window
+    public partial class DrivesWindow : Window, INotifyPropertyChanged
     {
 
         DriveRepository _driveRepository;
@@ -48,10 +50,15 @@ namespace BookingApp.View.Driver
                 if (_colorOne != value)
                 {
                     _colorOne = value;
+                    OnPropertyChanged(nameof(ColorOne));
                 }
             }
         }
+
         private string _colorTwo;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         public string ColorTwo
         {
             get { return _colorTwo; }
@@ -60,9 +67,11 @@ namespace BookingApp.View.Driver
                 if (_colorTwo != value)
                 {
                     _colorTwo = value;
+                    OnPropertyChanged(nameof(ColorTwo));
                 }
             }
         }
+        private bool IsSuperDriver;
 
         public DrivesWindow(User user, bool isFastDriver)
         {
@@ -75,6 +84,7 @@ namespace BookingApp.View.Driver
             _unsuccessfulDriveRepository = new UnsuccessfulDrivesRepository();
             _driverStatsRepository = new DriverStatsRepository();
             _driverStatsUpdateRepository = new DriverStatsUpdateRepository();
+            IsSuperDriver = isFastDriver;
             CheckIfFastDriver(isFastDriver);
             Window_Loaded(this, null);
         }
@@ -112,7 +122,7 @@ namespace BookingApp.View.Driver
             if (dataGrid.SelectedItem != null)
             {
                 DriveDTO selectedDrive = dataGrid.SelectedItem as DriveDTO;
-                DriveReservationWindow reservationWindow = new DriveReservationWindow(selectedDrive, this);
+                DriveReservationWindow reservationWindow = new DriveReservationWindow(selectedDrive, this, IsSuperDriver);
 
                 reservationWindow.Owner = this;
                 IsOverlayVisible = true;
@@ -135,6 +145,7 @@ namespace BookingApp.View.Driver
                 DriveDTO driveDTO = new DriveDTO(drive);
                 ListDrive.Add(driveDTO);
             }
+            IsOverlayVisible= false;            
         }
 
         private void btnCanelDrive_Click(object sender, RoutedEventArgs e)
@@ -175,5 +186,10 @@ namespace BookingApp.View.Driver
         {
             IsOverlayVisible = false;
         }
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
     }
 }

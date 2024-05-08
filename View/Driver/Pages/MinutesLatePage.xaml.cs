@@ -1,7 +1,9 @@
 ﻿using BookingApp.DTO;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,12 +19,46 @@ using System.Windows.Shapes;
 namespace BookingApp.View.Driver.Pages
 {
 
-    public partial class MinutesLatePage : Page
+    public partial class MinutesLatePage : Page, INotifyPropertyChanged
     {
         private DriveDTO selectedDrive;
         private DrivesWindow drivesWindow;
-        public MinutesLatePage(DriveDTO drive, DrivesWindow DrivesWindow)
+        private bool IsSuperDriver;
+
+        private string _colorOne;
+        public string ColorOne
         {
+            get { return _colorOne; }
+            set
+            {
+                if (_colorOne != value)
+                {
+                    _colorOne = value;
+                    OnPropertyChanged(nameof(ColorOne));
+                }
+            }
+        }
+
+        private string _colorTwo;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public string ColorTwo
+        {
+            get { return _colorTwo; }
+            set
+            {
+                if (_colorTwo != value)
+                {
+                    _colorTwo = value;
+                    OnPropertyChanged(nameof(ColorTwo));
+                }
+            }
+        }
+        public MinutesLatePage(DriveDTO drive, DrivesWindow DrivesWindow, bool isSuperDriver)
+        {
+            DataContext = this;
+            IsSuperDriver = isSuperDriver;
             InitializeComponent();
             selectedDrive = drive;
             drivesWindow= DrivesWindow;
@@ -38,6 +74,23 @@ namespace BookingApp.View.Driver.Pages
             {
                 MessageBox.Show("Molimo unesite celobrojnu vrednost za kašnjenje.");
             }
+        }
+        private void CheckIfFastDriver(bool isFastDriver)
+        {
+            if (isFastDriver == true)
+            {
+                ColorOne = "White";
+                ColorTwo = "LightBlue";
+            }
+            else
+            {
+                ColorOne = "PaleTurquoise";
+                ColorTwo = "White";
+            }
+        }
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

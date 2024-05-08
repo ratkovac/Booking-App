@@ -40,8 +40,6 @@ namespace BookingApp.View.Driver
         public List<Language> Language;
 
         public LanguageRepository _languageRepository;
-
-        public DriverFrontPage driverFrontPage;
         public ObservableCollection<VehicleDTO> VehicleDTOList { get; set; } = new ObservableCollection<VehicleDTO>();
         public ObservableCollection<Language> Languages { get; set; } = new ObservableCollection<Language>();
         public ObservableCollection<Language> SelectedLanguages { get; set; } = new ObservableCollection<Language>();
@@ -61,9 +59,6 @@ namespace BookingApp.View.Driver
             Window_Loaded(this, null);
 
             Languages = new ObservableCollection<Language>(_languageRepository.GetAllLanguages());
-
-
-            driverFrontPage = new DriverFrontPage(user);
 
         }
 

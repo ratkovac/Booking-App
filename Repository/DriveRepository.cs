@@ -116,5 +116,10 @@ namespace BookingApp.Repository
             }
         }
 
+        public Drive GetById(int id)
+        {
+            _drives = _serializer.FromCSV(FilePath);
+            return _drives.FirstOrDefault(d => d.Id == id);
+        }
     }
 }

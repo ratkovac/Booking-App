@@ -1,19 +1,21 @@
 ﻿using BookingApp.DTO;
+using BookingApp.Model;
+using BookingApp.Repository;
 using BookingApp.View.Driver.Pages;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Navigation;
 
 namespace BookingApp.View.Driver
 {
-    public partial class DriveReservationWindow : Window, INotifyPropertyChanged
+    public partial class MinutesLateWindow : Window, INotifyPropertyChanged
     {
-        public DriveDTO selectedDrive;
-        public bool IsSuperDriver;
-
-
+        private DriveDTO selectedDrive;
         private DrivesWindow drivesWindow;
+        private bool IsSuperDriver;
+        private DriveRepository _driveRepository;
 
         private string _colorOne;
         public string ColorOne
@@ -31,7 +33,7 @@ namespace BookingApp.View.Driver
 
         private string _colorTwo;
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public string ColorTwo
         {
@@ -45,19 +47,42 @@ namespace BookingApp.View.Driver
                 }
             }
         }
-        public DriveReservationWindow(DriveDTO drive, DrivesWindow DrivesWindow, bool isSuperDriver)
+        public MinutesLateWindow(DriveDTO drive, DrivesWindow DrivesWindow, bool isSuperDriver)
         {
-            IsSuperDriver = isSuperDriver;
-            CheckIfFastDriver(IsSuperDriver);
-
             DataContext = this;
+            IsSuperDriver = isSuperDriver;
+            selectedDrive = drive;
+            drivesWindow = DrivesWindow;
+            _driveRepository = new DriveRepository();
+            CheckIfFastDriver(IsSuperDriver);
             InitializeComponent();
             CenterWindowOnScreen();
 
-            selectedDrive = drive;
-            drivesWindow = DrivesWindow;
-
             Closed += DriveReservationWindow_Closed;
+        }
+        private void DriveReservationWindow_Closed(object sender, System.EventArgs e)
+        {
+            drivesWindow.RefreshDriveList();
+        }
+
+        private void btnConfirmation_Click(object sender, RoutedEventArgs e)
+        {
+            if (int.TryParse(MinutesLateTextBox.Text, out int minutesLate) && MinutesLateTextBox.Text != "")
+            {
+                this.Close();
+                drivesWindow.IsOverlayVisible = true;
+
+                Drive drive = _driveRepository.GetById(selectedDrive.Id);
+                drive.Delay = minutesLate;
+                _driveRepository.Update(drive);
+
+                var driverAtAddressWindow = new DriverAtAddressWindow(selectedDrive, drivesWindow, IsSuperDriver);
+                driverAtAddressWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show("Please enter an integer value for the delay.");
+            }
         }
         private void CheckIfFastDriver(bool isFastDriver)
         {
@@ -72,55 +97,9 @@ namespace BookingApp.View.Driver
                 ColorTwo = "White";
             }
         }
-
-        private void btnYes_Click(object sender, RoutedEventArgs e)
-        {
-            DriverAtAddress driverAtAddressPage = new DriverAtAddress(selectedDrive, drivesWindow);
-
-            MainFrame.Navigate(driverAtAddressPage);
-        }
-
-        private void btnNo_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-            drivesWindow.IsOverlayVisible = true;
-
-            var minutesLateWindow = new MinutesLateWindow(selectedDrive, drivesWindow, IsSuperDriver);
-            minutesLateWindow.Show();
-        }
-        private void DriveReservationWindow_Closed(object sender, System.EventArgs e)
-        {
-            drivesWindow.RefreshDriveList();
-        }
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        private void Button_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Tab)
-            {
-                e.Handled = true;
-                if (sender == btnNo)
-                {
-                    btnYes.Focus();
-                }
-                else if (sender == btnYes)
-                {
-                    btnNo.Focus();
-                }
-            }
-            else if (e.Key == Key.Enter)
-            {
-                if (sender == btnNo)
-                {
-                    btnNo_Click(sender, e);
-                }
-                else if (sender == btnYes)
-                {
-                    btnYes_Click(sender, e);
-                }
-            }
         }
         private void CenterWindowOnScreen()
         {
@@ -130,6 +109,13 @@ namespace BookingApp.View.Driver
             double windowHeight = Height;
             Left = (screenWidth - windowWidth) / 2;
             Top = (screenHeight - windowHeight) / 2;
+        }
+        private void MinutesLateTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!char.IsDigit(e.Text, e.Text.Length - 1))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

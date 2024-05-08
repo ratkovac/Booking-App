@@ -34,7 +34,9 @@ namespace BookingApp.View.Driver.Pages
 
         private void btnNo_Click(object sender, RoutedEventArgs e)
         {
-          //  NavigationService.Navigate(new MinutesLatePage(selectedDrive));
+          //  MinutesLatePage minutesLatePage = new MinutesLatePage(selectedDrive, drivesWindow);
+
+            //MainFrame.Navigate(minutesLatePage);
         }
     }
 }

@@ -15,6 +15,26 @@
             <Setter Property="Background" Value="{Binding ColorTwo}"/>
             <Setter Property="BorderBrush" Value="Black"/>
             <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="20">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="PaleTurquoise"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="PaleTurquoise"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Window.Resources>
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -23,27 +43,72 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <DataGrid x:Name="dataGrid" Grid.Row="0" ItemsSource="{Binding ListDrive}" AutoGenerateColumns="False" SelectionMode="Single" IsReadOnly="True">
-            <DataGrid.ColumnHeaderStyle>
-                <Style TargetType="{x:Type DataGridColumnHeader}">
-                    <Setter Property="Background" Value="{Binding ColorOne}"/>
-                    <Setter Property="FontFamily" Value="Segoe UI"/>
-                    <Setter Property="FontStyle" Value="Italic"/>
+    <DataGrid x:Name="dataGrid" Grid.Row="0" ItemsSource="{Binding ListDrive}" AutoGenerateColumns="False" SelectionMode="Single" IsReadOnly="True">
+    <DataGrid.ColumnHeaderStyle>
+        <Style TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontStyle" Value="Italic"/>
+        </Style>
+    </DataGrid.ColumnHeaderStyle>
+    <DataGrid.Columns>
+                <DataGridTextColumn Header="Tourist Name" Width="3*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Background" Value="LightGray"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                    <DataGridTextColumn.Binding>
+                        <Binding Path="Guest.Username"/>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+
+        <DataGridTextColumn Header="Start City" Binding="{Binding StartAddress.Location.City}" Width="3*"/>
+        <DataGridTextColumn Header="Start Country" Binding="{Binding StartAddress.Location.Country}" Width="3*"/>
+        <DataGridTextColumn Header="Start Street" Binding="{Binding StartAddress.Street}" Width="3*"/>
+        <DataGridTextColumn Header="Num" Binding="{Binding StartAddress.Number}" Width="*"/>
+        <DataGridTextColumn Header="End City" Width="3*">
+            <DataGridTextColumn.ElementStyle>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Background" Value="LightGray"/>
                 </Style>
-            </DataGrid.ColumnHeaderStyle>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Tourist Name" Binding="{Binding Guest.Username}" Width="3*"/>
-                <DataGridTextColumn Header="Start City" Binding="{Binding StartAddress.Location.City}" Width="3*"/>
-                <DataGridTextColumn Header="Start Country" Binding="{Binding StartAddress.Location.Country}" Width="3*"/>
-                <DataGridTextColumn Header="Start Street" Binding="{Binding StartAddress.Street}" Width="3*"/>
-                <DataGridTextColumn Header="Num" Binding="{Binding StartAddress.Number}" Width="*"/>
-                <DataGridTextColumn Header="Start City" Binding="{Binding EndAddress.Location.City}" Width="3*"/>
-                <DataGridTextColumn Header="End Country" Binding="{Binding EndAddress.Location.Country}" Width="3*"/>
-                <DataGridTextColumn Header="End Street" Binding="{Binding EndAddress.Street}" Width="3*"/>
-                <DataGridTextColumn Header="Num" Binding="{Binding EndAddress.Number}" Width="*"/>
-                <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="4*"/>
-            </DataGrid.Columns>
-        </DataGrid>
+            </DataGridTextColumn.ElementStyle>
+            <DataGridTextColumn.Binding>
+                <Binding Path="EndAddress.Location.City"/>
+            </DataGridTextColumn.Binding>
+        </DataGridTextColumn>
+        <DataGridTextColumn Header="End Country" Width="3*">
+            <DataGridTextColumn.ElementStyle>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Background" Value="LightGray"/>
+                </Style>
+            </DataGridTextColumn.ElementStyle>
+            <DataGridTextColumn.Binding>
+                <Binding Path="EndAddress.Location.Country"/>
+            </DataGridTextColumn.Binding>
+        </DataGridTextColumn>
+        <DataGridTextColumn Header="End Street" Binding="{Binding EndAddress.Street}" Width="3*">
+            <DataGridTextColumn.ElementStyle>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Background" Value="LightGray"/>
+                </Style>
+            </DataGridTextColumn.ElementStyle>
+        </DataGridTextColumn>
+        <DataGridTextColumn Header="Num" Width="*">
+            <DataGridTextColumn.ElementStyle>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Background" Value="LightGray"/>
+                </Style>
+            </DataGridTextColumn.ElementStyle>
+            <DataGridTextColumn.Binding>
+                <Binding Path="EndAddress.Number"/>
+            </DataGridTextColumn.Binding>
+        </DataGridTextColumn>
+        <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="4*"/>
+    </DataGrid.Columns>
+</DataGrid>
+
+
 
         <Grid Grid.Row="1">
             <Grid.Background>

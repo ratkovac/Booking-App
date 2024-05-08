@@ -1,20 +1,30 @@
 ﻿using BookingApp.DTO;
-using BookingApp.View.Driver.Pages;
+using BookingApp.Model;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
 namespace BookingApp.View.Driver
 {
-    public partial class DriveReservationWindow : Window, INotifyPropertyChanged
+    /// <summary>
+    /// Interaction logic for DriverAtAddressWindow.xaml
+    /// </summary>
+    public partial class DriverAtAddressWindow : Window, INotifyPropertyChanged
     {
-        public DriveDTO selectedDrive;
-        public bool IsSuperDriver;
-
-
+        DriveDTO selectedDrive;
         private DrivesWindow drivesWindow;
-
+        private bool IsSuperDriver;
         private string _colorOne;
         public string ColorOne
         {
@@ -31,7 +41,7 @@ namespace BookingApp.View.Driver
 
         private string _colorTwo;
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public string ColorTwo
         {
@@ -45,19 +55,21 @@ namespace BookingApp.View.Driver
                 }
             }
         }
-        public DriveReservationWindow(DriveDTO drive, DrivesWindow DrivesWindow, bool isSuperDriver)
+        public DriverAtAddressWindow(DriveDTO drive, DrivesWindow DrivesWindow, bool isSuperDriver)
         {
+            selectedDrive = drive;
+            drivesWindow = DrivesWindow;
             IsSuperDriver = isSuperDriver;
-            CheckIfFastDriver(IsSuperDriver);
-
             DataContext = this;
+            CheckIfFastDriver(IsSuperDriver);
             InitializeComponent();
             CenterWindowOnScreen();
 
-            selectedDrive = drive;
-            drivesWindow = DrivesWindow;
-
             Closed += DriveReservationWindow_Closed;
+        }
+        private void DriveReservationWindow_Closed(object sender, System.EventArgs e)
+        {
+            drivesWindow.RefreshDriveList();
         }
         private void CheckIfFastDriver(bool isFastDriver)
         {
@@ -72,55 +84,9 @@ namespace BookingApp.View.Driver
                 ColorTwo = "White";
             }
         }
-
-        private void btnYes_Click(object sender, RoutedEventArgs e)
-        {
-            DriverAtAddress driverAtAddressPage = new DriverAtAddress(selectedDrive, drivesWindow);
-
-            MainFrame.Navigate(driverAtAddressPage);
-        }
-
-        private void btnNo_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-            drivesWindow.IsOverlayVisible = true;
-
-            var minutesLateWindow = new MinutesLateWindow(selectedDrive, drivesWindow, IsSuperDriver);
-            minutesLateWindow.Show();
-        }
-        private void DriveReservationWindow_Closed(object sender, System.EventArgs e)
-        {
-            drivesWindow.RefreshDriveList();
-        }
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        private void Button_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Tab)
-            {
-                e.Handled = true;
-                if (sender == btnNo)
-                {
-                    btnYes.Focus();
-                }
-                else if (sender == btnYes)
-                {
-                    btnNo.Focus();
-                }
-            }
-            else if (e.Key == Key.Enter)
-            {
-                if (sender == btnNo)
-                {
-                    btnNo_Click(sender, e);
-                }
-                else if (sender == btnYes)
-                {
-                    btnYes_Click(sender, e);
-                }
-            }
         }
         private void CenterWindowOnScreen()
         {
@@ -130,6 +96,11 @@ namespace BookingApp.View.Driver
             double windowHeight = Height;
             Left = (screenWidth - windowWidth) / 2;
             Top = (screenHeight - windowHeight) / 2;
+        }
+
+        private void btnVehicleAtAddress_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
