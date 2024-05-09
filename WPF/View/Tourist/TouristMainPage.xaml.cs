@@ -110,10 +110,16 @@ namespace BookingApp.WPF.View.Tourist
             CheckForNotification();
         }
 
-        private void AvailableTours_Click(object sender, RoutedEventArgs e)
+        private void TourDisplay_Click(object sender, RoutedEventArgs e)
         {
             TourDisplay tourDisplay = new TourDisplay(Tourist);
             FrameHomePage.Navigate(tourDisplay);
+        }
+
+        private void DriveDisplay_Click(object sender, RoutedEventArgs e)
+        {
+            DriveDisplay driveDisplay = new DriveDisplay(Tourist);
+            FrameHomePage.Navigate(driveDisplay);
         }
 
         private void DriveReservation_Click(object sender, RoutedEventArgs e)

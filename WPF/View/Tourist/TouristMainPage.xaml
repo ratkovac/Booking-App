@@ -96,7 +96,7 @@
                 </Ellipse>
                 <Image Source="/Resources/Images/notifications.png" Width="79" Height="79" Margin="70,0,0,480" MouseDown="Notification_Click"/>
                 <Image Source="/Resources/Images/profile.png" Width="65" Height="65" Margin="215,0,0,480" MouseDown="Profile_Click"/>
-                <Button Content="Home page" Click="AvailableTours_Click" Margin="0,0,0,320" HorizontalAlignment="Center"/>
+                <Button Content="Home page" Click="TourDisplay_Click" Margin="0,0,0,320" HorizontalAlignment="Center"/>
                 <ToggleButton Content="My reservations" Margin="0,0,0,180" HorizontalAlignment="Center" Checked="ToggleButton_Checked">
                     <ToggleButton.Template>
                         <ControlTemplate TargetType="ToggleButton">
@@ -187,6 +187,7 @@
                                             <Button Content="Drive reservation" Click="DriveReservation_Click" Margin="0"/>
                                             <Button Content="Fast drive reservation" Click="FastDrive_Click" Margin="0"/>
                                             <Button Content="Group drive reservation" Click="GroupDrive_Click" Margin="0"/>
+                                            <Button Content="My drives" Click="DriveDisplay_Click" Margin="0"/>
                                         </StackPanel>
                                     </Border>
                                 </Popup>
