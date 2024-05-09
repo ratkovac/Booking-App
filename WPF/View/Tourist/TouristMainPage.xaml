@@ -186,6 +186,7 @@
                                         <StackPanel>
                                             <Button Content="Drive reservation" Click="DriveReservation_Click" Margin="0"/>
                                             <Button Content="Fast drive reservation" Click="FastDrive_Click" Margin="0"/>
+                                            <Button Content="Group drive reservation" Click="GroupDrive_Click" Margin="0"/>
                                         </StackPanel>
                                     </Border>
                                 </Popup>
