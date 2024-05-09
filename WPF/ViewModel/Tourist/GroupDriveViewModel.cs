@@ -1,21 +1,18 @@
 ﻿using BookingApp.Model;
 using BookingApp.Repository;
+using BookingApp.Service;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows;
-using BookingApp.Service;
-using System.Collections.ObjectModel;
 
 namespace BookingApp.WPF.ViewModel.Tourist
 {
-    public class FastDriveViewModel : INotifyPropertyChanged
+    public class GroupDriveViewModel : INotifyPropertyChanged
     {
         private User Tourist;
         public Location SelectedLocation { get; set; }
@@ -24,13 +21,14 @@ namespace BookingApp.WPF.ViewModel.Tourist
         public int AddressId { get; set; }
         public string CountryName { get; set; }
         public string CityName { get; set; }
+        public string LanguageName { get; set; }
 
         public LocationRepository _locationRepository { get; set; }
         public AddressRepository _addressRepository { get; set; }
-        public FastDriveService _fastDriveService { get; set; }
+        public GroupDriveService _groupDriveService { get; set; }
 
-        private ObservableCollection<string> _countries;
-        public ObservableCollection<string> Countries
+        private List<string> _countries;
+        public List<string> Countries
         {
             get { return _countries; }
             set
@@ -52,8 +50,8 @@ namespace BookingApp.WPF.ViewModel.Tourist
             }
         }
 
-        private ObservableCollection<string> _cities;
-        public ObservableCollection<string> Cities
+        private List<string> _cities;
+        public List<string> Cities
         {
             get { return _cities; }
             set
@@ -129,13 +127,48 @@ namespace BookingApp.WPF.ViewModel.Tourist
             }
         }
 
-        public FastDriveViewModel(User user)
+        private List<string> _languages;
+        public List<string> Languages
+        {
+            get { return _languages; }
+            set
+            {
+                _languages = value;
+                OnPropertyChanged(nameof(Languages));
+            }
+        }
+
+        private string _selectedLanguage;
+        public string SelectedLanguage
+        {
+            get { return _selectedLanguage; }
+            set
+            {
+                _selectedLanguage = value;
+                OnPropertyChanged(nameof(SelectedLanguage));
+                InputCities();
+            }
+        }
+
+        private int _numberOfPeople;
+        public int NumberOfPeople
+        {
+            get { return _numberOfPeople; }
+            set
+            {
+                _numberOfPeople = value;
+                OnPropertyChanged(nameof(NumberOfPeople));
+            }
+        }
+
+        public GroupDriveViewModel(User user)
         {
             Tourist = user;
             InputCountries();
+            InputLanguages();
             _locationRepository = new LocationRepository();
             _addressRepository = new AddressRepository();
-            _fastDriveService = new FastDriveService();
+            _groupDriveService = new GroupDriveService();
             DepartureDate = DateTime.Today;
         }
 
@@ -148,13 +181,28 @@ namespace BookingApp.WPF.ViewModel.Tourist
         private void InputCountries()
         {
             var countries = GetDistinctCountries();
-            Countries = new ObservableCollection<string>(countries);
+            Countries = new List<string>(countries);
+        }
+
+        private void InputLanguages()
+        {
+            var languages = GetDistinctLanguages();
+            Languages = new List<string>(languages);
         }
 
         private List<string> GetDistinctCountries()
         {
             return new LocationRepository().GetAll()
                                             .Select(loc => loc.Country)
+                                            .Distinct()
+                                            .OrderBy(c => c)
+                                            .ToList();
+        }
+
+        private List<string> GetDistinctLanguages()
+        {
+            return new LanguageRepository().GetAll()
+                                            .Select(lng => lng.Name)
                                             .Distinct()
                                             .OrderBy(c => c)
                                             .ToList();
@@ -167,11 +215,11 @@ namespace BookingApp.WPF.ViewModel.Tourist
 
             if (string.IsNullOrEmpty(selectedCountry))
             {
-                Cities = new ObservableCollection<string>();
+                Cities = new List<string>();
                 return;
             }
 
-            var cities = _fastDriveService.GetCitiesByCountry(selectedCountry);
+            var cities = _groupDriveService.GetCitiesByCountry(selectedCountry);
 
             if (cities.Count > 0)
             {
@@ -179,13 +227,13 @@ namespace BookingApp.WPF.ViewModel.Tourist
             }
             else
             {
-                Cities = new ObservableCollection<string>();
+                Cities = new List<string>();
             }
         }
 
         private void UpdateCityComboBox(List<KeyValuePair<int, string>> items)
         {
-            Cities = new ObservableCollection<string>(items.Select(city => city.Value).ToList());
+            Cities = new List<string>(items.Select(city => city.Value).ToList());
         }
 
         private void SetDetailedAddressId(string address, bool isStartAddress)
@@ -208,7 +256,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
 
         public string Reservation()
         {
-            DateTime departure = _fastDriveService.CreateDateTimeFromSelections(DepartureDate, DepartureHour, SelectedMinute);
+            DateTime departure = _groupDriveService.CreateDateTimeFromSelections(DepartureDate, DepartureHour, SelectedMinute);
 
             SetDetailedAddressId(StartStreet, true);
             SetDetailedAddressId(EndStreet, false);
@@ -222,15 +270,15 @@ namespace BookingApp.WPF.ViewModel.Tourist
                 DetailedEndAddressId = AddNewAddress(EndStreet);
             }
 
-            FastDrive fastDrive = new FastDrive(DetailedStartAddressId, DetailedEndAddressId, departure, DateTime.Now, Tourist, 2, 0, 0);
-            _fastDriveService.Create(fastDrive);
+            GroupDrive groupDrive = new GroupDrive(DetailedStartAddressId, DetailedEndAddressId, departure, DateTime.Now, Tourist, 2, 0, 0, SelectedLanguage, NumberOfPeople);
+            _groupDriveService.Create(groupDrive);
             return "Rezervacija uspješna";
         }
 
 
         private int AddNewAddress(string address)
         {
-            return _fastDriveService.AddNewAddress(address, SelectedCity, SelectedCountry);
+            return _groupDriveService.AddNewAddress(address, SelectedCity, SelectedCountry);
         }
     }
 }

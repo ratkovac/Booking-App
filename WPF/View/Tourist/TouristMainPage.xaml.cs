@@ -126,6 +126,11 @@ namespace BookingApp.WPF.View.Tourist
             FastDriveViewModel fastDriveViewModel = new FastDriveViewModel(Tourist.User);
             FrameHomePage.Navigate(new BookingApp.WPF.View.Tourist.Pages.FastDrivePage(fastDriveViewModel));
         }
+        private void GroupDrive_Click(object sender, RoutedEventArgs e)
+        {
+            GroupDriveViewModel groupDriveViewModel = new GroupDriveViewModel(Tourist.User);
+            FrameHomePage.Navigate(new BookingApp.WPF.View.Tourist.Pages.GroupDrivePage(groupDriveViewModel));
+        }
         private void FinishedTours_Click(object sender, RoutedEventArgs e)
         {
             FinishedToursViewModel finishedToursViewModel = new FinishedToursViewModel(Tourist);

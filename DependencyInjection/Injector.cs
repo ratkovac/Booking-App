@@ -30,7 +30,8 @@ namespace BookingApp.DependencyInjection
             { typeof(IImageRepository), new ImageRepository() },
             { typeof(IDriverStatsRepository), new DriverStatsRepository() },
             { typeof(IReservedDriveRepository), new ReservedDriveRepository() },
-            { typeof(ITourImageRepository), new TourImageRepository() }
+            { typeof(ITourImageRepository), new TourImageRepository() },
+            { typeof(IGroupDriveRepository), new GroupDriveRepository() }
         };
         public static T CreateInstance<T>()
         {

@@ -12,50 +12,44 @@ using System.Windows;
 
 namespace BookingApp.Service
 {
-    public class FastDriveService
+    public class GroupDriveService
     {
-        private IFastDriveRepository fastDriveRepository;
-        private readonly DriveRepository _driveRepository;
+        private IGroupDriveRepository groupDriveRepository;
         private LocationRepository _locationRepository { get; set; }
         private AddressRepository _addressRepository { get; set; }
-        public FastDriveService()
+        public GroupDriveService()
         {
-            fastDriveRepository = Injector.CreateInstance<IFastDriveRepository>();
-            _driveRepository = new DriveRepository();
+            groupDriveRepository = Injector.CreateInstance<IGroupDriveRepository>();
             _locationRepository = new LocationRepository();
             _addressRepository = new AddressRepository();
         }
         public int NextId()
         {
-            return fastDriveRepository.NextId();
+            return groupDriveRepository.NextId();
         }
-        public List<FastDrive> GetAllFastDrives()
+        public List<GroupDrive> GetAllFastDrives()
         {
-            return fastDriveRepository.GetAll();
+            return groupDriveRepository.GetAll();
         }
-        public FastDrive GetFastDriveById(int id)
+        public GroupDrive GetGroupDriveById(int id)
         {
-            return fastDriveRepository.GetById(id);
+            return groupDriveRepository.GetById(id);
         }
-        public void Create(FastDrive fastDrive)
+        public void Create(GroupDrive groupDrive)
         {
-            fastDriveRepository.Create(fastDrive);
+            groupDriveRepository.Create(groupDrive);
         }
-        public void Delete(FastDrive fastDrive)
+        public void Delete(GroupDrive groupDrive)
         {
-            fastDriveRepository.Delete(fastDrive);
+            groupDriveRepository.Delete(groupDrive);
         }
-        public void Update(FastDrive fastDrive)
+        public void Update(GroupDrive groupDrive)
         {
-            fastDriveRepository.Update(fastDrive);
-        }
-        public void SaveDrive(Drive drive)
-        {
-            _driveRepository.Save(drive);
+            groupDriveRepository.Update(groupDrive);
         }
         public void Subscribe(IObserver observer)
         {
-            fastDriveRepository.Subscribe(observer);
+            groupDriveRepository.Subscribe(observer);
         }
         public DateTime CreateDateTimeFromSelections(DateTime DepartureDate, string DepartureHour, string SelectedMinute)
         {
