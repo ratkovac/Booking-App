@@ -27,7 +27,7 @@ namespace BookingApp.Service
         {
             return groupDriveRepository.NextId();
         }
-        public List<GroupDrive> GetAllFastDrives()
+        public List<GroupDrive> GetAllGroupDrives()
         {
             return groupDriveRepository.GetAll();
         }

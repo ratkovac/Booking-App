@@ -22,6 +22,7 @@ namespace BookingApp.Model
         public User Guest { get; set; }
         public int DriveStatusId { get; set; }
         public double Delay { get; set; }
+        public double TouristDelay { get; set; }
 
         public Drive()
         {
@@ -38,7 +39,7 @@ namespace BookingApp.Model
             GuestId = guestId;
         }
 
-        public Drive(int startAddressId, int endAddressId, DateTime date, User driver, User guest, int driveStatusId, double delay)
+        public Drive(int startAddressId, int endAddressId, DateTime date, User driver, User guest, int driveStatusId, double delay, double touristDelay)
         {
             StartAddressId = startAddressId;
             EndAddressId = endAddressId;
@@ -47,6 +48,7 @@ namespace BookingApp.Model
             Guest = guest;
             DriveStatusId = driveStatusId;
             Delay = delay;
+            TouristDelay = touristDelay;
         }
 
         public Drive(int startAddressId, int endAddressId, DateTime date, int guestId, int driveStatusId, double delay)
@@ -90,8 +92,6 @@ namespace BookingApp.Model
         public string[] ToCSV()
         {
             string driverId = Driver.Id.ToString();
-            //string startAddressId = StartAddress.Id.ToString();
-            //string endAddressId = EndAddress.Id.ToString();
             string guestId = Guest.Id.ToString();  
             string[] csvValues = {
                 Id.ToString(),
@@ -101,13 +101,14 @@ namespace BookingApp.Model
                 Date.ToString(),
                 guestId,
                 DriveStatusId.ToString(),
-                Delay.ToString() };
+                Delay.ToString(),
+                TouristDelay.ToString() };
             return csvValues;
         }
 
         public void FromCSV(string[] values)
         {
-            if (values.Length != 8)
+            if (values.Length != 9)
             {
                 throw new ArgumentException("Neispravan format CSV podataka.");
             }
@@ -129,6 +130,7 @@ namespace BookingApp.Model
             DriveStatusId = Convert.ToInt32(values[6]);
             Delay = Convert.ToDouble(values[7]);
             Guest = userRepository.GetByID(GuestId);
+            TouristDelay = Convert.ToDouble(values[8]);
 
         }
     }

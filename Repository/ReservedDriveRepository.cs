@@ -17,15 +17,11 @@ namespace BookingApp.Repository
         private readonly Serializer<FastDrive> _serializer;
         private List<IObserver> observers;
         private List<FastDrive> _fastDrives;
-        private AddressRepository _addressRepository;
-
 
         public ReservedDriveRepository()
         {
             _serializer = new Serializer<FastDrive>();
             _fastDrives = _serializer.FromCSV(FilePath);
-            _addressRepository = new AddressRepository();
-
         }
 
         public FastDrive Save(FastDrive fastDrive)

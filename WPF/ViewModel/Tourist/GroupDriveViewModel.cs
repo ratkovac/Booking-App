@@ -270,10 +270,21 @@ namespace BookingApp.WPF.ViewModel.Tourist
                 DetailedEndAddressId = AddNewAddress(EndStreet);
             }
 
-            GroupDrive groupDrive = new GroupDrive(DetailedStartAddressId, DetailedEndAddressId, departure, DateTime.Now, Tourist, 2, 0, 0, SelectedLanguage, NumberOfPeople);
-            _groupDriveService.Create(groupDrive);
+            int numberOfPeople = NumberOfPeople;
+            int maxPeoplePerDrive = 4;
+
+            while (numberOfPeople > 0)
+            {
+                int peopleInThisDrive = Math.Min(numberOfPeople, maxPeoplePerDrive);
+                GroupDrive groupDrive = new GroupDrive(DetailedStartAddressId, DetailedEndAddressId, departure, DateTime.Now, Tourist.Id, 2, 0, 0, SelectedLanguage, peopleInThisDrive);
+                _groupDriveService.Create(groupDrive);
+
+                numberOfPeople -= peopleInThisDrive;
+            }
+
             return "Rezervacija uspješna";
         }
+
 
 
         private int AddNewAddress(string address)

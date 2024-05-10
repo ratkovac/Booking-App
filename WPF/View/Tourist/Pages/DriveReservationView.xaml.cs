@@ -298,7 +298,7 @@ namespace BookingApp.WPF.View.Tourist.Pages
                 DetailedEndAddressId = AddNewAddress(endStreetTextBox.Text.Trim());
             }
 
-            Drive drive = new(DetailedStartAddressId, DetailedEndAddressId, departure, SelectedDriver, Tourist, 2, 0);
+            Drive drive = new(DetailedStartAddressId, DetailedEndAddressId, departure, SelectedDriver, Tourist, 2, 0, 0);
             DriveRepository driveRepository = new DriveRepository();
             driveRepository.Save(drive);
             MessageBox.Show("Rezervacija uspješna");

@@ -30,8 +30,11 @@ namespace BookingApp.WPF.View.Tourist
         public TouristService _touristService { get; set; }
         public TourInstanceService _tourInstanceService { get; set; }
         public VoucherService _voucherService { get; set; }
+        public DriveRepository _driveRepository { get; set; }
         public FastDriveRepository _fastDriveRepository { get; set; }
+        public GroupDriveRepository _groupDriveRepository { get; set; }
         public ReservedDriveRepository _reservedDriveRepository { get; set; }
+        public ReservedGroupDriveRepository _reservedGroupDriveRepository { get; set; }
         public TouristMainPage(BookingApp.Model.Tourist tourist)
         {
             InitializeComponent();
@@ -41,9 +44,12 @@ namespace BookingApp.WPF.View.Tourist
             _touristService = new TouristService();
             _tourInstanceService = new TourInstanceService();
             _voucherService = new VoucherService();
+            _driveRepository = new DriveRepository();
             _fastDriveRepository = new FastDriveRepository();
+            _groupDriveRepository = new GroupDriveRepository();
             _userRepository = new UserRepository();
             _reservedDriveRepository = new ReservedDriveRepository();
+            _reservedGroupDriveRepository = new ReservedGroupDriveRepository();
             CheckTouristReservation();
             TourDisplay tourDisplay = new TourDisplay(tourist);
             FrameHomePage.Navigate(tourDisplay);
@@ -61,7 +67,7 @@ namespace BookingApp.WPF.View.Tourist
             //_voucherService.UpdateValidVouchers();
         }
 
-        public void CheckForNotification()
+        public void CheckForFastDriveNotification()
         {
             var fastDrive = _fastDriveRepository.GetAll().FirstOrDefault();
 
@@ -74,6 +80,8 @@ namespace BookingApp.WPF.View.Tourist
                     User driver = _userRepository.GetByID(driverId);
                     MessageBox.Show($"Driver {driver.Username} has accepted your reservation!", "Notification", MessageBoxButton.OK);
                     _reservedDriveRepository.Save(fastDrive);
+                    Drive drive = new(fastDrive.StartAddressId, fastDrive.EndAddressId, fastDrive.Date, fastDrive.Driver, fastDrive.Guest, fastDrive.DriveStatusId, fastDrive.Delay, 0);
+                    _driveRepository.Save(drive);
                     _fastDriveRepository.Delete(fastDrive);
                 }
 
@@ -85,6 +93,44 @@ namespace BookingApp.WPF.View.Tourist
             else
             {
                 return;
+            }
+        }
+
+        public void CheckForGroupDriveNotification()
+        {
+            var groupDrives = _groupDriveRepository.GetAll().ToList();
+
+            foreach (var groupDrive in groupDrives)
+            {
+                int driverId = _groupDriveRepository.IsGroupDriveAccepted(groupDrive);
+
+                if (DateTime.Now - groupDrive.TimeOfReservation > TimeSpan.FromMinutes(5))
+                {
+                    _groupDriveRepository.Delete(groupDrive);
+                }
+                else if (driverId != -1)
+                {
+                    User driver = _userRepository.GetByID(driverId);
+                    User tourist = _userRepository.GetByID(groupDrive.GuestId);
+                    MessageBox.Show($"Driver {driver.Username} has accepted your reservation!", "Notification", MessageBoxButton.OK);
+                    Drive drive = new(groupDrive.StartAddressId, groupDrive.EndAddressId, groupDrive.Date, driver, tourist, groupDrive.DriveStatusId, groupDrive.Delay, 0);
+                    _driveRepository.Save(drive);
+                    _groupDriveRepository.Delete(groupDrive);
+                    _reservedGroupDriveRepository.Save(groupDrive);
+                }
+
+                /*if (driverId != -1)
+                {
+                    User driver = _userRepository.GetByID(driverId);
+                    MessageBox.Show($"Driver {driver.Username} has accepted your reservation!", "Notification", MessageBoxButton.OK);
+                    _reservedGroupDriveRepository.Save(groupDrive);
+                    _groupDriveRepository.Delete(groupDrive);
+                }
+
+                if (DateTime.Now - groupDrive.TimeOfReservation > TimeSpan.FromMinutes(5))
+                {
+                    _groupDriveRepository.Delete(groupDrive);
+                }*/
             }
         }
 
@@ -107,7 +153,8 @@ namespace BookingApp.WPF.View.Tourist
 
         private void Notification_Click(object sender, MouseButtonEventArgs e)
         {
-            CheckForNotification();
+            CheckForGroupDriveNotification();
+            CheckForFastDriveNotification();
         }
 
         private void TourDisplay_Click(object sender, RoutedEventArgs e)
@@ -118,8 +165,8 @@ namespace BookingApp.WPF.View.Tourist
 
         private void DriveDisplay_Click(object sender, RoutedEventArgs e)
         {
-            DriveDisplay driveDisplay = new DriveDisplay(Tourist);
-            FrameHomePage.Navigate(driveDisplay);
+            DriveDisplayViewModel driveDisplayViewModel = new DriveDisplayViewModel(Tourist);
+            FrameHomePage.Navigate(new BookingApp.WPF.View.Tourist.Pages.DriveDisplay(driveDisplayViewModel));
         }
 
         private void DriveReservation_Click(object sender, RoutedEventArgs e)

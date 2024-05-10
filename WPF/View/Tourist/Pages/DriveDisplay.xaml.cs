@@ -1,5 +1,8 @@
 ﻿using BookingApp.Model;
 using BookingApp.Repository;
+using BookingApp.View;
+using BookingApp.View.NGuest;
+using BookingApp.WPF.ViewModel.Tourist;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,42 +23,53 @@ using System.Windows.Shapes;
 
 namespace BookingApp.WPF.View.Tourist.Pages
 {
-    public partial class DriveDisplay : Page, INotifyPropertyChanged
+    public partial class DriveDisplay : Page
     {
-
-        private DriveRepository driveRepository;
-        public ObservableCollection<Drive> ListDrive { get; set; }
-        public Drive SelectedTour { get; set; }
-        public BookingApp.Model.Tourist Tourist { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public DriveDisplay(BookingApp.Model.Tourist tourist)
+        public DriveRepository driveRepository { get; set; }
+        private DriveDisplayViewModel ViewModel;
+        public DriveDisplay(DriveDisplayViewModel driveDisplayViewModel)
         {
             InitializeComponent();
-            DataContext = this;
-            Tourist = tourist;
-
+            this.DataContext = driveDisplayViewModel;
             driveRepository = new DriveRepository();
-            ListDrive = new ObservableCollection<Drive>(driveRepository.GetAll());
+            ViewModel = driveDisplayViewModel;
         }
 
-        private void UpdateDriveList()
+        private void TouristDelay_Click(object sender, RoutedEventArgs e)
         {
-            ListDrive.Clear();
-            foreach (var drive in driveRepository.GetAll())
+            Button button = (Button)sender;
+            Drive selectedDrive = (Drive)button.DataContext;
+
+            TouristDelay delayWindow = new TouristDelay();
+            delayWindow.ShowDialog();
+
+            double delayMinutes = delayWindow.DelayMinutes;
+
+            selectedDrive.TouristDelay = delayMinutes;
+            driveRepository.Update(selectedDrive);
+        }
+
+        private void UnreliableDriver_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            Drive selectedDrive = (Drive)button.DataContext;
+            ViewModel.SelectedDrive = selectedDrive;
+
+            if (!ViewModel.IsDriverLate())
             {
-                ListDrive.Add(drive);
+                MessageBox.Show("You can report only if the driver is 10 minutes late.");
+                return;
             }
-        }
-
-        public void Update()
-        {
-            UpdateDriveList();
+            else if (ViewModel.IsReported())
+            {
+                MessageBox.Show("This driver was already reported.");
+                return;
+            }
+            else
+            {
+                ViewModel.ReportUnreliableDriver();
+                MessageBox.Show("Your report was successful!");
+            }
         }
     }
 }

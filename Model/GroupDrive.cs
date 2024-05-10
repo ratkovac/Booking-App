@@ -16,26 +16,23 @@ namespace BookingApp.Model
         public int EndAddressId { get; set; }
         public DateTime Date { get; set; }
         public int GuestId { get; set; }
-        public User Guest { get; set; }
         public int DriveStatusId { get; set; }
         public double Delay { get; set; }
         public int DriverId { get; set; }
         public string LanguageName { get; set; }
         public int NumberOfPeople { get; set; }
 
-
         public GroupDrive()
         {
         }
 
-        public GroupDrive(int startAddressId, int endAddressId, DateTime date, DateTime timeOfReservation, User guest, int driveStatusId, double delay, int driverId, string languageName, int numberOfPeople)
+        public GroupDrive(int startAddressId, int endAddressId, DateTime date, DateTime timeOfReservation, int guestId, int driveStatusId, double delay, int driverId, string languageName, int numberOfPeople)
         {
             StartAddressId = startAddressId;
             EndAddressId = endAddressId;
             Date = date;
             TimeOfReservation = timeOfReservation;
-            Guest = guest;
-            GuestId = guest.Id;
+            GuestId = guestId;
             DriveStatusId = driveStatusId;
             Delay = delay;
             DriverId = driverId;
@@ -45,14 +42,13 @@ namespace BookingApp.Model
 
         public string[] ToCSV()
         {
-            string guestId = Guest.Id.ToString();
             string[] csvValues = {
                 Id.ToString(),
                 StartAddressId.ToString(),
                 EndAddressId.ToString(),
                 Date.ToString(),
                 TimeOfReservation.ToString(),
-                guestId,
+                GuestId.ToString(),
                 DriveStatusId.ToString(),
                 Delay.ToString(),
                 DriverId.ToString(),
@@ -77,10 +73,7 @@ namespace BookingApp.Model
             GuestId = Convert.ToInt32(values[5]);
             DriveStatusId = Convert.ToInt32(values[6]);
             Delay = Convert.ToDouble(values[7]);
-            UserRepository userRepository = new UserRepository();
-            Guest = userRepository.GetByID(GuestId);
             DriverId = Convert.ToInt32(values[8]);
-
             LanguageName = values[9];
             NumberOfPeople = Convert.ToInt32(values[10]);
         }

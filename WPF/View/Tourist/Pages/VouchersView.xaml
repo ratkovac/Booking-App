@@ -36,14 +36,35 @@
                                     <Run Text="Expiration date: " FontSize="25" FontWeight="Bold"/>
                                     <Run Text="{Binding ExpirationDate}" FontSize="25"/>
                                 </TextBlock>
-                                <TextBlock Margin="15,0,0,0">
-                                    <Run Text="Used: " FontSize="25" FontWeight="Bold"/>
-                                    <Run Text="{Binding Used}" FontSize="25"/>
+                                <TextBlock Margin="15,0,0,0" FontSize="25">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Text" Value="Used: ❌"/>
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Used}" Value="True">
+                                                    <Setter Property="Text" Value="Used: ✔️"/>
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
                                 </TextBlock>
-                                <TextBlock Margin="15,0,0,0">
-                                    <Run Text="Valid: " FontSize="25" FontWeight="Bold"/>
-                                    <Run Text="{Binding ValidVoucher}" FontSize="25"/>
+                                <TextBlock Margin="15,0,0,0" FontSize="25">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Text" Value="Valid: ❌"/>
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ValidVoucher}" Value="True">
+                                                    <Setter Property="Text" Value="Valid: ✔️"/>
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
                                 </TextBlock>
+
                             </StackPanel>
                         </Grid>
                     </DataTemplate>
