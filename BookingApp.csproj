@@ -23,6 +23,7 @@
     <None Remove="Icon\group - Copy.png" />
     <None Remove="Icon\group.png" />
     <None Remove="Icon\home.png" />
+    <None Remove="Icon\letter.png" />
     <None Remove="Icon\location.png" />
     <None Remove="Icon\logout - Copy.png" />
     <None Remove="Icon\logout.png" />
@@ -34,6 +35,8 @@
     <None Remove="Icon\star.png" />
     <None Remove="Icon\true.png" />
     <None Remove="Icon\trueBlue.png" />
+    <None Remove="Icon\user.png" />
+    <None Remove="Icon\x.png" />
     <None Remove="Icon\zoom.png" />
     <None Remove="Images\Accommodation.jpg" />
     <None Remove="Images\apartment1.jpg" />
@@ -69,6 +72,7 @@
     <Resource Include="Icon\group - Copy.png" />
     <Resource Include="Icon\group.png" />
     <Resource Include="Icon\home.png" />
+    <Resource Include="Icon\letter.png" />
     <Resource Include="Icon\location.png" />
     <Resource Include="Icon\logout - Copy.png" />
     <Resource Include="Icon\logout.png" />
@@ -80,6 +84,8 @@
     <Resource Include="Icon\star.png" />
     <Resource Include="Icon\true.png" />
     <Resource Include="Icon\trueBlue.png" />
+    <Resource Include="Icon\user.png" />
+    <Resource Include="Icon\x.png" />
     <Resource Include="Icon\zoom.png" />
     <Resource Include="Images\Accommodation.jpg" />
     <Resource Include="Images\apartment1.jpg" />

@@ -17,24 +17,27 @@ using BookingApp.View.ViewModel.Guest;
 namespace BookingApp.View.NGuest
 {
     /// <summary>
-    /// Interaction logic for SuggestedReservations.xaml
+    /// Interaction logic for FilterAndSort.xaml
     /// </summary>
-    public partial class SuggestedReservations : Page
+    public partial class FilterAndSort : Page
     {
-        public SuggestedReservations(SuggestedReservationsViewModel suggestedReservationViewModel)
+        private FilterAndSortViewModel FilterAndSortViewModel { get; set; }
+        public FilterAndSort(FilterAndSortViewModel filterAndSortViewModel)
         {
             InitializeComponent();
-            this.DataContext = suggestedReservationViewModel;
-        }
-
-        private void ContentControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            throw new NotImplementedException();
+            DataContext = filterAndSortViewModel;
+            FilterAndSortViewModel = filterAndSortViewModel;
         }
 
         private void OnClick_Back(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
         }
+
+        private void OnClick_Confirm(object sender, RoutedEventArgs e)
+        {
+            FilterAndSortViewModel.OnClick_Confirm();
+        }
+
     }
 }

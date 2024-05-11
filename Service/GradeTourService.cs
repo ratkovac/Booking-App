@@ -19,7 +19,7 @@ namespace BookingApp.Service
         private ITourInstanceRepository tourInstanceRepository;
         private ITourReservationRepository tourReservationRepository;
         private TourReservationService tourReservationService;
-        private TourReservationRepository tourReservationRepository;
+        //private TourReservationRepository tourReservationRepository;
         private ITourImageRepository tourImageRepository;
 
         public GradeTourService()

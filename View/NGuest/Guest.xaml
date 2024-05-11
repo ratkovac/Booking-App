@@ -1,110 +1,103 @@
-﻿<Window x:Class="BookingApp.View.Guest"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BookingApp.View"
-        xmlns:guiElements="clr-namespace:BookingApp.GUI_Elements"
-        mc:Ignorable="d"
-        Title="Booking" Height="768" Width="1024" WindowStyle="None" ResizeMode="CanResizeWithGrip" AllowsTransparency="True" WindowStartupLocation="CenterScreen">
-    <Window.Template>
-        <ControlTemplate TargetType="Window">
+﻿<Page x:Class="BookingApp.View.Guest"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:local="clr-namespace:BookingApp.View"
+      xmlns:guiElements="clr-namespace:BookingApp.GUI_Elements"
+      mc:Ignorable="d"
+      Title="Booking" Height="768" Width="1024" 
+      HorizontalAlignment="Center" VerticalAlignment="Center">
+    <Grid>
+        <Border CornerRadius="20" Background="White" Margin="20">
             <Grid>
-                <Border CornerRadius="20" Background="White" Margin="20" MouseLeftButtonDown="Window_MouseLeftButtonDown">
-                    <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="1"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="1"/>
-                            <RowDefinition Height="100"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-
-                        <Border Grid.Row="0" Margin="10,0,0,0">
-                            <Button HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="0" Margin="0">
-                                <Image Source="/View/NGuest/menu-svgrepo-com.png" Height="20" Width="20" Stretch="Fill"/>
-                            </Button>
-                        </Border>
-
-                        <Border Grid.Row="0" CornerRadius="0,20,20,0" HorizontalAlignment="Right">
-                            <TextBox Style="{StaticResource SearchBoxStyle}" Width="200" Height="30"
-                                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                                     Margin="0,0,15,0"/>
-                        </Border>
-
-                        <Border Grid.Row="1" Background="Brown" Height="1" VerticalAlignment="Bottom">
-                            <Border.Effect>
-                                <DropShadowEffect Color="Black" Direction="270" ShadowDepth="3" Opacity="0.5"/>
-                            </Border.Effect>
-                        </Border>
-
-                        <Border Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,20" BorderBrush="LightGray" Background="#F5F5F5">
-                            <Border.Effect>
-                                <DropShadowEffect ShadowDepth="3" Direction="320" Color="DarkGray" Opacity="0.5"/>
-                            </Border.Effect>
-                            <StackPanel Orientation="Horizontal">
-                                <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
-                                    <Grid>
-                                        <Button Style="{StaticResource IconStyle1}"/>
-                                    </Grid>
-                                </Border>
-
-                                <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
-                                    <Grid>
-                                        <Button Style="{StaticResource IconStyle2}"/>
-                                    </Grid>
-                                </Border>
-
-                                <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
-                                    <Grid>
-                                        <Button x:Name="IconButton" Style="{StaticResource IconStyle3}" />
-                                    </Grid>
-                                </Border>
-
-                                <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
-                                    <Grid>
-                                        <Button Style="{StaticResource IconStyle4}"/>
-                                    </Grid>
-                                </Border>
-
-
-                                <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
-                                    <Grid>
-                                        <Button Style="{StaticResource IconStyle5}"/>
-                                    </Grid>
-                                </Border>
-                            </StackPanel>
-                        </Border>
-
-                        <Button Grid.Row="3" Width ="300" Style="{StaticResource FilterSortButtonStyle}" Margin="10">
-                            Filter and Sort
-                        </Button>
-                        <Button Grid.Row="4" Width ="300" Style="{StaticResource FilterSortButtonStyle}" Margin="10">
-                            Anytime, Anywhere
-                        </Button>
-
-                        <ScrollViewer Grid.Row="5" VerticalScrollBarVisibility="Auto" Padding="0,0,0,10" Margin="10">
-                            <ItemsControl ItemsSource="{Binding FilteredAccommodations}"
-                                          guiElements:ItemsControlExtensions.SelectedItem="{Binding SelectedAccommodation, Mode=TwoWay}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <ContentControl Style="{StaticResource AccommodationItemControl}"
-                                                        MouseLeftButtonDown="ContentControl_MouseLeftButtonDown"/>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </ScrollViewer>
-                    </Grid>
+                <Border Grid.Row="0" Margin="10,0,0,0">
+                    <Button HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="0" Margin="0" Click="Button_Click">
+                        <Image Source="/View/NGuest/menu-svgrepo-com.png" Height="20" Width="20" Stretch="Fill"/>
+                    </Button>
                 </Border>
-                <Frame x:Name="MainFrame" Grid.RowSpan="6" NavigationUIVisibility="Hidden" Margin="10"/>
+
+                    <Border Grid.Row="0" CornerRadius="0,20,20,0" HorizontalAlignment="Right">
+                        <TextBox Style="{StaticResource SearchBoxStyle}" Width="200" Height="30"
+                                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="0,0,15,0"/>
+                    </Border>
+
+                    <Border Grid.Row="1" Background="Brown" Height="1" VerticalAlignment="Bottom">
+                        <Border.Effect>
+                            <DropShadowEffect Color="Black" Direction="270" ShadowDepth="3" Opacity="0.5"/>
+                        </Border.Effect>
+                    </Border>
+
+                    <Border Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,20" BorderBrush="LightGray" Background="#F5F5F5">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="3" Direction="320" Color="DarkGray" Opacity="0.5"/>
+                        </Border.Effect>
+                        <StackPanel Orientation="Horizontal">
+                            <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
+                                <Grid>
+                                    <Button Style="{StaticResource IconStyle1}"/>
+                                </Grid>
+                            </Border>
+
+                            <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
+                                <Grid>
+                                    <Button Style="{StaticResource IconStyle2}"/>
+                                </Grid>
+                            </Border>
+
+                            <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
+                                <Grid>
+                                    <Button x:Name="IconButton" Style="{StaticResource IconStyle3}" />
+                                </Grid>
+                            </Border>
+
+                            <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
+                                <Grid>
+                                    <Button Style="{StaticResource IconStyle4}"/>
+                                </Grid>
+                            </Border>
+
+
+                            <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
+                                <Grid>
+                                    <Button Style="{StaticResource IconStyle5}"/>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+
+                    <Button Grid.Row="3" Width ="300" Style="{StaticResource FilterSortButtonStyle}" 
+                            Margin="10" Click="OnClick_Filter_Sort">
+                        Filter and Sort
+                    </Button>
+                    <Button Grid.Row="4" Width ="300" Style="{StaticResource FilterSortButtonStyle}" Margin="10">
+                        Anytime, Anywhere
+                    </Button>
+
+                    <ScrollViewer Grid.Row="5" VerticalScrollBarVisibility="Auto" Padding="0,0,0,10" Margin="10">
+                        <ItemsControl ItemsSource="{Binding FilteredAccommodations}"
+                                      guiElements:ItemsControlExtensions.SelectedItem="{Binding SelectedAccommodation, Mode=TwoWay}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ContentControl Style="{StaticResource AccommodationItemControl}"
+                                                    MouseLeftButtonDown="ContentControl_MouseLeftButtonDown"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
             </Grid>
-        </ControlTemplate>
-    </Window.Template>
-    <Window.Resources>
-        <Style TargetType="Window">
-            <EventSetter Event="MouseLeftButtonDown" Handler="Window_MouseLeftButtonDown"/>
-        </Style>
-    </Window.Resources>
-</Window>
+        </Border>
+    </Grid>
+    <Page.Resources/>
+</Page>

@@ -19,9 +19,14 @@
                 </Grid.RowDefinitions>
 
                 <Border Grid.Row="0" Margin="10,0,0,0">
-                    <Button HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="0" Margin="0">
-                        <Image Source="/View/NGuest/menu-svgrepo-com.png" Height="20" Width="20" Stretch="Fill"/>
-                    </Button>
+                    <StackPanel Orientation="Horizontal">
+                        <Button HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="0" Margin="0">
+                            <Image Source="/View/NGuest/menu-svgrepo-com.png" Height="20" Width="20" Stretch="Fill"/>
+                        </Button>
+                        <Button HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="0" Margin="0" Click="OnClick_Back">
+                            <Image Source="/Icon/back.png" Height="20" Width="20" Stretch="Fill"/>
+                        </Button>
+                    </StackPanel>
                 </Border>
 
                 <Border Grid.Row="0" HorizontalAlignment="Right" CornerRadius="50" Width="40" Height="40" Margin="5">
@@ -108,7 +113,7 @@
                     </StackPanel>
                 </Border>
 
-                <ScrollViewer Grid.Row="5" VerticalScrollBarVisibility="Auto" Padding="0,0,0,10" Margin="10">
+                <ScrollViewer Grid.Row="5" Height="590" VerticalScrollBarVisibility="Auto" Padding="0,0,0,10" Margin="10">
                     <ItemsControl ItemsSource="{Binding Reservations}"
                                   guiElements:ItemsControlExtensions.SelectedItem="{Binding SelectedAccommodation, Mode=TwoWay}">
                         <ItemsControl.ItemTemplate>
