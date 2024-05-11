@@ -1,4 +1,4 @@
-using BookingApp.Model;
+﻿using BookingApp.Model;
 using CLI.Observer;
 using System;
 using System.Collections.Generic;
@@ -10,20 +10,25 @@ using System.Threading.Tasks;
 using System.Windows;
 using BookingApp.DTO;
 using BookingApp.Repository;
-using BookingApp.Model;
 using System.Windows.Controls;
 using System.Globalization;
+using System.Windows.Input;
+using System.Windows.Media.Imaging;
+using System.Windows.Media;
+using Image = BookingApp.Model.Image;
 
 namespace BookingApp.View.Owner
 {
     public partial class GuestGrade : Window, IObserver, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        private ObservableCollection<AccommodationReservationDTO> Reservations { get; set; }
+        public ObservableCollection<AccommodationReservationDTO> Reservations { get; set; }
         private AccommodationReservationRepository accommodationReservationRepository { get; set; }
         private GradeGuestRepository gradeGuestRepository { get; set; }
         public GradeGuestDTO gradeGuestDTO { get; set; }
         public AccommodationReservationDTO selectedGuest { get; set; }
+        private Border SelectedBorder { get; set; }
+        private ImageRepository imageRepository;
 
         public User LoggedInUser;
 
@@ -35,9 +40,9 @@ namespace BookingApp.View.Owner
             accommodationReservationRepository = new AccommodationReservationRepository();
             gradeGuestRepository = new GradeGuestRepository();
             gradeGuestDTO = new GradeGuestDTO();
+            imageRepository = new ImageRepository();
             LoggedInUser = user;
             ShowOwnerGuests();
-            UnratedGuests();
             Grade.IsEnabled = false;
         }
 
@@ -64,36 +69,97 @@ namespace BookingApp.View.Owner
             {
                 if (IsValidForRating(reservation))
                 {
+                    string imagePath;
+                    Image frontImage = imageRepository.GetByAccommodationId(reservation.Accommodation.Id);
+                    if (frontImage != null)
+                    {
+                        imagePath = frontImage.Path;
+                    }
+                    else
+                    {
+                        imagePath = "/View/Owner/noimage.png";
+                    }
                     Reservations.Add(new AccommodationReservationDTO
                     {
                         Id = reservation.Id,
                         UserName = reservation.User.Username,
                         AccommodationName = reservation.Accommodation.Name,
-                        DaysToRating = DaysUntilGuestRating(reservation)
+                        StartDate = reservation.StartDate,
+                        EndDate = reservation.EndDate,
+                        DaysToRating = DaysUntilGuestRating(reservation),
+                        FrontImagePath = imagePath
                     });
                 }
             }
-            GuestsGrid.ItemsSource = Reservations;
+            
         }
+        private void CleanilnessGrade(object sender, MouseButtonEventArgs e)
+        {
+            System.Windows.Controls.Image clickedStar = sender as System.Windows.Controls.Image;
+            int clickedStarIndex = CleanlinessStackPanel.Children.IndexOf(clickedStar);
 
+            for (int i = 0; i < CleanlinessStackPanel.Children.Count; i++)
+            {
+                System.Windows.Controls.Image star = CleanlinessStackPanel.Children[i] as System.Windows.Controls.Image;
+                if (i <= clickedStarIndex)
+                {
+                    star.Source = new BitmapImage(new Uri("/View/Owner/star_filled.png", UriKind.Relative));
+                }
+                else
+                {
+                    star.Source = new BitmapImage(new Uri("/View/Owner/star_empty.png", UriKind.Relative));
+                }
+            }
+            gradeGuestDTO.Cleanliness = clickedStarIndex + 1;
+        }
+        private void RulesFollowingGrade(object sender, MouseButtonEventArgs e)
+        {
+            System.Windows.Controls.Image clickedStar = sender as System.Windows.Controls.Image;
+            int clickedStarIndex = RulesFollowingStackPanel.Children.IndexOf(clickedStar);
+
+            // Prolazi kroz sve slike zvezdica i ažurira njihov izgled na osnovu indeksa kliknute zvezdice
+            for (int i = 0; i < RulesFollowingStackPanel.Children.Count; i++)
+            {
+                System.Windows.Controls.Image star = RulesFollowingStackPanel.Children[i] as System.Windows.Controls.Image;
+                if (i <= clickedStarIndex)
+                {
+                    star.Source = new BitmapImage(new Uri("/View/Owner/star_filled.png", UriKind.Relative));
+                }
+                else
+                {
+                    star.Source = new BitmapImage(new Uri("/View/Owner/star_empty.png", UriKind.Relative));
+                }
+            }
+            gradeGuestDTO.RulesFollowing = clickedStarIndex + 1;
+        }
+        private void ResetCleanlinessStars()
+        {
+            foreach (var child in CleanlinessStackPanel.Children)
+            {
+                if (child is System.Windows.Controls.Image star)
+                {
+                    star.Source = new BitmapImage(new Uri("/View/Owner/star_empty.png", UriKind.Relative));
+                }
+            }
+        }
+        private void ResetRulesFollowingStars()
+        {
+            foreach (var child in RulesFollowingStackPanel.Children)
+            {
+                if (child is System.Windows.Controls.Image star)
+                {
+                    star.Source = new BitmapImage(new Uri("/View/Owner/star_empty.png", UriKind.Relative));
+                }
+            }
+        }
         public int UnratedGuestsNumber()
         {
             return Reservations.Count;
         }
-        private void UnratedGuests()
-        {
-            if (UnratedGuestsNumber() > 0)
-                MessageBox.Show("Still, you have unrated guests!\nYou have their details in the table.", "Rate guest!", MessageBoxButton.OK, MessageBoxImage.Warning);
-        }
-        private void SliderValues()
-        {
-            gradeGuestDTO.Cleanliness = Convert.ToInt32(CleanlinessValue.Text);
-            gradeGuestDTO.RulesFollowing = Convert.ToInt32(RulesValue.Text);
-        }
+        
 
         private void Grade_Click(object sender, RoutedEventArgs e)
         {
-            SliderValues();
             gradeGuestDTO.AccommodationReservation = accommodationReservationRepository.GetByID(selectedGuest.Id);
             GradeGuest gradeGuest = gradeGuestDTO.ToGradeGuest();
             gradeGuestRepository.Save(gradeGuest);
@@ -103,33 +169,15 @@ namespace BookingApp.View.Owner
             accommodationReservationRepository.Update(oldReservation);
             MessageBox.Show("Chosen guest is rated!");
             ShowGradeGuestPage();
+            ResetCleanlinessStars();
+            ResetRulesFollowingStars();
         }
 
         public void ShowGradeGuestPage()
         {
             ShowOwnerGuests();
-            comment.Text = "";
-            cleanliness.SetValue(Slider.ValueProperty, cleanliness.Minimum);
-            rules.SetValue(Slider.ValueProperty, rules.Minimum);
+            NewComment.Text = "";
             Grade.IsEnabled = false;
-        }
-        private void ChosenGuest_Click(object sender, RoutedEventArgs e)
-        {
-            if (GuestsGrid.SelectedItem != null)
-            {
-                MessageBoxResult result = MessageBox.Show("Do you want to grade this guest?", "Confirmation", MessageBoxButton.YesNo);
-                if (result == MessageBoxResult.Yes)
-                {
-                    selectedGuest = (AccommodationReservationDTO)GuestsGrid.SelectedItem;
-                    GuestsGrid.IsEnabled = false;
-                    ChosenGuest.IsEnabled = false;
-                    Grade.IsEnabled = true;
-                }
-            }
-            else
-            {
-                MessageBox.Show("No guest selected.");
-            }
         }
         public double GradeCalculation(int cleanMark, int ruleMark)
         {
@@ -140,7 +188,6 @@ namespace BookingApp.View.Owner
         {
             double grade;
             int cleanlinessGrade, rulesFollowingGrade;
-            SliderValues();
             cleanlinessGrade = gradeGuestDTO.Cleanliness;
             rulesFollowingGrade = gradeGuestDTO.RulesFollowing;
             grade = GradeCalculation(cleanlinessGrade, rulesFollowingGrade);
@@ -149,12 +196,56 @@ namespace BookingApp.View.Owner
 
         public void Update()
         {
-            throw new NotImplementedException();
+            ShowOwnerGuests();
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
+
+        private void Guest_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            NewComment.Text = "";
+            ResetCleanlinessStars();
+            ResetRulesFollowingStars();
+
+            Border border = sender as Border;
+            if (border != null)
+            {
+                AccommodationReservationDTO selectedReservation = border.DataContext as AccommodationReservationDTO;
+                if (selectedReservation != null)
+                {
+                    // Proverite da li je kliknuta kartica već selektovana
+                    if (SelectedBorder != null && SelectedBorder == border)
+                    {
+                        // Ako jeste, deselektujte je
+                        SelectedBorder.BorderBrush = Brushes.White;
+                        SelectedBorder = null;
+                        selectedGuest = null;
+                        // Onemogućite dugme za ocenjivanje
+                        Grade.IsEnabled = false;
+                    }
+                    else
+                    {
+                        if (SelectedBorder != null)
+                        {
+                            SelectedBorder.BorderBrush = Brushes.White;
+                        }
+
+                        SelectedBorder = border;
+                        selectedGuest = selectedReservation;
+                        border.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ecf007"));
+                        Grade.IsEnabled = true;
+                    }
+                }
+            }
+            else
+            {
+                Grade.IsEnabled = false;
+            }
+        }
+
+       
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +10,7 @@ namespace BookingApp.Repository.RepositoryInterface
     public interface IAccommodationReservationRepository : IGenericRepository<AccommodationReservation, int>
     {
         public List<AccommodationReservation> GetAllByUser(int userId);
+        public List<AccommodationReservation> GetAllByID(int accommodationId);
         public void Subscribe(IObserver observer)
         {
 

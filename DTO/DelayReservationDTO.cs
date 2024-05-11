@@ -120,6 +120,36 @@ namespace BookingApp.DTO
                 }
             }
         }
+        private bool busy;
+
+        public bool Busy
+        {
+            get { return busy; }
+            set
+            {
+                if (value != busy)
+                {
+                    busy = value;
+                    OnPropertyChanged(nameof(Busy));
+                }
+            }
+        }
+        private string frontImagePath;
+        public string FrontImagePath
+        {
+            get
+            {
+                return frontImagePath;
+            }
+            set
+            {
+                if (frontImagePath != value)
+                {
+                    frontImagePath = value;
+                    OnPropertyChanged("FrontImagePath");
+                }
+            }
+        }
         public DelayReservationDTO()
         {
         }
