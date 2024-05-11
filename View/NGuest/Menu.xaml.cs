@@ -17,24 +17,31 @@ using BookingApp.View.ViewModel.Guest;
 namespace BookingApp.View.NGuest
 {
     /// <summary>
-    /// Interaction logic for SuggestedReservations.xaml
+    /// Interaction logic for Menu.xaml
     /// </summary>
-    public partial class SuggestedReservations : Page
+    public partial class Menu : Page
     {
-        public SuggestedReservations(SuggestedReservationsViewModel suggestedReservationViewModel)
+        private MenuViewModel menuViewModel;
+        public Menu(MenuViewModel menuViewModel)
         {
+            this.DataContext = menuViewModel;
+            this.menuViewModel = menuViewModel;
             InitializeComponent();
-            this.DataContext = suggestedReservationViewModel;
         }
 
-        private void ContentControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void Back_OnClick(object sender, RoutedEventArgs e)
+        {
+            menuViewModel.Back_OnClick();
+        }
+
+        private void OnClick_Rate(object sender, RoutedEventArgs e)
         {
             throw new NotImplementedException();
         }
 
-        private void OnClick_Back(object sender, RoutedEventArgs e)
+        private void DeleteMessage(object sender, RoutedEventArgs e)
         {
-            NavigationService.GoBack();
+            menuViewModel.DeleteMessage(sender,e);
         }
     }
 }

@@ -10,6 +10,7 @@ namespace BookingApp.Repository.RepositoryInterface
 {
     public interface IDelayReservationRepository : IGenericRepository<DelayReservation, int>
     {
+        public void DeleteById(int delayReservationId);
         public void Subscribe(IObserver observer)
         {
 

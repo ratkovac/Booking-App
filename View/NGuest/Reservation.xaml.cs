@@ -401,5 +401,10 @@ namespace BookingApp.View
                 UpdateImageDisplay();
             }
         }
+
+        private void OnClick_Back(object sender, RoutedEventArgs e)
+        {
+            NavigationService.GoBack();
+        }
     } 
 }

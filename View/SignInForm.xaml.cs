@@ -9,6 +9,7 @@ using BookingApp.WPF.View.Tourist;
 using BookingApp.View.GuideView;
 using BookingApp.Service;
 using BookingApp.View.GuideView.Pages;
+using BookingApp.View.NGuest;
 
 namespace BookingApp.View
 {
@@ -65,8 +66,8 @@ namespace BookingApp.View
                             Close();
                             break;
                         case "Guest":
-                            Guest guest = new Guest(user);
-                            guest.Show();
+                            Home home = new Home(user);
+                            home.Show();
                             Close();
                             break;
                         case "Guide":
