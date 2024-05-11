@@ -48,7 +48,9 @@ namespace BookingApp.Repository
 
         public List<TourGuest> GetAllByTourInstanceId(int tourInstanceId)
         {
-            return _serializer.FromCSV(FilePath).Where(tg => tg.TourReservation.TourInstanceId == tourInstanceId).ToList();
+            var allTourGuests = _serializer.FromCSV(FilePath);
+            var filteredTourGuests = allTourGuests.Where(tg => tg.TourReservationId == tourInstanceId).ToList();
+            return filteredTourGuests;
         }
         public List<TourGuest> GetAllByTourReservationId(int tourReservationId)
         {

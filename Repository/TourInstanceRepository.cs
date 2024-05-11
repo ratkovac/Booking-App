@@ -27,7 +27,7 @@ namespace BookingApp.Repository
 
         public List<TourInstance> GetAll()
         {
-            return _serializer.FromCSV(FilePath);
+            return _tourInstances;
         }
 
         public List<TourInstance> GetFinishedTourInstances()
@@ -96,7 +96,6 @@ namespace BookingApp.Repository
         }
         public List<TourInstance> GetAllTourInstancesByTour(Tour tour)
         {
-            _tourInstances = GetAll();
             return _tourInstances.Where(r => r.Id == tour.Id).ToList();
         }
         public TourInstance GetById(int id)
@@ -106,7 +105,6 @@ namespace BookingApp.Repository
 
         public List<TourInstance> GetByUserId(int userId)
         {
-            _tourInstances = GetAll();
             return _tourInstances.Where(r => r.GuideId == userId).ToList();
         }
 

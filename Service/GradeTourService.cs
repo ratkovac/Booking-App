@@ -19,7 +19,7 @@ namespace BookingApp.Service
         private ITourInstanceRepository tourInstanceRepository;
         private ITourReservationRepository tourReservationRepository;
         private TourReservationService tourReservationService;
-        //private TourReservationRepository tourReservationRepository;
+        private TourReservationRepository tourReservationRepository;
         private ITourImageRepository tourImageRepository;
 
         public GradeTourService()
@@ -29,7 +29,6 @@ namespace BookingApp.Service
             tourReservationRepository = Injector.CreateInstance<ITourReservationRepository>();
             tourInstanceRepository = Injector.CreateInstance<ITourInstanceRepository>();
             tourImageRepository = Injector.CreateInstance<ITourImageRepository>();
-            tourReservationRepository = new TourReservationRepository();
             tourReservationService = new TourReservationService();
             InitializeTourist();
             InitializeTourReservation();

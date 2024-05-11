@@ -135,5 +135,14 @@ namespace BookingApp.Repository
             return checkPoints;
         }
 
+        public List<CheckPoint> GetAllByTourId(int tourId)
+        {
+            var allCheckpoints = GetAll();
+            var checkpointsForTour = allCheckpoints.Where(checkpoint => checkpoint.TourId == tourId).ToList();
+
+
+            return checkpointsForTour;
+        }
+
     }
 }

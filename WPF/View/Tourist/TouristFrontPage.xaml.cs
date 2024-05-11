@@ -45,8 +45,8 @@ namespace BookingApp.WPF.View.Tourist
                     _tourReservationService.UpdateTouristState(Tourist.Id, tourInstance, TouristState.Present);
                     CheckTouristReservation();
                 }
-            }
-            _voucherService.UpdateValidVouchers();*/
+            }*/
+            //_voucherService.UpdateValidVouchers();
         }
 
         public void CheckForNotification()
@@ -123,6 +123,10 @@ namespace BookingApp.WPF.View.Tourist
         {
             VouchersViewModel vouchersViewModel = new VouchersViewModel(Tourist);
             MainFrame.Navigate(new Vouchers(vouchersViewModel));
+        }
+        private void Tours_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new MyTours(Tourist.User));
         }
     }
 }
