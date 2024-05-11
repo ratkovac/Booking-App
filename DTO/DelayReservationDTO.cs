@@ -141,38 +141,33 @@ namespace BookingApp.DTO
                 }
             }
         }
+        private bool busy;
 
-        private bool read;
-        public bool Read
+        public bool Busy
         {
-            get
-            {
-                return read;
-            }
+            get { return busy; }
             set
             {
-                if (value != read)
+                if (value != busy)
                 {
-                    read = value;
-                    OnPropertyChanged("Read");
+                    busy = value;
+                    OnPropertyChanged(nameof(Busy));
                 }
             }
         }
-
-        private DelayReservationStatusEnum delayReservationStatus;
-
-        public DelayReservationStatusEnum DelayReservationStatus
+        private string frontImagePath;
+        public string FrontImagePath
         {
             get
             {
-                return delayReservationStatus;
+                return frontImagePath;
             }
             set
             {
-                if (value != delayReservationStatus)
+                if (frontImagePath != value)
                 {
-                    delayReservationStatus = value;
-                    OnPropertyChanged("DelayReservationStatus");
+                    frontImagePath = value;
+                    OnPropertyChanged("FrontImagePath");
                 }
             }
         }

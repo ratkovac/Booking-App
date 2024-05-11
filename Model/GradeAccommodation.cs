@@ -24,20 +24,16 @@ namespace BookingApp.Model
         {
 
         }
-        public GradeAccommodation(int accommodationReservationId, int cleanliness, int ownerCorrectness, string comment)
+        public GradeAccommodation(AccommodationReservation accommodationReservation, int cleanliness, int ownerCorrectness, string comment)
         {
-            AccommodationReservationId = accommodationReservationId;
-            AccommodationReservationRepository accommodationReservationRepository = new AccommodationReservationRepository();
-            AccommodationReservation = accommodationReservationRepository.GetByID(accommodationReservationId);
+            AccommodationReservation = accommodationReservation;
             Cleanliness = cleanliness;
             Correctness = ownerCorrectness;
             Comment = comment;
         }
-        public GradeAccommodation(int accommodationReservationId, int cleanliness, int ownerCorrectness, string comment, List<Image> images)
+        public GradeAccommodation(AccommodationReservation accommodationReservation, int cleanliness, int ownerCorrectness, string comment, List<Image> images)
         {
-            AccommodationReservationId = accommodationReservationId;
-            AccommodationReservationRepository accommodationReservationRepository = new AccommodationReservationRepository();
-            AccommodationReservation = accommodationReservationRepository.GetByID(accommodationReservationId);
+            AccommodationReservation = accommodationReservation;
             Cleanliness = cleanliness;
             Correctness = ownerCorrectness;
             Comment = comment;
@@ -47,11 +43,11 @@ namespace BookingApp.Model
         public string[] ToCSV()
         {
             string imagesString = string.Join("|", Images.Select(image => image.Id.ToString()));
-
+            string accommodationReservation = AccommodationReservation.Id.ToString();
             string[] values =
             {
                 Id.ToString(),
-                AccommodationReservationId.ToString(),
+                accommodationReservation,
                 Cleanliness.ToString(),
                 Correctness.ToString(),
                 Comment,
@@ -66,7 +62,9 @@ namespace BookingApp.Model
             try
             {
                 Id = Convert.ToInt32(values[0]);
-                int AccommodationReservationId = Convert.ToInt32(values[1]);
+                int reservationId = Convert.ToInt32(values[1]);
+                AccommodationReservationRepository accommodationReservationRepository = new AccommodationReservationRepository();
+                AccommodationReservation = accommodationReservationRepository.GetByID(reservationId);
                 Cleanliness = Convert.ToInt32(values[2]);
                 Correctness = Convert.ToInt32(values[3]);
                 Comment = values[4];
