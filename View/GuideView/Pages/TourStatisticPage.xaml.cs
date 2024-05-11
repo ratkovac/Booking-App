@@ -35,19 +35,34 @@ namespace BookingApp.View.GuideView.Pages
             InitializeComponent();
             DataContext = viewModel;
 
+  
+
         }
 
         private void cbOverall_Checked(object sender, RoutedEventArgs e)
         {
-         //   cbSpecificYear.IsChecked = false;
-            UpdateTourStatistic();         
+            if (cbSpecificYear != null)
+            {
+                cbSpecificYear.IsChecked = false;
+                UpdateTourStatistic();
+                txtYear.Text = "";
+            }
         }
 
 
         private void cbSpecificYear_Checked(object sender, RoutedEventArgs e)
         {
-            //cbOverall.IsChecked = false;
-            UpdateTourStatistic();           
+            if (txtYear.Text == "")
+            {
+                MessageBox.Show("Please enter a valid year.");
+                cbSpecificYear.IsChecked = false;
+                return;
+            }
+            if (cbOverall != null)
+            {
+                cbOverall.IsChecked = false;
+                UpdateTourStatistic();
+            }
         }
 
         private void txtYear_TextChanged(object sender, TextChangedEventArgs e)

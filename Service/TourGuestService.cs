@@ -84,6 +84,15 @@ namespace BookingApp.Service
             return tourGuestRepository.GetTouristNumberByTourReservationId(tourReservationId);
         }
 
+        public List<TourGuest> GetAllByTouristForTourInstance(int touristId, int tourInstanceId)
+        {
+            var guestsForTourInstance = GetAllByTourInstanceId(tourInstanceId);
+
+
+            var guestsForTouristInTourInstance = guestsForTourInstance.Where(guest => guest.TouristId == touristId).ToList();
+
+            return guestsForTouristInTourInstance;
+        }
 
     }
 }

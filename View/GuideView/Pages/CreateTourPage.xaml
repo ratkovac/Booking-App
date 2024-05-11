@@ -17,112 +17,124 @@
         </ResourceDictionary>
     </Page.Resources>
 
-        <ScrollViewer VerticalScrollBarVisibility="Hidden">
-            <Grid>
-                <Grid.Background>
-                    <ImageBrush ImageSource="/View/GuideView/Pages/pozadinaNebo.jpg"/>
-                </Grid.Background>
+    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+        <Grid>
+            <Rectangle>
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#438d82" Offset="0"/>
+                        <GradientStop Color="#489986" Offset="0.25"/>
+                        <GradientStop Color="#51a588" Offset="0.5"/>
+                        <GradientStop Color="#5eb188" Offset="0.75"/>
+                        <GradientStop Color="#6dbd87" Offset="1"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
 
-                <!-- Name -->
-                <TextBlock Text="Name" VerticalAlignment="Top" Margin="35,20,300,0" Style="{StaticResource StyleForTextBlock}"/>
-                <TextBox Text="Enter Name here.." Name="txtName" VerticalAlignment="Top" Margin="29,41,29,0" GotFocus="txtName_GotFocus" LostFocus="txtName_LostFocus" Style="{StaticResource StyleForTextBox}"/>
+            <!-- Name -->
+            <TextBlock Text="Name" VerticalAlignment="Top" Margin="35,20,300,0" Style="{StaticResource StyleForTextBlock}"/>
+            <TextBox Text="Enter Name here.." Name="txtName" VerticalAlignment="Top" Margin="29,41,29,0" GotFocus="txtName_GotFocus" LostFocus="txtName_LostFocus" Style="{StaticResource StyleForTextBox}"/>
 
-                <!-- Location -->
+            <!-- Location -->
+            <StackPanel>
+                <GroupBox Header="Location" Margin="19,73,19,0" Style="{StaticResource StyleForGroupBox}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1.2*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="City" VerticalAlignment="Center" Margin="12, 5, 0, 35" Grid.Column="0" Style="{StaticResource StyleForTextBlock}"/>
+                        <TextBlock Text="Country" VerticalAlignment="Center" Margin="12, 5, 0, 35" Grid.Column="1" Style="{StaticResource StyleForTextBlock}"/>
+                        <TextBox Text="Enter City here.." FontSize="13" Foreground="Gray" Name="txtCity" VerticalAlignment="Top" Margin="5, 25, 0, 0" GotFocus="txtCity_GotFocus" LostFocus="txtCity_LostFocus" Grid.Column="0" Style="{StaticResource StyleForTextBox}"/>
+                        <TextBox Text="Enter Country here.." FontSize="13" Foreground="Gray" Name="txtCountry" VerticalAlignment="Top" Margin="5, 25, 5, 10" GotFocus="txtCountry_GotFocus" LostFocus="txtCountry_LostFocus" Grid.Column="1" Style="{StaticResource StyleForTextBox}"/>
+                    </Grid>
+                </GroupBox>
+
+                <!-- Description -->
+                <Grid>
+                    <StackPanel>
+                        <TextBlock Text="Description:" VerticalAlignment="Center" Margin="35,10, 10, 0" Grid.Column="0" Style="{StaticResource StyleForTextBlock}"/>
+                        <TextBox Text="Enter Description here.." Foreground="Gray" Name="txtDescription" Margin="29, 5, 29, 5" Height="79" VerticalAlignment="Top" GotFocus="txtDescription_GotFocus" LostFocus="txtDescription_LostFocus" Style="{StaticResource StyleForTextBox}"/>
+                    </StackPanel>
+                </Grid>
+                <!-- Language -->
+                <TextBlock Text="Language:" VerticalAlignment="Top" Margin="35,5,19,0" Style="{StaticResource StyleForTextBlock}"/>
+                <ComboBox Name="txtLanguage" VerticalAlignment="Top" Margin="29,5,260,0" Height="25" Width="Auto" FontFamily="Segoe UI" Style="{StaticResource ComboBoxStyle}" RenderTransformOrigin="0.504,0.532">
+                    <ComboBoxItem Content="Serbian" IsSelected="True"/>
+                    <ComboBoxItem Content="English"/>
+                    <ComboBoxItem Content="Albanian"/>
+                    <ComboBoxItem Content="Russian"/>
+                    <ComboBoxItem Content="German"/>
+                    <!-- Add more languages as needed -->
+                </ComboBox>
+
+                <!-- Max Number of Tourists -->
+                <TextBlock Text="Max Tourists:" VerticalAlignment="Top" Margin="35,10,268,0" Style="{StaticResource StyleForTextBlock}"/>
+                <TextBox Text="0" Foreground="Gray" Name="txtMaxGuests" VerticalAlignment="Top" Margin="29,5,300,5" GotFocus="txtMaxGuests_GotFocus" LostFocus="txtMaxGuests_LostFocus" Style="{StaticResource StyleForTextBox}"/>
+
+                <!-- Check Points -->
                 <StackPanel>
-                    <GroupBox Header="Location" Margin="19,73,19,0" Style="{StaticResource StyleForGroupBox}">
+                    <GroupBox Header="Check Points" Margin="19, 10, 19, 0" Height="Auto" Style="{StaticResource StyleForGroupBox}">
+                        <Grid>
+                            <StackPanel>
+                                <TextBlock Text="First Check Point" VerticalAlignment="Center" Margin="12, 10, 0, 0" Style="{StaticResource StyleForTextBlock}"/>
+                                <TextBox Name="txtStartCheckPoint" Text="Start Point" Foreground="Gray" VerticalAlignment="Top" Margin="5,5,5,5"
+                         GotFocus="txtStartCheckPoint_GotFocus" LostFocus="txtStartCheckPoint_LostFocus" Style="{StaticResource StyleForTextBox}"/>
+                                <TextBlock Text="Additional Check Point" VerticalAlignment="Center" Margin="12, 0, 0, 0" Style="{StaticResource StyleForTextBlock}"/>
+                                <TextBox Name="txtOptionCheckPoint" Text="Additional Check Point" Foreground="Gray" VerticalAlignment="Top" Margin="5,3,5,5"
+                         GotFocus="txtOptionCheckPoint_GotFocus" LostFocus="txtOptionCheckPoint_LostFocus" Style="{StaticResource StyleForTextBox}"/>
+                                <Button Name="btnAddCheckPoint" Content="➕ Add New Check Point" HorizontalAlignment="Left" 
+                        Margin="5,3,0,0" Width="148" FontSize="10" ToolTip="Add New Check Point" Click="btnAddCheckPoint_Click" Style="{StaticResource AddButtonStyle}"/>
+                                <TextBlock Text="Last Check Point" VerticalAlignment="Center" Margin="12, 5, 0, 0" Style="{StaticResource StyleForTextBlock}"/>
+                                <TextBox Name="txtEndCheckPoint" Text="End Point" Foreground="Gray" VerticalAlignment="Top" Margin="5,2,5,10"
+                         GotFocus="txtEndCheckPoint_GotFocus" LostFocus="txtEndCheckPoint_LostFocus" Style="{StaticResource StyleForTextBox}"/>
+                            </StackPanel>
+                        </Grid>
+                    </GroupBox>
+                    <!-- Start Date and Time -->
+                    <GroupBox Header="Date Realizations" Margin="19, 10, 19, 0" Height="Auto" Style="{StaticResource StyleForGroupBox}">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1.2*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="23*"/>
+                                <ColumnDefinition Width="167*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="City" VerticalAlignment="Center" Margin="12, 5, 0, 35" Grid.Column="0" Style="{StaticResource StyleForTextBlock}"/>
-                            <TextBlock Text="Country" VerticalAlignment="Center" Margin="12, 5, 0, 35" Grid.Column="1" Style="{StaticResource StyleForTextBlock}"/>
-                            <TextBox Text="Enter City here.." Foreground="Gray" Name="txtCity" VerticalAlignment="Top" Margin="5, 25, 0, 0" GotFocus="txtCity_GotFocus" LostFocus="txtCity_LostFocus" Grid.Column="0" Style="{StaticResource StyleForTextBox}"/>
-                            <TextBox Text="Enter Country here.." Foreground="Gray" Name="txtCountry" VerticalAlignment="Top" Margin="5, 25, 5, 10" GotFocus="txtCountry_GotFocus" LostFocus="txtCountry_LostFocus" Grid.Column="1" Style="{StaticResource StyleForTextBox}"/>
+                            <StackPanel Grid.ColumnSpan="2">
+                                <TextBlock Text="Tour Start Date &amp; Time" HorizontalAlignment="Left" Margin="12,10,18,0" Width="244" Style="{StaticResource StyleForTextBlock}"/>
+                                <TextBox Text="dd-MM-yyyy HH:mm" Foreground="Gray" x:Name="txtDates" VerticalScrollBarVisibility="Auto" Margin="5,3,5,0" GotFocus="txtDates_GotFocus" LostFocus="txtDates_LostFocus" TextChanged="txtDates_TextChanged" Style="{StaticResource StyleForTextBox}"/>
+                                <Button Name="btnAddDate" Content="➕ Add Date" Click="btnAddDate_Click" HorizontalAlignment="Left" Margin="5,8,0,10"  Width="82" ToolTip="Add New Date" FontSize="10" Style="{StaticResource AddButtonStyle}"/>
+                            </StackPanel>
                         </Grid>
                     </GroupBox>
 
-                    <!-- Description -->
-                    <Grid>
-                        <StackPanel>
-                            <TextBlock Text="Description:" VerticalAlignment="Center" Margin="35,10, 10, 0" Grid.Column="0" Style="{StaticResource StyleForTextBlock}"/>
-                            <TextBox Text="Enter Description here.." Foreground="Gray" Name="txtDescription" Margin="29, 5, 29, 5" Height="79" VerticalAlignment="Top" GotFocus="txtDescription_GotFocus" LostFocus="txtDescription_LostFocus" Style="{StaticResource StyleForTextBox}"/>
-                        </StackPanel>
-                    </Grid>
-                    <!-- Language -->
-                    <TextBlock Text="Language:" VerticalAlignment="Top" Margin="35,5,19,0" Style="{StaticResource StyleForTextBlock}"/>
-                    <ComboBox Name="txtLanguage" VerticalAlignment="Top" Margin="29,5,260,0" Height="25" Width="Auto" FontFamily="Segoe UI" Style="{StaticResource ComboBoxStyle}" RenderTransformOrigin="0.504,0.532">
-                        <ComboBoxItem Content="Serbian" IsSelected="True"/>
-                        <ComboBoxItem Content="English"/>
-                        <ComboBoxItem Content="Albanian"/>
-                        <ComboBoxItem Content="Russian"/>
-                        <ComboBoxItem Content="German"/>
-                        <!-- Add more languages as needed -->
-                    </ComboBox>
+                    <!-- Duration -->
+                    <TextBlock Text="Duration (hours)" VerticalAlignment="Top" Margin="35,10,250,0" Style="{StaticResource StyleForTextBlock}"/>
+                    <TextBox Text="Hours.Minutes" Foreground="Gray" Name="txtDuration" VerticalAlignment="Top" Margin="29,3,226,0" GotFocus="txtDuration_GotFocus" LostFocus="txtDuration_LostFocus" TextChanged="txtDuration_TextChanged" Style="{StaticResource StyleForTextBox}"/>
 
-                    <!-- Max Number of Tourists -->
-                    <TextBlock Text="Max Tourists:" VerticalAlignment="Top" Margin="35,10,268,0" Style="{StaticResource StyleForTextBlock}"/>
-                    <TextBox Text="0" Foreground="Gray" Name="txtMaxGuests" VerticalAlignment="Top" Margin="29,5,300,5" GotFocus="txtMaxGuests_GotFocus" LostFocus="txtMaxGuests_LostFocus" Style="{StaticResource StyleForTextBox}"/>
+                    <GroupBox Header="Images" Margin="19, 10, 19, 0" Height="Auto" Style="{StaticResource StyleForGroupBox}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
 
-                    <!-- Check Points -->
-                    <StackPanel>
-                        <GroupBox Header="Check Points" Margin="19, 10, 19, 0" Height="Auto" Style="{StaticResource StyleForGroupBox}">
-                            <Grid>
-                                <StackPanel>
-                                    <TextBlock Text="First Check Point" VerticalAlignment="Center" Margin="12, 10, 0, 0" Style="{StaticResource StyleForTextBlock}"/>
-                                    <TextBox Name="txtStartCheckPoint" Text="Start Point" Foreground="Gray" VerticalAlignment="Top" Margin="5,5,5,5"
-                         GotFocus="txtStartCheckPoint_GotFocus" LostFocus="txtStartCheckPoint_LostFocus" Style="{StaticResource StyleForTextBox}"/>
-                                    <TextBlock Text="Additional Check Point" VerticalAlignment="Center" Margin="12, 0, 0, 0" Style="{StaticResource StyleForTextBlock}"/>
-                                    <TextBox Name="txtOptionCheckPoint" Text="Additional Check Point" Foreground="Gray" VerticalAlignment="Top" Margin="5,3,5,5"
-                         GotFocus="txtOptionCheckPoint_GotFocus" LostFocus="txtOptionCheckPoint_LostFocus" Style="{StaticResource StyleForTextBox}"/>
-                                    <Button Name="btnAddCheckPoint" Content="➕ Add New Check Point" HorizontalAlignment="Left" 
-                        Margin="5,3,0,0" Width="125" FontSize="10" ToolTip="Add New Check Point" Click="btnAddCheckPoint_Click"  VerticalAlignment="Top" Style="{StaticResource AddButtonStyle}"/>
-                                    <TextBlock Text="Last Check Point" VerticalAlignment="Center" Margin="12, 5, 0, 0" Style="{StaticResource StyleForTextBlock}"/>
-                                    <TextBox Name="txtEndCheckPoint" Text="End Point" Foreground="Gray" VerticalAlignment="Top" Margin="5,2,5,10"
-                         GotFocus="txtEndCheckPoint_GotFocus" LostFocus="txtEndCheckPoint_LostFocus" Style="{StaticResource StyleForTextBox}"/>
-                                </StackPanel>
-                            </Grid>
-                        </GroupBox>
-                        <!-- Start Date and Time -->
-                        <GroupBox Header="Date Realizations" Margin="19, 10, 19, 0" Height="Auto" Style="{StaticResource StyleForGroupBox}">
-                            <Grid>
-                                <StackPanel>
-                                    <TextBlock Text="Tour Start Date &amp; Time" HorizontalAlignment="Left" Margin="12,10,18,0" Width="244" Style="{StaticResource StyleForTextBlock}"/>
-                                    <TextBox Text="dd-MM-yyyy HH:mm" Foreground="Gray" x:Name="txtDates" VerticalScrollBarVisibility="Auto" Margin="5,3,5,0" GotFocus="txtDates_GotFocus" LostFocus="txtDates_LostFocus" TextChanged="txtDates_TextChanged" Style="{StaticResource StyleForTextBox}"/>
-                                    <Button Name="btnAddDate" Content="➕ Add Date" Click="btnAddDate_Click" HorizontalAlignment="Left" Margin="5,8,0,10"  Width="75" ToolTip="Add New Date" FontSize="10" Style="{StaticResource AddButtonStyle}"/>
-                                </StackPanel>
-                            </Grid>
-                        </GroupBox>
+                            <WrapPanel Grid.ColumnSpan="2" Grid.Row="1"  Orientation="Horizontal" Margin="5" x:Name="imageeWrapPanel"/>
 
-                        <!-- Duration -->
-                        <TextBlock Text="Duration (hours)" VerticalAlignment="Top" Margin="35,10,250,0" Style="{StaticResource StyleForTextBlock}"/>
-                        <TextBox Text="Hours.Minutes" Foreground="Gray" Name="txtDuration" VerticalAlignment="Top" Margin="29,3,226,0" GotFocus="txtDuration_GotFocus" LostFocus="txtDuration_LostFocus" TextChanged="txtDuration_TextChanged" Style="{StaticResource StyleForTextBox}"/>
+                            <Button Name="btnAddImage" Content="📂 Upload Photo " FontSize="12" Click="btnAddImage_Click" VerticalAlignment="Top" Margin="5,10,240,10" Grid.Column="0" Style="{StaticResource AddButtonStyle}"/>
+                            <Button Name="btnShowAllImages" Content="➕ " Click="btnShowAllImages_Click" FontSize="15" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="330,10,0,0" Style="{StaticResource AddButtonStyle}" Width="32"/>
+                        </Grid>
+                    </GroupBox>
 
-                        <GroupBox Header="Images" Margin="19, 10, 19, 0" Height="Auto" Style="{StaticResource StyleForGroupBox}">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-
-                                <WrapPanel Grid.ColumnSpan="2" Grid.Row="1"  Orientation="Horizontal" Margin="5" x:Name="imageeWrapPanel"/>
-
-                                <Button Name="btnAddImage" Content="📂 Upload Photo " FontSize="12" Click="btnAddImage_Click" VerticalAlignment="Top" Margin="5,10,240,10" Grid.Column="0" Style="{StaticResource AddButtonStyle}"/>
-                                <Button Content="➕ " Click="btnShowAllImages_Click" FontSize="15" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="330,10,0,0" Style="{StaticResource AddButtonStyle}" Width="32"/>
-                            </Grid>
-                        </GroupBox>
-
-                    </StackPanel>
-                    <Grid>
-                        <!-- Create and Cancel Buttons -->
-                        <Button Name="btnCreateTour" Content="Create Tour" VerticalAlignment="Top" Click="btnCreateTour_Click" Margin="120,25,120,10" Height="35" Style="{StaticResource StyleForCommonButton}"/>
-                    </Grid>
                 </StackPanel>
-            </Grid>
+                <Grid>
+                    <!-- Create and Cancel Buttons -->
+                    <Button Name="btnCreateTour" Content="Create Tour" VerticalAlignment="Top" Click="btnCreateTour_Click" Margin="120,10,120,10" Height="35" Style="{StaticResource StyleForCommonButton}"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
 
-        </ScrollViewer>
+    </ScrollViewer>
 </Page>

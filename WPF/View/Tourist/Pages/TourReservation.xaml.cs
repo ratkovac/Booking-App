@@ -54,7 +54,7 @@ namespace BookingApp.WPF.View.Tourist.Pages
 
             NameTextBox.Text = selectedTour.Name;
             LocationTextBox.Text = selectedTour.Location.City;
-            //LocationTextBox.Text = selectedTour.Location.Country;
+            LocationTextBox.Text = selectedTour.Location.Country;
             DescriptionTextBox.Text = selectedTour.Description;
             LanguageTextBox.Text = selectedTour.Language.Name;
             MaxGuestsTextBox.Text = selectedTour.MaxGuests.ToString();

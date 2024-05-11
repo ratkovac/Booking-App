@@ -14,12 +14,12 @@ namespace BookingApp.Service
     public class TourInstanceService
     {
         private ITourInstanceRepository tourInstanceRepository;
-        private TourRepository tourRepository;
+        private ITourRepository tourRepository;
 
         public TourInstanceService()
         {
             tourInstanceRepository = Injector.CreateInstance<ITourInstanceRepository>();
-            tourRepository = new TourRepository();
+            tourRepository = Injector.CreateInstance<ITourRepository>();
             InitializeTour();
         }
         private void InitializeTour()

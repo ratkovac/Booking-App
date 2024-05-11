@@ -27,7 +27,6 @@ namespace BookingApp.WPF.ViewModel.Tourist
 
         public LocationRepository _locationRepository { get; set; }
         public AddressRepository _addressRepository { get; set; }
-        public FastDriveRepository _fastDriveRepository { get; set; }
         public FastDriveService _fastDriveService { get; set; }
 
         private ObservableCollection<string> _countries;
@@ -136,7 +135,6 @@ namespace BookingApp.WPF.ViewModel.Tourist
             InputCountries();
             _locationRepository = new LocationRepository();
             _addressRepository = new AddressRepository();
-            _fastDriveRepository = new FastDriveRepository();
             _fastDriveService = new FastDriveService();
             DepartureDate = DateTime.Today;
         }
@@ -225,7 +223,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
             }
 
             FastDrive fastDrive = new FastDrive(DetailedStartAddressId, DetailedEndAddressId, departure, DateTime.Now, Tourist, 2, 0, 0);
-            _fastDriveRepository.Save(fastDrive);
+            _fastDriveService.Create(fastDrive);
             return "Rezervacija uspješna";
         }
 

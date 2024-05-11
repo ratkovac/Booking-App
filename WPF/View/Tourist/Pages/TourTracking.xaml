@@ -1,0 +1,100 @@
+﻿<Page x:Class="BookingApp.WPF.View.Tourist.Pages.TourTracking"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BookingApp.WPF.View.Tourist.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="720" d:DesignWidth="1280"
+      Title="TourTracking">
+
+    <Grid Background="#FF75C8F1">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="80" />
+            <RowDefinition Height="570" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Checkpoints:" 
+       HorizontalAlignment="Left" Margin="10" FontSize="30" FontWeight="Bold"/>
+        
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding TourInstance.CheckpointNames}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" Margin="5,0" FontSize="25"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <TextBlock Grid.Row="2" Text="{Binding Path=TourInstance.CurrentCheckpoint, StringFormat='Current checkpoint: {0}'}" 
+               HorizontalAlignment="Left" Margin="10" FontSize="30" FontWeight="Bold"/>
+
+        <ListView Grid.Row ="3" ItemsSource="{Binding TourInstance.Guests}">
+            <ListView.Background>
+                <SolidColorBrush Color="#FF75C8F1" />
+            </ListView.Background>
+            <ListView.Resources>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Background" Value="PowderBlue" />
+                </Style>
+                <Style TargetType="GridViewColumnHeader">
+                    <Setter Property="FontSize" Value="20" />
+                    <Setter Property="Background" Value="#FF75C8F1" />
+                </Style>
+            </ListView.Resources>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" Width="300">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontSize="25" FontStyle="Italic" Text="{Binding Name}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Present" Width="90">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontSize="16">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Text" Value="        ✓"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding CheckpointId}" Value="0">
+                                                    <Setter Property="Text" Value=""/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Absent" Width="90">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontSize="16">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Text" Value=""/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding CheckpointId}" Value="0">
+                                                    <Setter Property="Text" Value="        ✓"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Page>

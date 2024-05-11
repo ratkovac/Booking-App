@@ -26,6 +26,18 @@ namespace BookingApp.WPF.View.Tourist.Pages
             viewModel = fastDriveViewModel;
         }
 
+        private void ButtonBack(object sender, RoutedEventArgs e)
+        {
+            if (NavigationService.CanGoBack)
+            {
+                NavigationService.GoBack();
+            }
+            else
+            {
+                MessageBox.Show("Nema prethodne stranice!");
+            }
+        }
+
         private void Reservation_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show(viewModel.Reservation());

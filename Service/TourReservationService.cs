@@ -41,6 +41,11 @@ namespace BookingApp.Service
             }
         }
 
+        public List<TourReservation> GetAllByUserId(int userId)
+        {
+            return tourReservationRepository.GetAllByUserId(userId);
+        }
+
         public List<TourReservation> GetAllByTourInstanceId(int tourInstanceId)
         {
             return tourReservationRepository.GetAllByTourInstanceId(tourInstanceId);

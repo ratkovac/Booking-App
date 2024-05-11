@@ -13,14 +13,16 @@ namespace BookingApp.DependencyInjection
     {
         private static Dictionary<Type, object> _implementations = new Dictionary<Type, object>
         {
-            //{ typeof(IGradeTourRepository), new GradeTourRepository() },
-            //{ typeof(ITourInstanceRepository), new TourInstanceRepository() },
-            //{ typeof(IVoucherRepository), new VoucherRepository() },
-            //{ typeof(ITouristRepository), new TouristRepository() },
-            //{ typeof(ITourReservationRepository), new TourReservationRepository() },
+            { typeof(IGradeTourRepository), new GradeTourRepository() },
+            { typeof(ITourInstanceRepository), new TourInstanceRepository() },
+            { typeof(IVoucherRepository), new VoucherRepository() },
+            { typeof(ITouristRepository), new TouristRepository() },
+            { typeof(ITourReservationRepository), new TourReservationRepository() },
             { typeof(IAccommodationReservationRepository), new AccommodationReservationRepository() },
+            { typeof(ITourRepository), new TourRepository() },
+            { typeof(ICheckPointRepository), new CheckPointRepository() },
             { typeof(IAccommodationRepository), new AccommodationRepository() },
-            //{ typeof(ITourGuestRepository), new TourGuestRepository() },
+            { typeof(ITourGuestRepository), new TourGuestRepository() },
             { typeof(IGradeAccommodationRepository), new GradeAccommodationRepository() },
             { typeof(ICanceledReservationRepository), new CanceledReservationRepository() },
             { typeof(IFastDriveRepository), new FastDriveRepository() },
@@ -29,8 +31,8 @@ namespace BookingApp.DependencyInjection
             { typeof(IDriverStatsRepository), new DriverStatsRepository() },
             { typeof(IRenovationRepository), new RenovationRepository() },
             { typeof(IRequestRejectionCommentRepository), new RequestRejectionCommentRepository()  }
-            //{ typeof(IReservedDriveRepository), new ReservedDriveRepository() },
-            //{ typeof(ITourImageRepository), new TourImageRepository() }
+            { typeof(IReservedDriveRepository), new ReservedDriveRepository() },
+            { typeof(ITourImageRepository), new TourImageRepository() }
         };
         public static T CreateInstance<T>()
         {

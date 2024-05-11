@@ -11,7 +11,6 @@ namespace BookingApp.Repository.RepositoryInterface
     public interface ITourInstanceRepository : IGenericRepository<TourInstance, int>
     {
         public List<TourInstance> GetAllTourInstancesByTour(Tour tour);
-
         public List<TourInstance> GetFinishedTourInstances();
         public List<TourInstance> GetByUserId(int userId);
         public List<TourInstance> GetFinishedByUserId(int userId);

@@ -18,6 +18,8 @@ using System.Windows.Shapes;
 using BookingApp.DTO;
 using BookingApp.Model;
 using BookingApp.Repository;
+using BookingApp.View.NGuest;
+using BookingApp.View.ViewModel.Guest;
 
 namespace BookingApp.View
 {
@@ -255,8 +257,12 @@ namespace BookingApp.View
             SuggestReservation(startDate, endDate);
             if (AvailableAccommodationPeriods.Count == 0)
                 SuggestReservation(startDate.AddDays(-5), endDate.AddDays(5));
-
             Update();
+
+            SuggestedReservationsViewModel viewModel = new SuggestedReservationsViewModel(SelectedAccommodation, AvailableAccommodationPeriods);
+            SuggestedReservations suggestedReservationsPage = new SuggestedReservations(viewModel);
+            this.NavigationService.Navigate(suggestedReservationsPage);
+
         }
 
         private void SuggestReservation(DateOnly startDate, DateOnly endDate)
@@ -394,6 +400,11 @@ namespace BookingApp.View
                 currentIndex--;
                 UpdateImageDisplay();
             }
+        }
+
+        private void OnClick_Back(object sender, RoutedEventArgs e)
+        {
+            NavigationService.GoBack();
         }
     } 
 }

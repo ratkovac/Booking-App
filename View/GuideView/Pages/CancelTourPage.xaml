@@ -8,22 +8,33 @@
       d:DesignHeight="750" d:DesignWidth="430"
       Title="CancelTourPage">
 
+    <Page.Resources>
+        <!-- Include your resource dictionary here -->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    
     <Grid>
         <StackPanel Orientation="Vertical">
-            <ListBox x:Name="ListBoxTourInstances" ItemsSource="{Binding TourInstances}" Margin="20" Background="Transparent">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <RadioButton Content="{Binding Id}" 
-                     IsChecked="{Binding IsSelected, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
-                     GroupName="TourGroup"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+            <GroupBox Header="Your Tours" Margin="40,20,40,0"  Style="{StaticResource StyleForGroupBox}">
+                <ListBox x:Name="ListBoxTourInstances" ItemsSource="{Binding ToursBind}" Margin="20" Background="Transparent" Style="{StaticResource ListBoxStyle}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <RadioButton Content="{Binding Name}" 
+                                    IsChecked="{Binding IsSelected, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
+                                    GroupName="TourGroup" Style="{StaticResource RadioButtonStyle}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </GroupBox>
             <StackPanel Orientation="Horizontal">
-                <Button Name="btnCancelTour" Content="Cancel Tour" Click="btnCancelTour_Click" Height="40" Margin="50, 20" />
-                <Button Name="btnCancelAllTours" Content="Cancel All Tours" Click="btnCancelAllTours_Click" Margin="50, 20" />
+                <Button Name="btnCancelTour" Content="Cancel Tour" Click="btnCancelTour_Click" Width="100" Height="40" Margin="50, 20" Style="{StaticResource StyleForCommonButton}"/>
+                <Button Name="btnCancelAllTours" Content="Cancel All Tours" Click="btnCancelAllTours_Click" Width="120" Margin="50, 20" Style="{StaticResource StyleForCommonButton}"/>
             </StackPanel>
            </StackPanel>
         </Grid>
