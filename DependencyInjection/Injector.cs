@@ -14,8 +14,8 @@ namespace BookingApp.DependencyInjection
         private static Dictionary<Type, object> _implementations = new Dictionary<Type, object>
         {
             { typeof(IGradeTourRepository), new GradeTourRepository() },
-            { typeof(ITourInstanceRepository), new TourInstanceRepository() },
-            { typeof(IVoucherRepository), new VoucherRepository() },
+            //{ typeof(ITourInstanceRepository), new TourInstanceRepository() },
+            //{ typeof(IVoucherRepository), new VoucherRepository() },
             { typeof(ITouristRepository), new TouristRepository() },
             { typeof(ITourReservationRepository), new TourReservationRepository() },
             { typeof(IAccommodationReservationRepository), new AccommodationReservationRepository() },
@@ -31,7 +31,8 @@ namespace BookingApp.DependencyInjection
             { typeof(IDriverStatsRepository), new DriverStatsRepository() },
             { typeof(IReservedDriveRepository), new ReservedDriveRepository() },
             { typeof(ITourImageRepository), new TourImageRepository() },
-            { typeof(IGroupDriveRepository), new GroupDriveRepository() }
+            { typeof(IGroupDriveRepository), new GroupDriveRepository() },
+            { typeof(ISuperGuestRepository), new SuperGuestRepository() }
         };
         public static T CreateInstance<T>()
         {

@@ -81,7 +81,6 @@ namespace BookingApp.View
 
         }
 
-
         private Accommodation accommodation;
 
         public Accommodation Accommodation
@@ -259,10 +258,17 @@ namespace BookingApp.View
                 SuggestReservation(startDate.AddDays(-5), endDate.AddDays(5));
             Update();
 
-            SuggestedReservationsViewModel viewModel = new SuggestedReservationsViewModel(SelectedAccommodation, AvailableAccommodationPeriods);
-            SuggestedReservations suggestedReservationsPage = new SuggestedReservations(viewModel);
-            this.NavigationService.Navigate(suggestedReservationsPage);
-
+            if (SelectedAccommodation.Capacity >= capacity &&
+                SelectedAccommodation.MinReservationDays <= reservationDays)
+            {
+                SuggestedReservationsViewModel viewModel = new SuggestedReservationsViewModel(SelectedAccommodation, AvailableAccommodationPeriods, capacity, user);
+                SuggestedReservations suggestedReservationsPage = new SuggestedReservations(viewModel);
+                this.NavigationService.Navigate(suggestedReservationsPage);
+            }
+            else
+            {
+                MessageBox.Show("Kapacitet ili Minimalan broj dana nisu validni");
+            }
         }
 
         private void SuggestReservation(DateOnly startDate, DateOnly endDate)
@@ -360,18 +366,7 @@ namespace BookingApp.View
         }
         private void ReserveButton_Click(object sender, RoutedEventArgs e)
         {
-            if (selectedReservation.Accommodation.Capacity >= capacity &&
-                selectedReservation.Accommodation.MinReservationDays <= reservationDays)
-            {
-                selectedReservation.Capacity = capacity;
-                SelectedReservation.User = User;
-                AccommodationReservationRepository.Save(selectedReservation.ToAccommodationReservation());
-                MessageBox.Show("Uspjesno ste izvrsili rezervaciju");
-            }
-            else
-            {
-                MessageBox.Show("Niste zadovoljili sve potrebne parametre");
-            }
+            
         }
 
         private void Page_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
