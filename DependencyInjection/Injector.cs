@@ -34,8 +34,8 @@ namespace BookingApp.DependencyInjection
             { typeof(IReservedDriveRepository), new ReservedDriveRepository() },
             { typeof(ITourImageRepository), new TourImageRepository() },
             { typeof(IGroupDriveRepository), new GroupDriveRepository() },
-            { typeof(ISuperGuestRepository), new SuperGuestRepository() }
-            //{ typeof(ITourImageRepository), new TourImageRepository() }
+            { typeof(ISuperGuestRepository), new SuperGuestRepository() },
+            { typeof(IAccommodationEventRepository), new AccommodationEventRepository() }
         };
         public static T CreateInstance<T>()
         {

@@ -25,6 +25,7 @@ namespace BookingApp.View.ViewModel.Owner
         private List<Double> accommoationGrades = new List<Double>();
         public ObservableCollection<AccommodationDTO> accommodations { get; set; }
         public ICommand RenovationCommand { get; private set; }
+        public ICommand StatisticCommand { get; set; }
         public bool SuperOwner(User user)
         {
             foreach (AccommodationReservation ar in accommodationReservationService.GetAll())
@@ -78,6 +79,7 @@ namespace BookingApp.View.ViewModel.Owner
             accommodationService = new AccommodationService();
             LoggedInUser = user;
             RenovationCommand = new RelayCommand<AccommodationDTO>(ExecuteRenovationCommand);
+            StatisticCommand = new RelayCommand<AccommodationDTO>(ExecuteStatisticCommand);
             Update();
         }
         private void ExecuteRenovationCommand(AccommodationDTO SelectedAccommodation)
@@ -85,6 +87,12 @@ namespace BookingApp.View.ViewModel.Owner
             AddRenovationViewModel addRenovationViewModel = new AddRenovationViewModel(SelectedAccommodation);
             AddRenovation addRenovation = new AddRenovation(addRenovationViewModel, SelectedAccommodation);
             addRenovation.Show();
+        }
+        private void ExecuteStatisticCommand(AccommodationDTO SelectedAccommodation)
+        {
+            AccommodationStatisticViewModel accommodationStatisticViewModel = new AccommodationStatisticViewModel(SelectedAccommodation);
+            AccommodationStatistic accommodationStatistic = new AccommodationStatistic(accommodationStatisticViewModel, SelectedAccommodation);
+            accommodationStatistic.Show();
         }
         public void Update()
         {
