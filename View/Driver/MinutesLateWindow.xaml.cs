@@ -1,7 +1,7 @@
 ﻿using BookingApp.DTO;
 using BookingApp.Model;
 using BookingApp.Repository;
-using BookingApp.View.Driver.Pages;
+using BookingApp.View.Driver;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;

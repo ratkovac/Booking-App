@@ -1,28 +1,20 @@
-﻿using BookingApp.DTO;
-using BookingApp.Model;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System.Windows.Threading;
+using BookingApp.DTO;
+using BookingApp.Model;
+using BookingApp.Repository;
 
 namespace BookingApp.View.Driver
 {
-    /// <summary>
-    /// Interaction logic for DriverAtAddressWindow.xaml
-    /// </summary>
-    public partial class DriverAtAddressWindow : Window, INotifyPropertyChanged
+    public partial class DriveInProgressWindow : Window, INotifyPropertyChanged
     {
-        DriveDTO selectedDrive;
+        private DispatcherTimer _timer;
+        private DriveDriven driveDriven;
+        private DateTime startTime;
+        private DrivesDrivenRepository _drivesDrivenRepository;
         private DrivesWindow drivesWindow;
         private bool IsSuperDriver;
         private string _colorOne;
@@ -55,14 +47,24 @@ namespace BookingApp.View.Driver
                 }
             }
         }
-        public DriverAtAddressWindow(DriveDTO drive, DrivesWindow DrivesWindow, bool isSuperDriver)
+
+
+        public DriveInProgressWindow(DriveDTO driveDTO, int startingPrice, DrivesWindow DrivesWindow, bool isSuperDriver)
         {
-            selectedDrive = drive;
-            drivesWindow = DrivesWindow;
-            IsSuperDriver = isSuperDriver;
             DataContext = this;
+            IsSuperDriver = isSuperDriver;
+            drivesWindow = DrivesWindow;
+            Drive drive = driveDTO.ToDrive();
+            driveDriven = new DriveDriven();
+            _drivesDrivenRepository = new DrivesDrivenRepository();
+            driveDriven.DriveId = drive.Id;
+            driveDriven.Price = startingPrice;
+            driveDriven.DriveId = drive.Id;
+            StartTimer();
+            startTime = DateTime.Now;
             CheckIfFastDriver(IsSuperDriver);
             InitializeComponent();
+            txtPrice.Text = startingPrice.ToString();
             CenterWindowOnScreen();
 
             Closed += DriveReservationWindow_Closed;
@@ -98,12 +100,36 @@ namespace BookingApp.View.Driver
             Top = (screenHeight - windowHeight) / 2;
         }
 
-        private void btnVehicleAtAddress_Click(object sender, RoutedEventArgs e)
+        private void StartTimer()
+        {
+            _timer = new DispatcherTimer();
+            _timer.Interval = TimeSpan.FromSeconds(1);
+            _timer.Tick += Timer_Tick;
+            _timer.Start();
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            driveDriven.Price += 5;
+
+            TimeSpan duration = DateTime.Now - startTime;
+            driveDriven.Duration = duration;
+
+
+            txtPrice.Text = driveDriven.Price.ToString();
+        }
+
+        private void btnEndDrive_Click(object sender, RoutedEventArgs e)
+        {
+            _timer.Stop();
+            _drivesDrivenRepository.Save(driveDriven);
+            OpenDrivesPage();
+        }
+        private void OpenDrivesPage()
         {
             this.Close();
-            drivesWindow.IsOverlayVisible = true;
-            var driverWaitingWindow = new DriverWaitingWindow(selectedDrive, drivesWindow, IsSuperDriver);
-            driverWaitingWindow.Show();
+            drivesWindow.RefreshDriveList();
+            drivesWindow.MakeVisible();
         }
     }
 }

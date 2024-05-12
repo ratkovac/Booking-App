@@ -2,7 +2,7 @@
 using BookingApp.Model;
 using BookingApp.Repository;
 using BookingApp.Serializer;
-using BookingApp.View.Driver.Pages;
+using BookingApp.View.Driver;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -77,6 +77,7 @@ namespace BookingApp.View.Driver
         {
             LoggedInUser = user;
             InitializeComponent();
+            CenterWindowOnScreen();
             IsOverlayVisible = false;
             DataContext = this;
             _userRepository = new UserRepository();
@@ -87,8 +88,33 @@ namespace BookingApp.View.Driver
             IsSuperDriver = isFastDriver;
             CheckIfFastDriver(isFastDriver);
             Window_Loaded(this, null);
+            this.PreviewKeyDown += DrivesWindow_PreviewKeyDown;
+            btnHelp_Click(null, null);
         }
 
+        private void DrivesWindow_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.H && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                btnHelp_Click(null, null);
+            }
+            if (e.Key == Key.B && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                btnBack_Click(null, null);
+            }
+            if (e.Key == Key.S && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                btnDriveReservation_Click(null, null);
+            }
+            if (e.Key == Key.C && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                btnCancelDrive_Click(null, null);
+            }
+        }
+        private void btnHelp_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Navigation Tip: You can navigate using the TAB key. Use arrow keys to select drives, and when you've chosen the desired drive, press CTRL+TAB to switch to the lower menu. Then, again, use TAB to select the desired option. Press Enter to continue.", "Help");
+        }
         private void CheckIfFastDriver(bool isFastDriver)
         {
             if (isFastDriver == true)
@@ -148,7 +174,7 @@ namespace BookingApp.View.Driver
             IsOverlayVisible= false;            
         }
 
-        private void btnCanelDrive_Click(object sender, RoutedEventArgs e)
+        private void btnCancelDrive_Click(object sender, RoutedEventArgs e)
         {
             if (dataGrid.SelectedItem != null)
             {
@@ -177,10 +203,6 @@ namespace BookingApp.View.Driver
             Close();
         }
 
-        private void btnHelp_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         internal void MakeVisible()
         {
@@ -190,6 +212,14 @@ namespace BookingApp.View.Driver
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
+        private void CenterWindowOnScreen()
+        {
+            double screenWidth = SystemParameters.PrimaryScreenWidth;
+            double screenHeight = SystemParameters.PrimaryScreenHeight;
+            double windowWidth = Width;
+            double windowHeight = Height;
+            Left = (screenWidth - windowWidth) / 2;
+            Top = (screenHeight - windowHeight) / 2;
+        }
     }
 }

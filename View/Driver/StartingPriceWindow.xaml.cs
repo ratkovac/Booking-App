@@ -1,29 +1,17 @@
 ﻿using BookingApp.DTO;
-using BookingApp.Model;
+using BookingApp.Repository;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace BookingApp.View.Driver
 {
-    /// <summary>
-    /// Interaction logic for DriverAtAddressWindow.xaml
-    /// </summary>
-    public partial class DriverAtAddressWindow : Window, INotifyPropertyChanged
+    public partial class StartingPriceWindow : Window, INotifyPropertyChanged
     {
-        DriveDTO selectedDrive;
+        private DriveDTO selectedDrive;
         private DrivesWindow drivesWindow;
+        private int StartingPrice;
         private bool IsSuperDriver;
         private string _colorOne;
         public string ColorOne
@@ -55,13 +43,14 @@ namespace BookingApp.View.Driver
                 }
             }
         }
-        public DriverAtAddressWindow(DriveDTO drive, DrivesWindow DrivesWindow, bool isSuperDriver)
+        public StartingPriceWindow(DriveDTO drive, DrivesWindow DrivesWindow, bool isSuperDriver)
         {
+            DataContext = this;
+            IsSuperDriver = isSuperDriver;
+            CheckIfFastDriver(IsSuperDriver);
+
             selectedDrive = drive;
             drivesWindow = DrivesWindow;
-            IsSuperDriver = isSuperDriver;
-            DataContext = this;
-            CheckIfFastDriver(IsSuperDriver);
             InitializeComponent();
             CenterWindowOnScreen();
 
@@ -70,6 +59,22 @@ namespace BookingApp.View.Driver
         private void DriveReservationWindow_Closed(object sender, System.EventArgs e)
         {
             drivesWindow.RefreshDriveList();
+        }
+
+        private void btnConfirm_Click(object sender, RoutedEventArgs e)
+        {
+            if (int.TryParse(txtStartingPrice.Text, out int startingPrice) && txtStartingPrice.Text != "")
+            {
+                StartingPrice = startingPrice;
+                DriveInProgressWindow driveInProgressWindow = new DriveInProgressWindow(selectedDrive, StartingPrice, drivesWindow, IsSuperDriver);
+                this.Close();
+                drivesWindow.IsOverlayVisible = true;
+                driveInProgressWindow.Show();                
+            }
+            else
+            {
+                MessageBox.Show("Please enter a valid starting price.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         private void CheckIfFastDriver(bool isFastDriver)
         {
@@ -97,13 +102,12 @@ namespace BookingApp.View.Driver
             Left = (screenWidth - windowWidth) / 2;
             Top = (screenHeight - windowHeight) / 2;
         }
-
-        private void btnVehicleAtAddress_Click(object sender, RoutedEventArgs e)
+        private void MinutesLateTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            this.Close();
-            drivesWindow.IsOverlayVisible = true;
-            var driverWaitingWindow = new DriverWaitingWindow(selectedDrive, drivesWindow, IsSuperDriver);
-            driverWaitingWindow.Show();
+            if (!char.IsDigit(e.Text, e.Text.Length - 1))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

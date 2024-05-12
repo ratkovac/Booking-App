@@ -17,6 +17,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows;
+
+
 
 namespace BookingApp.View.Driver
 {
@@ -44,6 +47,8 @@ namespace BookingApp.View.Driver
         public ObservableCollection<Language> Languages { get; set; } = new ObservableCollection<Language>();
         public ObservableCollection<Language> SelectedLanguages { get; set; } = new ObservableCollection<Language>();
         private List<int> selectedLanguageIndexes = new List<int>();
+        public ObservableCollection<Language> Languages1 { get; set; } = new ObservableCollection<Language>();
+        public ObservableCollection<Language> AllLanguages { get; set; } = new ObservableCollection<Language>();
 
 
         public VehicleRegistrationWindow(User user)
@@ -58,13 +63,28 @@ namespace BookingApp.View.Driver
             _languageRepository = new LanguageRepository();
             Window_Loaded(this, null);
 
-            Languages = new ObservableCollection<Language>(_languageRepository.GetAllLanguages());
-
+            
+            AllLanguages = new ObservableCollection<Language>(_languageRepository.GetAllLanguages());
+            int i = 1;
+            foreach (Language language in AllLanguages)
+            {
+                if (i % 2 == 0)
+                {
+                    Languages1.Add(language); 
+                    i++;
+                }
+                else
+                {
+                    Languages.Add(language);
+                    i++;
+                }
+            }
         }
 
         public VehicleRegistrationWindow(VehicleRepository vehicleRepository, ObservableCollection<VehicleDTO> vehicles, DataGrid vehicleGrid)
         {
             InitializeComponent();
+            CenterWindowOnScreen();
             DataContext = this;
             this._vehicleRepository = vehicleRepository;
             this.vehicles = vehicles;
@@ -108,16 +128,18 @@ namespace BookingApp.View.Driver
         {
             if (string.IsNullOrWhiteSpace(MaxCapacityTextBox.Text) && !CanParseToInt(MaxCapacityTextBox.Text))
             {
-                MaxCapacityLabelError.Content = "!";
+                /*MaxCapacityLabelError.Content = "!";
                 MaxCapacityLabelError.Foreground = Brushes.Red;
                 MaxCapacityLabelError.FontWeight = FontWeights.Bold;
+                */
+                MessageBox.Show("Capacity was not entered correctly.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
             else
             {
-                MaxCapacityLabelError.Content = "";
                 return true;
             }
+            
         }
         public static bool CanParseToInt(string text)
         {
@@ -144,9 +166,10 @@ namespace BookingApp.View.Driver
 
                     CityTextBox.Text = "";
                     CountryTextBox.Text = "";
-                    CountryLabelError.Content = "Location added successfully. ";
+                    CountryLabelError.Content = "Location added. ";
                     CountryLabelError.Foreground = Brushes.Black;
                     CountryLabelError.FontSize = 10;
+                
                 }
                 else
                 {
@@ -156,7 +179,7 @@ namespace BookingApp.View.Driver
 
                     CityTextBox.Text = "";
                     CountryTextBox.Text = "";
-                    CountryLabelError.Content = "Location added successfully. ";
+                    CountryLabelError.Content = "Location added. ";
                     CountryLabelError.Foreground = Brushes.Black;
                     CountryLabelError.FontSize = 10;
                 }
@@ -169,50 +192,24 @@ namespace BookingApp.View.Driver
 
         private void LocationError()
         {
-            CountryLabelError.Content = "Type Country and City first. ";
+            /*CountryLabelError.Content = "Type Country and City first. ";
             CountryLabelError.Foreground = Brushes.Red;
-            CountryLabelError.FontSize = 10;
+            CountryLabelError.FontSize = 10;*/
+            MessageBox.Show("Location is not entered correctly.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
         List<Language> languages = new List<Language>();
-        private void AddLanguage_Click(object sender, RoutedEventArgs e)
-        {
-            /*string languageName = LanguagesTextBox.Text;
 
-            if (!string.IsNullOrWhiteSpace(languageName))
-            {
-                int languageId = _languageRepository.ExistsLanguage(languageName);
-                
-                if (languageId != 0)
-                {
-                    Language language = new Language(languageId, languageName);
-                    languages.Add(language);
-                    //LanguagesTextBox.Text = "";
-                    LanguagesLabelError.Content = "Language added successfully. ";
-                    LanguagesLabelError.Foreground = Brushes.Black;
-                    LanguagesLabelError.FontSize = 10;
-                }
-                else
-                {
-                    LanguagesLabelError.Content = "Language does not exist. Try again. ";
-                    LanguagesLabelError.Foreground = Brushes.Red;
-                    LanguagesLabelError.FontSize = 10;
-                }
-            }
-            else
-            {
-                LanguagesLabelError.Content = "Type language first. ";
-                CountryLabelError.Foreground = Brushes.Red;
-                LanguagesLabelError.FontSize = 10;
-            }*/
-        }
         private void LanguageError()
         {
+            /*
             LanguagesLabelError.Content = "Type language first. ";
             CountryLabelError.Foreground = Brushes.Red;
             LanguagesLabelError.FontSize = 10;
+            */
+            MessageBox.Show("You have to select at least one language.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
-    
+
         private Vehicle CreateVehicle()
         {
             Vehicle vehicle = new Vehicle();
@@ -223,10 +220,14 @@ namespace BookingApp.View.Driver
                 return null;
             }
             var selectedLanguages = LanguagesListBox.SelectedItems.Cast<Language>().ToList();
+            foreach (Language language in LanguagesListBox1.SelectedItems.Cast<Language>().ToList())
+            {
+                selectedLanguages.Add(language);
+            }
             if (selectedLanguages.Count == 0)
             {
                 // Obavijestite korisnika ako nije odabrao jezik
-                MessageBox.Show("Please select at least one language.");
+                LanguageError();
                 return null;
             }
             vehicle.Locations = locations;
@@ -241,6 +242,7 @@ namespace BookingApp.View.Driver
 
         private void RegisterVehicle(Vehicle vehicle)
         {
+ 
             _vehicleRepository.Save(vehicle);
             RefreshList();
         }
@@ -264,8 +266,12 @@ namespace BookingApp.View.Driver
             if (ValidateMaxCapacity())
             {
                 Vehicle vehicle = CreateVehicle();
-                RegisterVehicle(vehicle);
-                ClearWindow();
+                if (vehicle != null)
+                {
+                    RegisterVehicle(vehicle);
+                    ClearWindow();
+                    CountryLabelError.Content = "";
+                }
             }
         }
 
@@ -296,24 +302,39 @@ namespace BookingApp.View.Driver
             // Proverava da li je uneseni tekst broj
             return int.TryParse(text, out _);
         }
-        /*private void LanguageCheckBox_Checked(object sender, RoutedEventArgs e)
+        private void CenterWindowOnScreen()
         {
-            var checkBox = sender as CheckBox;
-            var language = checkBox.DataContext as Language;
-
-            // Dodajemo odabrani jezik u listu SelectedLanguages
-            SelectedLanguages.Add(language);
+            double screenWidth = SystemParameters.PrimaryScreenWidth;
+            double screenHeight = SystemParameters.PrimaryScreenHeight;
+            double windowWidth = Width;
+            double windowHeight = Height;
+            Left = (screenWidth - windowWidth) / 2;
+            Top = (screenHeight - windowHeight) / 2;
         }
 
-        // Metoda koja se poziva kada se odznači jezik
-        private void LanguageCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        private void btnEditLocations_Click(object sender, RoutedEventArgs e)
         {
-            var checkBox = sender as CheckBox;
-            var language = checkBox.DataContext as Language;
 
-            // Uklanjamo odabrani jezik iz liste SelectedLanguages
-            SelectedLanguages.Remove(language);
-        }*/
+        }
+
+        /*private void LanguageCheckBox_Checked(object sender, RoutedEventArgs e)
+{
+   var checkBox = sender as CheckBox;
+   var language = checkBox.DataContext as Language;
+
+   // Dodajemo odabrani jezik u listu SelectedLanguages
+   SelectedLanguages.Add(language);
+}
+
+// Metoda koja se poziva kada se odznači jezik
+private void LanguageCheckBox_Unchecked(object sender, RoutedEventArgs e)
+{
+   var checkBox = sender as CheckBox;
+   var language = checkBox.DataContext as Language;
+
+   // Uklanjamo odabrani jezik iz liste SelectedLanguages
+   SelectedLanguages.Remove(language);
+}*/
 
     }
 }

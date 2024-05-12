@@ -93,23 +93,24 @@
             </ItemsControl>
             </ScrollViewer>
         </Grid>
-        <GroupBox Header="Vehicle Registration" HorizontalAlignment="Right" VerticalAlignment="Stretch" Background="White" Margin="0,40,10,20" Width="242" Height="Auto" >
-            <StackPanel Margin="10,0,10,0" Height="405">
-                <Label Content="City" Height="Auto"></Label>
-                <TextBox x:Name="CityTextBox" Text="" Width="124" HorizontalAlignment="Left" Height="Auto"/>
-                <Label Content="Country"></Label>
-                <StackPanel Orientation="Horizontal" Margin="0 0 0 0" Height="Auto">
-                    <TextBox Name="CountryTextBox" Width="124" Text="" Height="Auto"/>
+        <GroupBox Header="Vehicle Registration" HorizontalAlignment="Right" VerticalAlignment="Top" Background="White" Margin="0,40,10,20" Width="242" Height="344" >
+            <StackPanel Margin="10,0,10,0" Height="325">
+                <Label Content="City" Height="25"></Label>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="CityTextBox" Text="" Width="100" HorizontalAlignment="Left" Height="19"/>
+                    <Label x:Name="CountryLabelError" FontSize="15" Height="25" MinHeight="25" MaxHeight="25"></Label>
+                </StackPanel>
+                <Label Content="Country" Height="25"></Label>
+                <StackPanel Orientation="Horizontal" Margin="0 0 0 0" Height="19" Width="169" HorizontalAlignment="Left">
+                    <TextBox Name="CountryTextBox" Width="100" Text="" Height="19"/>
                     <Button Content="+" Click="AddLocation_Click" Width="24" Margin="10 0 0 0"/>
+                    <Button Name="btnEditLocations" FontFamily="Segoe MDL2 Assets" Content="&#xE104;" Click="btnEditLocations_Click" Width="24" Margin="10 0 0 0"/>
                 </StackPanel>
-                <Label x:Name="CountryLabelError" Height="Auto" ></Label>
-                <Label Content="MaxCapacity" Height="Auto"></Label>
+                <Label Content="MaxCapacity" Height="25"></Label>
                 <StackPanel Orientation="Horizontal" Margin="0 0 0 0" Height="Auto">
-                    <TextBox Name="MaxCapacityTextBox" Margin="0 0 10 0" HorizontalAlignment="Left" Width="158" Height="Auto" PreviewTextInput="MaxCapacityTextBox_PreviewTextInput"/>
-                    <Label x:Name="MaxCapacityLabelError" Grid.Column="1" Height="Auto" Width="24" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Margin="0 0 0 0"/>
+                    <TextBox Name="MaxCapacityTextBox" Margin="0 0 10 0" HorizontalAlignment="Left" Width="100" Height="19" PreviewTextInput="MaxCapacityTextBox_PreviewTextInput"/>
                 </StackPanel>
-                <Label Content="Languages" Height="Auto"></Label>
-                <GroupBox Header="Languages">
+                <GroupBox Header="Languages" Width="168" HorizontalAlignment="Left" Height="87">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -119,12 +120,14 @@
                         <ListBox x:Name="LanguagesListBox" SelectionMode="Multiple" ItemsSource="{Binding Languages}" />
 
 
-                        <Grid Grid.Column="1"></Grid>
+                        <Grid Grid.Column="1">
+                            <ListBox x:Name="LanguagesListBox1" SelectionMode="Multiple" ItemsSource="{Binding Languages1}" />
+                        </Grid>
                     </Grid>
                 </GroupBox>
                 <Label x:Name="LanguagesLabelError" Height="Auto" HorizontalContentAlignment="Left" VerticalContentAlignment="Top"/>
-                <Button x:Name="btnAddImage" Content="Add Image" Click="btnAddImage_Click" Width="158" HorizontalAlignment="Left" Margin="0 0 0 10" Height="Auto" Style="{StaticResource ButtonStyle}"/>
-                <Button x:Name="btnRegisterVehicle" Content="Register Vehicle" Width="158" Height="Auto" HorizontalAlignment="Left" Click="btnRegisterVehicle_Click"  Style="{StaticResource ButtonStyle}"/>
+                <Button x:Name="btnAddImage" Content="Add Image" Click="btnAddImage_Click" Width="168" HorizontalAlignment="Left" Margin="0 0 0 10" Height="Auto" Style="{StaticResource ButtonStyle}"/>
+                <Button x:Name="btnRegisterVehicle" Content="Register Vehicle" Width="168" Height="Auto" HorizontalAlignment="Left" Click="btnRegisterVehicle_Click"  Style="{StaticResource ButtonStyle}"/>
             </StackPanel>
         </GroupBox>
         <Border Background="Black" Height="3" VerticalAlignment="Top"/>

@@ -1,20 +1,22 @@
 ﻿using BookingApp.DTO;
-using BookingApp.View.Driver;
+using BookingApp.Repository;
+using System;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace BookingApp.View.Driver
 {
-    public partial class DriveReservationWindow : Window, INotifyPropertyChanged
+    public partial class DriverWaitingWindow : Window, INotifyPropertyChanged
     {
-        public DriveDTO selectedDrive;
+        private DriveDTO selectedDrive;
+        private DispatcherTimer timer;
+        private int remainingTimeInSeconds = 20 * 60;
+        public DriveRepository _driveRepository;
+        public DrivesWindow drivesWindow;
+        public SuccessfulDrivesRepository _successfulDrivesRepository;
+        public UnsuccessfulDrivesRepository _unsuccessfulDrivesRepository;
         public bool IsSuperDriver;
-
-
-        private DrivesWindow drivesWindow;
-
         private string _colorOne;
         public string ColorOne
         {
@@ -45,16 +47,18 @@ namespace BookingApp.View.Driver
                 }
             }
         }
-        public DriveReservationWindow(DriveDTO drive, DrivesWindow DrivesWindow, bool isSuperDriver)
+        public DriverWaitingWindow(DriveDTO drive, DrivesWindow DrivesWindow, bool isSuperDriver)
         {
             IsSuperDriver = isSuperDriver;
             CheckIfFastDriver(IsSuperDriver);
 
             DataContext = this;
             InitializeComponent();
-            CenterWindowOnScreen();
-
-            selectedDrive = drive;
+            CenterWindowOnScreen(); selectedDrive = drive;
+            _driveRepository = new DriveRepository();
+            _successfulDrivesRepository = new SuccessfulDrivesRepository();
+            _unsuccessfulDrivesRepository = new UnsuccessfulDrivesRepository();
+            StartTimer();
             drivesWindow = DrivesWindow;
 
             Closed += DriveReservationWindow_Closed;
@@ -72,22 +76,49 @@ namespace BookingApp.View.Driver
                 ColorTwo = "White";
             }
         }
-
-        private void btnYes_Click(object sender, RoutedEventArgs e)
+        private void StartTimer()
         {
-            this.Close();
-            drivesWindow.IsOverlayVisible = true;
-            var driverAtAddressWindow = new DriverAtAddressWindow(selectedDrive, drivesWindow, IsSuperDriver);
-            driverAtAddressWindow.Show();
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += Timer_Tick;
+            timer.Start();
         }
 
-        private void btnNo_Click(object sender, RoutedEventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
+            remainingTimeInSeconds--;
+
+            if (remainingTimeInSeconds <= 0)
+            {
+                timer.Stop();
+                MessageBox.Show("Time's up!");
+                _driveRepository.Delete(selectedDrive.ToDrive());
+                _unsuccessfulDrivesRepository.Save(selectedDrive.ToDrive());
+
+                OpenDrivesPage();
+            }
+
+            TimeSpan timeSpan = TimeSpan.FromSeconds(remainingTimeInSeconds);
+            string timeLeft = string.Format("{0:D2}:{1:D2}", timeSpan.Minutes, timeSpan.Seconds);
+
+            txtRemainingTime.Text = timeLeft;
+        }
+
+        private void btnTouristArrived_Click(object sender, RoutedEventArgs e)
+        {
+            _driveRepository.Delete(selectedDrive.ToDrive());
+            _successfulDrivesRepository.Save(selectedDrive.ToDrive());
             this.Close();
             drivesWindow.IsOverlayVisible = true;
 
-            var minutesLateWindow = new MinutesLateWindow(selectedDrive, drivesWindow, IsSuperDriver);
-            minutesLateWindow.Show();
+            StartingPriceWindow startingPriceWindow = new StartingPriceWindow(selectedDrive, drivesWindow, IsSuperDriver);
+            startingPriceWindow.Show();
+        }
+
+        private void OpenDrivesPage()
+        {
+            drivesWindow.RefreshDriveList();
+            Close();
         }
         private void DriveReservationWindow_Closed(object sender, System.EventArgs e)
         {
@@ -96,32 +127,6 @@ namespace BookingApp.View.Driver
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        private void Button_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Tab)
-            {
-                e.Handled = true;
-                if (sender == btnNo)
-                {
-                    btnYes.Focus();
-                }
-                else if (sender == btnYes)
-                {
-                    btnNo.Focus();
-                }
-            }
-            else if (e.Key == Key.Enter)
-            {
-                if (sender == btnNo)
-                {
-                    btnNo_Click(sender, e);
-                }
-                else if (sender == btnYes)
-                {
-                    btnYes_Click(sender, e);
-                }
-            }
         }
         private void CenterWindowOnScreen()
         {

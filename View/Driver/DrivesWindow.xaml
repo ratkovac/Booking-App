@@ -128,7 +128,7 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0">
-                <Button Name="btnCanelDrive" Click="btnCanelDrive_Click" FontSize="14" Margin="10" Width="120" Height="50" Style="{StaticResource ButtonStyle}">
+                <Button Name="btnCancelDrive" Click="btnCancelDrive_Click" FontSize="14" Margin="10" Width="120" Height="50" Style="{StaticResource ButtonStyle}">
                     <TextBlock TextWrapping="Wrap" TextAlignment="Center">
                         <Run>Cancel Drive</Run>
                         <LineBreak />

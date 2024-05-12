@@ -94,24 +94,11 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid Grid.Column="0">
-                    <Grid>
-                        <StackPanel x:Name="SuperDriverPanel" Orientation="Horizontal" Margin="25,30,45,232" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="{Binding SuperDriverVisibility}">
-                                <Label FontSize="40" Height="80" VerticalAlignment="Center">
-                                    <Label.Content>
-                                        <TextBlock FontFamily="Segoe UI" FontWeight="Bold" FontStyle="Italic" Foreground="White">
-                                            <TextBlock.Effect>
-                                                <DropShadowEffect Color="Black" ShadowDepth="3" BlurRadius="4"/>
-                                            </TextBlock.Effect>
-                                           SuperDriver
-                                        </TextBlock>
-                                    </Label.Content>
-                                </Label>
-                            </StackPanel>
-                    </Grid>
-                    <StackPanel Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="2" Height="Auto" Width="Auto" MinHeight="200" MinWidth="200" Margin="0,80,60,0">
+                    <StackPanel Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="2" Height="Auto" Width="Auto" MinHeight="200" MinWidth="200" Margin="0,30,60,0">
                         <Button x:Name="btnOpenVehicleRegistration" Content="Vehicle Registration" Height="Auto" MinHeight="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Click="btnOpenVehicleRegistration_Click"/>
                         <Button x:Name="btnShowDrives" Content="Drives" Height="Auto" MinHeight="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Click="btnShowDrives_Click"/>
                         <Button x:Name ="btnNotifications" Content="Notifications" Height="Auto" MinHeight="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Click="btnNotifications_Click"/>
+                        <Button x:Name ="btnHoliday" Content="Holiday" Height="Auto" MinHeight="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Click="btnHoliday_Click"/>
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Column="1">
@@ -122,7 +109,7 @@
                                     <Setter Property="Width" Value="150"/>
                                     <Setter Property="Height" Value="15"/>
                                     <Setter Property="Margin" Value="0"/>
-                                    <Setter Property="Foreground" Value="{Binding IsSuperDriverColorBack}"/>
+                                    <Setter Property="Foreground" Value="{Binding IsSuperDriverColorBar}"/>
                                     <Setter Property="BorderThickness" Value="2"/>
                                     <Setter Property="BorderBrush" Value="Black"/>
                                     <Setter Property="Background" Value="Black"/>
@@ -136,30 +123,43 @@
                                     <Setter Property="Margin" Value="0,5"/>
                                 </Style>
                             </StackPanel.Resources >
-                            <StackPanel Orientation="Vertical" Margin="30 110 30 30" VerticalAlignment="Top">
-                                <TextBlock Text="Fast drives" Width="Auto" Height="Auto" MinHeight="20"/>
-                                <ProgressBar Name="FastDrivesProgressBar" Value="{Binding FastDrivesValue}" Maximum="{Binding MaxFastDrivesValue}" Width="Auto" Height="Auto" MinHeight="20"/>
-                                <TextBlock Text="Bonus points" Width="Auto" Height="Auto" MinHeight="20"/>
-                                <ProgressBar Name="BonusPointsProgressBar" Value="{Binding BonusPointsValue}" Maximum="{Binding MaxBonusPointsValue}" Width="Auto" Height="Auto" MinHeight="20"/>
-                                <TextBlock Text="Cancelled drives" Width="Auto" Height="Auto" MinHeight="20"/>
-                                <ProgressBar Name="CancelledDrivesProgressBar" Value="{Binding CancelledDrivesValue}" Maximum="{Binding MaxCancelledDrivesValue}" Width="Auto" Height="Auto" MinHeight="20"/>
+                                <StackPanel Orientation="Vertical" Margin="30 0 30 0" VerticalAlignment="Top" Height="310">
+                                <Button x:Name="LogOutButton" Content="&#x1F46E;" FontSize="90" Margin="0,10,0,8" HorizontalAlignment="Center" VerticalAlignment="Center" Height="110" Click="LogOutButton_Click"  Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+                                    <TextBlock Text="Fast drives" Width="Auto" Height="Auto" FontSize="17" MinHeight="20"/>
+                                <ProgressBar Name="FastDrivesProgressBar" Value="{Binding FastDrivesValue}" Maximum="{Binding MaxFastDrivesValue}" Width="Auto" Height="20"/>
+                                    <TextBlock Text="Bonus points" Width="Auto" Height="Auto" FontSize="17" MinHeight="20"/>
+                                <ProgressBar Name="BonusPointsProgressBar" Value="{Binding BonusPointsValue}" Maximum="{Binding MaxBonusPointsValue}" Width="Auto" Height="20"/>
+                                    <TextBlock Text="Cancelled drives" Width="Auto" Height="Auto" FontSize="17" MinHeight="20"/>
+                                    <ProgressBar Name="CancelledDrivesProgressBar" Value="{Binding CancelledDrivesValue}" Maximum="{Binding MaxCancelledDrivesValue}" Width="Auto" Height="20"/>
+                                </StackPanel>
                             </StackPanel>
-                        </StackPanel>
                     </Border>
                 </Grid>
                 <Grid Grid.Column="2">
                     <Border Background="{Binding IsSuperDriverColor}" BorderBrush="Black" BorderThickness="1" CornerRadius="0 0 20 20" Margin="20 0 20 10">
-                        <StackPanel Margin="10 40 10 10">
-                            <TextBlock FontWeight="Bold" FontSize="20" Margin="10,10,10,5">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Margin="10 10 10 10" VerticalAlignment="Bottom">
+                                <TextBlock FontWeight="Bold" FontSize="27" Margin="10,0,10,0">
                                 <Run Text="Stats for "/>
                                 <Run Text="{Binding CurrentYear}"/>
-                            </TextBlock>
-                            <TextBlock Text="Number of Drives: " FontWeight="Bold" Margin="10,20,10,5" FontSize="16"/>
-                            <TextBlock Text="{Binding NumberOfDrives}" Margin="10,0,10,5" FontSize="16"/>
-                            <TextBlock Text="Average Price: " FontWeight="Bold" Margin="10,0,10,5" FontSize="16"/>
-                            <TextBlock Text="{Binding AveragePrice, StringFormat={}{0:F2}}" Margin="10,0,10,5" FontSize="16"/>
-                            <TextBlock Text="Average Duration: " FontWeight="Bold" Margin="10,0,10,5" FontSize="16"/>
-                            <TextBlock Text="{Binding AverageDuration, StringFormat=\{0:hh\\:mm\\:ss\}}" Margin="10,0,10,5" FontSize="16"/>
+                                </TextBlock>
+                                <TextBlock Text="Number of Drives: " FontWeight="Bold" Margin="10,5,10,5" FontSize="16"/>
+                                <TextBlock Text="{Binding NumberOfDrives}" Margin="10,0,10,5" FontSize="16"/>
+                                <TextBlock Text="Average Price: " FontWeight="Bold" Margin="10,0,10,5" FontSize="16"/>
+                                <TextBlock Text="{Binding AveragePrice, StringFormat={}{0:F2}}" Margin="10,0,10,5" FontSize="16"/>
+                                <TextBlock Text="Average Duration: " FontWeight="Bold" Margin="10,0,10,5" FontSize="16"/>
+                                <TextBlock Text="{Binding AverageDuration, StringFormat=\{0:hh\\:mm\\:ss\}}" Margin="10,0,10,5" FontSize="16"/>
+                            </StackPanel>
+                            <Label Height="Auto" FontSize="40" VerticalAlignment="Center" Visibility="{Binding SuperDriverVisibility}" Margin="20 0 20 0">
+                                <Label.Content>
+                                    <TextBlock FontFamily="Segoe UI" FontWeight="Bold" FontStyle="Italic" Foreground="White">
+                                        <TextBlock.Effect>
+                                            <DropShadowEffect Color="Black" ShadowDepth="3" BlurRadius="4"/>
+                                        </TextBlock.Effect>
+                                        Super Driver
+                                    </TextBlock>
+                                </Label.Content>
+                            </Label>
                         </StackPanel>
                     </Border>
                 </Grid>

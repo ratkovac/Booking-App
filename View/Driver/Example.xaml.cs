@@ -24,12 +24,40 @@ namespace BookingApp.View.Driver
         public Example(User driver)
         {
             InitializeComponent();
+            CenterWindowOnScreen();
             LoggedDriver = driver;
             viewModel = new StatisticsViewModel(LoggedDriver);
             DataContext = viewModel;
+            this.PreviewKeyDown += DrivesWindow_PreviewKeyDown;
+        }
+        private void DrivesWindow_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.H && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                btnHelp_Click(null, null);
+            }
+            if (e.Key == Key.V && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                btnOpenVehicleRegistration_Click(null, null);
+            }
+            if (e.Key == Key.D && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                btnShowDrives_Click(null, null);
+            }
+            if (e.Key == Key.N && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                btnNotifications_Click(null, null);
+            }
+            if (e.Key == Key.H && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                btnHoliday_Click(null, null);
+            }
+            if (e.Key == Key.L && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                LogOutButton_Click(null, null);
+            }
 
         }
-
         private void btnOpenVehicleRegistration_Click(object sender, RoutedEventArgs e)
         {
             Driver.VehicleRegistrationWindow vehicleRegistrationWindow = new Driver.VehicleRegistrationWindow(LoggedDriver);
@@ -54,7 +82,32 @@ namespace BookingApp.View.Driver
 
         private void btnHelp_Click(object sender, RoutedEventArgs e)
         {
+            HelpWindow helpWindow = new HelpWindow();
+            helpWindow.Show();
+            Close();
+        }
+        private void CenterWindowOnScreen()
+        {
+            double screenWidth = SystemParameters.PrimaryScreenWidth;
+            double screenHeight = SystemParameters.PrimaryScreenHeight;
+            double windowWidth = Width;
+            double windowHeight = Height;
+            Left = (screenWidth - windowWidth) / 2;
+            Top = (screenHeight - windowHeight) / 2;
+        }
 
+        private void LogOutButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+            SignInForm signIn = new SignInForm();
+            signIn.Show();
+        }
+
+        private void btnHoliday_Click(object sender, RoutedEventArgs e)
+        {
+            HolidayWindow holidayWindow = new HolidayWindow();
+            Close();
+            holidayWindow.Show();
         }
     }
 }

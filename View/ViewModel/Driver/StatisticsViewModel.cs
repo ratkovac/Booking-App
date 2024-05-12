@@ -199,6 +199,19 @@ namespace BookingApp.ViewModel.Driver
                 }
             }
         }
+        private string _isSuperDriverColorBar;
+        public string IsSuperDriverColorBar
+        {
+            get { return _isSuperDriverColorBar; }
+            set
+            {
+                if (_isSuperDriverColorBar != value)
+                {
+                    _isSuperDriverColorBar = value;
+                    OnPropertyChanged(nameof(_isSuperDriverColorBar));
+                }
+            }
+        }
 
 
         public StatisticsViewModel(User driver)
@@ -230,13 +243,15 @@ namespace BookingApp.ViewModel.Driver
         {
             if (driverStatsService.CheckIfFastDrivesFull(FastDrivesValue))
             {
-                IsSuperDriverColor = "LightBlue";
-                IsSuperDriverColorBack = "White";
+                IsSuperDriverColor = "LightGray";
+                IsSuperDriverColorBack = "PaleTurquoise";
+                IsSuperDriverColorBar = "White";
             }
             else
             {
-                IsSuperDriverColor = "White";
+                IsSuperDriverColor = "LightGray";
                 IsSuperDriverColorBack = "PaleTurquoise";
+                IsSuperDriverColorBar = "White";
             }
         }
 
@@ -323,6 +338,5 @@ namespace BookingApp.ViewModel.Driver
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }
