@@ -173,6 +173,19 @@ namespace BookingApp.ViewModel.Driver
                 }
             }
         }
+        private string _username;
+        public string Username 
+        {
+            get { return _username; }
+            set
+            {
+                if (_username != value)
+                {
+                    _username = value;
+                    OnPropertyChanged(nameof(Username));
+                }
+            }
+        }
         private string _isSuperDriverColor;
         public string IsSuperDriverColor
         {
@@ -224,10 +237,11 @@ namespace BookingApp.ViewModel.Driver
             driverStatsService.RefreshStats();
             ComboBoxItems = new ObservableCollection<string>(driverStatsService.GetYears());
             Year = "2024";
+            Username = LoggedDriver.Username;
             SuperDriverVisibility = FastDrivesValue == 15 ? Visibility.Visible : Visibility.Collapsed;
             int ThisYear = DateTime.Now.Year;
             CurrentYear = ThisYear.ToString();
-            InitializeSuperDriverColor();
+            InitializeColor();
             AverageDurationSeconds = driverStatsService.GetAverageDurationInYear(ThisYear, LoggedDriver.Id);
             AveragePrice = driverStatsService.GetAveragePriceInYear(ThisYear, LoggedDriver.Id);
             NumberOfDrives = driverStatsService.GetNumberOfDrivesInYear(ThisYear, LoggedDriver.Id);
@@ -239,20 +253,11 @@ namespace BookingApp.ViewModel.Driver
             return driverStatsService.CheckIfFastDrivesFull(FastDrivesValue);
         }
 
-        private void InitializeSuperDriverColor()
+        private void InitializeColor()
         {
-            if (driverStatsService.CheckIfFastDrivesFull(FastDrivesValue))
-            {
                 IsSuperDriverColor = "LightGray";
                 IsSuperDriverColorBack = "PaleTurquoise";
                 IsSuperDriverColorBar = "White";
-            }
-            else
-            {
-                IsSuperDriverColor = "LightGray";
-                IsSuperDriverColorBack = "PaleTurquoise";
-                IsSuperDriverColorBar = "White";
-            }
         }
 
         private void InitializeCharts()

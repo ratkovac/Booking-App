@@ -22,6 +22,8 @@ namespace BookingApp.View.Driver
     /// </summary>
     public partial class DriverAtAddressWindow : Window, INotifyPropertyChanged
     {
+        private bool enterPressedAfterRegisterDrive = false;
+
         DriveDTO selectedDrive;
         private DrivesWindow drivesWindow;
         private bool IsSuperDriver;
@@ -61,28 +63,39 @@ namespace BookingApp.View.Driver
             drivesWindow = DrivesWindow;
             IsSuperDriver = isSuperDriver;
             DataContext = this;
-            CheckIfFastDriver(IsSuperDriver);
+            InitializeDriverColor();
             InitializeComponent();
             CenterWindowOnScreen();
 
             Closed += DriveReservationWindow_Closed;
+            Loaded += (sender, e) =>
+            {
+                txtBlock.Focus();
+            };
+
+            PreviewKeyDown += Window_PreviewKeyDown;
+        }
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter && enterPressedAfterRegisterDrive)
+            {
+                btnVehicleAtAddress_Click(null, null);
+            }
+        }
+        private void btnRegisterDrive_Click(object sender, RoutedEventArgs e)
+        {
+
+            enterPressedAfterRegisterDrive = true;
         }
         private void DriveReservationWindow_Closed(object sender, System.EventArgs e)
         {
-            drivesWindow.RefreshDriveList();
+            drivesWindow._viewModel.RefreshDriveList();
         }
-        private void CheckIfFastDriver(bool isFastDriver)
+        private void InitializeDriverColor()
         {
-            if (isFastDriver == true)
-            {
-                ColorOne = "White";
-                ColorTwo = "LightBlue";
-            }
-            else
-            {
-                ColorOne = "PaleTurquoise";
-                ColorTwo = "White";
-            }
+            ColorOne = "LightGray";
+            ColorTwo = "PaleTurquoise";
+
         }
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -101,7 +114,7 @@ namespace BookingApp.View.Driver
         private void btnVehicleAtAddress_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
-            drivesWindow.IsOverlayVisible = true;
+            drivesWindow._viewModel.IsOverlayVisible = true;
             var driverWaitingWindow = new DriverWaitingWindow(selectedDrive, drivesWindow, IsSuperDriver);
             driverWaitingWindow.Show();
         }

@@ -50,7 +50,8 @@ namespace BookingApp.View.Driver
         public DriverWaitingWindow(DriveDTO drive, DrivesWindow DrivesWindow, bool isSuperDriver)
         {
             IsSuperDriver = isSuperDriver;
-            CheckIfFastDriver(IsSuperDriver);
+            InitializeDriverColor();       
+            drivesWindow = DrivesWindow;
 
             DataContext = this;
             InitializeComponent();
@@ -59,22 +60,18 @@ namespace BookingApp.View.Driver
             _successfulDrivesRepository = new SuccessfulDrivesRepository();
             _unsuccessfulDrivesRepository = new UnsuccessfulDrivesRepository();
             StartTimer();
-            drivesWindow = DrivesWindow;
 
             Closed += DriveReservationWindow_Closed;
+            Loaded += (sender, e) =>
+            {
+                btnTouristArrived.Focus();
+            };
         }
-        private void CheckIfFastDriver(bool isFastDriver)
+        private void InitializeDriverColor()
         {
-            if (isFastDriver == true)
-            {
-                ColorOne = "White";
-                ColorTwo = "LightBlue";
-            }
-            else
-            {
-                ColorOne = "PaleTurquoise";
-                ColorTwo = "White";
-            }
+            ColorOne = "LightGray";
+            ColorTwo = "PaleTurquoise";
+
         }
         private void StartTimer()
         {
@@ -109,7 +106,7 @@ namespace BookingApp.View.Driver
             _driveRepository.Delete(selectedDrive.ToDrive());
             _successfulDrivesRepository.Save(selectedDrive.ToDrive());
             this.Close();
-            drivesWindow.IsOverlayVisible = true;
+            drivesWindow._viewModel.IsOverlayVisible = true;
 
             StartingPriceWindow startingPriceWindow = new StartingPriceWindow(selectedDrive, drivesWindow, IsSuperDriver);
             startingPriceWindow.Show();
@@ -117,12 +114,12 @@ namespace BookingApp.View.Driver
 
         private void OpenDrivesPage()
         {
-            drivesWindow.RefreshDriveList();
+            drivesWindow._viewModel.RefreshDriveList();
             Close();
         }
         private void DriveReservationWindow_Closed(object sender, System.EventArgs e)
         {
-            drivesWindow.RefreshDriveList();
+            drivesWindow._viewModel.RefreshDriveList();
         }
         protected virtual void OnPropertyChanged(string propertyName)
         {

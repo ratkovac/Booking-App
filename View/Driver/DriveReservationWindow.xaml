@@ -40,9 +40,9 @@
     <Grid Background="{Binding ColorOne}">
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock Text="Are you arriving on time?" FontSize="20" Margin="0 0 0 20" Foreground="Black"/>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 0 20">
-                <Button x:Name="btnNo" Content="No" FontSize="16" Padding="10" Margin="0 0 10 0" Height="40" Width="100" Click="btnNo_Click" Style="{StaticResource ButtonStyle}" Focusable="True" BorderThickness="1" TabIndex="1" PreviewKeyDown="Button_PreviewKeyDown"/>
-                <Button x:Name="btnYes" Content="Yes" FontSize="16" FontWeight="Bold" Padding="10" Margin="0 0 0 0" Height="40" Width="100" Click="btnYes_Click" Style="{StaticResource ButtonStyle}" Focusable="True" BorderThickness="3" TabIndex="2" PreviewKeyDown="Button_PreviewKeyDown"/>
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 0 20">
+                <Button x:Name="btnYes" Content="Yes" FontSize="17" FontWeight="Bold" Padding="10" Margin="0 10 0 10" Height="40" Width="100" Click="btnYes_Click" Style="{StaticResource ButtonStyle}" Focusable="True" BorderThickness="3" TabIndex="2" PreviewKeyDown="Button_PreviewKeyDown"/>
+                <Button x:Name="btnNo" Content="No" FontSize="17" Padding="10" Margin="0 0 0 0" Height="40" Width="100" Click="btnNo_Click" Style="{StaticResource ButtonStyle}" Focusable="True" BorderThickness="1" TabIndex="1" PreviewKeyDown="Button_PreviewKeyDown"/>
             </StackPanel>
         </StackPanel>
         <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" />

@@ -45,20 +45,33 @@ namespace BookingApp.View.Driver
         }
         public StartingPriceWindow(DriveDTO drive, DrivesWindow DrivesWindow, bool isSuperDriver)
         {
+            drivesWindow = DrivesWindow;
+
             DataContext = this;
             IsSuperDriver = isSuperDriver;
-            CheckIfFastDriver(IsSuperDriver);
+            InitializeDriverColor();
 
             selectedDrive = drive;
-            drivesWindow = DrivesWindow;
             InitializeComponent();
             CenterWindowOnScreen();
 
             Closed += DriveReservationWindow_Closed;
+            Loaded += (sender, e) =>
+            {
+                txtStartingPrice.Focus();
+            };
+
+            txtStartingPrice.PreviewTextInput += (sender, e) =>
+            {
+                if (!char.IsDigit(e.Text, e.Text.Length - 1))
+                {
+                    e.Handled = true;
+                }
+            };
         }
         private void DriveReservationWindow_Closed(object sender, System.EventArgs e)
         {
-            drivesWindow.RefreshDriveList();
+            drivesWindow._viewModel.RefreshDriveList();
         }
 
         private void btnConfirm_Click(object sender, RoutedEventArgs e)
@@ -68,7 +81,7 @@ namespace BookingApp.View.Driver
                 StartingPrice = startingPrice;
                 DriveInProgressWindow driveInProgressWindow = new DriveInProgressWindow(selectedDrive, StartingPrice, drivesWindow, IsSuperDriver);
                 this.Close();
-                drivesWindow.IsOverlayVisible = true;
+                drivesWindow._viewModel.IsOverlayVisible = true;
                 driveInProgressWindow.Show();                
             }
             else
@@ -76,18 +89,11 @@ namespace BookingApp.View.Driver
                 MessageBox.Show("Please enter a valid starting price.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        private void CheckIfFastDriver(bool isFastDriver)
+        private void InitializeDriverColor()
         {
-            if (isFastDriver == true)
-            {
-                ColorOne = "White";
-                ColorTwo = "LightBlue";
-            }
-            else
-            {
-                ColorOne = "PaleTurquoise";
-                ColorTwo = "White";
-            }
+            ColorOne = "LightGray";
+            ColorTwo = "PaleTurquoise";
+
         }
         protected virtual void OnPropertyChanged(string propertyName)
         {

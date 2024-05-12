@@ -47,36 +47,30 @@ namespace BookingApp.View.Driver
         }
         public DriveReservationWindow(DriveDTO drive, DrivesWindow DrivesWindow, bool isSuperDriver)
         {
+            drivesWindow = DrivesWindow;
+
             IsSuperDriver = isSuperDriver;
-            CheckIfFastDriver(IsSuperDriver);
+            InitializeDriverColor();
 
             DataContext = this;
             InitializeComponent();
             CenterWindowOnScreen();
 
             selectedDrive = drive;
-            drivesWindow = DrivesWindow;
 
             Closed += DriveReservationWindow_Closed;
         }
-        private void CheckIfFastDriver(bool isFastDriver)
+        private void InitializeDriverColor()
         {
-            if (isFastDriver == true)
-            {
-                ColorOne = "White";
-                ColorTwo = "LightBlue";
-            }
-            else
-            {
-                ColorOne = "PaleTurquoise";
-                ColorTwo = "White";
-            }
+            ColorOne = "LightGray";
+            ColorTwo = "PaleTurquoise";
+
         }
 
         private void btnYes_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
-            drivesWindow.IsOverlayVisible = true;
+            drivesWindow._viewModel.IsOverlayVisible = true;
             var driverAtAddressWindow = new DriverAtAddressWindow(selectedDrive, drivesWindow, IsSuperDriver);
             driverAtAddressWindow.Show();
         }
@@ -84,14 +78,14 @@ namespace BookingApp.View.Driver
         private void btnNo_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
-            drivesWindow.IsOverlayVisible = true;
+            drivesWindow._viewModel.IsOverlayVisible = true;
 
             var minutesLateWindow = new MinutesLateWindow(selectedDrive, drivesWindow, IsSuperDriver);
             minutesLateWindow.Show();
         }
         private void DriveReservationWindow_Closed(object sender, System.EventArgs e)
         {
-            drivesWindow.RefreshDriveList();
+            drivesWindow._viewModel.RefreshDriveList();
         }
         protected virtual void OnPropertyChanged(string propertyName)
         {

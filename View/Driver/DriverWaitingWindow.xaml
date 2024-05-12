@@ -51,13 +51,15 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" FontSize="20" Text="Remaining time:" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10"/>
-        <TextBlock x:Name="txtRemainingTime" Grid.Row="1" Text="20:00" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24"/>
+        <TextBlock Grid.Row="0" FontSize="20" Text="Remaining time:" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10" />
+        <TextBlock x:Name="txtRemainingTime" Grid.Row="1" Text="20:00" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontFamily="Arial"/>
 
         <Button x:Name="btnTouristArrived"
                 Grid.Row="3"
                 Content="Tourist came"
                 Style="{StaticResource ButtonStyle}"
-                Click="btnTouristArrived_Click"/>
+                Click="btnTouristArrived_Click"
+                FontSize="17"
+                HorizontalAlignment="Center"/>
     </Grid>
 </Window>

@@ -43,7 +43,7 @@
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock Text="Starting Price:" FontSize="20" Margin="0 10 0 10" Foreground="Black" HorizontalAlignment="Center"/>
             <TextBox x:Name="txtStartingPrice" FontSize="16" Padding="10" Margin="0 0 0 10" Width="200" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <Button Content="Confirm" FontSize="16" Padding="10" Margin="0 0 0 0" Click="btnConfirm_Click" Style="{StaticResource ButtonStyle}" Height="40" Width="130" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Button Content="Confirm" FontSize="17" Padding="10" Margin="0 0 0 0" Click="btnConfirm_Click" Style="{StaticResource ButtonStyle}" Height="40" Width="130" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </StackPanel>
     </Grid>
 </Window>

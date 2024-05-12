@@ -87,7 +87,6 @@ namespace BookingApp.View
                             Driver.Example example = new Driver.Example(user);
                             example.Show();
                             Close();
-                            MessageBox.Show("If you need any kind of Help Press CTRL+H. \nPress Enter to continue.", "Help", MessageBoxButton.OK, MessageBoxImage.Information);
                             break;
                         default:
                             break;

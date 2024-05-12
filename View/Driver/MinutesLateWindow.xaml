@@ -44,7 +44,7 @@
             <TextBlock FontSize="20" Margin="0 0 0 0" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center">Enter the number of minutes</TextBlock>
             <TextBlock FontSize="20" Margin="0 0 0 10" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center">you are late:</TextBlock>
             <TextBox x:Name="MinutesLateTextBox" FontSize="16" Padding="10" Margin="0 0 0 10" VerticalAlignment="Center" HorizontalAlignment="Center" Width="130" Height="40" PreviewTextInput="MinutesLateTextBox_PreviewTextInput"/>
-            <Button Content="Confirm" FontSize="16" Padding="10" Margin="0 0 0 0" Click="btnConfirmation_Click" Style="{StaticResource ButtonStyle}" Height="40" Width="130" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Button Content="Confirm" FontSize="17" Padding="10" Margin="0 0 0 0" Click="btnConfirmation_Click" Style="{StaticResource ButtonStyle}" Height="40" Width="130" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </StackPanel>
     </Grid>
 </Window>

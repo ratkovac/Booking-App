@@ -51,9 +51,9 @@ namespace BookingApp.View.Driver
 
         public DriveInProgressWindow(DriveDTO driveDTO, int startingPrice, DrivesWindow DrivesWindow, bool isSuperDriver)
         {
+            drivesWindow = DrivesWindow;
             DataContext = this;
             IsSuperDriver = isSuperDriver;
-            drivesWindow = DrivesWindow;
             Drive drive = driveDTO.ToDrive();
             driveDriven = new DriveDriven();
             _drivesDrivenRepository = new DrivesDrivenRepository();
@@ -62,29 +62,26 @@ namespace BookingApp.View.Driver
             driveDriven.DriveId = drive.Id;
             StartTimer();
             startTime = DateTime.Now;
-            CheckIfFastDriver(IsSuperDriver);
+            InitializeDriverColor();
             InitializeComponent();
             txtPrice.Text = startingPrice.ToString();
             CenterWindowOnScreen();
 
             Closed += DriveReservationWindow_Closed;
+            Loaded += (sender, e) =>
+            {
+                btnEndDrive.Focus();
+            };
         }
         private void DriveReservationWindow_Closed(object sender, System.EventArgs e)
         {
-            drivesWindow.RefreshDriveList();
+            drivesWindow._viewModel.RefreshDriveList();
         }
-        private void CheckIfFastDriver(bool isFastDriver)
+        private void InitializeDriverColor()
         {
-            if (isFastDriver == true)
-            {
-                ColorOne = "White";
-                ColorTwo = "LightBlue";
-            }
-            else
-            {
-                ColorOne = "PaleTurquoise";
-                ColorTwo = "White";
-            }
+                ColorOne = "LightGray";
+                ColorTwo = "PaleTurquoise";
+            
         }
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -128,7 +125,7 @@ namespace BookingApp.View.Driver
         private void OpenDrivesPage()
         {
             this.Close();
-            drivesWindow.RefreshDriveList();
+            drivesWindow._viewModel.RefreshDriveList();
             drivesWindow.MakeVisible();
         }
     }

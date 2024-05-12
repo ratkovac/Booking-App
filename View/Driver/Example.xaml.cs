@@ -48,7 +48,7 @@ namespace BookingApp.View.Driver
             {
                 btnNotifications_Click(null, null);
             }
-            if (e.Key == Key.H && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            if (e.Key == Key.W&& (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
             {
                 btnHoliday_Click(null, null);
             }
@@ -56,7 +56,10 @@ namespace BookingApp.View.Driver
             {
                 LogOutButton_Click(null, null);
             }
-
+            if (e.Key == Key.R && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                DriverReport_Click(null, null);
+            }
         }
         private void btnOpenVehicleRegistration_Click(object sender, RoutedEventArgs e)
         {
@@ -71,6 +74,7 @@ namespace BookingApp.View.Driver
             Driver.DrivesWindow driveWindow = new Driver.DrivesWindow(LoggedDriver, viewModel.IsFastDriver());
             driveWindow.Show();
             Close();
+            MessageBox.Show("Navigation Tip: You can navigate using the TAB key. Use arrow keys to select drives, and when you've chosen the desired drive, press CTRL+TAB to switch to the lower menu. Then, again, use TAB to select the desired option. Press Enter to continue.", "Help");
         }
 
         private void btnNotifications_Click(object sender, RoutedEventArgs e)
@@ -84,7 +88,7 @@ namespace BookingApp.View.Driver
         {
             HelpWindow helpWindow = new HelpWindow();
             helpWindow.Show();
-            Close();
+            //Close();
         }
         private void CenterWindowOnScreen()
         {
@@ -98,7 +102,7 @@ namespace BookingApp.View.Driver
 
         private void LogOutButton_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            //Close();
             SignInForm signIn = new SignInForm();
             signIn.Show();
         }
@@ -106,8 +110,13 @@ namespace BookingApp.View.Driver
         private void btnHoliday_Click(object sender, RoutedEventArgs e)
         {
             HolidayWindow holidayWindow = new HolidayWindow();
-            Close();
+            //Close();
             holidayWindow.Show();
+        }
+
+        private void DriverReport_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Report is temporary unavailable. ");
         }
     }
 }

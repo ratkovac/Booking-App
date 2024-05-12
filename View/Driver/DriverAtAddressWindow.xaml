@@ -45,6 +45,7 @@
     </Window.Resources>
 
     <Grid Background="{Binding ColorOne}">
-        <Button x:Name="btnVehicleAtAddress" FontSize="16" Content="Vehicle Arrived" Width="160" Height="50" Style="{StaticResource ButtonStyle}" Click="btnVehicleAtAddress_Click"/>
+        <Button x:Name="txtBlock"  Background="{Binding ColorOne}" Width="1" Height="1" VerticalAlignment="Top" HorizontalAlignment="Left"> </Button>
+        <Button x:Name="btnVehicleAtAddress" FontSize="17" Content="Vehicle Arrived" Width="160" Height="50" Style="{StaticResource ButtonStyle}" Click="btnVehicleAtAddress_Click"/>
     </Grid>
 </Window>

@@ -49,20 +49,24 @@ namespace BookingApp.View.Driver
         }
         public MinutesLateWindow(DriveDTO drive, DrivesWindow DrivesWindow, bool isSuperDriver)
         {
+            drivesWindow = DrivesWindow;
             DataContext = this;
             IsSuperDriver = isSuperDriver;
             selectedDrive = drive;
-            drivesWindow = DrivesWindow;
             _driveRepository = new DriveRepository();
-            CheckIfFastDriver(IsSuperDriver);
+            InitializeDriverColor();
             InitializeComponent();
             CenterWindowOnScreen();
 
             Closed += DriveReservationWindow_Closed;
+            Loaded += (sender, e) =>
+            {
+                MinutesLateTextBox.Focus();
+            };
         }
         private void DriveReservationWindow_Closed(object sender, System.EventArgs e)
         {
-            drivesWindow.RefreshDriveList();
+            drivesWindow._viewModel.RefreshDriveList();
         }
 
         private void btnConfirmation_Click(object sender, RoutedEventArgs e)
@@ -70,7 +74,7 @@ namespace BookingApp.View.Driver
             if (int.TryParse(MinutesLateTextBox.Text, out int minutesLate) && MinutesLateTextBox.Text != "")
             {
                 this.Close();
-                drivesWindow.IsOverlayVisible = true;
+                drivesWindow._viewModel.IsOverlayVisible = true;
 
                 Drive drive = _driveRepository.GetById(selectedDrive.Id);
                 drive.Delay = minutesLate;
@@ -84,18 +88,11 @@ namespace BookingApp.View.Driver
                 MessageBox.Show("Please enter an integer value for the delay.");
             }
         }
-        private void CheckIfFastDriver(bool isFastDriver)
+        private void InitializeDriverColor()
         {
-            if (isFastDriver == true)
-            {
-                ColorOne = "White";
-                ColorTwo = "LightBlue";
-            }
-            else
-            {
-                ColorOne = "PaleTurquoise";
-                ColorTwo = "White";
-            }
+            ColorOne = "LightGray";
+            ColorTwo = "PaleTurquoise";
+
         }
         protected virtual void OnPropertyChanged(string propertyName)
         {
