@@ -46,6 +46,11 @@ namespace BookingApp.Service
             _repository.Update(AccommodationReservation);
         }
 
+        public void Add(AccommodationReservation entity)
+        {
+            _repository.Create(entity);
+        }
+
         public void Subscribe(IObserver observer)
         {
             _repository.Subscribe(observer);

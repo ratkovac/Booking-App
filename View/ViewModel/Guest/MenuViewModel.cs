@@ -30,6 +30,8 @@ namespace BookingApp.View.ViewModel.Guest
 
         private DelayReservationService delayReservationService;
 
+        private SuperGuestManagmentService SuperGuestManagmentService { get; set; }
+
         public string ActiveMenuItem
         {
             get { return activeMenuItem; }
@@ -39,7 +41,19 @@ namespace BookingApp.View.ViewModel.Guest
                 OnPropertyChanged(nameof(ActiveMenuItem));
             }
         }
-        public MenuViewModel(string activeButton, NavigationService navigationService)
+
+        private string _isSuperGuestImage;
+
+        public string IsSuperGuestImage
+        {
+            get { return _isSuperGuestImage; }
+            set
+            {
+                _isSuperGuestImage = value;
+                OnPropertyChanged(nameof(IsSuperGuestImage));
+            }
+        }
+        public MenuViewModel(string activeButton, NavigationService navigationService, User user)
         {
             ActiveMenuItem = activeButton;
             _navigationService = navigationService;
@@ -47,8 +61,25 @@ namespace BookingApp.View.ViewModel.Guest
             Messages = new ObservableCollection<DelayReservationDTO>();
             delayReservationService = new DelayReservationService();
 
+            SuperGuestManagmentService = new SuperGuestManagmentService();
+
+            IsSuperGuest(user.Id);
+
             Update();
         }
+
+        private void IsSuperGuest(int userId)
+        {
+            if (SuperGuestManagmentService.AddSuperGuest(userId))
+            {
+                IsSuperGuestImage = "../../Icon/true.png";
+            }
+            else
+            {
+                IsSuperGuestImage = "../../Icon/x.png";
+            }
+        }
+
 
         public void Update()
         {

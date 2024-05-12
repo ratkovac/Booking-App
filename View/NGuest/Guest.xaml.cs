@@ -153,7 +153,7 @@ namespace BookingApp.View
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            MenuViewModel menuViewModel = new MenuViewModel("Home", NavigationService);
+            MenuViewModel menuViewModel = new MenuViewModel("Home", NavigationService, LoggedInUser);
             NavigationService.Navigate(new Menu(menuViewModel));
         }
 
