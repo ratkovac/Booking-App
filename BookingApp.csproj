@@ -68,8 +68,17 @@
     <None Remove="View\GuideView\GuideImages\profile.png" />
     <None Remove="View\GuideView\Pages\pozadinaNebo.jpg" />
     <None Remove="View\NGuest\menu-svgrepo-com.png" />
+    <None Remove="View\Owner\accommodation.png" />
+    <None Remove="View\Owner\calendar.png" />
+    <None Remove="View\Owner\hotel.png" />
+    <None Remove="View\Owner\noimage.png" />
+    <None Remove="View\Owner\profile.png" />
+    <None Remove="View\Owner\resort.jpg" />
     <None Remove="View\Owner\star.png" />
+    <None Remove="View\Owner\star_empty.png" />
+    <None Remove="View\Owner\star_filled.png" />
     <None Remove="View\Owner\user.jpg" />
+    <None Remove="View\Owner\warning.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -169,8 +178,16 @@
   <ItemGroup>
     <Resource Include="Images\reserve.png" />
     <Resource Include="View\NGuest\menu-svgrepo-com.png" />
+    <Resource Include="View\Owner\accommodation.png" />
+    <Resource Include="View\Owner\calendar.png" />
+    <Resource Include="View\Owner\noimage.png" />
+    <Resource Include="View\Owner\profile.png" />
+    <Resource Include="View\Owner\resort.jpg" />
     <Resource Include="View\Owner\star.png" />
+    <Resource Include="View\Owner\star_empty.png" />
+    <Resource Include="View\Owner\star_filled.png" />
     <Resource Include="View\Owner\user.jpg" />
+    <Resource Include="View\Owner\warning.png" />
   </ItemGroup>
 
   <ItemGroup>

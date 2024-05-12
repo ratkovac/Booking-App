@@ -23,7 +23,10 @@ namespace BookingApp.Service
         {
             return _repository.GetById(id);
         }
-
+        public List<Accommodation> GetAll()
+        {
+            return _repository.GetAll();
+        }
         public void Subscribe(IObserver observer)
         {
             _repository.Subscribe(observer);

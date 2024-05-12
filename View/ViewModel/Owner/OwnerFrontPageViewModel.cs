@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using BookingApp.DTO;
 using BookingApp.Model;
 using BookingApp.Service;
 using BookingApp.View.NGuest;
+using BookingApp.View.Owner;
 using CLI.Observer;
+using GalaSoft.MvvmLight.Command;
 
 namespace BookingApp.View.ViewModel.Owner
 {
@@ -17,7 +21,10 @@ namespace BookingApp.View.ViewModel.Owner
     {
         private User LoggedInUser;
         private AccommodationReservationService accommodationReservationService;
+        private AccommodationService accommodationService;
         private List<Double> accommoationGrades = new List<Double>();
+        public ObservableCollection<AccommodationDTO> accommodations { get; set; }
+        public ICommand RenovationCommand { get; private set; }
         public bool SuperOwner(User user)
         {
             foreach (AccommodationReservation ar in accommodationReservationService.GetAll())
@@ -33,7 +40,24 @@ namespace BookingApp.View.ViewModel.Owner
             else
                 return false;
         }
-
+        public void allAccommodations()
+        {
+            accommodations.Clear();
+            foreach(var accommodation in accommodationService.GetAll())
+            {
+                if(accommodation.User.Id == LoggedInUser.Id)
+                {
+                    accommodations.Add(new AccommodationDTO
+                    {
+                        Id = accommodation.Id,
+                        City = accommodation.Location.City,
+                        Country = accommodation.Location.Country,
+                        Type = accommodation.Type,
+                        Name = accommodation.Name
+                    });
+                }
+            }
+        }
         private double AvarageAccommoationGrade()
         {
             double sum = 0;
@@ -50,12 +74,21 @@ namespace BookingApp.View.ViewModel.Owner
         public OwnerFrontPageViewModel(User user)
         {
             accommodationReservationService = new AccommodationReservationService();
+            accommodations = new ObservableCollection<AccommodationDTO>();
+            accommodationService = new AccommodationService();
             LoggedInUser = user;
-            
+            RenovationCommand = new RelayCommand<AccommodationDTO>(ExecuteRenovationCommand);
+            Update();
+        }
+        private void ExecuteRenovationCommand(AccommodationDTO SelectedAccommodation)
+        {
+            AddRenovationViewModel addRenovationViewModel = new AddRenovationViewModel(SelectedAccommodation);
+            AddRenovation addRenovation = new AddRenovation(addRenovationViewModel, SelectedAccommodation);
+            addRenovation.Show();
         }
         public void Update()
         {
-            throw new NotImplementedException();
+            allAccommodations();
         }
     }
 }

@@ -104,7 +104,7 @@ namespace BookingApp.View.ViewModel
 
         public void AddGrade()
         {
-            GradeAccommodation gradeAccommodation = new GradeAccommodation(AccommodationReservation.Id, Cleanliness,
+            GradeAccommodation gradeAccommodation = new GradeAccommodation(AccommodationReservation, Cleanliness,
                 OwnerCorrectness, Comment, Images.ToList());
             gradeAccommodationService.Create(gradeAccommodation);
             MessageBox.Show("Request successfully rated the owner.");

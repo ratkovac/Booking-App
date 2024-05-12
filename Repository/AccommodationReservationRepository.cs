@@ -65,10 +65,6 @@ namespace BookingApp.Repository
             _serializer.ToCSV(FilePath, _accommodationReservations);
         }
 
-        public AccommodationReservation GetById(int key)
-        {
-            return _accommodationReservations.Find(c => c.Id == key);
-        }
 
         public void Update(AccommodationReservation AccommodationReservation)
         {
@@ -80,10 +76,28 @@ namespace BookingApp.Repository
             _serializer.ToCSV(FilePath, _accommodationReservations);
         }
 
-        public AccommodationReservation GetByID(int accommodationId)
+        public List<AccommodationReservation> GetAllByID(int accommodationId)
         {
-            return _accommodationReservations.Find(c => c.Id == accommodationId);
+            List<AccommodationReservation> reservationsByAccommodation = new List<AccommodationReservation>();
 
+            foreach (var reservation in _accommodationReservations)
+            {
+                if (reservation.Accommodation.Id == accommodationId)
+                {
+                    reservationsByAccommodation.Add(reservation);
+                }
+            }
+
+            return reservationsByAccommodation;
+
+        }
+        public AccommodationReservation GetByID(int key)
+        {
+            return _accommodationReservations.Find(c => c.Id == key);
+        }
+        public AccommodationReservation GetById(int key)
+        {
+            return _accommodationReservations.Find(c => c.Id == key);
         }
 
         public List<AccommodationReservation> GetAllByUser(int userId)

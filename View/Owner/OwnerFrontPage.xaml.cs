@@ -17,9 +17,9 @@ namespace BookingApp.View.Owner
         public OwnerFrontPage(User user)
         {
             InitializeComponent();
-            this.DataContext = ownerFrontPageViewModel;
             LoggedInUser = user;
             ownerFrontPageViewModel = new OwnerFrontPageViewModel(LoggedInUser);
+            this.DataContext = ownerFrontPageViewModel;
             Username.Content = LoggedInUser.Username;
             Role.Content = LoggedInUser.Role;
             Username_Copy.Content = LoggedInUser.Username;
@@ -56,16 +56,10 @@ namespace BookingApp.View.Owner
         private void AccommodationGrades_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             GuestGrade guestGrade = new GuestGrade(LoggedInUser);
-            if (guestGrade.UnratedGuestsNumber() == 0)
-            {
-                AccommodationsGradesViewModel accommodationsGradesViewModel = new AccommodationsGradesViewModel(LoggedInUser);
-                AccommodationsGrades accommodationsGrades = new AccommodationsGrades(accommodationsGradesViewModel);
-                accommodationsGrades.Show();
-            }
-            else
-            {
-                MessageBox.Show("Still, you have unrated guests!\nFirst, you need to rate all your guests to see how they've rated you!", "Rate guests!", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
+            AccommodationsGradesViewModel accommodationsGradesViewModel = new AccommodationsGradesViewModel(LoggedInUser);
+            AccommodationsGrades accommodationsGrades = new AccommodationsGrades(accommodationsGradesViewModel);
+            accommodationsGrades.Show();
+            
         }
 
         private void DelayRequests_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

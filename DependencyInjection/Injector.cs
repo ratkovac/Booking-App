@@ -17,7 +17,7 @@ namespace BookingApp.DependencyInjection
             //{ typeof(ITourInstanceRepository), new TourInstanceRepository() },
             //{ typeof(IVoucherRepository), new VoucherRepository() },
             { typeof(ITouristRepository), new TouristRepository() },
-            { typeof(ITourReservationRepository), new TourReservationRepository() },
+            //{ typeof(ITourReservationRepository), new TourReservationRepository() },
             { typeof(IAccommodationReservationRepository), new AccommodationReservationRepository() },
             { typeof(ITourRepository), new TourRepository() },
             { typeof(ICheckPointRepository), new CheckPointRepository() },
@@ -29,10 +29,13 @@ namespace BookingApp.DependencyInjection
             { typeof(IDelayReservationRepository), new DelayReservationRepository() },
             { typeof(IImageRepository), new ImageRepository() },
             { typeof(IDriverStatsRepository), new DriverStatsRepository() },
+            { typeof(IRenovationRepository), new RenovationRepository() },
+            { typeof(IRequestRejectionCommentRepository), new RequestRejectionCommentRepository()  },
             { typeof(IReservedDriveRepository), new ReservedDriveRepository() },
             { typeof(ITourImageRepository), new TourImageRepository() },
             { typeof(IGroupDriveRepository), new GroupDriveRepository() },
             { typeof(ISuperGuestRepository), new SuperGuestRepository() }
+            { typeof(ITourImageRepository), new TourImageRepository() }
         };
         public static T CreateInstance<T>()
         {
