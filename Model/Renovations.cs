@@ -20,6 +20,14 @@ namespace BookingApp.Model
             EndDate = endDate;
             Description = description;
         }
+        public Renovations(int id, Accommodation accommodation, DateOnly startDate, DateOnly endDate, string description)
+        {
+            id = Id;
+            Accommodation = accommodation;
+            StartDate = startDate;
+            EndDate = endDate;
+            Description = description;
+        }
         public Renovations() { }
 
         public string[] ToCSV()

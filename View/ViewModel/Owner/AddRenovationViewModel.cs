@@ -138,15 +138,11 @@ namespace BookingApp.View.ViewModel.Owner
             {
                 if (SelectedDate != null && SelectedDate == selectedDateDTO)
                 {
-                    // Ako je prethodno odabrani datum isti kao trenutno odabrani,
-                    // poništite odabir postavljanjem IsSelected na false
                     SelectedDate.IsSelected = false;
                     SelectedDate = null;
                 }
                 else
                 {
-                    // Ako je odabrani datum različit od prethodno odabranog,
-                    // postavite IsSelected na true za trenutno odabrani datum
                     if (SelectedDate != null)
                     {
                         SelectedDate.IsSelected = false;

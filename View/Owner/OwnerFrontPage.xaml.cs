@@ -68,5 +68,12 @@ namespace BookingApp.View.Owner
             DelayRequests delayRequests = new DelayRequests(delayRequestsViewModel);
             delayRequests.Show();
         }
+
+        private void Renovations_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            AllRenovationsViewModel allRenovationsViewModel = new AllRenovationsViewModel(LoggedInUser);
+            AllRenovations allRenovations = new AllRenovations(allRenovationsViewModel);
+            allRenovations.Show();
+        }
     }
 }

@@ -14,5 +14,6 @@ namespace BookingApp.Repository.RepositoryInterface
         {
 
         }
+        public Image GetByAccommodationId(int accommodationId);
     }
 }
