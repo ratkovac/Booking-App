@@ -91,7 +91,7 @@ namespace BookingApp.View.ViewModel.Owner
         private void ExecuteStatisticCommand(AccommodationDTO SelectedAccommodation)
         {
             AccommodationStatisticViewModel accommodationStatisticViewModel = new AccommodationStatisticViewModel(SelectedAccommodation);
-            AccommodationStatistic accommodationStatistic = new AccommodationStatistic(accommodationStatisticViewModel, SelectedAccommodation);
+            AccommodationStatistic accommodationStatistic = new AccommodationStatistic(SelectedAccommodation);
             accommodationStatistic.Show();
         }
         public void Update()
