@@ -19,9 +19,11 @@ namespace BookingApp.View.Driver
     /// </summary>
     public partial class HelpWindow : Window
     {
-        public HelpWindow()
+        private Example ParentWindow;
+        public HelpWindow(Example window)
         {
             DataContext = this;
+            ParentWindow = window;
             InitializeComponent();
             CenterWindowOnScreen();
 

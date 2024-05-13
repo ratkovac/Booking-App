@@ -85,7 +85,7 @@ namespace BookingApp.View.Driver
 
         private void btnHelp_Click(object sender, RoutedEventArgs e)
         {
-            HelpWindow helpWindow = new HelpWindow();
+            HelpWindow helpWindow = new HelpWindow(this);
             helpWindow.Show();
             //Close();
         }
@@ -117,6 +117,7 @@ namespace BookingApp.View.Driver
         {
             MessageBox.Show("Report is temporary unavailable. ");
         }
+
     }
 }
        

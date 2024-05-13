@@ -58,6 +58,7 @@ namespace BookingApp.View.Driver
 
         private void btnHelp_Click(object sender, RoutedEventArgs e)
         {
+            MessageBox.Show("To navigate, use TAB butoon.\nTo go to the lower menu, use CTRL+TAB");
 
         }
     }

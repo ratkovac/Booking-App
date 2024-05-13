@@ -343,5 +343,7 @@ namespace BookingApp.ViewModel.Driver
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+
     }
 }

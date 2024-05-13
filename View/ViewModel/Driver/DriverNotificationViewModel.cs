@@ -15,6 +15,7 @@ public class DriverNotificationViewModel : BaseViewModel
     private ObservableCollection<DriveNotification> _notifications;
     private ObservableCollection<DriveNotification> CancelledNotifications;
 
+
     public User LoggedDriver {  get; set; }
     ObservableCollection<int> locations = new ObservableCollection<int>();
     ObservableCollection<FastDrive> fastDrives = new ObservableCollection<FastDrive>();
@@ -26,6 +27,16 @@ public class DriverNotificationViewModel : BaseViewModel
         {
             _messageDisplay = value;
             OnPropertyChanged(nameof(MessageDisplay));
+        }
+    }
+    private string _numberOfNotifications;
+    public string NumberOfNotifications
+    {
+        get { return _numberOfNotifications; }
+        set
+        {
+            _numberOfNotifications = value;
+            OnPropertyChanged(nameof(Notifications));
         }
     }
 
@@ -74,18 +85,22 @@ public class DriverNotificationViewModel : BaseViewModel
         Notifications.Clear();
         var fastDrivesList = _fastDriveService.GetAllFastDrives();
         ObservableCollection<FastDrive> fastDrives = new ObservableCollection<FastDrive>(fastDrivesList);
+        int IntNumberOfNotifications = 0;
         foreach (var fastDrive in fastDrives)
         {
-            DriveNotification newNotification = new DriveNotification($"Brza voznja{fastDrive.Id}", "Da li prihvatate brzu voznju?");
+            Location location = _fastDriveService.GetLocationById(fastDrive.StartAddress.LocationId);
+            DriveNotification newNotification = new DriveNotification($"Brza voznja u {location.City}", $"Da li prihvatate brzu voznju u {fastDrive.StartAddress.Street} {fastDrive.StartAddress.Number}, {location.City}, {location.Country} ?");
             newNotification.fastDrive = fastDrive;
             if (FilterOneByTime(newNotification))
             {
                 if (newNotification.fastDrive.DriverId == 0)
                 {
                     Notifications.Add(newNotification);
+                    IntNumberOfNotifications++;
                 }
             }
         }
+        NumberOfNotifications = IntNumberOfNotifications.ToString();
     }
     private void LoadNotifications()
     {
@@ -96,7 +111,8 @@ public class DriverNotificationViewModel : BaseViewModel
 
         foreach (var fastDrive in fastDrives)
         {
-            DriveNotification newNotification = new DriveNotification($"Brza voznja{fastDrive.Id}", "Da li prihvatate brzu voznju?");
+            Location location = _fastDriveService.GetLocationById(fastDrive.StartAddress.LocationId);
+            DriveNotification newNotification = new DriveNotification($"Brza voznja u  {location.City}", $"Da li prihvatate brzu voznju u {fastDrive.StartAddress.Street} {fastDrive.StartAddress.Number}, {location.City}, {location.Country} ?");
             newNotification.fastDrive = fastDrive;
             if (FilterOneByTime(newNotification))
             {
