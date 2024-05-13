@@ -10,11 +10,13 @@ namespace BookingApp.View.Owner
 
         public RenovationDatesDTO SelectedDate { get; set; }
 
-        public AccommodationStatistic(AccommodationStatisticViewModel accommodationStatisitcViewModel, AccommodationDTO selectedAccommodationDTO)
+        public AccommodationStatistic(AccommodationDTO selectedAccommodationDTO)
         {
+            //DataContext nije pravilno postavljen- pa sam morao preko itemsSource
             InitializeComponent();
-            this.DataContext = accommodationStatisitcViewModel;
-            //this.addRenovationViewModel = addRenovationViewModel;
+            AccommodationStatisticViewModel accommodationStatisticViewModel = new AccommodationStatisticViewModel(selectedAccommodationDTO); 
+            this.DataContext = accommodationStatisticViewModel;
+            Stats.ItemsSource = accommodationStatisticViewModel.yearStatistic;
             SelectedAccommodation = selectedAccommodationDTO;
         }
     }
