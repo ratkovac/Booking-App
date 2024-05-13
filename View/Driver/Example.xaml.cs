@@ -74,7 +74,6 @@ namespace BookingApp.View.Driver
             Driver.DrivesWindow driveWindow = new Driver.DrivesWindow(LoggedDriver, viewModel.IsFastDriver());
             driveWindow.Show();
             Close();
-            MessageBox.Show("Navigation Tip: You can navigate using the TAB key. Use arrow keys to select drives, and when you've chosen the desired drive, press CTRL+TAB to switch to the lower menu. Then, again, use TAB to select the desired option. Press Enter to continue.", "Help");
         }
 
         private void btnNotifications_Click(object sender, RoutedEventArgs e)
@@ -102,9 +101,9 @@ namespace BookingApp.View.Driver
 
         private void LogOutButton_Click(object sender, RoutedEventArgs e)
         {
-            //Close();
             SignInForm signIn = new SignInForm();
             signIn.Show();
+            Close();
         }
 
         private void btnHoliday_Click(object sender, RoutedEventArgs e)

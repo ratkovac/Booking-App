@@ -42,7 +42,7 @@ namespace BookingApp.View.Driver
 
         private void btnHelp_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Navigation Tip: You can navigate using the TAB key. Use arrow keys to select drives, and when you've chosen the desired drive, press CTRL+TAB to switch to the lower menu. Then, again, use TAB to select the desired option. Press Enter to continue.", "Help");
+            MessageBox.Show("To navigate yourself, use TAB key.\nTo point on a drive, use Arrow keys.\nTo switch to the lower menu, use CTRL+TAB.\nTo close Window, use ALT+F4.", "Help");
         }
 
         private void btnCancelDrive_Click(object sender, RoutedEventArgs e)

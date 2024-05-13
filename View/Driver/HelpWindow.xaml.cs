@@ -21,7 +21,24 @@ namespace BookingApp.View.Driver
     {
         public HelpWindow()
         {
+            DataContext = this;
             InitializeComponent();
+            CenterWindowOnScreen();
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void CenterWindowOnScreen()
+        {
+            double screenWidth = SystemParameters.PrimaryScreenWidth;
+            double screenHeight = SystemParameters.PrimaryScreenHeight;
+            double windowWidth = Width;
+            double windowHeight = Height;
+            Left = (screenWidth - windowWidth) / 2;
+            Top = (screenHeight - windowHeight) / 2;
         }
     }
 }
