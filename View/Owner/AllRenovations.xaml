@@ -1,0 +1,117 @@
+<Window x:Class="BookingApp.View.Owner.AllRenovations"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BookingApp"
+        mc:Ignorable="d"
+        Title="All renovations" Background="#93DBEB" Height="450" Width="800" ResizeMode="NoResize" WindowStyle="SingleBorderWindow"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Border BorderBrush="white" Background="#3cd3de" BorderThickness="2" CornerRadius="10" Margin="58,45,42,95" Width="700">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <StackPanel Margin="10">
+                    <StackPanel Grid.Row="0" Margin="0,0,0,10">
+                        <ItemsControl ItemsSource="{Binding renovations}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border x:Name="Renovation" BorderThickness="2" CornerRadius="10" HorizontalAlignment="Center" Width="600" Margin="10,10,0,5">
+                                        <Border.InputBindings>
+                                            <MouseBinding Gesture="LeftClick" Command="{Binding DataContext.SelectRenovationCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding}"/>
+                                        </Border.InputBindings>
+                                        <Border.Resources>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Background" Value="#93DBEB"/>
+                                                <Setter Property="BorderBrush" Value="white"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="LightBlue"/>
+                                                    </Trigger>
+                                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                        <Setter Property="BorderBrush" Value="Gold" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Resources>
+                                        <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
+                                            <Image Width="70" Height="70" Source="{Binding ImageFrontPath}"/>
+                                            <StackPanel Orientation="Vertical" Margin="20,0,0,0">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Source="/View/Owner/accommodation.png" Width="30" Height="30" Margin="0,0,10,0"/>
+                                                    <TextBlock Text="{Binding AccommodationName}" FontSize="16" FontWeight="Bold" VerticalAlignment="Center" Width="150"/>
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal"  Margin="0,10,0,0">
+                                                    <Image Source="/View/Owner/calendar.png" Width="30" Height="30" Margin="0,0,10,0"/>
+                                                    <TextBlock FontSize="16" FontWeight="Bold" VerticalAlignment="Center" Width="200">
+                                                        <TextBlock.Text>
+                                                            <MultiBinding StringFormat="{}{0} - {1}">
+                                                                <Binding Path="StartRenovationDate"/>
+                                                                <Binding Path="EndRenovationDate"/>
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <TextBlock Text="{Binding Warning}" FontSize="12" FontWeight="Bold" VerticalAlignment="Center" Width="150" TextWrapping="Wrap"/>
+
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+        <Button x:Name="Cancel" Content="Cancel Renovation" HorizontalAlignment="Center" Margin="0,358,0,0" VerticalAlignment="Top" Width="160" Height="32"
+        Command="{Binding CancelRenovationCommand}">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border" CornerRadius="10" Background="#3cd3de" BorderBrush="White" BorderThickness="2">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <ContentPresenter.Resources>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Foreground" Value="#3cd3de"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                                <Setter Property="Foreground" Value="White"/>
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </Style>
+                                        </ContentPresenter.Resources>
+                                    </ContentPresenter>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <EventTrigger RoutedEvent="MouseEnter">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ColorAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="White" Duration="0:0:0.3"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                    <EventTrigger RoutedEvent="MouseLeave">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ColorAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="#3cd3de" Duration="0:0:0.3"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+    </Grid>
+</Window>

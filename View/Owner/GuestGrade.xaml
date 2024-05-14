@@ -1,40 +1,204 @@
-<Window x:Class="BookingApp.View.Owner.GuestGrade"
+﻿<Window x:Class="BookingApp.View.Owner.GuestGrade"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BookingApp"
         mc:Ignorable="d"
-        Title="Guest grade" Height="400" Width="600" ResizeMode="NoResize" WindowStyle="SingleBorderWindow"
+        Title="Guest grade" Background="#93DBEB" Height="450" Width="800" ResizeMode="NoResize" WindowStyle="SingleBorderWindow"
         WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+    </Window.Resources>
     <Grid>
-        <DataGrid x:Name="GuestsGrid"
-                          AutoGenerateColumns="False"
-                          ItemsSource="{Binding Reservations, UpdateSourceTrigger=PropertyChanged}"
-                          SelectionMode="Single" IsReadOnly="True" Margin="92,10,197,232">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Visibility="Collapsed"/>
-                <DataGridTextColumn Header="Guest" Binding="{Binding UserName}" />
-                <DataGridTextColumn Header="Accommodation" Binding="{Binding AccommodationName}" />
-                <DataGridTextColumn Header="Days Left to Rate Guest" Binding="{Binding DaysToRating}" />
-            </DataGrid.Columns>
-        </DataGrid>
-        <Button Content="Chose Guest" Name="ChosenGuest" HorizontalAlignment="Left" Margin="464,118,0,0" VerticalAlignment="Top" Height="34" Width="88" Click="ChosenGuest_Click"/>
-        <Button Content="Grade" Name="Grade" HorizontalAlignment="Left" Margin="464,192,0,0" VerticalAlignment="Top" Height="34" Width="88" Click="Grade_Click"/>
-        <Button Content="Cancel" Name="Cancel" HorizontalAlignment="Left" Margin="464,264,0,0" VerticalAlignment="Top" Height="34" Width="88" Click="Cancel_Click"/>
-        <Label Content="Cleanliness" HorizontalAlignment="Left" Margin="42,0,0,0" VerticalAlignment="Center"/>
-        <Label Content="Folowing the rules" HorizontalAlignment="Left" Margin="42,222,0,0" VerticalAlignment="Top"/>
-        <Label Content="Other comments" HorizontalAlignment="Left" Margin="42,268,0,0" VerticalAlignment="Top"/>
-        <Slider x:Name="cleanliness" HorizontalAlignment="Left" Margin="173,0,0,0" VerticalAlignment="Center" Width="159" Minimum="1" Maximum="5" Value="1" Ticks="1,2,3,4,5" TickFrequency="1" IsSnapToTickEnabled="True"/>
-        <Slider x:Name="rules" HorizontalAlignment="Left" Margin="173,226,0,0" VerticalAlignment="Top" Width="159" Minimum="1" Maximum="5" Value="1" Ticks="1,2,3,4,5" TickFrequency="1" IsSnapToTickEnabled="True"/>
-        <TextBox Name="CleanlinessValue" Text="{Binding ElementName=cleanliness,Path=Value}" HorizontalAlignment="Left" Margin="359,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="27" IsEnabled="False"/>
-        <TextBox Name="RulesValue" Text="{Binding ElementName=rules,Path=Value}" HorizontalAlignment="Left" Margin="359,226,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="27" IsEnabled="False"/>
-        <TextBox
-              Name="comment"
-              TextWrapping="Wrap"
-              AcceptsReturn="True"
-              VerticalScrollBarVisibility="Visible" Margin="173,264,197,17"
-              Text="{Binding Path=gradeGuestDTO.Comment, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
-        </TextBox>
+        <Border BorderBrush="white" Background="#3cd3de" BorderThickness="2" CornerRadius="10" Margin="58,20,42,214" Width="700" Height="150">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <StackPanel Margin="10">
+                    <StackPanel Grid.Row="0" Margin="0,0,0,10">
+                        <ItemsControl ItemsSource="{Binding Reservations}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border x:Name="Guest" BorderBrush="white" BorderThickness="2" CornerRadius="10" HorizontalAlignment="Center" Width="600" Margin="10,10,0,5" MouseLeftButtonDown="Guest_MouseLeftButtonDown">
+                                        <Border.Resources>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Background" Value="#93DBEB"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="LightBlue"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Resources>
+                                        <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
+                                            <Image Width="70" Height="70" Source="{Binding FrontImagePath}"/>
+                                            <StackPanel Orientation="Vertical" Margin="20,0,0,0">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Source="/View/Owner/profile.png" Width="30" Height="30" Margin="0,0,10,0"/>
+                                                    <TextBlock Text="{Binding UserName}" FontSize="16" FontWeight="Bold" VerticalAlignment="Center" Width="150"/>
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal"  Margin="0,10,0,0">
+                                                    <Image Source="/View/Owner/accommodation.png" Width="30" Height="30" Margin="0,0,10,0"/>
+                                                    <TextBlock Text="{Binding AccommodationName}" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"  Width="150"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Vertical" Margin="10,0,0,0">
+                                                <StackPanel Orientation="Horizontal" Width="220">
+                                                    <Image Source="/View/Owner/calendar.png" Width="30" Height="30" Margin="0,0,10,0"/>
+                                                    <TextBlock FontSize="16" FontWeight="Bold" VerticalAlignment="Center">
+                                                        <TextBlock.Text>
+                                                            <MultiBinding StringFormat="{}{0} - {1}">
+                                                                <Binding Path="StartDate"/>
+                                                                <Binding Path="EndDate"/>
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal"  Margin="0,10,0,0" Width="220">
+                                                    <Image Source="/View/Owner/warning.png" Width="30" Height="30" Margin="0,0,10,0"/>
+                                                    <TextBlock FontSize="16" FontWeight="Bold" VerticalAlignment="Center">
+                                                        <TextBlock.Text>
+                                                            <MultiBinding StringFormat="{}{0} more days to rate">
+                                                                <Binding Path="DaysToRating"/>
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Vertical" Margin="60,200,0,0" Height="280">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Cleanliness" FontSize="16" Height="23"/>
+                <StackPanel x:Name="CleanlinessStackPanel" Orientation="Horizontal" Margin="92,0,0,0">
+                    <Image Source="/View/Owner/star_empty.png" Width="30" Height="30" MouseLeftButtonDown="CleanilnessGrade" />
+                    <Image Source="/View/Owner/star_empty.png" Width="30" Height="30" MouseLeftButtonDown="CleanilnessGrade" />
+                    <Image Source="/View/Owner/star_empty.png" Width="30" Height="30" MouseLeftButtonDown="CleanilnessGrade" />
+                    <Image Source="/View/Owner/star_empty.png" Width="30" Height="30" MouseLeftButtonDown="CleanilnessGrade" />
+                    <Image Source="/View/Owner/star_empty.png" Width="30" Height="30" MouseLeftButtonDown="CleanilnessGrade" />
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,0" VerticalAlignment="Top">
+                <TextBlock Text="Following the rules" FontSize="16"/>
+                <StackPanel x:Name="RulesFollowingStackPanel" Orientation="Horizontal" Margin="32,0,0,0">
+                    <Image Source="/View/Owner/star_empty.png" Width="30" Height="30" MouseLeftButtonDown="RulesFollowingGrade" />
+                    <Image Source="/View/Owner/star_empty.png" Width="30" Height="30" MouseLeftButtonDown="RulesFollowingGrade" />
+                    <Image Source="/View/Owner/star_empty.png" Width="30" Height="30" MouseLeftButtonDown="RulesFollowingGrade" />
+                    <Image Source="/View/Owner/star_empty.png" Width="30" Height="30" MouseLeftButtonDown="RulesFollowingGrade" />
+                    <Image Source="/View/Owner/star_empty.png" Width="30" Height="30" MouseLeftButtonDown="RulesFollowingGrade" />
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,20,0,0" VerticalAlignment="Top">
+                <TextBlock Text="Other comments" FontSize="16"/>
+                <TextBox
+            x:Name="NewComment"
+            TextWrapping="Wrap"
+            AcceptsReturn="True"
+            VerticalScrollBarVisibility="Visible"
+            Margin="50,0,0,0"
+            Text="{Binding Path=gradeGuestDTO.Comment, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Width="347" Height="103">
+                </TextBox>
+            </StackPanel>
+        </StackPanel>
+            <StackPanel Orientation="Vertical" Height="100" Margin="60,280,0,0">
+                <Button x:Name="Grade" Content="Grade" Width="100" Click="Grade_Click" Height="35">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="border" CornerRadius="10" Background="#3cd3de" BorderBrush="White" BorderThickness="2">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <ContentPresenter.Resources>
+                                                    <Style TargetType="TextBlock">
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Foreground" Value="#3cd3de"/>
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                        <Setter Property="Foreground" Value="White"/>
+                                                        <Setter Property="FontWeight" Value="Bold"/>
+                                                    </Style>
+                                                </ContentPresenter.Resources>
+                                            </ContentPresenter>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <EventTrigger RoutedEvent="MouseEnter">
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <ColorAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="White" Duration="0:0:0.3"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                            <EventTrigger RoutedEvent="MouseLeave">
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <ColorAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="#3cd3de" Duration="0:0:0.3"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button x:Name="Cancel" Content="Cancel" Width="100" Click="Cancel_Click" Margin="0,30,0,0" Height="35">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="border" CornerRadius="10" Background="#3cd3de" BorderBrush="White" BorderThickness="2">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <ContentPresenter.Resources>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Foreground" Value="White"/>
+                                                        <Setter Property="FontWeight" Value="Bold"/>
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Foreground" Value="#3cd3de"/>
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ContentPresenter.Resources>
+                                            </ContentPresenter>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <EventTrigger RoutedEvent="MouseEnter">
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <ColorAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="White" Duration="0:0:0.3"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                            <EventTrigger RoutedEvent="MouseLeave">
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <ColorAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="#3cd3de" Duration="0:0:0.3"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>

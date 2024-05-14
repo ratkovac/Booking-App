@@ -1,0 +1,114 @@
+﻿<Page x:Class="BookingApp.View.NGuest.FilterAndSort"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BookingApp.View.NGuest"
+      mc:Ignorable="d" 
+      d:DesignHeight="768" d:DesignWidth="1024"
+      Title="FilterAndSort">
+
+    <Grid>
+        <Border CornerRadius="20" Background="White" Margin="20">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="1"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Margin="10,0,0,0">
+                    <Button HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="0" Margin="0" 
+                            Style="{StaticResource XButton}" Click="OnClick_Back">
+                        <Image Source="../../Icon/back.png" Height="20" Width="20" Stretch="Fill"/>
+                    </Button>
+                </Border>
+                <Border Grid.Row="0" Margin="10,0,0,0">
+                    <TextBlock Text="Filter and Sort" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="35" FontFamily="{StaticResource PoppinsBlack}"/>
+                </Border>
+                <Border Grid.Row="1" Background="Brown" Height="1" VerticalAlignment="Bottom">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" Direction="270" ShadowDepth="3" Opacity="0.5"/>
+                    </Border.Effect>
+                </Border>
+                <Border Grid.Row="2" Width="1000" Height="50" Background="DarkGray">
+                    <TextBlock Margin="10,0,0,0" Text="Sort by" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15" FontFamily="{StaticResource PoppinsBlack}"/>
+                </Border>
+                <Border Grid.Row="3" Width="1000" Height="50" Background="White">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                        <Button Content="Price" Margin="5,0,0,0" Width="100" Height="40" BorderThickness="1" BorderBrush="Brown" Background="White"/>
+                        <Button Content="Grade" Margin="5,0,0,0" Width="100" Height="40" BorderThickness="1" BorderBrush="Brown" Background="White"/>
+                        <Button Content="Popularity" Margin="5,0,0,0" Width="100" Height="40" BorderThickness="1" Foreground="White" BorderBrush="Brown" Background="Brown"/>
+                        <Button Content="Capacity" Margin="5,0,0,0" Width="100" Height="40" BorderThickness="1" BorderBrush="Brown" Background="White"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="4" Width="1000" Height="50" Background="DarkGray">
+                    <TextBlock Margin="10,0,0,0" Text="Location" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15" FontFamily="{StaticResource PoppinsBlack}"/>
+                </Border>
+                <Border Grid.Row="5" Width="1000" Height="50" Background="White">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                        <TextBox Width="200" Height="30" Margin="0,0,5,0" Text="{Binding SelectedLocation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                        <ComboBox Width="200"
+                                  ItemsSource="{Binding Locations}"
+                                  SelectedItem="{Binding SelectedLocation, Mode=TwoWay}" AutomationProperties.IsOffscreenBehavior="Onscreen" Cursor="Hand">
+                            <ComboBox.ItemContainerStyle>
+                                <Style TargetType="ComboBoxItem">
+                                    <Setter Property="Height" Value="30"/>
+                                </Style>
+                            </ComboBox.ItemContainerStyle>
+                        </ComboBox>
+
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="6" Width="1000" Height="50" Background="DarkGray">
+                    <TextBlock Margin="10,0,0,0" Text="Type of accommodation" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15" FontFamily="{StaticResource PoppinsBlack}"/>
+                </Border>
+                <Border Grid.Row="7" Width="1000" Height="50" Background="White">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                        <CheckBox Content="Hut" IsChecked="{Binding IsHutChecked, Mode=TwoWay}"
+                                  Command="{Binding CheckBoxChangedCommand}"/>
+                        <CheckBox Content="Apartment" IsChecked="{Binding IsApartmentChecked, Mode=TwoWay}"
+                                  Command="{Binding CheckBoxChangedCommand}"/>
+                        <CheckBox Content="House" IsChecked="{Binding IsHouseChecked, Mode=TwoWay}"
+                                  Command="{Binding CheckBoxChangedCommand}"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="8" Width="1000" Height="50" Background="DarkGray">
+                    <TextBlock Margin="10,0,0,0" Text="Number of guests" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15" FontFamily="{StaticResource PoppinsBlack}"/>
+                </Border>
+                <Border Grid.Row="9" Width="1000" Height="50" Background="White">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                        <TextBox Width="200" Height="30" Margin="0,0,5,0" Text="{Binding Capacity, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="10" Width="1000" Height="50" Background="DarkGray">
+                    <TextBlock Margin="10,0,0,0" Text="Reservation days" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15" FontFamily="{StaticResource PoppinsBlack}"/>
+                </Border>
+                <Border Grid.Row="11" Width="1000" Height="50" Background="White">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                        <TextBox Width="200" Height="30" Margin="0,0,5,0" Text="{Binding MinReservationDays, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="12" Width="1000" Height="50" Background="DarkGray">
+                    <TextBlock Margin="10,0,0,0" Text="Confirm " HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15" FontFamily="{StaticResource PoppinsBlack}"/>
+                </Border>
+                <Border Grid.Row="13" Margin="10" Width="1000" Background="White">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                        <Button Content="Confirm" Width="200" Height="50" FontSize="15" FontFamily="{StaticResource PoppinsBlack}" 
+                                BorderThickness="1" BorderBrush="Brown" Background="White" Click="OnClick_Confirm"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

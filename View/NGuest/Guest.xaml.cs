@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -17,9 +18,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BookingApp.GUI_Elements;
+using BookingApp.Service;
 using BookingApp.View.NGuest;
 using BookingApp.View.ViewModel.Guest;
+using GalaSoft.MvvmLight.Views;
 using static BookingApp.Model.AccommodationTypeEnum;
+using Menu = BookingApp.View.NGuest.Menu;
+using System.Windows.Navigation;
 
 
 namespace BookingApp.View
@@ -27,7 +33,7 @@ namespace BookingApp.View
     /// <summary>
     /// Interaction logic for Guest.xaml
     /// </summary>
-    public partial class Guest : Window
+    public partial class Guest : Page
     {
 
         private AccommodationRepository AccommodationRepository { get; set; }
@@ -35,7 +41,13 @@ namespace BookingApp.View
         public ObservableCollection<AccommodationDTO> Accommodations { get; set; }
         public ObservableCollection<string> Locations { get; set; }
         public ICollectionView FilteredAccommodations { get; set; }
+
+        private DelayReservationService delayReservationService { get; set; }
+        private ObservableCollection<DelayReservation> DelayReservations { get; set; }
+
+        private Cache.Cache cache;
         public User LoggedInUser { get; set; }
+
         public Guest(User loggedInUser)
         {
             InitializeComponent();
@@ -47,148 +59,19 @@ namespace BookingApp.View
             Locations = new ObservableCollection<string>();
 
             FilteredAccommodations = CollectionViewSource.GetDefaultView(Accommodations);
-            FilteredAccommodations.Filter = FilterAccommodations;
 
             SelectedAccommodation = new AccommodationDTO();
 
+            delayReservationService = new DelayReservationService();
+            DelayReservations = new ObservableCollection<DelayReservation>();
 
+            cache = new Cache.Cache();
             Update();
             LoggedInUser = loggedInUser;
 
-            
         }
 
-        private string searchText;
-        public string SearchText
-        {
-            get
-            {
-                return searchText;
-            }
-            set
-            {
-                if(searchText != value)
-                {
-                    searchText = value;
-                    OnPropertyChanged(nameof(SearchText));
-                    FilteredAccommodations.Refresh();
-                }
-            }
-        }
-
-        private Location location;
-        public Location Location
-        {
-            get
-            {
-                return location; 
-            }
-            set
-            {
-                if (location != value)
-                {
-                    location = value;
-                    OnPropertyChanged(nameof(Location));
-                    FilteredAccommodations.Refresh();
-                }
-            }
-        }
-
-        private string displayLocation;
-
-        public string DisplayLocation
-        {
-            get
-            {
-                return $"{Location.City}, {Location.Country}";
-            }
-        }
-
-        private string selectedLocation;
-        public string SelectedLocation
-        {
-            get => selectedLocation;
-            set
-            {
-                if (selectedLocation != value)
-                {
-                    selectedLocation = value;
-                    OnPropertyChanged(nameof(SelectedLocation));
-                    FilteredAccommodations.Refresh(); 
-                }
-            }
-        }
-
-        private string capacity;
-        public string Capacity
-        {
-            get
-            {
-                return capacity;
-            }
-            set
-            {
-                if(capacity != value) 
-                {
-                    capacity = value;
-                    OnPropertyChanged("Capacity");
-                    FilteredAccommodations.Refresh();
-                }
-            }
-        }
-
-        private string daysBeforeCancel;
-        public string DaysBeforeCancel
-        {
-            get
-            {
-                return daysBeforeCancel;
-            }
-            set
-            {
-                if(value != daysBeforeCancel)
-                {
-                    daysBeforeCancel = value;
-                    OnPropertyChanged("DaysBeforeCancel");
-                    FilteredAccommodations.Refresh();
-                }
-            }
-        }
-        private AccommodationType type;
-        public AccommodationType Type
-        {
-            get
-            {
-                return type;
-            }
-            set
-            {
-                if(value != type)
-                {
-                    type = value;
-                    OnPropertyChanged(nameof(Type));
-                    FilteredAccommodations.Refresh();
-                }
-            }
-        }
-
-        private string minReservationDays;
-        public string MinReservationDays
-        {
-            get
-            {
-                return minReservationDays;
-            }
-            set
-            {
-                if (value != minReservationDays)
-                {
-                    minReservationDays = value;
-                    OnPropertyChanged("MinReservationDays");
-                    FilteredAccommodations.Refresh();
-                }
-            }
-        }
+        
 
         private User user;
         public User User
@@ -207,45 +90,6 @@ namespace BookingApp.View
             }
         }
 
-        private bool FilterAccommodations(object item)
-        {
-            if (!(item is AccommodationDTO accommodation))
-                return false;
-
-            bool matchesSearchText = string.IsNullOrWhiteSpace(SearchText) || accommodation.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
-            bool matchesCapacity = string.IsNullOrWhiteSpace(Capacity) || accommodation.Capacity >= int.Parse(Capacity);
-            bool matchesDaysBeforeCancel = string.IsNullOrWhiteSpace(DaysBeforeCancel) || accommodation.DaysBeforeCancel >= int.Parse(DaysBeforeCancel);
-            bool matchesMinReservationDays = string.IsNullOrWhiteSpace(MinReservationDays) || accommodation.MinReservationDays.ToString().Contains(MinReservationDays, StringComparison.OrdinalIgnoreCase);
-            bool matchesLocation = string.IsNullOrWhiteSpace(SelectedLocation) || accommodation.Location.ToString().Equals(SelectedLocation, StringComparison.OrdinalIgnoreCase);
-            bool matchesIsCheckedAccomodationType = IsCheckedAccomodationType(accommodation);
-
-           
-            return matchesSearchText && matchesLocation && matchesCapacity && matchesDaysBeforeCancel && matchesMinReservationDays && matchesIsCheckedAccomodationType;
-        }
-        private void CheckBoxOption1_Changed(object sender, RoutedEventArgs e)
-        {
-            FilteredAccommodations.Refresh();
-        }
-
-        bool IsCheckedAccomodationType(AccommodationDTO accommodation)
-        {
-            bool anyChecked = checkBoxOption1.IsChecked.GetValueOrDefault() ||
-                              checkBoxOption2.IsChecked.GetValueOrDefault() ||
-                              checkBoxOption3.IsChecked.GetValueOrDefault();
-
-            if (!anyChecked) return true;
-
-            bool matchesTypeApartment = checkBoxOption1.IsChecked.GetValueOrDefault() &&
-                                        accommodation.Type == AccommodationType.Apartment;
-
-            bool matchesTypeHut = checkBoxOption2.IsChecked.GetValueOrDefault() &&
-                                  accommodation.Type == AccommodationType.Hut;
-
-            bool matchesTypeHouse = checkBoxOption3.IsChecked.GetValueOrDefault() &&
-                                    accommodation.Type == AccommodationType.House;
-
-            return matchesTypeApartment || matchesTypeHut || matchesTypeHouse;
-        }
         public void Update()
         {
             Accommodations.Clear();
@@ -262,6 +106,13 @@ namespace BookingApp.View
             {
                 Locations.Add(location.ToString());
             }
+
+            DelayReservations.Clear();
+            foreach (DelayReservation delayReservation in delayReservationService.GetAll())
+            {
+                DelayReservations.Add(delayReservation);
+            }
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -271,11 +122,6 @@ namespace BookingApp.View
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void OnClickButton(object sender, RoutedEventArgs e)
-        {
-            Reservation reservation = new Reservation(SelectedAccommodation, user);
-            reservation.Show();
-        }
 
         private void MyReservations_Click(object sender, RoutedEventArgs e)
         {
@@ -286,7 +132,35 @@ namespace BookingApp.View
 
         private void Rate_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            RateAcciommodationViewModel rateAcciommodationViewModel = new RateAcciommodationViewModel(LoggedInUser);
+            RateAccommodations rateAccommodations = new RateAccommodations(rateAcciommodationViewModel);
+            rateAccommodations.Show();
+        }
+
+        private void ContentControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var contentControl = sender as ContentControl;
+            if (contentControl != null)
+            {
+                var accommodation = contentControl.DataContext as AccommodationDTO;
+                if (accommodation != null)
+                {
+                    ItemsControlExtensions.SetSelectedItem(contentControl, accommodation);
+                    Reservation reservationPage = new Reservation(accommodation, LoggedInUser);
+                    NavigationService.Navigate(reservationPage);
+                }
+            }
+        }
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MenuViewModel menuViewModel = new MenuViewModel("Home", NavigationService, LoggedInUser);
+            NavigationService.Navigate(new Menu(menuViewModel));
+        }
+
+        private void OnClick_Filter_Sort(object sender, RoutedEventArgs e)
+        {
+            FilterAndSortViewModel filterAndSortViewModel = new FilterAndSortViewModel(FilteredAccommodations, Locations, NavigationService, cache);
+            NavigationService.Navigate(new FilterAndSort(filterAndSortViewModel));
         }
     }
 }

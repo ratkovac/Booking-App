@@ -18,16 +18,56 @@
 
             <!-- Add your new resource here -->
             <ContentControl x:Key="MainFrameContent">
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="430" Height="690">
+                <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Width="430" Height="622">
                     <!-- Button for navigating to CreateTourPage -->
-                    <Button x:Name="btnCreateTour" Content="Create Tour" Height="40" Click="btnCreateTour_Click" Margin="30, 50, 30, 10" Style="{StaticResource AddButtonStyle}"/>
-                    <Button x:Name="btnTrackTourLive" Content="Track Tour Live" Height="40" Click="btnTrackTourLive_Click" Margin="30, 30, 30, 10" Style="{StaticResource AddButtonStyle}"/>
-                    <Button x:Name="btnTourStatistics" Content="Tour Statistics" Height="40" Click="btnTourStatistics_Click" Margin="30, 30, 30, 10" Style="{StaticResource AddButtonStyle}"/>
-                    <Button x:Name="btnTourReviews" Content="Tour Reviews" Height="40" Click="btnTourReviews_Click" Margin="30, 30, 30, 10" Style="{StaticResource AddButtonStyle}"/>
-                    <Button x:Name="btnCancelTour" Content="Cancel Tour" Height="40" Click="btnCancelTour_Click" Margin="30, 30, 30, 10" Style="{StaticResource AddButtonStyle}"/>
-                    <Button x:Name="btnTourRequests" Content="Tour Requests" Height="40" Click="btnTourRequests_Click" Margin="30, 30, 30, 10" Style="{StaticResource AddButtonStyle}"/>
-                    <Button x:Name="btnCustomizeTour" Content="Customize Tour" Height="40" Click="btnCustomizeTour_Click" Margin="30, 30, 30, 10" Style="{StaticResource AddButtonStyle}"/>
-                    <Button x:Name="btnRequestsStatistics" Content="Requests Statistics" Height="40" Click="btnRequestsStatistics_Click" Margin="30, 20, 30, 10" Style="{StaticResource AddButtonStyle}"/>
+                    <Button x:Name="btnCreateTour" Height="73" Click="btnCreateTour_Click" Margin="10, 5, 10, 0" Style="{StaticResource AddButtonStyle}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="C:\Users\janic\FAX\SEMESTAR 6\SiMS\zipovan\ratkovac\ratkovac\sims-ra-2024-group-7-team-a\sims-ra-2024-group-7-team-a\View\GuideView\GuideImages\tour.png" Width="30" Height="30" Margin="5,0,10,0"/>
+                            <TextBlock Text="Create Tour" VerticalAlignment="Center" Margin="5,0,5,0"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnTrackTourLive" Click="btnTrackTourLive_Click" Height="73"  Margin="10, 4, 10, 0" Style="{StaticResource AddButtonStyle}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="C:\Users\janic\FAX\SEMESTAR 6\SiMS\zipovan\ratkovac\ratkovac\sims-ra-2024-group-7-team-a\sims-ra-2024-group-7-team-a\View\GuideView\GuideImages\tracktour.png" Width="30" Height="30" Margin="5,0,10,0"/>
+                            <TextBlock Text="Track Tour Live" VerticalAlignment="Center" Margin="10,0,10,0"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnTourStatistics" Height="73" Click="btnTourStatistics_Click" Margin="10, 4 10, 0"  Style="{StaticResource AddButtonStyle}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="C:\Users\janic\FAX\SEMESTAR 6\SiMS\zipovan\ratkovac\ratkovac\sims-ra-2024-group-7-team-a\sims-ra-2024-group-7-team-a\View\GuideView\GuideImages\statistics.png" Width="30" Height="30" Margin="5,0,10,0"/>
+                            <TextBlock Text="Tour Statistics" VerticalAlignment="Center" Margin="10,0,10,0"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnTourReviews" Height="73" Click="btnTourReviews_Click" Margin="10, 4, 10, 0" Style="{StaticResource AddButtonStyle}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="C:\Users\janic\FAX\SEMESTAR 6\SiMS\zipovan\ratkovac\ratkovac\sims-ra-2024-group-7-team-a\sims-ra-2024-group-7-team-a\View\GuideView\GuideImages\review.png" Width="30" Height="30" Margin="5,0,10,0"/>
+                            <TextBlock Text="Tour Reviews" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnCancelTour" Height="73" Click="btnCancelTour_Click" Margin="10, 4, 10, 0" Style="{StaticResource AddButtonStyle}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="C:\Users\janic\FAX\SEMESTAR 6\SiMS\zipovan\ratkovac\ratkovac\sims-ra-2024-group-7-team-a\sims-ra-2024-group-7-team-a\View\GuideView\GuideImages\cancel-icon.png" Width="30" Height="30" Margin="5,0,10,0"/>
+                            <TextBlock Text="Cancel Tour" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnTourRequests" Height="72" Click="btnTourRequests_Click" Margin="10, 4, 10, 0" Style="{StaticResource AddButtonStyle}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="C:\Users\janic\FAX\SEMESTAR 6\SiMS\zipovan\ratkovac\ratkovac\sims-ra-2024-group-7-team-a\sims-ra-2024-group-7-team-a\View\GuideView\GuideImages\request.png" Width="30" Height="30" Margin="5,0,10,0"/>
+                            <TextBlock Text="Tour Requests" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnCustomizeTour" Height="72" Click="btnCustomizeTour_Click" Margin="10, 4, 10, 0" Style="{StaticResource AddButtonStyle}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="C:\Users\janic\FAX\SEMESTAR 6\SiMS\zipovan\ratkovac\ratkovac\sims-ra-2024-group-7-team-a\sims-ra-2024-group-7-team-a\View\GuideView\GuideImages\custom.png" Width="30" Height="30" Margin="5,0,10,0"/>
+                            <TextBlock Text="Customize Tour" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnRequestsStatistics" Height="72" Click="btnRequestsStatistics_Click" Margin="10, 4, 10, 0" Style="{StaticResource AddButtonStyle}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="C:\Users\janic\FAX\SEMESTAR 6\SiMS\zipovan\ratkovac\ratkovac\sims-ra-2024-group-7-team-a\sims-ra-2024-group-7-team-a\View\GuideView\GuideImages\request-statistics.png" Width="30" Height="30" Margin="5,0,10,0"/>
+                            <TextBlock Text="Requests Statistics" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
             </ContentControl>
         </ResourceDictionary>
@@ -35,32 +75,46 @@
 
 
 
-    <Grid>
+    <Grid Margin="0,0,0,51">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="26*"/>
+            <ColumnDefinition Width="17*"/>
+        </Grid.ColumnDefinitions>
         <!-- Include ActionBar -->
-        <Grid VerticalAlignment="Top"  Background="LightBlue" Height="44">
+        <Grid VerticalAlignment="Top"  Background="#438F85" Height="44" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
+
             <!-- Navigation button -->
-            <Button Name="btnNavigation" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15, 0, 0,0" BorderThickness="0" Background="Transparent" Click="btnNavigation_Click">
-                <Image Source="GuideImages/navigation.png" Width="40" Height="34"/>
+            <Button Name="btnNavigation" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15,0,0,6" BorderThickness="0" Background="Transparent" Click="btnNavigation_Click">
+                <Image Source="GuideImages/navigation.png" Width="40" Height="32" RenderTransformOrigin="0.575,0.5"/>
             </Button>
 
             <!-- Page name -->
-            <TextBlock Grid.Column="1" Text="{Binding PageName}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="1" Text="{Binding PageName}" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource StyleForTextBlock}"/>
 
             <!-- Profile button -->
             <Button Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0, 0, 15,0" BorderThickness="0" Background="Transparent">
-                <Image Source="GuideImages/profile.png" Width="40" Height="34"/>
+                <Image Source="GuideImages/profile.png" Width="40" Height="32"/>
             </Button>
+            <Border BorderBrush="White" Margin="0,5,0,0" BorderThickness="0,0,0,2" Grid.ColumnSpan="3"/>
+
         </Grid>
 
         <!-- MainFrame for navigating between pages -->
-        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Margin="0,44,0,50">
+
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Grid.ColumnSpan="2" Margin="0,44,0,-3">
             <Frame.Background>
-                <ImageBrush ImageSource="C:\Users\janic\FAX\SEMESTAR 6\SiMS\ratkovac\sims-ra-2024-group-7-team-a\sims-ra-2024-group-7-team-a\View\GuideView\GuideImages\pozadinaNebo.jpg"/>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#438d82" Offset="0"/>
+                    <GradientStop Color="#489986" Offset="0.25"/>
+                    <GradientStop Color="#51a588" Offset="0.5"/>
+                    <GradientStop Color="#5eb188" Offset="0.75"/>
+                    <GradientStop Color="#6dbd87" Offset="1"/>
+                </LinearGradientBrush>
             </Frame.Background>
             <!-- Content area -->
             <Frame.Content >
@@ -68,10 +122,29 @@
             </Frame.Content>
         </Frame>
 
+
         <!-- Navigation bar at the bottom -->
-        <Grid VerticalAlignment="Bottom" Background="LightGray" Height="50">
-            <Button Name="btnBack" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10" Width="40" Click="btnBack_Click" Style="{StaticResource AddButtonStyle}"/>
-            <Button Content="Next" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10" Width="40" Style="{StaticResource AddButtonStyle}"/>
-        </Grid>
+        <Border BorderBrush="White" BorderThickness="0,0,0,0" Margin="0,44,0,-51" Grid.ColumnSpan="2">
+            <Grid VerticalAlignment="Bottom" Height="50">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="159*"/>
+                    <ColumnDefinition Width="271*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Linearni gradijent koji ide ka svetlijoj boji -->
+                <Grid.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#438F85" Offset="0"/>
+                        <GradientStop Color="#4F7A71" Offset="1"/>
+                    </LinearGradientBrush>
+                </Grid.Background>
+
+                <!-- Ostali elementi unutar Grid-a -->
+                <Border BorderBrush="White" BorderThickness="0,2,0,0" Grid.ColumnSpan="2"/>
+                <Button Name="btnBack" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Width="172" Click="btnBack_Click" Style="{StaticResource AddButtonStyle}" Grid.ColumnSpan="2"/>
+                <Button Content="Next" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="89,0,0,0" Width="172" Style="{StaticResource AddButtonStyle}" Height="30" Grid.Column="1"/>
+            </Grid>
+
+        </Border>
     </Grid>
 </Window>

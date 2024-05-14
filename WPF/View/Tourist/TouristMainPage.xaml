@@ -1,0 +1,208 @@
+﻿<Window x:Class="BookingApp.WPF.View.Tourist.TouristMainPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BookingApp.WPF.View.Tourist"
+        mc:Ignorable="d"
+        Title="TouristMainPage" Height="720" Width="1280" WindowStartupLocation="CenterScreen">
+    <Window.Background>
+        <SolidColorBrush Color="LightBlue" />
+    </Window.Background>
+
+    <Window.Resources>
+        <Style TargetType="Frame" x:Key="NoNavigationFrameStyle">
+            <Setter Property="NavigationUIVisibility" Value="Hidden" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="10,5"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Background" Value="CadetBlue"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="CadetBlue"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Width" Value="280"/>
+            <Setter Property="Height" Value="60"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="LightBlue"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="BorderBrush" Value="LightBlue"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="ToggleButton">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="10,5"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Background" Value="CadetBlue"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="CadetBlue"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Width" Value="280"/>
+            <Setter Property="Height" Value="60"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="LightBlue"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="BorderBrush" Value="LightBlue"/>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Background" Value="LightBlue"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="BorderBrush" Value="LightBlue"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <StackPanel Orientation="Vertical" Background="AliceBlue" Margin="0,0,950,0">
+            <Grid Height="575" Width="300">
+                <Image Source="/Resources/Images/theme.png" Width="65" Height="65" Margin="0,0,215,480"/>
+                <Ellipse Width="65" Height="65" Margin="0,0,70,480">
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="/Resources/Images/language.png"/>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <Image Source="/Resources/Images/notifications.png" Width="79" Height="79" Margin="70,0,0,480" MouseDown="Notification_Click"/>
+                <Image Source="/Resources/Images/profile.png" Width="65" Height="65" Margin="215,0,0,480" MouseDown="Profile_Click"/>
+                <Button Content="Home page" Click="AvailableTours_Click" Margin="0,0,0,320" HorizontalAlignment="Center"/>
+                <ToggleButton Content="My reservations" Margin="0,0,0,180" HorizontalAlignment="Center" Checked="ToggleButton_Checked">
+                    <ToggleButton.Template>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Grid>
+                                <Border Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                    <Grid>
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <Path x:Name="Arrow" Data="M 0 0 L 8 8 L 16 0 Z" Fill="White" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+                                <Popup Name="Popup" PlacementTarget="{Binding ElementName=toggleButton}" Placement="Bottom" StaysOpen="False" IsOpen="{Binding IsChecked, ElementName=toggleButton}">
+                                    <Border BorderThickness="0" BorderBrush="Gray" Background="Gray">
+                                        <StackPanel>
+                                            <Button Content="My reservations" Click="Tours_Click" Margin="0"/>
+                                            <Button Content="Finished tours" Click="FinishedTours_Click" Margin="0"/>
+                                        </StackPanel>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                        </ControlTemplate>
+                    </ToggleButton.Template>
+                </ToggleButton>
+                <ToggleButton Content="Tour request" Margin="0,0,0,40" HorizontalAlignment="Center" Checked="ToggleButton_Checked">
+                    <ToggleButton.Template>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Grid>
+                                <Border Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                    <Grid>
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <Path x:Name="Arrow" Data="M 0 0 L 8 8 L 16 0 Z" Fill="White" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+                                <Popup Name="Popup" PlacementTarget="{Binding ElementName=toggleButton}" Placement="Bottom" StaysOpen="False" IsOpen="{Binding IsChecked, ElementName=toggleButton}">
+                                    <Border BorderThickness="0" BorderBrush="Gray" Background="Gray">
+                                        <StackPanel>
+                                            <Button Content="Tour request" Margin="0"/>
+                                            <Button Content="My tour requests" Margin="0"/>
+                                        </StackPanel>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                        </ControlTemplate>
+                    </ToggleButton.Template>
+                </ToggleButton>
+                <ToggleButton Content="Complex tour request" Margin="0,100,0,0" FontSize="22" HorizontalAlignment="Center" Checked="ToggleButton_Checked">
+                    <ToggleButton.Template>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Grid>
+                                <Border Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                    <Grid>
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <Path x:Name="Arrow" Data="M 0 0 L 8 8 L 16 0 Z" Fill="White" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+                                <Popup Name="Popup" PlacementTarget="{Binding ElementName=toggleButton}" Placement="Bottom" StaysOpen="False" IsOpen="{Binding IsChecked, ElementName=toggleButton}">
+                                    <Border BorderThickness="0" BorderBrush="Gray" Background="Gray">
+                                        <StackPanel>
+                                            <Button Content="Complex tour request" Margin="0"/>
+                                            <Button Content="My complex tour requests" FontSize="22" Margin="0"/>
+                                        </StackPanel>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                        </ControlTemplate>
+                    </ToggleButton.Template>
+                </ToggleButton>
+                <ToggleButton Content="Drive reservation" Margin="0,240,0,0" HorizontalAlignment="Center" Checked="ToggleButton_Checked">
+                    <ToggleButton.Template>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Grid>
+                                <Border Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                    <Grid>
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <Path x:Name="Arrow" Data="M 0 0 L 8 8 L 16 0 Z" Fill="White" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+                                <Popup Name="Popup" PlacementTarget="{Binding ElementName=toggleButton}" Placement="Bottom" StaysOpen="False" IsOpen="{Binding IsChecked, ElementName=toggleButton}">
+                                    <Border BorderThickness="0" BorderBrush="Gray" Background="Gray">
+                                        <StackPanel>
+                                            <Button Content="Drive reservation" Click="DriveReservation_Click" Margin="0"/>
+                                            <Button Content="Fast drive reservation" Click="FastDrive_Click" Margin="0"/>
+                                            <Button Content="Group drive reservation" Click="GroupDrive_Click" Margin="0"/>
+                                        </StackPanel>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                        </ControlTemplate>
+                    </ToggleButton.Template>
+                </ToggleButton>
+                <Button Content="Vouchers" Click="Vouchers_Click" Margin="0,380,0,0" HorizontalAlignment="Center"/>
+            </Grid>
+            <Grid Height="140" Width="280">
+                <Button Content="Log out" Click="BackToSignIn" Margin="0,0,0,50" HorizontalAlignment="Center"/>
+            </Grid>
+        </StackPanel>
+
+        <Grid Margin="330,0,0,0">
+            <Frame Style="{StaticResource NoNavigationFrameStyle}" x:Name="FrameHomePage" Height="Auto"/>
+        </Grid>
+    </Grid>
+</Window>

@@ -16,16 +16,26 @@ namespace BookingApp.DependencyInjection
             { typeof(IGradeTourRepository), new GradeTourRepository() },
             //{ typeof(ITourInstanceRepository), new TourInstanceRepository() },
             //{ typeof(IVoucherRepository), new VoucherRepository() },
-            //{ typeof(ITouristRepository), new TouristRepository() },
-            { typeof(ITourReservationRepository), new TourReservationRepository() },
+            { typeof(ITouristRepository), new TouristRepository() },
+            //{ typeof(ITourReservationRepository), new TourReservationRepository() },
             { typeof(IAccommodationReservationRepository), new AccommodationReservationRepository() },
+            { typeof(ITourRepository), new TourRepository() },
+            { typeof(ICheckPointRepository), new CheckPointRepository() },
+            { typeof(IAccommodationRepository), new AccommodationRepository() },
             { typeof(ITourGuestRepository), new TourGuestRepository() },
             { typeof(IGradeAccommodationRepository), new GradeAccommodationRepository() },
-            { typeof(IFastDriveRepository), new FastDriveRepository() }, 
-            { typeof(IDelayReservationRepository), new DelayReservationRepository() },
             { typeof(ICanceledReservationRepository), new CanceledReservationRepository() },
-            { typeof(IDriverStatsRepository), new DriverStatsRepository() }
-
+            { typeof(IFastDriveRepository), new FastDriveRepository() },
+            { typeof(IDelayReservationRepository), new DelayReservationRepository() },
+            { typeof(IImageRepository), new ImageRepository() },
+            { typeof(IDriverStatsRepository), new DriverStatsRepository() },
+            { typeof(IRenovationRepository), new RenovationRepository() },
+            { typeof(IRequestRejectionCommentRepository), new RequestRejectionCommentRepository()  },
+            { typeof(IReservedDriveRepository), new ReservedDriveRepository() },
+            { typeof(ITourImageRepository), new TourImageRepository() },
+            { typeof(IGroupDriveRepository), new GroupDriveRepository() },
+            { typeof(ISuperGuestRepository), new SuperGuestRepository() },
+            { typeof(IAccommodationEventRepository), new AccommodationEventRepository() }
         };
         public static T CreateInstance<T>()
         {

@@ -1,78 +1,298 @@
-﻿<Window x:Class="BookingApp.View.Reservation"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BookingApp.View"
-        xmlns:converter="clr-namespace:BookingApp.Converter"
-        mc:Ignorable="d"
-        Title="Reservation" Height="768" Width="1024">
-    <Window.Resources>
+﻿<Page x:Class="BookingApp.View.Reservation"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:local="clr-namespace:BookingApp.View"
+      xmlns:converter="clr-namespace:BookingApp.Converter"
+      xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+      mc:Ignorable="d"
+      Title="Reservation" Height="768" Width="1024">
+    <Page.Resources>
         <converter:DateOnlyToDateTimeConverter x:Key="DateOnlyToDateTimeConverter"/>
-        <converter:StringToIntConverter x:Key="StringToIntConverter"/>
-    </Window.Resources>
+    </Page.Resources>
     <Grid>
-        <Grid Margin="10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+        <Border CornerRadius="20" Background="White" Margin="20">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="1"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="350"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+                <Border Grid.Row="0" Margin="10,0,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Button HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="0" Margin="0">
+                            <Image Source="/View/NGuest/menu-svgrepo-com.png" Height="20" Width="20" Stretch="Fill"/>
+                        </Button>
+                        <Button HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="0" Margin="0" Click="OnClick_Back">
+                            <Image Source="/Icon/back.png" Height="20" Width="20" Stretch="Fill"/>
+                        </Button>
+                    </StackPanel>
+                </Border>
 
-            <StackPanel Grid.Row="0" Grid.Column="0" Margin="5">
-                <Label Content="Number of days for stay in accommodation" Margin="0,5"/>
-                <TextBox x:Name="ReservationStayDays"
-                         Text="{Binding ReservationDays, UpdateSourceTrigger=PropertyChanged,Converter={StaticResource StringToIntConverter}, StringFormat={}{0:D}}"
-                         Margin="0,5"/>
+                <Border Grid.Row="0" HorizontalAlignment="Right" CornerRadius="50" Width="40" Height="40" Margin="5">
+                    <Grid>
+                        <Button Style="{StaticResource IconStyleHome}"/>
+                    </Grid>
+                </Border>
 
-                <Label Content="Start Day:" Margin="0,5"/>
-                <DatePicker x:Name="StartDayPicker" Margin="0,5"
-                            SelectedDate="{Binding StartDate, Converter={StaticResource DateOnlyToDateTimeConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <Border Grid.Row="1" Background="Brown" Height="1" VerticalAlignment="Bottom">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" Direction="270" ShadowDepth="3" Opacity="0.5"/>
+                    </Border.Effect>
+                </Border>
 
-                <Label Content="End Day:" Margin="0,5"/>
-                <DatePicker x:Name="EndDayPicker" Margin="0,5"
-                            SelectedDate="{Binding EndDate,Converter={StaticResource DateOnlyToDateTimeConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <Button Content="Submit" Margin="0,5"
-                        Click="Submit_Click"/>
-                <Label Content="Capacity:" Margin="0,5"/>
-                <TextBox x:Name="CapacityTextBox"
-                         Text="{Binding Capacity, UpdateSourceTrigger=PropertyChanged}"
-                         Margin="0,5"/>
-            </StackPanel>
+                <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <StackPanel Orientation="Horizontal">
+                        <Border CornerRadius="50" Width="40" Height="40" Margin="5">
+                            <Grid>
+                                <Border BorderThickness="0">
+                                    <Button Style="{StaticResource NavBarButton}" BorderThickness="0" Cursor="Hand">
+                                        <Image x:Name="IconImage" Source="../../Icon/favorite.png" Width="30" Stretch="Uniform"/>
+                                    </Button>
+                                </Border>
+                            </Grid>
+                        </Border>
 
+                        <Border CornerRadius="50" Width="40" Height="40" Margin="5">
+                            <Grid>
+                                <Border>
+                                    <Button Style="{StaticResource NavBarButton}" BorderThickness="0" Cursor="Hand">
+                                        <Image x:Name="IconImage2" Source="../../Icon/calendar.png" Width="30" Stretch="Uniform" />
+                                    </Button>
+                                </Border>
+                            </Grid>
+                        </Border>
 
-            <DataGrid x:Name="dataGrid" Height="500" CanUserAddRows="False" Grid.Row="0" Grid.Column="1" AutoGenerateColumns="False"
-                      ItemsSource="{Binding AvailableAccommodationPeriods}" Margin="5,5,5,5"
-                      SelectedItem="{Binding SelectedReservation}"
-                      VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RowHeight="25">
-                <DataGrid.Resources>
-                    <Style x:Key="DataGridCenteringStyle" TargetType="{x:Type TextBlock}">
-                        <Setter Property="TextAlignment" Value="Center"/>
-                        <Setter Property="VerticalAlignment" Value="Center"/>
-                    </Style>
-                </DataGrid.Resources>
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding Accommodation.Name}" ElementStyle="{StaticResource DataGridCenteringStyle}" />
-                    <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate}" ElementStyle="{StaticResource DataGridCenteringStyle}" />
-                    <DataGridTextColumn Header="End Date" Binding="{Binding EndDate}" ElementStyle="{StaticResource DataGridCenteringStyle}" />
-                    <DataGridTemplateColumn Header="Reserve">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Padding="0" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                        Click="ReserveButton_Click">
-                                    <Button.Background>
-                                        <ImageBrush ImageSource="/BookingApp;component/Images/reserve.png" Stretch="UniformToFill"/>
-                                    </Button.Background>
+                        <Border CornerRadius="50" Width="40" Height="40" Margin="5">
+                            <Border>
+                                <Button Style="{StaticResource NavBarButton}" BorderThickness="0" Cursor="Hand">
+                                    <Image x:Name="IconImage3" Source="../../Icon/calendar (1).png" Opacity="0.9" Width="30" Stretch="Uniform"/>
                                 </Button>
-                            </DataTemplate>
+                            </Border>
+                        </Border>
 
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
+                        <Border CornerRadius="50" Width="40" Height="40" Margin="5">
+                            <Border>
+                                <Button Style="{StaticResource NavBarButton}" BorderThickness="0" Cursor="Hand">
+                                    <Image x:Name="IconImage4" Source="../../Icon/group.png" Width="30" Stretch="Uniform"/>
+                                </Button>
+                            </Border>
+                        </Border>
+
+                        <Border CornerRadius="50" Width="40" Height="40" Margin="5">
+                            <Grid>
+                                <Border>
+                                    <Button Style="{StaticResource NavBarButton}" BorderThickness="0" Cursor="Hand">
+                                        <Image x:Name="IconImage5" Source="../../Icon/logout.png" Width="30" Stretch="Uniform"/>
+                                    </Button>
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+
+                <Border Grid.Row="2">
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
+                        <TextBlock Text="{Binding SelectedAccommodation.Name}" Style="{StaticResource AccommodationName}" HorizontalAlignment="Center"/>
+                        <Border Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Canvas Width="400" Height="5" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Path Fill="#C5283D">
+                                    <Path.Data>
+                                        <PathGeometry>
+                                            <PathFigure StartPoint="0,0">
+                                                <LineSegment Point="395,0"/>
+                                                <LineSegment Point="400,5"/>
+                                                <LineSegment Point="5,5"/>
+                                                <LineSegment Point="0,0"/>
+                                            </PathFigure>
+                                        </PathGeometry>
+                                    </Path.Data>
+                                </Path>
+                            </Canvas>
+                        </Border>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="340" Width="1000" CornerRadius="20" Opacity="0.9">
+                    <DockPanel Width="1000" Height="340">
+                        <Grid Width="350" Height="340" Background="Transparent" DockPanel.Dock="Left">
+                            <Border Background="#170A1C" CornerRadius="20">
+                                <ListBox x:Name="ImageList" HorizontalContentAlignment="Stretch" Width="350" Height="300" BorderThickness="0" Background="Transparent">
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <Grid/>
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Image Source="{Binding}" Stretch="Uniform"/>
+                                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Orientation="Horizontal">
+                                                    <Button Click="Previous_Click" Style="{StaticResource PreviousButton}" Margin="2"/>
+                                                    <Button Click="Next_Click" Style="{StaticResource NextButton}" Margin="2"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ListBoxItem">
+                                                        <Border Background="{TemplateBinding Background}" CornerRadius="10">
+                                                            <ContentPresenter/>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                </ListBox>
+                            </Border>
+                        </Grid>
+                        <Grid Width="570" Height="340" DockPanel.Dock="Right">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Border Grid.Row="0" Margin="0,0,0,10">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="../../Icon/dollar.png" Width="30" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                                    <Canvas Width="300" Height="30">
+                                        <Path Fill="Red" Opacity="0.5">
+                                            <Path.Data>
+                                                <PathGeometry>
+                                                    <PathFigure StartPoint="0,0">
+                                                        <LineSegment Point="280,0"/>
+                                                        <LineSegment Point="300,30"/>
+                                                        <LineSegment Point="0,30"/>
+                                                        <LineSegment Point="0,0"/>
+                                                    </PathFigure>
+                                                </PathGeometry>
+                                            </Path.Data>
+                                        </Path>
+                                        <TextBlock Text="100$/Day" FontSize="20" Foreground="White" Style="{StaticResource AccommodationItems}" VerticalAlignment="Center" Margin="20,0"/>
+                                    </Canvas>
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Row="1" Margin="0,0,0,10">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="../../Icon/location.png" Width="30" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                                    <TextBlock Text="{Binding SelectedAccommodation.DisplayLocation}" Foreground="Black" Style="{StaticResource AccommodationItems}" VerticalAlignment="Center" Margin="20,0"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Row="2" Margin="0,0,0,10">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="../../Icon/building.png" Width="30" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                                    <TextBlock Text="{Binding SelectedAccommodation.Type}" Foreground="Black" Style="{StaticResource AccommodationItems}" VerticalAlignment="Center" Margin="20,0"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Row="3" Margin="0,0,0,10">
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="../../Icon/numberOfGuest.png" Width="30" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                                    <TextBlock Text="{Binding SelectedAccommodation.Capacity}" Foreground="Black" Style="{StaticResource AccommodationItems}" VerticalAlignment="Center" Margin="20,0"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Row="4" Margin="0,0,0,10">
+                                <StackPanel Orientation="Horizontal">
+                                    <Path Data="M 10,1 L 12,7 H 18 L 13,11 L 15,17 L 10,13 L 5,17 L 7,11 L 2,7 H 8 z"
+                                          Fill="Gold" Stretch="Fill"
+                                          Width="20" Height="20" Margin="2"/>
+                                    <Path Data="M 10,1 L 12,7 H 18 L 13,11 L 15,17 L 10,13 L 5,17 L 7,11 L 2,7 H 8 z"
+                                          Fill="Gold" Stretch="Fill"
+                                          Width="20" Height="20" Margin="2"/>
+                                    <Path Data="M 10,1 L 12,7 H 18 L 13,11 L 15,17 L 10,13 L 5,17 L 7,11 L 2,7 H 8 z"
+                                          Fill="Gold" Stretch="Fill"
+                                          Width="20" Height="20" Margin="2"/>
+                                    <Path Data="M 10,1 L 12,7 H 18 L 13,11 L 15,17 L 10,13 L 5,17 L 7,11 L 2,7 H 8 z"
+                                          Fill="Gold" Stretch="Fill"
+                                          Width="20" Height="20" Margin="2"/>
+                                    <Path Data="M 10,1 L 12,7 H 18 L 13,11 L 15,17 L 10,13 L 5,17 L 7,11 L 2,7 H 8 z"
+                                          Fill="Gold" Stretch="Fill"
+                                          Width="20" Height="20" Margin="2"/>
+                                    <TextBlock Text="4.5" Style="{StaticResource AccommodationItems}" VerticalAlignment="Center" Margin="20,0"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Row="5" Margin="0,0,0,10">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="!" FontSize="20" Foreground="#481D24" Style="{StaticResource AccommodationItems}" VerticalAlignment="Center"/>
+                                    <TextBlock Text="This apartment requires a minimum booking of " Style="{StaticResource AccommodationItems}" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding SelectedAccommodation.MinReservationDays}" Style="{StaticResource AccommodationItems}" VerticalAlignment="Center"/>
+                                    <TextBlock Text=" Days" Style="{StaticResource AccommodationItems}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Row="6">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="!" FontSize="20" Foreground="#481D24" Style="{StaticResource AccommodationItems}" VerticalAlignment="Center"/>
+                                    <TextBlock Text="To cancel your reservation, please do so at least  " Style="{StaticResource AccommodationItems}" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding SelectedAccommodation.DaysBeforeCancel}" Style="{StaticResource AccommodationItems}" VerticalAlignment="Center"/>
+                                    <TextBlock Text=" days prior to your arrival." Style="{StaticResource AccommodationItems}" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </DockPanel>
+                </Border>
+
+                <Border Grid.Row="4">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="480"/>
+                            <ColumnDefinition Width="480"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" Margin="50,10">
+                            <Label Content="CheckIn:" FontSize="20" Padding="20,0" Margin="10"/>
+                            <DatePicker Style="{StaticResource ReservationDatePicker}"
+                                        SelectedDate="{Binding StartDate, Converter={StaticResource DateOnlyToDateTimeConverter}}"
+                                        DisplayDateStart="{x:Static sys:DateTime.Today}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="50,10">
+                            <Label Content="CheckOut:" FontSize="20" Padding="20,0" Margin="10"/>
+                            <DatePicker Style="{StaticResource ReservationDatePicker}"
+                                        SelectedDate="{Binding EndDate, Converter={StaticResource DateOnlyToDateTimeConverter}}"
+                                        DisplayDateStart="{x:Static sys:DateTime.Today}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <Border Grid.Row="5">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" Margin="20,10">
+                            <Label Content="Number of Guests:" FontSize="20" Padding="20,0" Margin="10"/>
+                            <TextBox Text="{Binding Capacity}" FontSize="20" Padding="10" Width="200"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="20,10">
+                            <Label Content="Number of Days:" FontSize="20" Padding="20,0" Margin="10"/>
+                            <TextBox Text="{Binding ReservationDays}" FontSize="20" Padding="10" Width="200"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="6" CornerRadius="10">
+                    <Button Content="Find Available Dates"
+                            Style="{StaticResource SubmitButton}"
+                            Width="300"
+                            Height="60"
+                            Click="Submit_Click"/>
+                </Border>
+                <Frame x:Name="AccommodationFrame" Grid.RowSpan="6" NavigationUIVisibility="Hidden" Margin="10"/>
+            </Grid>
+        </Border>
     </Grid>
-</Window>
+</Page>

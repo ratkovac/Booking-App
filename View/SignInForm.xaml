@@ -31,6 +31,5 @@
         </Grid>
         
         <Button Grid.Row="2" Click="SignIn" Content="Sign in" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20" Width="60"/>
-
     </Grid>
 </Window>

@@ -1,5 +1,6 @@
 ﻿using BookingApp.Model;
 using BookingApp.Repository;
+using BookingApp.Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,6 +23,7 @@ namespace BookingApp.View.GuideView.Pages
 
         private int _lastSelectedCheckpointId = -1;
 
+        private TourInstanceService tourInstanceService = new TourInstanceService();
 
         private ObservableCollection<TourInstance> _tourInstances;
         public ObservableCollection<TourInstance> TourInstances
@@ -115,6 +117,8 @@ namespace BookingApp.View.GuideView.Pages
         private void EndTour()
         {
             MessageBox.Show("Tura je zavrsena.", "Kraj ture", MessageBoxButton.OK, MessageBoxImage.Information);
+            SelectedTourInstance.State = TourInstanceState.Finished;
+            tourInstanceService.Update(SelectedTourInstance);
             NavigationService.GoBack();
 
         }
@@ -130,6 +134,8 @@ namespace BookingApp.View.GuideView.Pages
                 if (result == MessageBoxResult.Yes)
                 {
                     MessageBox.Show("Tura je iznenadno zavrsena.", "Kraj ture", MessageBoxButton.OK, MessageBoxImage.Information);
+                    SelectedTourInstance.State = TourInstanceState.Finished;
+                    tourInstanceService.Update(SelectedTourInstance);
                     NavigationService.GoBack();
                 }
             }
@@ -155,11 +161,11 @@ namespace BookingApp.View.GuideView.Pages
                 {
                     Title = "Tourist List",
                     Content = touristListPage,
-                    Width = 430, // Širina prozora
-                    Height = 750, // Visina prozora
+                    Width = 430, 
+                    Height = 750, 
                     SizeToContent = SizeToContent.Manual
                 };
-                window.ShowDialog(); // Otvori novi prozor kao dijalog
+                window.ShowDialog(); 
             }
             else
             {

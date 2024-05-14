@@ -5,10 +5,11 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using BookingApp.View.Owner;
-using BookingApp.View.Tourist;
+using BookingApp.WPF.View.Tourist;
 using BookingApp.View.GuideView;
 using BookingApp.Service;
 using BookingApp.View.GuideView.Pages;
+using BookingApp.View.NGuest;
 
 namespace BookingApp.View
 {
@@ -21,7 +22,7 @@ namespace BookingApp.View
         private readonly UserRepository _repository;
 
         private int loggedUserId;
-        
+
         private string _username;
         public string Username
         {
@@ -65,8 +66,8 @@ namespace BookingApp.View
                             Close();
                             break;
                         case "Guest":
-                            Guest guest = new Guest(user);
-                            guest.Show();
+                            Home home = new Home(user);
+                            home.Show();
                             Close();
                             break;
                         case "Guide":
@@ -79,8 +80,8 @@ namespace BookingApp.View
                         case "Tourist":
                             TouristService touristService = new TouristService();
                             BookingApp.Model.Tourist tourist = touristService.GetTouristByUserId(user.Id);
-                            TouristFrontPage touristFrontPage = new TouristFrontPage(tourist);
-                            touristFrontPage.Show();
+                            TouristMainPage touristMainPage = new TouristMainPage(tourist);
+                            touristMainPage.Show();
                             Close();
                             break;
                         case "Driver":
@@ -110,6 +111,6 @@ namespace BookingApp.View
             }
 
         }
-       
+
     }
 }

@@ -131,7 +131,22 @@ namespace BookingApp.DTO
                 }
             }
         }
-
+        private string frontImagePath;
+        public string FrontImagePath
+        {
+            get
+            {
+                return frontImagePath;
+            }
+            set
+            {
+                if (frontImagePath != value)
+                {
+                    frontImagePath = value;
+                    OnPropertyChanged("FrontImagePath");
+                }
+            }
+        }
         public GradeAccommodationDTO()
         {
         }
@@ -145,11 +160,10 @@ namespace BookingApp.DTO
             username = gradeAccommodation.AccommodationReservation.User.Username;
             accommodationName = gradeAccommodation.AccommodationReservation.Accommodation.Name;
 
-
         }
         public GradeAccommodation ToGradeAccommodation()
         {
-            GradeAccommodation gradeAccommodation = new GradeAccommodation(Id, accommodationReservation, cleanliness, correctness, comment);
+            GradeAccommodation gradeAccommodation = new GradeAccommodation(accommodationReservation, cleanliness, correctness, comment);
             return gradeAccommodation;
         }
         protected virtual void OnPropertyChanged(string name)

@@ -18,13 +18,15 @@ using System.Windows.Shapes;
 using BookingApp.DTO;
 using BookingApp.Model;
 using BookingApp.Repository;
+using BookingApp.View.NGuest;
+using BookingApp.View.ViewModel.Guest;
 
 namespace BookingApp.View
 {
     /// <summary>
     /// Interaction logic for Reservation.xaml
     /// </summary>
-    public partial class Reservation : Window, INotifyPropertyChanged
+    public partial class Reservation : Page, INotifyPropertyChanged
     {
         public AccommodationDTO SelectedAccommodation { get; set; }
         public AccommodationReservationRepository AccommodationReservationRepository { get; set; }
@@ -33,6 +35,11 @@ namespace BookingApp.View
         public ObservableCollection<AccommodationReservationDTO> AvailableAccommodationPeriods { get; set; }
 
         public ObservableCollection<AccommodationReservationDTO> SortedAccommodationReservations { get; set; }
+
+        public ObservableCollection<string> Images { get; set; }
+
+        public event Action BeginWindowDrag;
+        private int currentIndex;
 
         public Reservation(AccommodationDTO selectedAccommodation, User user)
         {
@@ -47,6 +54,17 @@ namespace BookingApp.View
 
             AvailableAccommodationPeriods = new ObservableCollection<AccommodationReservationDTO>();
 
+            this.User = user;
+
+            Images = new ObservableCollection<string>
+            {
+                "../../Images/Accommodation.jpg",
+                "../../Images/apartment1.jpg",
+                "../../Images/apartment2.jpg"
+            };
+
+            currentIndex = 1;
+            UpdateImageDisplay();
             Update();
         }
 
@@ -60,8 +78,8 @@ namespace BookingApp.View
                     AccommodationReservations.Add(new AccommodationReservationDTO(accommodationReservation));
                 }
             }
-        }
 
+        }
 
         private Accommodation accommodation;
 
@@ -233,9 +251,24 @@ namespace BookingApp.View
 
         private void Submit_Click(object sender, RoutedEventArgs e)
         {
+            AvailableAccommodationPeriods.Clear();
+
             SuggestReservation(startDate, endDate);
             if (AvailableAccommodationPeriods.Count == 0)
                 SuggestReservation(startDate.AddDays(-5), endDate.AddDays(5));
+            Update();
+
+            if (SelectedAccommodation.Capacity >= capacity &&
+                SelectedAccommodation.MinReservationDays <= reservationDays)
+            {
+                SuggestedReservationsViewModel viewModel = new SuggestedReservationsViewModel(SelectedAccommodation, AvailableAccommodationPeriods, capacity, user);
+                SuggestedReservations suggestedReservationsPage = new SuggestedReservations(viewModel);
+                this.NavigationService.Navigate(suggestedReservationsPage);
+            }
+            else
+            {
+                MessageBox.Show("Kapacitet ili Minimalan broj dana nisu validni");
+            }
         }
 
         private void SuggestReservation(DateOnly startDate, DateOnly endDate)
@@ -315,7 +348,7 @@ namespace BookingApp.View
                     EndDate = start.AddDays(reservationDays - 1),
                     ReservationDays = reservationDays,
                     Accommodation = SelectedAccommodation.ToAccommodation(),
-                    User = SelectedAccommodation.User
+                    User = user
                 };
 
                 if (insertAtBeginning)
@@ -333,17 +366,40 @@ namespace BookingApp.View
         }
         private void ReserveButton_Click(object sender, RoutedEventArgs e)
         {
-            if (selectedReservation.Accommodation.Capacity >= capacity &&
-                selectedReservation.Accommodation.MinReservationDays <= reservationDays)
+            
+        }
+
+        private void Page_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            BeginWindowDrag?.Invoke();
+        }
+
+        private void Next_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentIndex < Images.Count - 1)
             {
-                selectedReservation.Capacity = capacity;
-                AccommodationReservationRepository.Save(selectedReservation.ToAccommodationReservation());
-                MessageBox.Show("Uspjesno ste izvrsili rezervaciju");
-            }
-            else
-            {
-                MessageBox.Show("Niste zadovoljili sve potrebne parametre");
+                currentIndex++;
+                UpdateImageDisplay();
             }
         }
-    }
+
+        private void UpdateImageDisplay()
+        {
+            ImageList.ItemsSource = new ObservableCollection<string> { Images[currentIndex] };
+        }
+
+        private void Previous_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentIndex > 0)
+            {
+                currentIndex--;
+                UpdateImageDisplay();
+            }
+        }
+
+        private void OnClick_Back(object sender, RoutedEventArgs e)
+        {
+            NavigationService.GoBack();
+        }
+    } 
 }

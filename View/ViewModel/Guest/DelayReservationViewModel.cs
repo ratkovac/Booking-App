@@ -20,6 +20,7 @@ namespace BookingApp.View.ViewModel.Guest
         private DelayReservationService delayReservationService;
         public AccommodationReservationDTO SelectedReservation { get; set; }
         private AccommodationReservationDTO AccommodationReservation { get; set; }
+        private AccommodationReservationDTO CurrentReservation { get; set; }
 
         private int reservationDays;
         public int ReservationDays
@@ -70,8 +71,10 @@ namespace BookingApp.View.ViewModel.Guest
             suggestReservationsService.Subscribe(this);
             delayReservationService.Subscribe(this);
             SuggestedReservations = new ObservableCollection<AccommodationReservationDTO>();
-            AccommodationReservation = accommodationReservation;
             SelectedReservation = new AccommodationReservationDTO();
+            CurrentReservation = new AccommodationReservationDTO();
+            AccommodationReservation = accommodationReservation;
+            CurrentReservation = accommodationReservation;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -92,18 +95,18 @@ namespace BookingApp.View.ViewModel.Guest
                 AccommodationReservation = accommodationReservation;
             }
         }
-
         public void CreateNewDelayReservations()
         {
-            DelayReservation delayReservation = new DelayReservation(SelectedReservation.ToAccommodationReservation(),
+            DelayReservation delayReservation = new DelayReservation(CurrentReservation.ToAccommodationReservation(),
                 SelectedReservation.StartDate, SelectedReservation.EndDate);
             delayReservationService.Create(delayReservation);
-
+            MessageBox.Show("Request successfully sent to the owner.");
         }
+
 
         public void Update()
         {
-            throw new NotImplementedException();
+
         }
     }
 }

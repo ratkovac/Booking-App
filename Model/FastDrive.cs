@@ -21,8 +21,8 @@ namespace BookingApp.Model
         public User Guest { get; set; }
         public int DriveStatusId { get; set; }
         public double Delay { get; set; }
-
         public int DriverId { get; set; }
+
 
         public FastDrive()
         {

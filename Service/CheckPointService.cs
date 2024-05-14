@@ -1,4 +1,5 @@
-﻿using BookingApp.Model;
+﻿using BookingApp.DependencyInjection;
+using BookingApp.Model;
 using BookingApp.Repository;
 using BookingApp.Repository.RepositoryInterface;
 using System;
@@ -9,9 +10,14 @@ using System.Threading.Tasks;
 
 namespace BookingApp.Service
 {
-    internal class CheckPointService
+    public class CheckPointService
     {
-        private CheckPointRepository checkPointRepository = new CheckPointRepository();
+        private ICheckPointRepository checkPointRepository;
+
+        public CheckPointService()
+        {
+            checkPointRepository = Injector.CreateInstance<ICheckPointRepository>();
+        }
 
         public CheckPoint GetById(int id)
         {

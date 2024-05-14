@@ -1,12 +1,13 @@
 ﻿using BookingApp.Model;
 using BookingApp.Repository;
-using BookingApp.Repository.RepositoryInterface;
+using BookingApp.Domain.RepositoryInterface;
 using BookingApp.Service;
-using BookingApp.View.Tourist.Pages;
+using BookingApp.WPF.View.Tourist.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,10 +17,10 @@ namespace BookingApp.View.ViewModel.Guide
     internal class TourStatisticViewModel : INotifyPropertyChanged
     {
         private User user;
-        private TourGuestService tourGuestService = new TourGuestService();
-        private TourInstanceService tourInstanceService = new TourInstanceService();
-        private TourReservationService tourReservationService = new TourReservationService();
-        private TourRepository tourRepository = new TourRepository();
+        private TourGuestService tourGuestService;
+        private TourInstanceService tourInstanceService;
+        private TourReservationService tourReservationService;
+        private TourRepository tourRepository;
 
         private List<TourInstance> tourInstances;
         private List<BookingApp.Model.TourReservation> tourReservations;
@@ -87,94 +88,134 @@ namespace BookingApp.View.ViewModel.Guide
                 OnPropertyChanged(nameof(AgeGroups));
             }
         }
+
         public struct AgeGroup
         {
             public int Under18 { get; set; }
             public int Between18And50 { get; set; }
             public int Above50 { get; set; }
 
-            public AgeGroup()
+            public static AgeGroup operator +(AgeGroup a, AgeGroup b)
             {
-                Under18 = 0;
-                Between18And50 = 0;
-                Above50 = 0;
+                return new AgeGroup
+                {
+                    Under18 = a.Under18 + b.Under18,
+                    Between18And50 = a.Between18And50 + b.Between18And50,
+                    Above50 = a.Above50 + b.Above50
+                };
             }
         }
+
 
         public TourStatisticViewModel(User user)
         {
             this.user = user;
+            tourGuestService = new TourGuestService();
+            tourInstanceService = new TourInstanceService();
+            tourReservationService = new TourReservationService();
+            tourRepository = new TourRepository();
             MostVistedTour();
             BestTour = tourRepository.GetById(bestTourInstance.TourId);
             TourInstances = new ObservableCollection<TourInstance>(tourInstanceService.GetFinishedTourInstances());
         }
 
+
         public void GetAgeStatistics(int tourInstanceId)
         {
             TourInstance tourInstance = tourInstanceService.GetById(tourInstanceId);
-
             tourReservations = tourReservationService.GetAllByTourInstanceId(tourInstanceId);
-            AgeGroup ageGroup = new AgeGroup();
+            AgeGroups = CalculateAgeStatistics(tourReservations);
+            OnPropertyChanged(nameof(AgeGroups));
+        }
 
-            foreach (BookingApp.Model.TourReservation tourReservation in tourReservations)
+        private AgeGroup GetAgeGroupForReservation(int reservationId)
+        {
+            AgeGroup ageGroup = new AgeGroup();
+            List<TourGuest> tourGuests = tourGuestService.GetAllByTourReservationId(reservationId);
+
+            foreach (TourGuest tourGuest in tourGuests)
             {
-                List<TourGuest> tourGuests = tourGuestService.GetAllByTourReservationId(tourReservation.Id);
-                foreach (TourGuest tourGuest in tourGuests)
+                int age = Convert.ToInt32(tourGuest.Age);
+                if (age < 18)
                 {
-                    if (Convert.ToInt32(tourGuest.Age) < 18)
-                    {
-                        ageGroup.Under18++;
-                    }
-                    else if (Convert.ToInt32(tourGuest.Age) <= 50)
-                    {
-                        ageGroup.Between18And50++;
-                    }
-                    else
-                    {
-                        ageGroup.Above50++;
-                    }
+                    ageGroup.Under18++;
+                }
+                else if (age <= 50)
+                {
+                    ageGroup.Between18And50++;
+                }
+                else
+                {
+                    ageGroup.Above50++;
                 }
             }
-            int i = ageGroup.Between18And50;
-            AgeGroups = ageGroup;
-            OnPropertyChanged(nameof(AgeGroups));
 
+            return ageGroup;
+        }
 
+        private AgeGroup CalculateAgeStatistics(List<BookingApp.Model.TourReservation> reservations)
+        {
+            AgeGroup totalAgeGroup = new AgeGroup();
+            foreach (BookingApp.Model.TourReservation reservation in reservations)
+            {
+                AgeGroup ageGroup = GetAgeGroupForReservation(reservation.Id);
+                totalAgeGroup += ageGroup;
+            }
+            return totalAgeGroup;
         }
 
         public void MostVistedTour()
         {
-            int max = 0;
-            int current = 0;
             List<TourInstance> userTours = GetUserTours(tourInstanceService.GetFinishedTourInstances());
-            bestTourInstance = userTours.FirstOrDefault();
-
             if (userTours.Count == 0)
             {
-                bestTourInstance = new TourInstance();
+                InitializeBestTourInstance();
                 return;
             }
+
+            int mostTourists = CalculateMostTourists(userTours);
+            SetMostTourists(mostTourists);
+        }
+
+        private void InitializeBestTourInstance()
+        {
+            bestTourInstance = new TourInstance();
+            OnPropertyChanged(nameof(BestTour));
+        }
+
+        private int CalculateMostTourists(List<TourInstance> userTours)
+        {
+            int max = 0;
             foreach (TourInstance tourInstance in userTours)
             {
-
-                tourReservations = tourReservationService.GetAllByTourInstanceId(tourInstance.Id);
-                foreach (BookingApp.Model.TourReservation tourReservation in tourReservations)
-                {
-                    current += tourGuestService.GetTouristNumberByTourReservationId(tourReservation.Id);
-                }
-
+                int current = CalculateTotalTourists(tourInstance);
                 if (max <= current)
                 {
                     max = current;
                     bestTourInstance = tourInstance;
                 }
-                current = 0;
-
             }
-            MostTourists = max;
+            return max;
+        }
+
+        private int CalculateTotalTourists(TourInstance tourInstance)
+        {
+            int totalTourists = 0;
+            tourReservations = tourReservationService.GetAllByTourInstanceId(tourInstance.Id);
+            foreach (BookingApp.Model.TourReservation tourReservation in tourReservations)
+            {
+                totalTourists += tourGuestService.GetTouristNumberByTourReservationId(tourReservation.Id);
+            }
+            return totalTourists;
+        }
+
+        private void SetMostTourists(int mostTourists)
+        {
+            MostTourists = mostTourists;
             OnPropertyChanged(nameof(MostTourists));
             OnPropertyChanged(nameof(BestTour));
         }
+
 
         private List<TourInstance> GetUserTours(List<TourInstance> tourInstances)
         {
@@ -191,41 +232,54 @@ namespace BookingApp.View.ViewModel.Guide
 
         public void MostVistedTourByYear(int year)
         {
-            int max = 0;
-            int current = 0;
             List<TourInstance> userTours = GetUserTours(tourInstanceService.GetFinishedTourInstances());
-            bestTourInstance = userTours.FirstOrDefault();
+            List<TourInstance> filteredTours = FilterToursByYear(userTours, year);
 
-            if (userTours.Count == 0)
+            bestTourInstance = FindMostVisitedTour(filteredTours);
+
+            if (bestTourInstance == null)
             {
                 bestTourInstance = new TourInstance();
-                return;
             }
 
-            foreach (TourInstance tourInstance in userTours)
-            {
-                if (tourInstance.StartTime.Year == year)
-                {
-                    tourReservations = tourReservationService.GetAllByTourInstanceId(tourInstance.Id);
-                    foreach (BookingApp.Model.TourReservation tourReservation in tourReservations)
-                    {
-                        current += tourGuestService.GetTouristNumberByTourReservationId(tourReservation.Id);
-                    }
-
-                    if (max <= current)
-                    {
-                        max = current;
-                        bestTourInstance = tourInstance;
-                    }
-                    current = 0;
-                }
-            }
-
-            MostTourists = max;
+            MostTourists = GetTotalVisitorsForTourInstance(bestTourInstance);
             OnPropertyChanged(nameof(MostTourists));
             OnPropertyChanged(nameof(BestTour));
-
         }
+
+        private TourInstance FindMostVisitedTour(List<TourInstance> tourInstances)
+        {
+            int maxVisitors = 0;
+            TourInstance mostVisitedTour = null;
+            foreach (TourInstance tourInstance in tourInstances)
+            {
+                int visitors = GetTotalVisitorsForTourInstance(tourInstance);
+                if (visitors > maxVisitors)
+                {
+                    maxVisitors = visitors;
+                    mostVisitedTour = tourInstance;
+                }
+            }
+            return mostVisitedTour;
+        }
+
+        private List<TourInstance> FilterToursByYear(List<TourInstance> tourInstances, int year)
+        {
+            return tourInstances.Where(tourInstance => tourInstance.StartTime.Year == year).ToList();
+        }
+
+        private int GetTotalVisitorsForTourInstance(TourInstance tourInstance)
+        {
+            int totalVisitors = 0;
+            tourReservations = tourReservationService.GetAllByTourInstanceId(tourInstance.Id);
+            foreach (BookingApp.Model.TourReservation tourReservation in tourReservations)
+            {
+                totalVisitors += tourGuestService.GetTouristNumberByTourReservationId(tourReservation.Id);
+            }
+            return totalVisitors;
+        }
+
+
 
     }
 }

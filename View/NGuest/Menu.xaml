@@ -1,0 +1,102 @@
+﻿<Page x:Class="BookingApp.View.NGuest.Menu"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BookingApp.View.NGuest"
+      xmlns:guiElements="clr-namespace:BookingApp.GUI_Elements"
+      xmlns:converter="clr-namespace:BookingApp.Converter"
+      mc:Ignorable="d" 
+      Title="Menu" Height="768" Width="1024">
+    <Page.Resources>
+        <converter:ActiveButtonStyleConverter x:Key="ActiveButtonStyleConverter"/>
+    </Page.Resources>
+    <Grid>
+        <Border CornerRadius="20" Background="White" Margin="20">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="1"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" Margin="10,0,0,0">
+                    <Button HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="0" Margin="0" Click="Back_OnClick" Style="{StaticResource XButton}">
+                        <Image Source="../../Icon/x.png" Height="20" Width="20" Stretch="Fill"/>
+                    </Button>
+                </Border>
+
+                <Border Grid.Row="0" Margin="10,0,10,0">
+                    <StackPanel Orientation ="Horizontal" HorizontalAlignment="Right">
+                        <Image Source="../../Icon/user.png" Height="20" Width="20" Stretch="Fill"/>
+                        <TextBlock Text="Guest" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Row="1" Background="Brown" Height="1" VerticalAlignment="Bottom">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" Direction="270" ShadowDepth="3" Opacity="0.5"/>
+                    </Border.Effect>
+                </Border>
+
+                <Border Grid.Row="2">
+                    <StackPanel>
+                        <StackPanel.Resources>
+                            <Style TargetType="Button" BasedOn="{StaticResource MenuButton}"/>
+                        </StackPanel.Resources>
+                        <Button Content="Home" Style="{Binding ActiveMenuItem, Converter={StaticResource ActiveButtonStyleConverter}, ConverterParameter='Home'}"/>
+                        <Button Content="Review" Style="{Binding ActiveMenuItem, Converter={StaticResource ActiveButtonStyleConverter}, ConverterParameter='Review'}" Click="OnClick_Rate"/>
+                        <Button Content="My Reservation" Style="{Binding ActiveMenuItem, Converter={StaticResource ActiveButtonStyleConverter}, ConverterParameter='My Reservation'}"/>
+                        <Button Content="Finished Reservation" Style="{Binding ActiveMenuItem, Converter={StaticResource ActiveButtonStyleConverter}, ConverterParameter='Finished Reservation'}"/>
+                        <Button Content="Forum" Style="{Binding ActiveMenuItem, Converter={StaticResource ActiveButtonStyleConverter}, ConverterParameter='Forum'}"/>
+                        <Button Content="Logout" Foreground="Brown" Style="{Binding ActiveMenuItem, Converter={StaticResource ActiveButtonStyleConverter}, ConverterParameter='Logout'}"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Row="3" Height="30" Background="Gray">
+                    <StackPanel Margin="20,0,0,0" VerticalAlignment="Center" Orientation="Horizontal">
+                        <TextBlock Text="Super Guest: " VerticalAlignment="Center" Margin="0,0,5,0" 
+                                   FontSize="15" FontFamily="{StaticResource PoppinsBlack}"/>
+                        <Image Source="{Binding IsSuperGuestImage}" Height="20"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Row="4" Margin="10" Height="250">
+                    <Grid Width="950">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0,0,0,20" Margin="10">
+                            <ItemsControl ItemsSource="{Binding Messages}"
+                                          guiElements:ItemsControlExtensions.SelectedItem="{Binding SelectedMessage, Mode=TwoWay}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Padding="5" Width="700" HorizontalAlignment="Center" 
+                                CornerRadius="10" BorderThickness="1" BorderBrush="Black"
+                                Margin="5">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="200"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Image Source="../../Icon/letter.png" Width="20" Height="20" HorizontalAlignment="Left" Margin="5,0,0,0"/>
+                                                <TextBlock Grid.Column="1" Text="Your request for " HorizontalAlignment="Center" Margin="5,0,0,0"/>
+                                                <TextBlock Grid.Column="2" Text="{Binding AccommodationName}" HorizontalAlignment="Center" Margin="5,0,0,0"/>
+                                                <TextBlock Grid.Column="3" Text=" is declined " HorizontalAlignment="Center" Margin="5,0,0,0"/>
+                                                <ContentControl Grid.Column="4" HorizontalAlignment="Right">
+                                                    <Button Content="X" Background="Transparent" BorderThickness="0" Click="DeleteMessage"/>
+                                                </ContentControl>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

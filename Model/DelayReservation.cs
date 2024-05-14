@@ -32,6 +32,7 @@ namespace BookingApp.Model
             Read = false;
         }
 
+
         public DelayReservation()
         {
 
@@ -51,6 +52,7 @@ namespace BookingApp.Model
             };
             return values;
         }
+
 
 
         public void FromCSV(string[] values)

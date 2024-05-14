@@ -1,79 +1,103 @@
-﻿<Window x:Class="BookingApp.View.Guest"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BookingApp.View"
-        mc:Ignorable="d"
-        Title="Guest" Height="768" Width="1024">
-    <Grid Margin="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="65" />
-        </Grid.RowDefinitions>
+﻿<Page x:Class="BookingApp.View.Guest"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:local="clr-namespace:BookingApp.View"
+      xmlns:guiElements="clr-namespace:BookingApp.GUI_Elements"
+      mc:Ignorable="d"
+      Title="Booking" Height="768" Width="1024" 
+      HorizontalAlignment="Center" VerticalAlignment="Center">
+    <Grid>
+        <Border CornerRadius="20" Background="White" Margin="20">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="1"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+                <Border Grid.Row="0" Margin="10,0,0,0">
+                    <Button HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="0" Margin="0" Click="Button_Click">
+                        <Image Source="/View/NGuest/menu-svgrepo-com.png" Height="20" Width="20" Stretch="Fill"/>
+                    </Button>
+                </Border>
 
-        <TextBox x:Name="searchBox" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,10,10,10"
-                 VerticalContentAlignment="Center" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
+                    <Border Grid.Row="0" CornerRadius="0,20,20,0" HorizontalAlignment="Right">
+                        <TextBox Style="{StaticResource SearchBoxStyle}" Width="200" Height="30"
+                                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="0,0,15,0"/>
+                    </Border>
 
-        <StackPanel Grid.Row="1" Grid.Column="0" Margin="5,5,5,5">
-            <Label Content="Location" Margin="0,5"/>
-            <ComboBox x:Name="locationComboBox" ItemsSource="{Binding Locations}"
-                      SelectedValue="{Binding SelectedLocation, UpdateSourceTrigger=PropertyChanged}" Margin="0,5"/>
+                    <Border Grid.Row="1" Background="Brown" Height="1" VerticalAlignment="Bottom">
+                        <Border.Effect>
+                            <DropShadowEffect Color="Black" Direction="270" ShadowDepth="3" Opacity="0.5"/>
+                        </Border.Effect>
+                    </Border>
 
-            <Label Content="Type" Margin="0,5"/>
-            <StackPanel Margin="0,5">
-                <CheckBox x:Name="checkBoxOption1" Content="Apartment" Margin="0,5" Checked="CheckBoxOption1_Changed" Unchecked="CheckBoxOption1_Changed"/>
-                <CheckBox x:Name="checkBoxOption2" Content="Hut" Margin="0,5" Checked="CheckBoxOption1_Changed" Unchecked="CheckBoxOption1_Changed"/>
-                <CheckBox x:Name="checkBoxOption3" Content="House" Margin="0,5" Checked="CheckBoxOption1_Changed" Unchecked="CheckBoxOption1_Changed"/>
-            </StackPanel>
+                    <Border Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,20" BorderBrush="LightGray" Background="#F5F5F5">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="3" Direction="320" Color="DarkGray" Opacity="0.5"/>
+                        </Border.Effect>
+                        <StackPanel Orientation="Horizontal">
+                            <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
+                                <Grid>
+                                    <Button Style="{StaticResource IconStyle1}"/>
+                                </Grid>
+                            </Border>
 
-            <Label Content="Capacity" Margin="0,5"/>
-            <TextBox x:Name="guestsTextBox" Text="{Binding Capacity, UpdateSourceTrigger=PropertyChanged}" Margin="0,5"/>
+                            <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
+                                <Grid>
+                                    <Button Style="{StaticResource IconStyle2}"/>
+                                </Grid>
+                            </Border>
 
-            <Label Content="Cancellation Deadline (Days)" Margin="0,5"/>
-            <TextBox x:Name="guestsTextBoxCancel" Text="{Binding DaysBeforeCancel, UpdateSourceTrigger=PropertyChanged}" Margin="0,5"/>
+                            <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
+                                <Grid>
+                                    <Button x:Name="IconButton" Style="{StaticResource IconStyle3}" />
+                                </Grid>
+                            </Border>
 
-            <Button Content="My Reservations" Click="MyReservations_Click" Margin="10px"/>
-            <Button Content="Rate" Click="Rate_Click" Margin="10px"/>
+                            <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
+                                <Grid>
+                                    <Button Style="{StaticResource IconStyle4}"/>
+                                </Grid>
+                            </Border>
 
-        </StackPanel>
 
-        <DataGrid x:Name="dataGrid" CanUserAddRows="False" Grid.Row="1" Grid.Column="1" AutoGenerateColumns="False"
-          ItemsSource="{Binding FilteredAccommodations}" Margin="5,5,5,5"
-          VerticalAlignment="Stretch" HorizontalAlignment="Stretch" RowHeight="25"
-          SelectedItem="{Binding SelectedAccommodation, Mode=TwoWay}">
-            <DataGrid.Resources>
-                <Style x:Key="DataGridCenteringStyle" TargetType="{x:Type TextBlock}">
-                    <Setter Property="TextAlignment" Value="Center"/>
-                    <Setter Property="VerticalAlignment" Value="Center"/>
-                </Style>
-            </DataGrid.Resources>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" ElementStyle="{StaticResource DataGridCenteringStyle}" />
-                <DataGridTextColumn Header="Location" Binding="{Binding DisplayLocation}" ElementStyle="{StaticResource DataGridCenteringStyle}" />
-                <DataGridTextColumn Header="AccommodationType" Binding="{Binding Type}" ElementStyle="{StaticResource DataGridCenteringStyle}" />
-                <DataGridTextColumn Header="Capacity" Binding="{Binding Capacity}" ElementStyle="{StaticResource DataGridCenteringStyle}" />
-                <DataGridTextColumn Header="MinReservationDays" Binding="{Binding MinReservationDays}" ElementStyle="{StaticResource DataGridCenteringStyle}" />
-                <DataGridTextColumn Header="DaysBeforeCancel" Binding="{Binding DaysBeforeCancel}" ElementStyle="{StaticResource DataGridCenteringStyle}" />
-                <DataGridTemplateColumn Header="Reserve">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Padding="0" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                    Click="OnClickButton">
-                                <Button.Background>
-                                    <ImageBrush ImageSource="/BookingApp;component/Images/reserve.png" Stretch="UniformToFill"/>
-                                </Button.Background>
-                            </Button>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+                            <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
+                                <Grid>
+                                    <Button Style="{StaticResource IconStyle5}"/>
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+
+                    <Button Grid.Row="3" Width ="300" Style="{StaticResource FilterSortButtonStyle}" 
+                            Margin="10" Click="OnClick_Filter_Sort">
+                        Filter and Sort
+                    </Button>
+                    <Button Grid.Row="4" Width ="300" Style="{StaticResource FilterSortButtonStyle}" Margin="10">
+                        Anytime, Anywhere
+                    </Button>
+
+                    <ScrollViewer Grid.Row="5" VerticalScrollBarVisibility="Auto" Padding="0,0,0,10" Margin="10">
+                        <ItemsControl ItemsSource="{Binding FilteredAccommodations}"
+                                      guiElements:ItemsControlExtensions.SelectedItem="{Binding SelectedAccommodation, Mode=TwoWay}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <ContentControl Style="{StaticResource AccommodationItemControl}"
+                                                    MouseLeftButtonDown="ContentControl_MouseLeftButtonDown"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+            </Grid>
+        </Border>
     </Grid>
-</Window>
+    <Page.Resources/>
+</Page>
