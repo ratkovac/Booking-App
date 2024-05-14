@@ -27,5 +27,9 @@ namespace BookingApp.Service
         {
             _imageRepository.Subscribe(observer);
         }
+        public Image? GetByAccommodationId(int accommodationId)
+        {
+            return _imageRepository.GetByAccommodationId(accommodationId);
+        }
     }
 }

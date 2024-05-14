@@ -12,6 +12,8 @@ namespace BookingApp.Repository.RepositoryInterface
 {
     public interface IDriverStatsRepository : IGenericRepository<DriverStats, int>
     {
+        public void UpdateFromDriverStatsUpdates(DriverStatsUpdateRepository driverStatsUpdateRepository);
+
         DriverStats GetByDriverId(int driverId);
         public void Subscribe(IObserver observer)
         {

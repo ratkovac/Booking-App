@@ -28,6 +28,7 @@ namespace BookingApp.View.ViewModel.Owner
         private List<DelayReservation> delayReservations;
 
         private AccommodationReservationService accommodationReservationService;
+        private AccommodationEventService accommodationEventService;
         private List<AccommodationReservation> reservationsByAccommodation;
         public User LoggedInUser;
         private ImageRepository imageRepository;
@@ -49,6 +50,7 @@ namespace BookingApp.View.ViewModel.Owner
             delayReservations = new List<DelayReservation>();
             imageRepository = new ImageRepository();
             accommodationReservationService = new AccommodationReservationService();
+            accommodationEventService = new AccommodationEventService();
             AcceptCommand = new RelayCommand<DelayReservationDTO>(ExecuteAcceptCommand);
             DeclineCommand = new RelayCommand<DelayReservationDTO>(ExecuteDeclineCommand);
             Update();
@@ -68,6 +70,12 @@ namespace BookingApp.View.ViewModel.Owner
             accommodationReservationService.Update(accommodationReservation);
             delayReservationService.Update(oldDelayReservation);
             MessageBox.Show("Request is accepted!");
+
+            AccommodationEvent accommodationEvent = new AccommodationEvent();
+            accommodationEvent.EventDate = DateOnly.FromDateTime(DateTime.Now);
+            accommodationEvent.EventType = EventEnum.EventType.Moved;
+            accommodationEvent.Accommodation = oldDelayReservation.Reservation.Accommodation;
+            accommodationEventService.Create(accommodationEvent);
             Update(); 
         }
         private void ExecuteDeclineCommand(DelayReservationDTO SelectedRequest)

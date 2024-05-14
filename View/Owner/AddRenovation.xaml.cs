@@ -12,8 +12,6 @@ namespace BookingApp.View.Owner
 {
     public partial class AddRenovation : Window
     {
-        private AddRenovationViewModel addRenovationViewModel;
-        private Border SelectedBorder { get; set; }
         public AccommodationDTO SelectedAccommodation { get; private set; }
 
         public RenovationDatesDTO SelectedDate { get; set; }
@@ -22,21 +20,8 @@ namespace BookingApp.View.Owner
         {
             InitializeComponent();
             this.DataContext = addRenovationViewModel;
-            this.addRenovationViewModel = addRenovationViewModel;
+            //this.addRenovationViewModel = addRenovationViewModel;
             SelectedAccommodation = selectedAccommodationDTO;
-
         }
-        
-
-
-        /*private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            DateTime start = StartDatePicker.SelectedDate.Value;
-            DateTime end = EndDatePicker.SelectedDate.Value;
-            int numberOfDays = Convert.ToInt32(Days.Text);
-            List<(DateTime, DateTime)> reservations = addRenovationViewModel.GetAllReservations(SelectedAccommodation.Id);
-            List<(DateTime, DateTime)> renovations = addRenovationViewModel.GetAllPossibleDates(start, end, numberOfDays);
-            List<(DateTime, DateTime)> possibleDates = addRenovationViewModel.GetNonOverlappingRenovationDates(renovations, reservations);
-        }*/
     }
 }

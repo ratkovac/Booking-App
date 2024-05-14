@@ -12,16 +12,15 @@
         <Label x:Name="GuestGrade" Content="Grade guest" HorizontalAlignment="Left" Height="34" Margin="61,305,0,0" VerticalAlignment="Top" Width="125" Grid.Column="1" MouseLeftButtonDown="GuestGrade_MouseLeftButtonDown" FontSize="18" Grid.ColumnSpan="2"/>
         <Label x:Name="AccommodationGrades" Content="All owner grades" HorizontalAlignment="Left" Height="34" Margin="61,344,0,0" VerticalAlignment="Top" Width="167" FontSize="18" MouseLeftButtonDown="AccommodationGrades_MouseLeftButtonDown"/>
         <Label x:Name="DelayRequests" Content="Delay requests" HorizontalAlignment="Left" Height="34" Margin="61,378,0,0" VerticalAlignment="Top" Width="167" FontSize="18" MouseLeftButtonDown="DelayRequests_MouseLeftButtonDown"/>
+        <Label x:Name="Renovations" Content="All renovations" HorizontalAlignment="Left" Height="34" Margin="61,412,0,0" VerticalAlignment="Top" Width="167" FontSize="18" MouseLeftButtonDown="Renovations_MouseLeftButtonDown"/>
         <Label x:Name="Username" HorizontalAlignment="Left" Height="34" Margin="36,156,0,0" VerticalAlignment="Top" Width="192" Grid.Column="1" FontSize="18" HorizontalContentAlignment="Center" Grid.ColumnSpan="2"/>
         <Label x:Name="Role" HorizontalAlignment="Left" Height="34" Margin="36,195,0,0" VerticalAlignment="Top" Width="192" FontSize="14" HorizontalContentAlignment="Center"/>
-        <Grid>
-            <Border x:Name="SuperOwnerBorder" BorderBrush="Black" BorderThickness="3" CornerRadius="10"  Margin="365,51,675,447"/>
+        <Border x:Name="SuperOwnerBorder" BorderBrush="Black" BorderThickness="3" CornerRadius="10"  Margin="365,51,675,447"/>
             <Label x:Name="Username_Copy" HorizontalAlignment="Left" Height="34" Margin="382,153,0,0" VerticalAlignment="Top" Width="192" FontSize="18" HorizontalContentAlignment="Center"  Content="wefdssd"/>
             <Label x:Name="Role_Copy" HorizontalAlignment="Left" Height="26" Margin="382,187,0,0" VerticalAlignment="Top" Width="192" FontSize="14" HorizontalContentAlignment="Center" Content="wefdssd"/>
             <Image x:Name="SuperOwnerImage" HorizontalAlignment="Left" Height="52" VerticalAlignment="Top" Width="56" Margin="522,174,0,0"/>
             <Image x:Name="OwnerIcon" HorizontalAlignment="Left" Height="82" VerticalAlignment="Top" Width="82" Margin="437,66,0,0" Source="/View/Owner/user.jpg"/>
-        </Grid>
-        <Border BorderBrush="white" Background="#3cd3de" BorderThickness="2" CornerRadius="10" Margin="640,32,10,32">
+            <Border BorderBrush="white" Background="#3cd3de" BorderThickness="2" CornerRadius="10" Margin="640,32,10,32">
             <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="-2,0,0,0">
                 <StackPanel Margin="10">
                     <StackPanel Grid.Row="0" Margin="0,0,0,10">

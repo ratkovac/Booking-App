@@ -1,16 +1,41 @@
 ﻿<Window x:Class="BookingApp.View.Driver.VehicleRegistrationWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:converters="clr-namespace:BookingApp.View.Driver"
-        Title="Vehicle Registration" Height="450" Width="805"
-        MinWidth="805" MaxWidth="805" MinHeight="450" MaxHeight="450">
+        Title="Vehicle Registration" Height="500" Width="1000"
+        MinHeight="500" MaxHeight="500"
+        MinWidth="1000" MaxWidth="1000">
     <Window.Resources>
         <converters:StringJoinConverter x:Key="StringJoinConverter" />
+        <Style TargetType="TextBox" x:Key="WhiteBoxStyle">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="2"/>
+        </Style>
+        <Style TargetType="Button" x:Key="ButtonStyle">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="2"/>
+        </Style>
     </Window.Resources>
-    <Grid>
+    <Grid Background="PaleTurquoise">
         <Grid>
             <Label Content="Registered Vehicles" FontSize="22" Margin="10" FontWeight="Bold" RenderTransformOrigin="0.61,0.6"/>
         </Grid>
-        <Grid Margin="10,48,275,140">
+        <Grid Margin="10,48,275,100" Background="White">
+            <Grid.Resources>
+                <Style TargetType="Border" x:Key="BorderStyle">
+                    <Setter Property="BorderBrush" Value="Black"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                </Style>
+                <Style TargetType="TextBlock" x:Key="TextBlockStyle">
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Padding" Value="5"/>
+                    <Setter Property="FontFamily" Value="Segoe UI"/>
+                </Style>
+                <Style TargetType="TextBlock" x:Key="HeaderTextStyle">
+                    <Setter Property="FontStyle" Value="Italic"/>
+                </Style>
+            </Grid.Resources>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -37,7 +62,7 @@
                     <TextBlock Text="Capacity" FontWeight="Bold" Padding="5"/>
                 </Border>
             </Grid>
-            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto"  MaxHeight="170">
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto"  MaxHeight="270">
                 <ItemsControl Grid.Row="1" ItemsSource="{Binding Path=VehicleDTOList}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -68,34 +93,53 @@
             </ItemsControl>
             </ScrollViewer>
         </Grid>
-        <GroupBox Header="Vehicle Registration" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="548,0,0,20" Width="242" Height="377" >
-            <StackPanel Margin="10,0,10,0" Height="337">
-                <Label Content="City"></Label>
-                <TextBox x:Name="CityTextBox" Text="" Width="124" HorizontalAlignment="Left"/>
-                <Label Content="Country"></Label>
-                <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
-                    <TextBox Name="CountryTextBox" Width="124" Text=""/>
+        <GroupBox Header="Vehicle Registration" HorizontalAlignment="Right" VerticalAlignment="Top" Background="White" Margin="0,40,10,20" Width="242" Height="344" >
+            <StackPanel Margin="10,0,10,0" Height="325">
+                <Label Content="City" Height="25"></Label>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="CityTextBox" Text="" Width="100" HorizontalAlignment="Left" Height="19"/>
+                    <Label x:Name="CountryLabelError" FontSize="15" Height="25" MinHeight="25" MaxHeight="25"></Label>
+                </StackPanel>
+                <Label Content="Country" Height="25"></Label>
+                <StackPanel Orientation="Horizontal" Margin="0 0 0 0" Height="19" Width="169" HorizontalAlignment="Left">
+                    <TextBox Name="CountryTextBox" Width="100" Text="" Height="19"/>
                     <Button Content="+" Click="AddLocation_Click" Width="24" Margin="10 0 0 0"/>
+                    <Button Name="btnEditLocations" FontFamily="Segoe MDL2 Assets" Content="&#xE104;" Click="btnEditLocations_Click" Width="24" Margin="10 0 0 0"/>
                 </StackPanel>
-                <Label x:Name="CountryLabelError" Height="30" HorizontalContentAlignment="Left" VerticalContentAlignment="Top"></Label>
-                <Label Content="MaxCapacity"></Label>
-                <StackPanel Orientation="Horizontal" Margin="0 0 0 0">
-                    <TextBox Name="MaxCapacityTextBox" Margin="0 0 10 0" HorizontalAlignment="left" Width="158" Height="21"/>
-                    <Label x:Name="MaxCapacityLabelError" Grid.Column="1" Height="21" Width="24" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Margin="0 0 0 0"/>
+                <Label Content="MaxCapacity" Height="25"></Label>
+                <StackPanel Orientation="Horizontal" Margin="0 0 0 0" Height="Auto">
+                    <TextBox Name="MaxCapacityTextBox" Margin="0 0 10 0" HorizontalAlignment="Left" Width="100" Height="19" PreviewTextInput="MaxCapacityTextBox_PreviewTextInput"/>
                 </StackPanel>
-                <Label Content="Languages"></Label>
-                <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
-                    <TextBox Name="LanguagesTextBox" Width="124" Text=""/>
-                    <Button Content="+" Click="AddLanguage_Click" Width="24" Margin="10 0 0 0"/>
-                </StackPanel>
-                <Label x:Name="LanguagesLabelError" Height="30" HorizontalContentAlignment="Left" VerticalContentAlignment="Top"/>
-                <Button x:Name="btnAddImage" Content="Add Image" Click="btnAddImage_Click" Width="158" HorizontalAlignment="Left" Margin="0 0 0 10"/>
-                <Button x:Name="btnRegisterVehicle" Content="Register Vehicle" Width="158" Height="24" HorizontalAlignment="Left" Click="btnRegisterVehicle_Click"/>
+                <GroupBox Header="Languages" Width="168" HorizontalAlignment="Left" Height="87">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <ListBox x:Name="LanguagesListBox" SelectionMode="Multiple" ItemsSource="{Binding Languages}" />
+
+
+                        <Grid Grid.Column="1">
+                            <ListBox x:Name="LanguagesListBox1" SelectionMode="Multiple" ItemsSource="{Binding Languages1}" />
+                        </Grid>
+                    </Grid>
+                </GroupBox>
+                <Label x:Name="LanguagesLabelError" Height="Auto" HorizontalContentAlignment="Left" VerticalContentAlignment="Top"/>
+                <Button x:Name="btnAddImage" Content="Add Image" Click="btnAddImage_Click" Width="168" HorizontalAlignment="Left" Margin="0 0 0 10" Height="Auto" Style="{StaticResource ButtonStyle}"/>
+                <Button x:Name="btnRegisterVehicle" Content="Register Vehicle" Width="168" Height="Auto" HorizontalAlignment="Left" Click="btnRegisterVehicle_Click"  Style="{StaticResource ButtonStyle}"/>
             </StackPanel>
         </GroupBox>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10 20">
-            <Button x:Name="btnHelp" Content="Help(CTRL+H)" Width="111" Height="41" Margin="10 10 10 0" Click="btnHelp_Click"/>
-            <Button x:Name="btnBack" Content="&#8592;" FontSize="16" HorizontalAlignment="Left" Width="40" Height="32" Margin="10 10 10 10" Click="btnBack_Click"/>
+        <Border Background="Black" Height="3" VerticalAlignment="Top"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0">
+            <Button x:Name="btnHelp" VerticalAlignment="Bottom" FontSize="14" HorizontalAlignment="Center" Width="95" Height="50" Margin="10,10,10,10" Click="btnHelp_Click" Style="{StaticResource ButtonStyle}">
+                <TextBlock TextWrapping="Wrap" TextAlignment="Center">
+                        <Run>Help</Run>
+                        <LineBreak />
+                        <Run>CTRL+H</Run>
+                </TextBlock>
+            </Button>
+            <Button x:Name="btnBack" Content="&#8592; CTRL+B" FontSize="16" Click="btnBack_Click" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="Auto" Height="50" MinHeight="40" MinWidth="120" Margin="10 10 10 10" Style="{StaticResource ButtonStyle}"/>
         </StackPanel>
     </Grid>
 </Window>

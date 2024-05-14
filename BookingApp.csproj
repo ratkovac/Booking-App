@@ -81,6 +81,7 @@
     <None Remove="View\Owner\star_filled.png" />
     <None Remove="View\Owner\user.jpg" />
     <None Remove="View\Owner\warning.png" />
+    <None Remove="View\ViewModel\Owner\DelayRequestsViewModel.cs~RF39835835.TMP" />
   </ItemGroup>
 
   <ItemGroup>

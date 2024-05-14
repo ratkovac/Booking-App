@@ -1,6 +1,7 @@
 ﻿using BookingApp.Model;
 using BookingApp.Repository.RepositoryInterface;
 using BookingApp.Serializer;
+using BookingApp.View.NGuest;
 using CLI.Observer;
 using System;
 using System.Collections.Generic;
@@ -32,9 +33,16 @@ namespace BookingApp.Repository
             _serializer.ToCSV(FilePath, _renovations);
         }
 
-        public void Delete(Renovations entity)
+        public void Delete(Renovations renovations)
         {
-            throw new NotImplementedException();
+            _renovations = _serializer.FromCSV(FilePath);
+            Renovations founded = _renovations.Find(c => c.Id == renovations.Id);
+            if (founded != null)
+            {
+                _renovations.Remove(founded);
+            }
+            RenovationSubject.NotifyObservers();
+            _serializer.ToCSV(FilePath, _renovations);
         }
 
         public List<Renovations> GetAll()

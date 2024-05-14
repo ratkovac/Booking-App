@@ -4,36 +4,238 @@
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:BookingApp.View.Driver"
+        xmlns:local="clr-namespace:BookingApp.View.Driver" xmlns:driver="clr-namespace:BookingApp.ViewModel.Driver" d:DataContext="{d:DesignInstance Type=driver:StatisticsViewModel}"
         mc:Ignorable="d"
-        Title="Example" Height="450" Width="800">
+        Title="Example" Height="500" Width="1000"
+        MinHeight="500" MaxHeight="500"
+        MinWidth="1000" MaxWidth="1000">
 
-    <Grid Margin="10">
-        <Button x:Name="btnBack" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Click="btnBack_Click"/>
-        <lvc:CartesianChart Name="MyChart1" Width="250" Height="170" HorizontalAlignment="Left" VerticalAlignment="Bottom" Series="{Binding SeriesCollection1}">
-        </lvc:CartesianChart>
-        <lvc:CartesianChart Name="MyChart2" Width="250" Height="170" HorizontalAlignment="Center" VerticalAlignment="Bottom" Series="{Binding SeriesCollection2}">
-        </lvc:CartesianChart>
-        <lvc:CartesianChart Name="MyChart3" Width="250" Height="170" HorizontalAlignment="Right" VerticalAlignment="Bottom" Series="{Binding SeriesCollection3}">
-        </lvc:CartesianChart>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,121,0,0">
-            <StackPanel.Resources>
-                <Style TargetType="ProgressBar">
-                    <Setter Property="Width" Value="150"/>
-                    <Setter Property="Height" Value="15"/>
-                    <Setter Property="Margin" Value="0"/>
-                </Style>
-                <Style TargetType="TextBlock">
-                    <Setter Property="HorizontalAlignment" Value="Center"/>
-                    <Setter Property="Margin" Value="0,5"/>
-                </Style>
-            </StackPanel.Resources>
-            <TextBlock Text="Fast drives"/>
-            <ProgressBar Name="FastDrivesProgressBar" Value="{Binding FastDrivesValue}" Maximum="{Binding MaxFastDrivesValue}"/>
-            <TextBlock Text="Bonus points"/>
-            <ProgressBar Name="BonusPointsProgressBar" Value="{Binding BonusPointsValue}" Maximum="{Binding MaxBonusPointsValue}"/>
-            <TextBlock Text="Cancelled drives"/>
-            <ProgressBar Name="CancelledDrivesProgressBar" Value="{Binding CancelledDrivesValue}" Maximum="{Binding MaxCancelledDrivesValue}"/>
-        </StackPanel>
-    </Grid>
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="{Binding IsSuperDriverColor}"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="20">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="PaleTurquoise"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="PaleTurquoise"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+
+        <Style TargetType="ComboBox">
+            <Setter Property="Background" Value="{Binding IsSuperDriverColor}"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        <Style TargetType="Button" x:Key="HelpButtonStyle">
+            <Setter Property="Background" Value="{Binding IsSuperDriverColor}"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="20">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="PaleTurquoise"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="PaleTurquoise"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+        <Grid Margin="0" Background="{Binding IsSuperDriverColorBack}">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0">
+                        <StackPanel Grid.Column="0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="2" Height="Auto" Width="Auto" MinHeight="200" MinWidth="200" Margin="0,30,60,0">
+                            <Button x:Name="btnOpenVehicleRegistration" Content="Vehicle Registration (CTRL+V)" Height="Auto" MinHeight="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Click="btnOpenVehicleRegistration_Click"/>
+                            <Button x:Name="btnShowDrives" Content="Drives (CTRL+D)" Height="Auto" MinHeight="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Click="btnShowDrives_Click"/>
+                            <Button x:Name="btnNotifications" Content="Notifications (CTRL+N)" Height="Auto" MinHeight="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Click="btnNotifications_Click"/>
+                            <Button x:Name="btnHoliday" Content="Holiday (CTRL+W)" Height="Auto" MinHeight="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Click="btnHoliday_Click"/>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <Border Background="{Binding IsSuperDriverColor}" BorderBrush="Black" BorderThickness="1" CornerRadius="0 0 20 20" Margin="20 0 20 10">
+                            <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0 0 0 0" Width="Auto" Height="Auto">
+                                <StackPanel.Resources>
+                                    <Style TargetType="ProgressBar">
+                                        <Setter Property="Width" Value="150"/>
+                                        <Setter Property="Height" Value="15"/>
+                                        <Setter Property="Margin" Value="0"/>
+                                        <Setter Property="Foreground" Value="{Binding IsSuperDriverColorBar}"/>
+                                        <Setter Property="BorderThickness" Value="2"/>
+                                        <Setter Property="BorderBrush" Value="Black"/>
+                                        <Setter Property="Background" Value="Black"/>
+                                    </Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="Black"/>
+                                        <Setter Property="FontSize" Value="16"/>
+                                        <Setter Property="FontFamily" Value="Segoe UI"/>
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="Margin" Value="0,5"/>
+                                    </Style>
+                                </StackPanel.Resources >
+                                <StackPanel Orientation="Vertical" Margin="40 0 40 0" VerticalAlignment="Top" Height="310">
+                                    <Button x:Name="LogOutButton" Content="&#x1F9D1;" FontSize="80" Margin="0,0,0,8" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" Click="LogOutButton_Click"  Background="{Binding Background, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Label Height="Auto" FontSize="30" VerticalAlignment="Center" Visibility="{Binding SuperDriverVisibility}" Margin="0 0 0 0">
+                                            <Label.Content>
+                                                <TextBlock FontFamily="Segoe UI" FontWeight="Bold" FontStyle="Italic" Foreground="White">
+                                                    <TextBlock.Effect>
+                                                        <DropShadowEffect Color="Black" ShadowDepth="3" BlurRadius="4"/>
+                                                    </TextBlock.Effect>
+                                        Super Driver
+                                                </TextBlock>
+                                            </Label.Content>
+                                        </Label>
+                                        <TextBlock Text="{Binding Username}" Background="{Binding IsSuperDriverColor}" FontSize="17" Height="22" HorizontalAlignment="Center" VerticalAlignment="Top"></TextBlock>
+                                    </StackPanel>
+                                    <TextBlock Text="Fast drives" Width="Auto" Height="Auto" FontSize="14" MinHeight="17"/>
+                                    <ProgressBar Name="FastDrivesProgressBar" Value="{Binding FastDrivesValue}" Maximum="{Binding MaxFastDrivesValue}" Width="Auto" Height="17"/>
+                                    <TextBlock Text="Bonus points" Width="Auto" Height="Auto" FontSize="14" MinHeight="17"/>
+                                    <ProgressBar Name="BonusPointsProgressBar" Value="{Binding BonusPointsValue}" Maximum="{Binding MaxBonusPointsValue}" Width="Auto" Height="17"/>
+                                    <TextBlock Text="Cancelled drives" Width="Auto" Height="Auto" FontSize="14" MinHeight="17"/>
+                                    <ProgressBar Name="CancelledDrivesProgressBar" Value="{Binding CancelledDrivesValue}" Maximum="{Binding MaxCancelledDrivesValue}" Width="Auto" Height="17"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                    <Grid Grid.Column="2">
+                        <Border Background="{Binding IsSuperDriverColor}" BorderBrush="Black" BorderThickness="1" CornerRadius="0 0 20 20" Margin="20 0 20 10">
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Margin="10 10 10 10" VerticalAlignment="Bottom">
+                                    <TextBlock FontWeight="Bold" FontSize="27" Margin="10,0,10,0">
+                                <Run Text="Stats for "/>
+                                <Run Text="{Binding CurrentYear}"/>
+                                    </TextBlock>
+                                    <TextBlock Text="Number of Drives: " FontWeight="Bold" Margin="10,5,10,5" FontSize="16"/>
+                                    <TextBlock Text="{Binding NumberOfDrives}" Margin="10,0,10,5" FontSize="16"/>
+                                    <TextBlock Text="Average Price: " FontWeight="Bold" Margin="10,0,10,5" FontSize="16"/>
+                                    <TextBlock Text="{Binding AveragePrice, StringFormat={}{0:F2}}" Margin="10,0,10,5" FontSize="16"/>
+                                    <TextBlock Text="Average Duration: " FontWeight="Bold" Margin="10,0,10,5" FontSize="16"/>
+                                    <TextBlock Text="{Binding AverageDuration, StringFormat=\{0:hh\\:mm\\:ss\}}" Margin="10,0,10,0" FontSize="16"/>
+                                </StackPanel>
+                                <Button Width="180" Height="30" HorizontalAlignment="Right" Margin="10 30 20 0" Click="DriverReport_Click" Background="White">Driver Report CTRL+R</Button>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <ComboBox Grid.Column="0"  HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,10,10,10"
+                      ItemsSource="{Binding ComboBoxItems}"
+                      SelectedItem="{Binding Year, Mode=TwoWay}" />
+                        <Button x:Name="btnHelp" VerticalAlignment="Bottom" FontSize="14" HorizontalAlignment="Center" Width="95" Height="50" Margin="10,10,10,10" Click="btnHelp_Click" Style="{StaticResource HelpButtonStyle}">
+                            <TextBlock TextWrapping="Wrap" TextAlignment="Center">
+                        <Run>Help</Run>
+                        <LineBreak />
+                        <Run>CTRL+H</Run>
+                            </TextBlock>
+                        </Button>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <StackPanel>
+                            <lvc:CartesianChart Name="MyChart1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="130" Series="{Binding SeriesCollection1}">
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis Foreground="Black">
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisX>
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis Foreground="Black">
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisY>
+                            </lvc:CartesianChart>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" Margin="0 0 0 10">Average Price per month</TextBlock>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Grid.Column="2">
+                        <StackPanel>
+                            <lvc:CartesianChart Name="MyChart2" Grid.Column="2"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="130" Series="{Binding SeriesCollection2}">
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis Foreground="Black">
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisX>
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis Foreground="Black">
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisY>
+                            </lvc:CartesianChart>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" Margin="0 0 0 10">Average Duration per month</TextBlock>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Grid.Column="3">
+                        <StackPanel>
+                            <lvc:CartesianChart Name="MyChart3" Grid.Column="3"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="130" Series="{Binding SeriesCollection3}">
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis Foreground="Black">
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisX>
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis Foreground="Black">
+                                    </lvc:Axis>
+                                </lvc:CartesianChart.AxisY>
+                            </lvc:CartesianChart>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" Margin="0 0 0 10">Average Number of Drives per month</TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+
 </Window>

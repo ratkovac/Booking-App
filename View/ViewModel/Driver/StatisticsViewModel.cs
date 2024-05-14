@@ -7,51 +7,266 @@ using LiveCharts.Wpf;
 using BookingApp.Model;
 using System.Windows;
 using BookingApp.View.Driver;
+using System.ComponentModel;
+using System.Windows.Media;
+using BookingApp.Service;
+using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace BookingApp.ViewModel.Driver
 {
     public class StatisticsViewModel : BaseViewModel
     {
-        private readonly SuccessfulDrivesRepository _successfulDrivesRepository;
-        private readonly DrivesDrivenRepository _drivesDrivenRepository;
-        private readonly DriverStatsRepository _driverStatsRepository;
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public DriverStatsService driverStatsService;
 
         public SeriesCollection SeriesCollection1 { get; set; }
         public SeriesCollection SeriesCollection2 { get; set; }
         public SeriesCollection SeriesCollection3 { get; set; }
 
         public User LoggedDriver {  get; set; }
-        public int FastDrivesValue { get; set; }
-        public int BonusPointsValue { get; set; }
-        public int CancelledDrivesValue { get; set; }
+        private int _fastDrivesValue;
+        public int FastDrivesValue
+        {
+            get { return _fastDrivesValue; }
+            set
+            {
+                if (_fastDrivesValue != value)
+                {
+                    _fastDrivesValue = value;
+                    OnPropertyChanged(nameof(FastDrivesValue));
+                    SuperDriverVisibility = value == 15 ? Visibility.Visible : Visibility.Collapsed;
+                }
+            }
+        }
 
-        // Dodatni propertiji za maksimalne vrednosti ProgressBar-ova
+        private int _bonusPointsValue;
+        public int BonusPointsValue
+        {
+            get { return _bonusPointsValue; }
+            set
+            {
+                if (_bonusPointsValue != value)
+                {
+                    _bonusPointsValue = value;
+                    OnPropertyChanged(nameof(BonusPointsValue));
+                }
+            }
+        }
+
+        private int _cancelledDrivesValue;
+        public int CancelledDrivesValue
+        {
+            get { return _cancelledDrivesValue; }
+            set
+            {
+                if (_cancelledDrivesValue != value)
+                {
+                    _cancelledDrivesValue = value;
+                    OnPropertyChanged(nameof(CancelledDrivesValue));
+                }
+            }
+        }
+        private Visibility _superDriverVisibility;
+        public Visibility SuperDriverVisibility
+        {
+            get { return _superDriverVisibility; }
+            set
+            {
+                if (_superDriverVisibility != value)
+                {
+                    _superDriverVisibility = value;
+                    OnPropertyChanged(nameof(SuperDriverVisibility));
+                }
+            }
+        }
         public int MaxFastDrivesValue { get; set; } = 15;
         public int MaxBonusPointsValue { get; set; } = 50;
         public int MaxCancelledDrivesValue { get; set; } = 15;
         public event EventHandler NazadClicked;
 
+        private ObservableCollection<string> comboBoxItems;
+        public ObservableCollection<string> ComboBoxItems
+        {
+            get { return comboBoxItems; }
+            set
+            {
+                comboBoxItems = value;
+                OnPropertyChanged("ComboBoxItems");
+            }
+        }
+        private string _year;
+        public string Year
+        {
+            get { return _year; }
+            set
+            {
+                if (_year != value)
+                {
+                    _year = value;
+                    OnPropertyChanged(nameof(Year));
+                    SeriesCollection1.Clear();
+                    SeriesCollection2.Clear();
+                    SeriesCollection3.Clear();
+                    InitializeCharts();
+                }
+            }
+        }
+        private int _numberOfDrives;
+        public int NumberOfDrives
+        {
+            get { return _numberOfDrives; }
+            set
+            {
+                if (_numberOfDrives != value)
+                {
+                    _numberOfDrives = value;
+                    OnPropertyChanged(nameof(NumberOfDrives));
+                }
+            }
+        }
+
+        private double _averagePrice;
+        public double AveragePrice
+        {
+            get { return _averagePrice; }
+            set
+            {
+                if (_averagePrice != value)
+                {
+                    _averagePrice = value;
+                    OnPropertyChanged(nameof(AveragePrice));
+                }
+            }
+        }
+
+        private double _averageDurationSeconds;
+        public double AverageDurationSeconds
+        {
+            get { return _averageDurationSeconds; }
+            set
+            {
+                if (_averageDurationSeconds != value)
+                {
+                    _averageDurationSeconds = value;
+                    OnPropertyChanged(nameof(AverageDurationSeconds));
+                    OnPropertyChanged(nameof(AverageDuration));
+                }
+            }
+        }
+        public TimeSpan AverageDuration
+        {
+            get { return TimeSpan.FromSeconds(AverageDurationSeconds); }
+        }
+
+        private string _currentYear;
+        public string CurrentYear
+        {
+            get { return _currentYear; }
+            set
+            {
+                if (_currentYear != value)
+                {
+                    _currentYear = value;
+                    OnPropertyChanged(nameof(CurrentYear));
+                }
+            }
+        }
+        private string _username;
+        public string Username 
+        {
+            get { return _username; }
+            set
+            {
+                if (_username != value)
+                {
+                    _username = value;
+                    OnPropertyChanged(nameof(Username));
+                }
+            }
+        }
+        private string _isSuperDriverColor;
+        public string IsSuperDriverColor
+        {
+            get { return _isSuperDriverColor; }
+            set
+            {
+                if (_isSuperDriverColor != value)
+                {
+                    _isSuperDriverColor = value;
+                    OnPropertyChanged(nameof(IsSuperDriverColor));
+                }
+            }
+        }
+        private string _isSuperDriverColorBack;
+        public string IsSuperDriverColorBack
+        {
+            get { return _isSuperDriverColorBack; }
+            set
+            {
+                if (_isSuperDriverColorBack != value)
+                {
+                    _isSuperDriverColorBack = value;
+                    OnPropertyChanged(nameof(_isSuperDriverColorBack));
+                }
+            }
+        }
+        private string _isSuperDriverColorBar;
+        public string IsSuperDriverColorBar
+        {
+            get { return _isSuperDriverColorBar; }
+            set
+            {
+                if (_isSuperDriverColorBar != value)
+                {
+                    _isSuperDriverColorBar = value;
+                    OnPropertyChanged(nameof(_isSuperDriverColorBar));
+                }
+            }
+        }
+
+
         public StatisticsViewModel(User driver)
         {
-            LoggedDriver = driver;
-            _successfulDrivesRepository = new SuccessfulDrivesRepository();
-            _drivesDrivenRepository = new DrivesDrivenRepository();
-            _driverStatsRepository = new DriverStatsRepository();   
-
             SeriesCollection1 = new SeriesCollection();
             SeriesCollection2 = new SeriesCollection();
             SeriesCollection3 = new SeriesCollection();
+            LoggedDriver = driver;
+            driverStatsService = new DriverStatsService();
+            driverStatsService.RefreshStats();
+            ComboBoxItems = new ObservableCollection<string>(driverStatsService.GetYears());
+            Year = "2024";
+            Username = LoggedDriver.Username;
+            SuperDriverVisibility = FastDrivesValue == 15 ? Visibility.Visible : Visibility.Collapsed;
+            int ThisYear = DateTime.Now.Year;
+            CurrentYear = ThisYear.ToString();
+            InitializeColor();
+            AverageDurationSeconds = driverStatsService.GetAverageDurationInYear(ThisYear, LoggedDriver.Id);
+            AveragePrice = driverStatsService.GetAveragePriceInYear(ThisYear, LoggedDriver.Id);
+            NumberOfDrives = driverStatsService.GetNumberOfDrivesInYear(ThisYear, LoggedDriver.Id);
 
             InitializeCharts();
+        }
+        public bool IsFastDriver()
+        {
+            return driverStatsService.CheckIfFastDrivesFull(FastDrivesValue);
+        }
+
+        private void InitializeColor()
+        {
+                IsSuperDriverColor = "LightGray";
+                IsSuperDriverColorBack = "PaleTurquoise";
+                IsSuperDriverColorBar = "White";
         }
 
         private void InitializeCharts()
         {
-            DriverStats driverStats = _driverStatsRepository.GetByDriverId(LoggedDriver.Id);
+            DriverStats driverStats = new DriverStats();
+            driverStats = driverStatsService.GetStatsByDriverId(LoggedDriver.Id);
             FastDrivesValue = driverStats.FastDrives;
             BonusPointsValue = driverStats.BonusPoints;
             CancelledDrivesValue = driverStats.CancelledDrives;
-            // Kreiranje podataka za grafikon 1
             ChartValues<double> avgPrices = new ChartValues<double>();
             for (int i = 1; i <= 12; i++)
             {
@@ -62,12 +277,14 @@ namespace BookingApp.ViewModel.Driver
             LineSeries seriesLine1 = new LineSeries
             {
                 Title = "Average Price",
-                Values = avgPrices
+                Values = avgPrices,
+                Stroke = Brushes.Black,
+                PointForeground = Brushes.Black,
+                StrokeThickness = 2
             };
 
             SeriesCollection1.Add(seriesLine1);
 
-            // Kreiranje podataka za grafikon 2
             ChartValues<double> avgDurations = new ChartValues<double>();
             for (int i = 1; i <= 12; i++)
             {
@@ -78,12 +295,14 @@ namespace BookingApp.ViewModel.Driver
             LineSeries seriesLine2 = new LineSeries
             {
                 Title = "Average Duration",
-                Values = avgDurations
+                Values = avgDurations,
+                Stroke = Brushes.Black,
+                PointForeground = Brushes.Black,
+                StrokeThickness = 2
             };
 
             SeriesCollection2.Add(seriesLine2);
 
-            // Kreiranje podataka za grafikon 3
             ChartValues<double> Counts = new ChartValues<double>();
             for (int i = 1; i <= 12; i++)
             {
@@ -94,7 +313,10 @@ namespace BookingApp.ViewModel.Driver
             LineSeries seriesLine3 = new LineSeries
             {
                 Title = "Number of Drives",
-                Values = Counts
+                Values = Counts,
+                Stroke = Brushes.Black,
+                PointForeground = Brushes.Black,
+                StrokeThickness = 2
             };
 
             SeriesCollection3.Add(seriesLine3);
@@ -102,25 +324,26 @@ namespace BookingApp.ViewModel.Driver
 
         private double FindAvgPrice(int month)
         {
-            ObservableCollection<int> idsPerMonth = _successfulDrivesRepository.GetDriveIdsByMonthAndYear(month, 2024, LoggedDriver.Id);
-            return _drivesDrivenRepository.CalculateAveragePriceForDrives(idsPerMonth);
+            List<int> idsPerMonth = new List<int>(driverStatsService.GetDrivesByMonthAndYear(month, int.Parse(Year), LoggedDriver.Id));
+            return driverStatsService.GetAveragePriceForDrives(idsPerMonth);
         }
 
         private double FindAvgDuration(int month)
         {
-            ObservableCollection<int> idsPerMonth = _successfulDrivesRepository.GetDriveIdsByMonthAndYear(month, 2024, LoggedDriver.Id);
-            return _drivesDrivenRepository.CalculateAverageDurationForDrives(idsPerMonth);
+            List<int> idsPerMonth = new List<int>(driverStatsService.GetDrivesByMonthAndYear(month, int.Parse(Year), LoggedDriver.Id));
+            return driverStatsService.GetAverageDuration(idsPerMonth);
         }
 
         private int FindNumberOfDrivesForMonth(int month)
         {
-            return _successfulDrivesRepository.GetNumberOfDrivesByMonthAndYear(month, 2024, LoggedDriver.Id);
+            return driverStatsService.GetNumberOfDrives(month, int.Parse(Year), LoggedDriver.Id);
         }
 
-        internal void Back_Click()
+        protected virtual void OnPropertyChanged(string propertyName)
         {
-            DriverFrontPage driverFrontPage = new DriverFrontPage(LoggedDriver);
-            driverFrontPage.Show();
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+
     }
 }

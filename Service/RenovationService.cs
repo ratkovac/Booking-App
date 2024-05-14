@@ -1,6 +1,7 @@
 ﻿using BookingApp.DependencyInjection;
 using BookingApp.Model;
 using BookingApp.Repository.RepositoryInterface;
+using CLI.Observer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,10 @@ namespace BookingApp.Service
         {
             return _repository.GetAll();
         }
-
+        public void Delete(Renovations renovations)
+        {
+            _repository.Delete(renovations);
+        }
         public void Create(Renovations entity)
         {
             _repository.Create(entity);
@@ -79,6 +83,17 @@ namespace BookingApp.Service
                 }
             }
             return nonOverlappingDates;
+        }
+        public int DaysToCancel(DateOnly startDate)
+        {
+            TimeOnly timeMidnight = new TimeOnly(0, 0);
+            DateTime start = startDate.ToDateTime(timeMidnight);
+            TimeSpan razlika = start.Subtract(DateTime.Today);
+            return razlika.Days;
+        }
+        public void Subscribe(IObserver observer)
+        {
+            _repository.Subscribe(observer);
         }
     }
 }
