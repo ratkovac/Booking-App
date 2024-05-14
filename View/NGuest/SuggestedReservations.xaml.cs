@@ -31,7 +31,7 @@ namespace BookingApp.View.NGuest
 
         private void ContentControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            suggestedReservationViewModel.ReserveReservation(sender, e);
+            suggestedReservationViewModel.MakeReservation(sender, e);
         }
 
         private void OnClick_Back(object sender, RoutedEventArgs e)

@@ -19,7 +19,7 @@ namespace BookingApp.View.NGuest
     /// <summary>
     /// Interaction logic for Rate.xaml
     /// </summary>
-    public partial class Rate : Window
+    public partial class Rate : Page
     {
         private RateViewModel rateViewModel;
         public Rate(RateViewModel rateViewModel)
@@ -39,5 +39,9 @@ namespace BookingApp.View.NGuest
             rateViewModel.EnterPictures();
         }
 
+        private void OnClick_Back(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

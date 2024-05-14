@@ -36,7 +36,7 @@ namespace BookingApp.View.ViewModel.Guest
             this.user = user;
         }
 
-        public void ReserveReservation(object sender, MouseButtonEventArgs e)
+        public void MakeReservation(object sender, MouseButtonEventArgs e)
         {
             var contentControl = sender as ContentControl;
             if (contentControl != null)

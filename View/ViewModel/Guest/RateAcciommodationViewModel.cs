@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
 using LiveCharts.Wpf;
 
 namespace BookingApp.View.ViewModel.Guest
@@ -19,14 +20,17 @@ namespace BookingApp.View.ViewModel.Guest
         private AccommodationReservation accommodationReservation { get; set; }
         public AccommodationReservationDTO? SelectedReservation { get; set; }
         private AccommodationReservationService accommodationReservationService;
+
+        private NavigationService navigationService;
         private User user { get; set; }
 
-        public RateAcciommodationViewModel(User user)
+        public RateAcciommodationViewModel(User user, NavigationService navigationService)
         {
             accommodationReservationService = new AccommodationReservationService();
             accommodationReservationService.Subscribe(this);
             RateAccommodations = new ObservableCollection<AccommodationReservationDTO>();
             SelectedReservation = new AccommodationReservationDTO();
+            this.navigationService = navigationService;
             this.user = user;
             Update();
             
@@ -50,7 +54,7 @@ namespace BookingApp.View.ViewModel.Guest
         {
             RateViewModel rateViewModel = new RateViewModel(SelectedReservation.ToAccommodationReservation());
             Rate rate = new Rate(rateViewModel);
-            rate.Show();
+            navigationService.Navigate(rate);
         }
     }
 }

@@ -147,6 +147,35 @@ namespace BookingApp.DTO
                 }
             }
         }
+
+        private string suggest;
+
+        public string Suggest
+        {
+            get { return suggest; }
+            set
+            {
+                if (suggest != value)
+                {
+                    suggest = value;
+                    OnPropertyChanged(nameof(Suggest));
+                }
+            }
+        }
+
+        private RenovationUrgencyLevel urgencyLevel;
+        public RenovationUrgencyLevel UrgencyLevel
+        {
+            get { return urgencyLevel; }
+            set
+            {
+                if (urgencyLevel != value)
+                {
+                    urgencyLevel = value;
+                    OnPropertyChanged(nameof(UrgencyLevel));
+                }
+            }
+        }
         public GradeAccommodationDTO()
         {
         }
@@ -159,6 +188,9 @@ namespace BookingApp.DTO
             comment = gradeAccommodation.Comment;
             username = gradeAccommodation.AccommodationReservation.User.Username;
             accommodationName = gradeAccommodation.AccommodationReservation.Accommodation.Name;
+            suggest = gradeAccommodation.Suggest;
+            urgencyLevel = gradeAccommodation.UrgencyLevel ?? RenovationUrgencyLevel.Empty; 
+
 
         }
         public GradeAccommodation ToGradeAccommodation()
