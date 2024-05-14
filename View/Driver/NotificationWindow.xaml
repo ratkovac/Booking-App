@@ -96,14 +96,14 @@
                 <Button x:Name="btnBack" Content="&#8592; CTRL+B" FontSize="16" Click="btnBack_Click" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="Auto" Height="50" MinHeight="40" MinWidth="120" Margin="10 10 10 10" Style="{StaticResource ButtonStyle}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,10,10,10">
-                <Button x:Name="btnCancel" FontSize="16" Width="Auto" MinWidth="120" MinHeight="50" Margin="0,0,10,0" Height="44" Click="btnCancel_Click" Visibility="Collapsed" Style="{StaticResource ButtonStyle}">
+                <Button x:Name="btnCancel" FontSize="16" Width="Auto" MinWidth="120" MinHeight="50" Margin="0,0,10,0" Height="44" Click="btnCancel_Click" Visibility="{Binding ButtonVisibility}" Style="{StaticResource ButtonStyle}">
                     <TextBlock TextWrapping="Wrap" TextAlignment="Center">
                         <Run>Cancel</Run>
                         <LineBreak />
                         <Run>CTRL+C</Run>
                     </TextBlock>
                 </Button>
-                <Button x:Name="btnAccept" FontSize="16" Width="Auto" MinWidth="120" MinHeight="50" Click="btnAccept_Click" Visibility="Collapsed" FontWeight="Bold" Style="{StaticResource ButtonStyle}">
+                <Button x:Name="btnAccept" FontSize="16" Width="Auto" MinWidth="120" MinHeight="50" Click="btnAccept_Click" Visibility="{Binding ButtonVisibility}" FontWeight="Bold" Style="{StaticResource ButtonStyle}">
                     <TextBlock TextWrapping="Wrap" TextAlignment="Center">
                         <Run>Accept</Run>
                         <LineBreak />

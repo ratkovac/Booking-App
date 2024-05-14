@@ -165,7 +165,7 @@
                                     <TextBlock Text="Average Duration: " FontWeight="Bold" Margin="10,0,10,5" FontSize="16"/>
                                     <TextBlock Text="{Binding AverageDuration, StringFormat=\{0:hh\\:mm\\:ss\}}" Margin="10,0,10,0" FontSize="16"/>
                                 </StackPanel>
-                                <Button Width="180" Height="30" HorizontalAlignment="Right" Margin="10 30 20 0" Click="DriverReport_Click" Background="PaleTurquoise">Driver Report CTRL+R</Button>
+                                <Button Width="180" Height="30" HorizontalAlignment="Right" Margin="10 30 20 0" Click="DriverReport_Click" Background="White">Driver Report CTRL+R</Button>
                             </StackPanel>
                         </Border>
                     </Grid>

@@ -3,6 +3,7 @@ using BookingApp.Service;
 using BookingApp.ViewModel;
 using System;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -19,6 +20,17 @@ public class DriverNotificationViewModel : BaseViewModel
     public User LoggedDriver {  get; set; }
     ObservableCollection<int> locations = new ObservableCollection<int>();
     ObservableCollection<FastDrive> fastDrives = new ObservableCollection<FastDrive>();
+    private Visibility _ButtonVisibility;
+    public Visibility ButtonVisibility
+    {
+        get { return _ButtonVisibility; }
+        set
+        {
+            _ButtonVisibility = value;
+            OnPropertyChanged(nameof(ButtonVisibility)); 
+        }
+    }
+
     private string _messageDisplay;
     public string MessageDisplay
     {
@@ -62,6 +74,7 @@ public class DriverNotificationViewModel : BaseViewModel
 
     public DriverNotificationViewModel(User driver)
     {
+        ButtonVisibility = Visibility.Hidden;
         _fastDriveService = new FastDriveService();
         CancelledNotifications = new ObservableCollection<DriveNotification>();  
         LoggedDriver = driver;
@@ -176,6 +189,9 @@ public class DriverNotificationViewModel : BaseViewModel
         {
             MessageDisplay = selectedNotification.Caption;
             NotificationText = selectedNotification.Text;
+            if (selectedNotification != null) {
+                ButtonVisibility = Visibility.Visible;
+            }
         }
     }
 }

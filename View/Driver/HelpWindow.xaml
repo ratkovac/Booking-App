@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BookingApp.View.Driver"
         mc:Ignorable="d"
-        Title="HelpWindow" Height="400" Width="400">
+        Title="HelpWindow" Height="450" Width="400">
     <Window.Resources>
         <Style TargetType="Button" x:Key="HelpButtonStyle">
             <Setter Property="Background" Value="PaleTurquoise"/>
@@ -47,21 +47,24 @@
             <TextBlock Text="- Use the **Tab** key to navigate through different elements." HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="11" Margin="17,0,0,0" Foreground="Black"/>
             <TextBlock Text="- Press **Enter** to confirm selected options." HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="11" Margin="17,0,0,0" Foreground="Black"/>
 
-            <TextBlock Text="Exiting the Application:" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" Margin="7,17,0,0" Foreground="Black"/>
+            <TextBlock Text="Exiting Window:" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" Margin="7,17,0,0" Foreground="Black"/>
             <TextBlock Text="- To close the application, press **Alt + F4**." HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="11" Margin="17,0,0,0" Foreground="Black"/>
 
             <TextBlock Text="Shortcut Keys:" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" Margin="7,17,0,0" Foreground="Black"/>
             <TextBlock Text="- **CTRL + V** - Open Vehicle Registration," HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="11" Margin="17,0,0,0" Foreground="Black"/>
             <TextBlock Text="where you can see your vehicles and register new ones. " HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="11" Margin="17,0,0,0" Foreground="Black"/>
 
-            <TextBlock Text="- **CTRL + D** - Navigate to Drives," HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="11" Margin="17,0,0,0" Foreground="Black"/>
+            <TextBlock Text="- **CTRL + D** - Open Drives," HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="11" Margin="17,0,0,0" Foreground="Black"/>
             <TextBlock Text="where you can see drives for today and drive them. " HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="11" Margin="17,0,0,0" Foreground="Black"/>
 
-            <TextBlock Text="- **CTRL + N** - Navigate to Notifications," HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="11" Margin="17,0,0,0" Foreground="Black"/>
+            <TextBlock Text="- **CTRL + N** - Open  Notifications," HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="11" Margin="17,0,0,0" Foreground="Black"/>
             <TextBlock Text="where you can see latest notifications from the app. " HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="11" Margin="17,0,0,0" Foreground="Black"/>
 
-            <TextBlock Text="- **CTRL + H** - Navigate to Holiday, " HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="11" Margin="17,0,0,0" Foreground="Black"/>
+            <TextBlock Text="- **CTRL + H** - Open Holiday, " HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="11" Margin="17,0,0,0" Foreground="Black"/>
             <TextBlock Text="where you can request a holiday. " HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="11" Margin="17,0,0,0" Foreground="Black"/>
+
+            <TextBlock Text="- **CTRL + R** - Open Driver Report, " HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="11" Margin="17,0,0,0" Foreground="Black"/>
+            <TextBlock Text="where you can see stats for your drives. " HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="11" Margin="17,0,0,0" Foreground="Black"/>
 
         </StackPanel>
 
