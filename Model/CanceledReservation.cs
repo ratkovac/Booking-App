@@ -64,7 +64,7 @@ namespace BookingApp.Model
             AccommodationReservation accommodationReservation = new AccommodationReservation(accommodationId, userId,
                 startDate, endDate, reservationDays, userGrade, accommodationGrade, capacity);
             AccommodationReservation = accommodationReservation;
-            Canceled = values[6].Contains("Canceled");
+            Canceled = values[10].Contains("Canceled");
         }
 
         private void ApplyParsedDates(DateTime startDateDateTime, DateTime endDateDateTime)

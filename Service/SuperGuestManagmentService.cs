@@ -44,7 +44,7 @@ namespace BookingApp.Service
             bool isAlreadySuperGuest = superGuestService.GetAll().Any(superguest => superguest.UserId == userId);
             if (isAlreadySuperGuest)
             {
-                return false;
+                return true;
             }
 
             if (expiredReservations.Count >= 10)
@@ -62,7 +62,7 @@ namespace BookingApp.Service
         {
             var today = DateOnly.FromDateTime(DateTime.Today);
             var superGuestsToDelete = superGuestService.GetAll()
-                .Where(sg => sg.UserId == userId && sg.StartDate.AddDays(365) > today)
+                .Where(sg => sg.UserId == userId && sg.StartDate.AddDays(365) < today)
                 .ToList();
 
             foreach (var superGuest in superGuestsToDelete)

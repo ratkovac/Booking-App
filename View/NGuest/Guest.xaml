@@ -46,25 +46,25 @@
                         <StackPanel Orientation="Horizontal">
                             <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
                                 <Grid>
-                                    <Button Style="{StaticResource IconStyle1}"/>
+                                    <Button Style="{StaticResource IconStyle1}" Click="OnClick_Review"/>
                                 </Grid>
                             </Border>
 
                             <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
                                 <Grid>
-                                    <Button Style="{StaticResource IconStyle2}"/>
+                                    <Button Style="{StaticResource IconStyle2}" Click="MyReservations_Click"/>
                                 </Grid>
                             </Border>
 
                             <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
                                 <Grid>
-                                    <Button x:Name="IconButton" Style="{StaticResource IconStyle3}" />
+                                <Button x:Name="IconButton" Style="{StaticResource IconStyle3}" Click="Rate_Click"/>
                                 </Grid>
                             </Border>
 
                             <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
                                 <Grid>
-                                    <Button Style="{StaticResource IconStyle4}"/>
+                                    <Button Style="{StaticResource IconStyle4}" />
                                 </Grid>
                             </Border>
 

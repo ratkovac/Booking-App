@@ -132,7 +132,7 @@ namespace BookingApp.View
 
         private void Rate_Click(object sender, RoutedEventArgs e)
         {
-            RateAcciommodationViewModel rateAcciommodationViewModel = new RateAcciommodationViewModel(LoggedInUser);
+            RateAcciommodationViewModel rateAcciommodationViewModel = new RateAcciommodationViewModel(LoggedInUser, NavigationService);
             RateAccommodations rateAccommodations = new RateAccommodations(rateAcciommodationViewModel);
             rateAccommodations.Show();
         }
@@ -161,6 +161,13 @@ namespace BookingApp.View
         {
             FilterAndSortViewModel filterAndSortViewModel = new FilterAndSortViewModel(FilteredAccommodations, Locations, NavigationService, cache);
             NavigationService.Navigate(new FilterAndSort(filterAndSortViewModel));
+        }
+
+        private void OnClick_Review(object sender, RoutedEventArgs e)
+        {
+            ReviewViewModel reviewViewModel = new ReviewViewModel(LoggedInUser.Id);
+            Review review = new Review(reviewViewModel);
+            NavigationService.Navigate(review);
         }
     }
 }

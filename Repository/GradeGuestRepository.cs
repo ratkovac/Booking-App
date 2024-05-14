@@ -7,10 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using BookingApp.Repository.RepositoryInterface;
 
 namespace BookingApp.Repository
 {
-    public class GradeGuestRepository
+    public class GradeGuestRepository : IGradeGuestRepository
     {
         private const string FilePath = "../../../Resources/Data/guestgrades.csv";
 
@@ -51,6 +52,16 @@ namespace BookingApp.Repository
             return _grades.Max(c => c.Id) + 1;
         }
 
+        public void Create(GradeGuest entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IGenericRepository<GradeGuest, int>.Update(GradeGuest entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Delete(GradeGuest gradeGuest)
         {
             _grades = _serializer.FromCSV(FilePath);
@@ -61,6 +72,11 @@ namespace BookingApp.Repository
             }
             GradeGuestSubject.NotifyObservers();
             _serializer.ToCSV(FilePath, _grades);
+        }
+
+        public GradeGuest GetById(int key)
+        {
+            throw new NotImplementedException();
         }
 
         public GradeGuest Update(GradeGuest gradeGuest)
@@ -74,11 +90,12 @@ namespace BookingApp.Repository
             GradeGuestSubject.NotifyObservers();
             return gradeGuest;
         }
-        /*public List<Accommodation> GetByUser(User user)
+
+        public List<GradeGuest> GetAllByUser(int userId)
         {
-            _accommodations = _serializer.FromCSV(FilePath);
-            return _accommodations.FindAll(c => c.User.Id == user.Id);
-        }*/
+            _grades = _serializer.FromCSV(FilePath);
+            return _grades.FindAll(c => c.AccommodationReservation.User.Id == userId);
+        }
         public GradeGuest? GetByID(int gradeId)
         {
             return _grades.Find(c => c.Id == gradeId);

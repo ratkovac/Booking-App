@@ -27,6 +27,7 @@
     <None Remove="Icon\calendar %281%29ch.png" />
     <None Remove="Icon\calendar - Copy.png" />
     <None Remove="Icon\calendar.png" />
+    <None Remove="Icon\corrected.png" />
     <None Remove="Icon\dollar.png" />
     <None Remove="Icon\favorite - Copy.png" />
     <None Remove="Icon\favorite.png" />
@@ -46,6 +47,7 @@
     <None Remove="Icon\true.png" />
     <None Remove="Icon\trueBlue.png" />
     <None Remove="Icon\user.png" />
+    <None Remove="Icon\washing-hands.png" />
     <None Remove="Icon\x.png" />
     <None Remove="Icon\zoom.png" />
     <None Remove="Images\Accommodation.jpg" />
@@ -93,6 +95,7 @@
     <Resource Include="Icon\calendar (1)ch.png" />
     <Resource Include="Icon\calendar - Copy.png" />
     <Resource Include="Icon\calendar.png" />
+    <Resource Include="Icon\corrected.png" />
     <Resource Include="Icon\dollar.png" />
     <Resource Include="Icon\favorite - Copy.png" />
     <Resource Include="Icon\favorite.png" />
@@ -112,6 +115,7 @@
     <Resource Include="Icon\true.png" />
     <Resource Include="Icon\trueBlue.png" />
     <Resource Include="Icon\user.png" />
+    <Resource Include="Icon\washing-hands.png" />
     <Resource Include="Icon\x.png" />
     <Resource Include="Icon\zoom.png" />
     <Resource Include="Images\Accommodation.jpg" />
