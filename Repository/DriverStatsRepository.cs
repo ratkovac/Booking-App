@@ -95,5 +95,34 @@ namespace BookingApp.Repository
         {
             return _driverStats.FirstOrDefault(ds => ds.DriverId == driverId);
         }
+        public void UpdateFromDriverStatsUpdates(DriverStatsUpdateRepository driverStatsUpdateRepository)
+        {
+            var driverStatsUpdates = driverStatsUpdateRepository.GetAll();
+            var updatesToDelete = new List<DriverStatsUpdate>();
+
+            foreach (var driverStatsUpdate in driverStatsUpdates)
+            {
+                if (DateTime.Today.Subtract(driverStatsUpdate.DateOfUpdate).TotalDays >= 365)
+                {
+                    var driverStats = GetById(driverStatsUpdate.DriverId);
+
+                    if (driverStats != null)
+                    {
+                        driverStats.FastDrives -= driverStatsUpdate.FastDrivesUpdate;
+                        driverStats.BonusPoints -= driverStatsUpdate.BonusPointsUpdate;
+                        driverStats.CancelledDrives -= driverStatsUpdate.CancelledDrivesUpdate;
+
+                        Update(driverStats);
+
+                        updatesToDelete.Add(driverStatsUpdate);
+                    }
+                }
+            }
+
+            foreach (var update in updatesToDelete)
+            {
+                driverStatsUpdateRepository.Delete(update);
+            }
+        }
     }
 }

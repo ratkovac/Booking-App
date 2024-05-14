@@ -1,24 +1,30 @@
-﻿<Window x:Class="BookingApp.View.Driver.DriveReservationWindow"
+﻿<Window x:Class="BookingApp.View.Driver.DriverWaitingWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:BookingApp.View.Driver"
-        mc:Ignorable="d"
-        Title="DriveReservationWindow"
-        Width="300" Height="200">
+        Title="Driver Waiting Page" Height="200" Width="300"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}">
+
     <Window.Resources>
         <Style TargetType="Button" x:Key="ButtonStyle">
             <Setter Property="Background" Value="{Binding ColorTwo}"/>
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="20 10 10 20"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="20">
+                                BorderThickness="1"
+                                CornerRadius="10">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -34,17 +40,26 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>    
+        </Style>
     </Window.Resources>
 
     <Grid Background="{Binding ColorOne}">
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock Text="Are you arriving on time?" FontSize="20" Margin="0 0 0 20" Foreground="Black"/>
-            <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 0 20">
-                <Button x:Name="btnYes" Content="Yes" FontSize="17" FontWeight="Bold" Padding="10" Margin="0 10 0 10" Height="40" Width="100" Click="btnYes_Click" Style="{StaticResource ButtonStyle}" Focusable="True" BorderThickness="3" TabIndex="2" PreviewKeyDown="Button_PreviewKeyDown"/>
-                <Button x:Name="btnNo" Content="No" FontSize="17" Padding="10" Margin="0 0 0 0" Height="40" Width="100" Click="btnNo_Click" Style="{StaticResource ButtonStyle}" Focusable="True" BorderThickness="1" TabIndex="1" PreviewKeyDown="Button_PreviewKeyDown"/>
-            </StackPanel>
-        </StackPanel>
-        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" FontSize="20" Text="Remaining time:" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10" />
+        <TextBlock x:Name="txtRemainingTime" Grid.Row="1" Text="20:00" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontFamily="Arial"/>
+
+        <Button x:Name="btnTouristArrived"
+                Grid.Row="3"
+                Content="Tourist came"
+                Style="{StaticResource ButtonStyle}"
+                Click="btnTouristArrived_Click"
+                FontSize="17"
+                HorizontalAlignment="Center"/>
     </Grid>
 </Window>

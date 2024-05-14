@@ -40,13 +40,13 @@ namespace BookingApp.Repository
             }
             _serializer.ToCSV(FilePath, _successfulDrives);
         }
-        public ObservableCollection<int> GetDriveIdsByMonthAndYear(int month, int year, int driverId)
+        public List<int> GetDriveIdsByMonthAndYear(int month, int year, int driverId)
         {
             var drivesInMonth = _successfulDrives
                 .Where(drive => drive.Date.Month == month && drive.Date.Year == year && drive.DriverId == driverId)
                 .Select(drive => drive.Id);
 
-            return new ObservableCollection<int>(drivesInMonth);
+            return new List<int>(drivesInMonth);
         }
         public int GetNumberOfDrivesByMonthAndYear(int month, int year, int driverId)
         {
@@ -55,7 +55,7 @@ namespace BookingApp.Repository
 
             return drivesInMonth;
         }
-        public ObservableCollection<string> GetYears()
+        public List<string> GetYears()
         {
             var years = _successfulDrives
                 .Select(drive => drive.Date.Year.ToString()) 
@@ -63,7 +63,23 @@ namespace BookingApp.Repository
                 .OrderBy(year => year) 
                 .ToList();
 
-            return new ObservableCollection<string>(years);
+            return new List<string>(years);
+        }
+        public int GetNumberOfDrivesByYear(int year, int driverId)
+        {
+            int numberOfDrives = _successfulDrives
+                .Count(drive => drive.Date.Year == year && drive.DriverId == driverId);
+
+            return numberOfDrives;
+        }
+        public List<int> GetDriveIdsByYear(int year, int driverId)
+        {
+            var driveIds = _successfulDrives
+                .Where(drive => drive.Date.Year == year && drive.DriverId == driverId)
+                .Select(drive => drive.Id)
+                .ToList();
+
+            return driveIds;
         }
     }
 }

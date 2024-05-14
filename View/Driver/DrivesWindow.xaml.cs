@@ -1,64 +1,60 @@
 ﻿using BookingApp.DTO;
 using BookingApp.Model;
-using BookingApp.Repository;
-using BookingApp.Serializer;
-using BookingApp.View.Driver.Pages;
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BookingApp.View.Driver;
+using BookingApp.ViewModel.Driver;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace BookingApp.View.Driver
 {
     public partial class DrivesWindow : Window
     {
+        public readonly DrivesViewModel _viewModel;
 
-        DriveRepository _driveRepository;
-        UserRepository _userRepository;
-        public ObservableCollection<DriveDTO> ListDrive { get; set; } = new ObservableCollection<DriveDTO>();
-        public User LoggedInUser { get; }
-        public bool IsOverlayVisible
+        public DrivesWindow(User user, bool isFastDriver)
         {
-            get { return (bool)GetValue(IsOverlayVisibleProperty); }
-            set { SetValue(IsOverlayVisibleProperty, value); }
+            InitializeComponent();
+            CenterWindowOnScreen();
+            _viewModel = new DrivesViewModel(user);
+            DataContext = _viewModel;
+            this.PreviewKeyDown += DrivesWindow_PreviewKeyDown;
         }
 
-        public static readonly DependencyProperty IsOverlayVisibleProperty =
-            DependencyProperty.Register("IsOverlayVisible", typeof(bool), typeof(DrivesWindow), new PropertyMetadata(false));
-
-        public DrivesWindow(User user)
+        private void DrivesWindow_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            LoggedInUser = user;
-            InitializeComponent(); 
-            DataContext = this;
-            _userRepository = new UserRepository();
-            _driveRepository = new DriveRepository();
-            Window_Loaded(this, null);
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            ListDrive.Clear();
-
-            var drives = _driveRepository.GetDrivesByDriver(LoggedInUser);
-
-            foreach (var drive in drives)
+            if (e.Key == Key.H && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
             {
-                DriveDTO driveDTO = new DriveDTO(drive);
-                ListDrive.Add(driveDTO);
+                btnHelp_Click(null, null);
             }
+            if (e.Key == Key.B && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                btnBack_Click(null, null);
+            }
+            if (e.Key == Key.S && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                btnDriveReservation_Click(null, null);
+            }
+            if (e.Key == Key.C && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                btnCancelDrive_Click(null, null);
+            }
+        }
 
+        private void btnHelp_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("To navigate yourself, use TAB key.\nTo point on a drive, use Arrow keys.\nTo switch to the lower menu, use CTRL+TAB.\nTo close Window, use ALT+F4.", "Help");
+        }
+
+        private void btnCancelDrive_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.CancelDrive(dataGrid.SelectedItem as DriveDTO);
+        }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            Driver.Example example = new Driver.Example(_viewModel.LoggedInUser);
+            example.Show();
+            Close();
         }
 
         private void btnDriveReservation_Click(object sender, RoutedEventArgs e)
@@ -66,9 +62,10 @@ namespace BookingApp.View.Driver
             if (dataGrid.SelectedItem != null)
             {
                 DriveDTO selectedDrive = dataGrid.SelectedItem as DriveDTO;
-                DriveReservationWindow reservationWindow = new DriveReservationWindow(selectedDrive, this);
+                DriveReservationWindow reservationWindow = new DriveReservationWindow(selectedDrive, this, false);
 
                 reservationWindow.Owner = this;
+                _viewModel.IsOverlayVisible = true;
                 reservationWindow.ShowDialog();
             }
             else
@@ -77,17 +74,18 @@ namespace BookingApp.View.Driver
             }
         }
 
-        internal void RefreshDriveList()
+        public void MakeVisible()
         {
-            ListDrive.Clear();
-
-            var drives = _driveRepository.GetDrivesByDriver(LoggedInUser);
-
-            foreach (var drive in drives)
-            {
-                DriveDTO driveDTO = new DriveDTO(drive);
-                ListDrive.Add(driveDTO);
-            }
+            _viewModel.IsOverlayVisible = false;
+        }
+        private void CenterWindowOnScreen()
+        {
+            double screenWidth = SystemParameters.PrimaryScreenWidth;
+            double screenHeight = SystemParameters.PrimaryScreenHeight;
+            double windowWidth = Width;
+            double windowHeight = Height;
+            Left = (screenWidth - windowWidth) / 2;
+            Top = (screenHeight - windowHeight) / 2;
         }
     }
 }

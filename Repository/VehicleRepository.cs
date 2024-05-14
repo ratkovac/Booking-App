@@ -100,13 +100,13 @@ namespace BookingApp.Repository
 
         }
 
-        public ObservableCollection<Vehicle> GetVehiclesByDriver(User user)
+        public List<Vehicle> GetVehiclesByDriver(User user)
         {
             _vehicles = _serializer.FromCSV(FilePath);
             List<Vehicle> filteredVehicles = _vehicles.FindAll(v => v.User.Id == user.Id);
-            return new ObservableCollection<Vehicle>(filteredVehicles);
+            return new List<Vehicle>(filteredVehicles);
         }
-        public ObservableCollection<int> GetLocationsByDriver(User user)
+        public List<int> GetLocationsByDriver(User user)
         {
             _vehicles = _serializer.FromCSV(FilePath);
 
@@ -116,7 +116,7 @@ namespace BookingApp.Repository
                 .Distinct()
                 .ToList();
 
-            return new ObservableCollection<int>(locationIds);
+            return new List<int>(locationIds);
         }
     }
 }

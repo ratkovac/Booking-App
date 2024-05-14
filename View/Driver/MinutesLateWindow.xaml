@@ -1,12 +1,15 @@
-﻿<Window x:Class="BookingApp.View.Driver.DriveReservationWindow"
+﻿<Window x:Class="BookingApp.View.Driver.MinutesLateWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:BookingApp.View.Driver"
         mc:Ignorable="d"
-        Title="DriveReservationWindow"
-        Width="300" Height="200">
+        Title="Minutes Late Window"
+        Height="200" Width="300"
+        MinHeight="200" MaxHeight="200"
+        MinWidth="300" MaxWidth="300"
+        WindowStartupLocation="CenterOwner">
     <Window.Resources>
         <Style TargetType="Button" x:Key="ButtonStyle">
             <Setter Property="Background" Value="{Binding ColorTwo}"/>
@@ -34,17 +37,14 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>    
+        </Style>
     </Window.Resources>
-
     <Grid Background="{Binding ColorOne}">
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock Text="Are you arriving on time?" FontSize="20" Margin="0 0 0 20" Foreground="Black"/>
-            <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 0 20">
-                <Button x:Name="btnYes" Content="Yes" FontSize="17" FontWeight="Bold" Padding="10" Margin="0 10 0 10" Height="40" Width="100" Click="btnYes_Click" Style="{StaticResource ButtonStyle}" Focusable="True" BorderThickness="3" TabIndex="2" PreviewKeyDown="Button_PreviewKeyDown"/>
-                <Button x:Name="btnNo" Content="No" FontSize="17" Padding="10" Margin="0 0 0 0" Height="40" Width="100" Click="btnNo_Click" Style="{StaticResource ButtonStyle}" Focusable="True" BorderThickness="1" TabIndex="1" PreviewKeyDown="Button_PreviewKeyDown"/>
-            </StackPanel>
+            <TextBlock FontSize="20" Margin="0 0 0 0" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center">Enter the number of minutes</TextBlock>
+            <TextBlock FontSize="20" Margin="0 0 0 10" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center">you are late:</TextBlock>
+            <TextBox x:Name="MinutesLateTextBox" FontSize="16" Padding="10" Margin="0 0 0 10" VerticalAlignment="Center" HorizontalAlignment="Center" Width="130" Height="40" PreviewTextInput="MinutesLateTextBox_PreviewTextInput"/>
+            <Button Content="Confirm" FontSize="17" Padding="10" Margin="0 0 0 0" Click="btnConfirmation_Click" Style="{StaticResource ButtonStyle}" Height="40" Width="130" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </StackPanel>
-        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" />
     </Grid>
 </Window>

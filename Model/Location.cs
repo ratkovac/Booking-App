@@ -44,7 +44,7 @@ namespace BookingApp.Model
 
         public override string? ToString()
         {
-            return $"{City}, {Country}";
+            return $"{City}/{Country}";
         }
     }
 }
