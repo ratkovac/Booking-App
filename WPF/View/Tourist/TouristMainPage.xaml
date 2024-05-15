@@ -88,7 +88,7 @@
     <Grid>
         <StackPanel Orientation="Vertical" Background="AliceBlue" Margin="0,0,950,0">
             <Grid Height="575" Width="300">
-                <Image Source="/Resources/Images/theme.png" Width="65" Height="65" Margin="0,0,215,480"/>
+                <Image Source="/Resources/Images/theme.png" Width="65" Height="65" Margin="0,0,215,480" MouseDown="Statistics_Click"/>
                 <Ellipse Width="65" Height="65" Margin="0,0,70,480">
                     <Ellipse.Fill>
                         <ImageBrush ImageSource="/Resources/Images/language.png"/>
@@ -136,8 +136,8 @@
                                 <Popup Name="Popup" PlacementTarget="{Binding ElementName=toggleButton}" Placement="Bottom" StaysOpen="False" IsOpen="{Binding IsChecked, ElementName=toggleButton}">
                                     <Border BorderThickness="0" BorderBrush="Gray" Background="Gray">
                                         <StackPanel>
-                                            <Button Content="Tour request" Margin="0"/>
-                                            <Button Content="My tour requests" Margin="0"/>
+                                            <Button Content="Tour request" Click="ComplexRequest_Click" Margin="0"/>
+                                            <Button Content="My tour requests" Click="TourRequestDisplay_Click" Margin="0"/>
                                         </StackPanel>
                                     </Border>
                                 </Popup>
@@ -160,7 +160,7 @@
                                 <Popup Name="Popup" PlacementTarget="{Binding ElementName=toggleButton}" Placement="Bottom" StaysOpen="False" IsOpen="{Binding IsChecked, ElementName=toggleButton}">
                                     <Border BorderThickness="0" BorderBrush="Gray" Background="Gray">
                                         <StackPanel>
-                                            <Button Content="Complex tour request" Margin="0"/>
+                                            <Button Content="Complex tour request" Click="ComplexRequest_Click" Margin="0"/>
                                             <Button Content="My complex tour requests" FontSize="22" Margin="0"/>
                                         </StackPanel>
                                     </Border>

@@ -19,14 +19,14 @@ namespace BookingApp.Model
         public int DriveStatusId { get; set; }
         public double Delay { get; set; }
         public int DriverId { get; set; }
-        public string LanguageName { get; set; }
+        public int LanguageId { get; set; }
         public int NumberOfPeople { get; set; }
 
         public GroupDrive()
         {
         }
 
-        public GroupDrive(int startAddressId, int endAddressId, DateTime date, DateTime timeOfReservation, int guestId, int driveStatusId, double delay, int driverId, string languageName, int numberOfPeople)
+        public GroupDrive(int startAddressId, int endAddressId, DateTime date, DateTime timeOfReservation, int guestId, int driveStatusId, double delay, int driverId, int languageId, int numberOfPeople)
         {
             StartAddressId = startAddressId;
             EndAddressId = endAddressId;
@@ -36,7 +36,7 @@ namespace BookingApp.Model
             DriveStatusId = driveStatusId;
             Delay = delay;
             DriverId = driverId;
-            LanguageName = languageName;
+            LanguageId = languageId;
             NumberOfPeople = numberOfPeople;
         }
 
@@ -52,7 +52,7 @@ namespace BookingApp.Model
                 DriveStatusId.ToString(),
                 Delay.ToString(),
                 DriverId.ToString(),
-                LanguageName,
+                LanguageId.ToString(),
                 NumberOfPeople.ToString() };
             return csvValues;
         }
@@ -74,7 +74,7 @@ namespace BookingApp.Model
             DriveStatusId = Convert.ToInt32(values[6]);
             Delay = Convert.ToDouble(values[7]);
             DriverId = Convert.ToInt32(values[8]);
-            LanguageName = values[9];
+            LanguageId = Convert.ToInt32(values[9]);
             NumberOfPeople = Convert.ToInt32(values[10]);
         }
     }

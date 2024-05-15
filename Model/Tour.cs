@@ -71,7 +71,7 @@ namespace BookingApp.Model
             Name = values[1];
             int locationId = Convert.ToInt32(values[2]);
             LocationRepository locationRepository = new LocationRepository();
-            Location = locationRepository.GetLocationById(locationId);
+            Location = locationRepository.GetById(locationId);
             Description = values[3];
             int languageId = Convert.ToInt32(values[4]);
             LanguageRepository languageRepository = new LanguageRepository();

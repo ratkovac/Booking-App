@@ -22,6 +22,8 @@ namespace BookingApp.DependencyInjection
             { typeof(ITourRepository), new TourRepository() },
             { typeof(ICheckPointRepository), new CheckPointRepository() },
             { typeof(IAccommodationRepository), new AccommodationRepository() },
+            { typeof(ILanguageRepository), new LanguageRepository() },
+            { typeof(IAddressRepository), new AddressRepository() },
             { typeof(ITourGuestRepository), new TourGuestRepository() },
             { typeof(IGradeAccommodationRepository), new GradeAccommodationRepository() },
             { typeof(ICanceledReservationRepository), new CanceledReservationRepository() },
@@ -29,8 +31,12 @@ namespace BookingApp.DependencyInjection
             { typeof(IDelayReservationRepository), new DelayReservationRepository() },
             { typeof(IImageRepository), new ImageRepository() },
             { typeof(IDriverStatsRepository), new DriverStatsRepository() },
+            { typeof(ILocationRepository), new LocationRepository() },
             { typeof(IReservedDriveRepository), new ReservedDriveRepository() },
             { typeof(ITourImageRepository), new TourImageRepository() },
+            { typeof(ITourRequestRepository), new TourRequestRepository() },
+            { typeof(ITourRequestSegmentRepository), new TourRequestSegmentRepository() },
+            { typeof(ITourRequestGuestRepository), new TourRequestGuestRepository() },
             { typeof(IDriverUnreliableReportRepository), new DriverUnreliableReportRepository() },
             { typeof(IGroupDriveRepository), new GroupDriveRepository() }
         };

@@ -16,12 +16,16 @@ namespace BookingApp.Service
     {
         private IGroupDriveRepository groupDriveRepository;
         private LocationRepository _locationRepository { get; set; }
+        private LocationService _locationService { get; set; }
+        private LanguageRepository _languageRepository { get; set; }
         private AddressRepository _addressRepository { get; set; }
         public GroupDriveService()
         {
             groupDriveRepository = Injector.CreateInstance<IGroupDriveRepository>();
             _locationRepository = new LocationRepository();
             _addressRepository = new AddressRepository();
+            _languageRepository = new LanguageRepository();
+            _locationService = new LocationService();
         }
         public int NextId()
         {
@@ -66,7 +70,7 @@ namespace BookingApp.Service
         }
         public List<KeyValuePair<int, string>> GetCitiesByCountry(string country)
         {
-            return _locationRepository.GetAll()
+            return _locationService.GetAll()
                                       .Where(location => location.Country == country)
                                       .Select(location => new KeyValuePair<int, string>(location.Id, location.City))
                                       .Distinct()
@@ -95,9 +99,14 @@ namespace BookingApp.Service
                 Number = streetNumber
             };
 
-            _addressRepository.Save(newAddress);
+            _addressRepository.Create(newAddress);
 
             return newAddress.Id;
+        }
+
+        public Language FindLanguageByName(string name)
+        {
+            return _languageRepository.GetLanguageByName(name);
         }
     }
 }

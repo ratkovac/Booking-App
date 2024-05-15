@@ -1,4 +1,5 @@
 ﻿﻿using BookingApp.Model;
+using BookingApp.Repository.RepositoryInterface;
 using BookingApp.Serializer;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Windows;
 
 namespace BookingApp.Repository
 {
-    public class LocationRepository
+    public class LocationRepository : ILocationRepository
     {
 
         private const string FilePath = "../../../Resources/Data/locations.csv";
@@ -35,6 +36,13 @@ namespace BookingApp.Repository
             return location;
         }
 
+        public void Create(Location location)
+        {
+            location.Id = NextId();
+            _locations.Add(location);
+            _serializer.ToCSV(FilePath, _locations);
+        }
+
         public int NextId()
         {
             _locations = _serializer.FromCSV(FilePath);
@@ -53,7 +61,17 @@ namespace BookingApp.Repository
             _serializer.ToCSV(FilePath, _locations);
         }
 
-        public Location Update(Location location)
+        public void Update(Location location)
+        {
+            int index = _locations.FindIndex(gd => location.Id == gd.Id);
+            if (index != -1)
+            {
+                _locations[index] = location;
+                _serializer.ToCSV(FilePath, _locations);
+            }
+        }
+
+        /*public Location Update(Location location)
         {
             _locations = _serializer.FromCSV(FilePath);
             Location current = _locations.Find(c => c.Id == location.Id);
@@ -62,9 +80,9 @@ namespace BookingApp.Repository
             _locations.Insert(index, location);        
             _serializer.ToCSV(FilePath, _locations);
             return location;
-        }
+        }*/
 
-        public Location? GetLocationById(int locationId)
+        public Location? GetById(int locationId)
         {
             return _locations.Find(c => c.Id == locationId);
         }
@@ -85,6 +103,25 @@ namespace BookingApp.Repository
         public int GetCityIdByName(string cityName)
         {
             return _locations.FirstOrDefault(loc => loc.City == cityName)?.Id ?? 0;
+        }
+        public List<KeyValuePair<int, string>> GetCitiesByCountry(string country)
+        {
+            _locations = _serializer.FromCSV(FilePath);
+            return _locations
+                .Where(l => l.Country == country)
+                .Select(l => new KeyValuePair<int, string>(l.Id, l.City))
+                .ToList();
+        }
+        public List<KeyValuePair<int, string>> GetAllCountries()
+        {
+            var locations = GetAll();
+            var countries = locations
+                .GroupBy(loc => loc.Country)
+                .Select(grp => grp.First())
+                .Select(loc => new KeyValuePair<int, string>(loc.Id, loc.Country))
+                .OrderBy(c => c.Value)
+                .ToList();
+            return countries;
         }
     }
 }

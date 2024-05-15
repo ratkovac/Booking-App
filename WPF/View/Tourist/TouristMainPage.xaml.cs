@@ -34,6 +34,13 @@ namespace BookingApp.WPF.View.Tourist
         public FastDriveRepository _fastDriveRepository { get; set; }
         public GroupDriveRepository _groupDriveRepository { get; set; }
         public ReservedDriveRepository _reservedDriveRepository { get; set; }
+        public LocationRepository _locationRepository { get; set; }
+        public LocationService _locationService { get; set; }
+        public LanguageRepository _languageRepository { get; set; }
+        public LanguageService _languageService { get; set; }
+        public TourRequestService _tourRequestService { get; set; }
+        public TourRequestSegmentService _tourRequestSegmentService { get; set; }
+        public TourRequestGuestService _tourRequestGuestService { get; set; }
         public ReservedGroupDriveRepository _reservedGroupDriveRepository { get; set; }
         public TouristMainPage(BookingApp.Model.Tourist tourist)
         {
@@ -43,8 +50,15 @@ namespace BookingApp.WPF.View.Tourist
             _tourReservationService = new TourReservationService();
             _touristService = new TouristService();
             _tourInstanceService = new TourInstanceService();
+            _tourRequestService = new TourRequestService();
+            _tourRequestSegmentService = new TourRequestSegmentService();
+            _tourRequestGuestService = new TourRequestGuestService();
             _voucherService = new VoucherService();
             _driveRepository = new DriveRepository();
+            _locationRepository = new LocationRepository();
+            _locationService = new LocationService();
+            _languageRepository = new LanguageRepository();
+            _languageService = new LanguageService();
             _fastDriveRepository = new FastDriveRepository();
             _groupDriveRepository = new GroupDriveRepository();
             _userRepository = new UserRepository();
@@ -93,6 +107,18 @@ namespace BookingApp.WPF.View.Tourist
             else
             {
                 return;
+            }
+        }
+
+        public void CheckForTourRequestNotification()
+        {
+            var tourRequests = _tourRequestService.GetAllTourRequests();
+
+            var lastAcceptedRequest = tourRequests.LastOrDefault(request => request.IsAccepted == TourRequestStatus.ACCEPTED);
+
+            if (lastAcceptedRequest != null)
+            {
+                MessageBox.Show($"A guide has accepted your tour request with ID={lastAcceptedRequest.Id}!");
             }
         }
 
@@ -155,12 +181,31 @@ namespace BookingApp.WPF.View.Tourist
         {
             CheckForGroupDriveNotification();
             CheckForFastDriveNotification();
+            CheckForTourRequestNotification();
         }
 
         private void TourDisplay_Click(object sender, RoutedEventArgs e)
         {
             TourDisplay tourDisplay = new TourDisplay(Tourist);
             FrameHomePage.Navigate(tourDisplay);
+        }
+
+        private void TourRequestDisplay_Click(object sender, RoutedEventArgs e)
+        {
+            TourRequestDisplayViewModel tourRequestDisplayViewModel = new TourRequestDisplayViewModel(Tourist.User);
+            FrameHomePage.Navigate(new BookingApp.WPF.View.Tourist.Pages.TourRequestDisplay(tourRequestDisplayViewModel));
+        }
+
+        private void ComplexRequest_Click(object sender, RoutedEventArgs e)
+        {
+            TourRequestViewModel tourRequestViewModel = new TourRequestViewModel(Tourist.User, _locationService, _languageService, _tourRequestService, _tourRequestSegmentService, _tourRequestGuestService);
+            FrameHomePage.Navigate(new TourRequestView(Tourist.User, _locationService, _languageService, _tourRequestService, _tourRequestSegmentService, _tourRequestGuestService));
+        }
+
+        private void Statistics_Click(object sender, RoutedEventArgs e)
+        {
+            TourRequestStatisticsViewModel tourRequestStatisticsViewModel = new TourRequestStatisticsViewModel(Tourist.Id, _tourRequestService, _tourRequestSegmentService);
+            FrameHomePage.Navigate(new TourRequestStatsView(Tourist, _tourRequestService, _tourRequestSegmentService));
         }
 
         private void DriveDisplay_Click(object sender, RoutedEventArgs e)

@@ -1,4 +1,5 @@
 ﻿using BookingApp.Model;
+using BookingApp.Repository.RepositoryInterface;
 using BookingApp.Serializer;
 using CLI.Observer;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BookingApp.Repository
 {
-    public class AddressRepository
+    public class AddressRepository : IAddressRepository
     {
         private const string FilePath = "../../../Resources/Data/addresses.csv";
 
@@ -41,6 +42,13 @@ namespace BookingApp.Repository
             return address;
         }
 
+        public void Create(Address address)
+        {
+            address.Id = NextId();
+            _addresses.Add(address);
+            _serializer.ToCSV(FilePath, _addresses);
+        }
+
         public int NextId()
         {
             _addresses = _serializer.FromCSV(FilePath);
@@ -63,22 +71,25 @@ namespace BookingApp.Repository
             _serializer.ToCSV(FilePath, _addresses);
         }
 
-        public Address Update(Address address)
+        public void Update(Address address)
         {
-            _addresses = _serializer.FromCSV(FilePath);
-            Address current = _addresses.Find(c => c.Id == address.Id);
-            int index = _addresses.IndexOf(current);
-            _addresses.Remove(current);
-            _addresses.Insert(index, address);
-            _serializer.ToCSV(FilePath, _addresses);
-            AddressSubject.NotifyObservers();
-            return address;
+            int index = _addresses.FindIndex(gd => address.Id == gd.Id);
+            if (index != -1)
+            {
+                _addresses[index] = address;
+                _serializer.ToCSV(FilePath, _addresses);
+            }
         }
 
 
         public Address GetAddressById(int id)
         {
             return _addresses.FirstOrDefault(address => address.Id == id);
+        }
+
+        public Address GetById(int addressId)
+        {
+            return _addresses.Find(c => c.Id == addressId);
         }
 
         public Address GetByAddress(string street, string number)

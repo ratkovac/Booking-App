@@ -42,7 +42,7 @@ namespace BookingApp.Model
             Id = Convert.ToInt32(values[0]);
             int[] locationIds = values[1].Split(',').Select(int.Parse).ToArray(); 
             LocationRepository locationRepository = new LocationRepository();
-            Locations = locationIds.Select(id => locationRepository.GetLocationById(id)).ToList(); 
+            Locations = locationIds.Select(id => locationRepository.GetById(id)).ToList(); 
             Capacity = Convert.ToInt32(values[2]);
             int[] languageIds = values[3].Split(',').Select(int.Parse).ToArray(); 
             LanguageRepository languageRepository = new LanguageRepository();
