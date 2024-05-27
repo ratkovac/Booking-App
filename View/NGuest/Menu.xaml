@@ -7,12 +7,47 @@
       xmlns:guiElements="clr-namespace:BookingApp.GUI_Elements"
       xmlns:converter="clr-namespace:BookingApp.Converter"
       mc:Ignorable="d" 
-      Title="Menu" Height="768" Width="1024">
+      Title="Menu" Height="768" Width="500">
     <Page.Resources>
         <converter:ActiveButtonStyleConverter x:Key="ActiveButtonStyleConverter"/>
+
+        <Style x:Key="MessageBorderStyle" TargetType="Border">
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Width" Value="420"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+
+        <Style x:Key="MessageTextStyle" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="DeleteButtonStyle" TargetType="Button">
+            <Setter Property="Content" Value="X"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Page.Resources>
     <Grid>
-        <Border CornerRadius="20" Background="White" Margin="20">
+        <Border CornerRadius="20" Background="#f2f2f2" Margin="20">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"/>
@@ -35,7 +70,7 @@
                     </StackPanel>
                 </Border>
 
-                <Border Grid.Row="1" Background="Brown" Height="1" VerticalAlignment="Bottom">
+                <Border Grid.Row="1" Background="#BA1B1D" Height="1" VerticalAlignment="Bottom">
                     <Border.Effect>
                         <DropShadowEffect Color="Black" Direction="270" ShadowDepth="3" Opacity="0.5"/>
                     </Border.Effect>
@@ -51,7 +86,7 @@
                         <Button Content="My Reservation" Style="{Binding ActiveMenuItem, Converter={StaticResource ActiveButtonStyleConverter}, ConverterParameter='My Reservation'}"/>
                         <Button Content="Finished Reservation" Style="{Binding ActiveMenuItem, Converter={StaticResource ActiveButtonStyleConverter}, ConverterParameter='Finished Reservation'}"/>
                         <Button Content="Forum" Style="{Binding ActiveMenuItem, Converter={StaticResource ActiveButtonStyleConverter}, ConverterParameter='Forum'}"/>
-                        <Button Content="Logout" Foreground="Brown" Style="{Binding ActiveMenuItem, Converter={StaticResource ActiveButtonStyleConverter}, ConverterParameter='Logout'}"/>
+                        <Button Content="Logout" Foreground="#BA1B1D" Style="{Binding ActiveMenuItem, Converter={StaticResource ActiveButtonStyleConverter}, ConverterParameter='Logout'}"/>
                     </StackPanel>
                 </Border>
 
@@ -64,29 +99,27 @@
                 </Border>
 
                 <Border Grid.Row="4" Margin="10" Height="250">
-                    <Grid Width="950">
+                    <Grid Width="450">
                         <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="0,0,0,20" Margin="10">
                             <ItemsControl ItemsSource="{Binding Messages}"
                                           guiElements:ItemsControlExtensions.SelectedItem="{Binding SelectedMessage, Mode=TwoWay}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Border Padding="5" Width="700" HorizontalAlignment="Center" 
-                                CornerRadius="10" BorderThickness="1" BorderBrush="Black"
-                                Margin="5">
+                                        <Border Style="{StaticResource MessageBorderStyle}">
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="200"/>
+                                                    <ColumnDefinition Width="100"/>
                                                     <ColumnDefinition Width="Auto"/>
                                                     <ColumnDefinition Width="Auto"/>
                                                     <ColumnDefinition Width="Auto"/>
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
-                                                <Image Source="../../Icon/letter.png" Width="20" Height="20" HorizontalAlignment="Left" Margin="5,0,0,0"/>
-                                                <TextBlock Grid.Column="1" Text="Your request for " HorizontalAlignment="Center" Margin="5,0,0,0"/>
-                                                <TextBlock Grid.Column="2" Text="{Binding AccommodationName}" HorizontalAlignment="Center" Margin="5,0,0,0"/>
-                                                <TextBlock Grid.Column="3" Text=" is declined " HorizontalAlignment="Center" Margin="5,0,0,0"/>
-                                                <ContentControl Grid.Column="4" HorizontalAlignment="Right">
-                                                    <Button Content="X" Background="Transparent" BorderThickness="0" Click="DeleteMessage"/>
+                                                <Image Source="../../Icon/letter.png" Width="20" Height="20" HorizontalAlignment="Left" Margin="5,0,5,0"/>
+                                                <TextBlock Grid.Column="1" Text="Your request for " Style="{StaticResource MessageTextStyle}"/>
+                                                <TextBlock Grid.Column="2" Text="{Binding AccommodationName}" Style="{StaticResource MessageTextStyle}"/>
+                                                <TextBlock Grid.Column="3" Text=" is declined " Style="{StaticResource MessageTextStyle}"/>
+                                                <ContentControl Grid.Column="4">
+                                                    <Button Style="{StaticResource DeleteButtonStyle}" Click="DeleteMessage" Margin="0,0,5,0"/>
                                                 </ContentControl>
                                             </Grid>
                                         </Border>

@@ -17,6 +17,7 @@ using BookingApp.View.NGuest;
 using CLI.Observer;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Views;
+using Microsoft.CSharp.RuntimeBinder;
 using NavigationService = System.Windows.Navigation.NavigationService;
 
 namespace BookingApp.View.ViewModel.Guest
@@ -100,9 +101,26 @@ namespace BookingApp.View.ViewModel.Guest
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void Back_OnClick()
+        public void Back_OnClick(object sender, RoutedEventArgs e)
         {
-            _navigationService.GoBack();
+            try
+            {
+                var previousPage = this._navigationService.Content as dynamic;
+                if (previousPage != null)
+                {
+                    try
+                    {
+                        previousPage.RemoveBlurEffect();
+                    }
+                    catch (RuntimeBinderException)
+                    {
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error closing menu: {ex.Message}");
+            }
         }
 
         public void DeleteMessage(object sender, RoutedEventArgs e)

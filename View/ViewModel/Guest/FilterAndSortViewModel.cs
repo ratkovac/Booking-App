@@ -12,6 +12,7 @@ using BookingApp.DTO;
 using BookingApp.Model;
 using BookingApp.Service;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.CSharp.RuntimeBinder;
 using static BookingApp.Model.AccommodationTypeEnum;
 
 namespace BookingApp.View.ViewModel.Guest
@@ -245,7 +246,50 @@ namespace BookingApp.View.ViewModel.Guest
         public void OnClick_Confirm()
         {
             Accommodations.Filter = FilterAccommodations;
-            NavigationService.GoBack();
+            try
+            {
+                if (this.NavigationService.CanGoBack)
+                {
+                    this.NavigationService.GoBack();
+                }
+                var previousPage = this.NavigationService.Content as dynamic;
+                if (previousPage != null)
+                {
+                    try
+                    {
+                        previousPage.RemoveBlurEffect();
+                    }
+                    catch (RuntimeBinderException)
+                    {
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error closing menu: {ex.Message}");
+            }
+        }
+
+        public void OnClick_Back()
+        {
+            try
+            {
+                var previousPage = this.NavigationService.Content as dynamic;
+                if (previousPage != null)
+                {
+                    try
+                    {
+                        previousPage.RemoveBlurEffect();
+                    }
+                    catch (RuntimeBinderException)
+                    {
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error closing menu: {ex.Message}");
+            }
         }
 
         public void LoadCachedData()
@@ -308,6 +352,7 @@ namespace BookingApp.View.ViewModel.Guest
                 MoveCursorToEnd?.Invoke(SelectedLocation.Length);
             }
         }
+
 
         public event Action<int> MoveCursorToEnd;
 

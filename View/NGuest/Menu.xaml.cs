@@ -31,7 +31,7 @@ namespace BookingApp.View.NGuest
 
         private void Back_OnClick(object sender, RoutedEventArgs e)
         {
-            menuViewModel.Back_OnClick();
+            menuViewModel.Back_OnClick(sender, e);
         }
 
         private void OnClick_Rate(object sender, RoutedEventArgs e)

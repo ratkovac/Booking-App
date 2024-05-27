@@ -8,16 +8,80 @@
       mc:Ignorable="d"
       Title="Booking" Height="768" Width="1024" 
       HorizontalAlignment="Center" VerticalAlignment="Center">
+    <Page.Resources>
+        <BlurEffect x:Key="BlurEffect" Radius="6"/>
+
+        <Storyboard x:Key="OpenMenuStoryboard">
+            <DoubleAnimation Storyboard.TargetProperty="Width"
+                             To="500"
+                             Duration="0:0:0.5"/>
+        </Storyboard>
+
+        <Storyboard x:Key="CloseMenuStoryboard">
+            <DoubleAnimation Storyboard.TargetProperty="Width"
+                             To="0"
+                             Duration="0:0:0.5"/>
+        </Storyboard>
+
+        <Style x:Key="RoundedLeftButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#F24333"/>
+            <Setter Property="BorderBrush" Value="#F24333"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontFamily" Value="{StaticResource PoppinsBlack}"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}"
+                                CornerRadius="10,0,0,10">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="RoundedRightButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="#F24333"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontFamily" Value="{StaticResource PoppinsBlack}"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                Padding="{TemplateBinding Padding}"
+                                CornerRadius="0,10,10,0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
     <Grid>
-        <Border CornerRadius="20" Background="White" Margin="20">
-            <Grid>
+        <Border CornerRadius="20" Background="#F7F4F3" Margin="20">
+            <Grid Name="MainGrid">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="1"/>
                     <RowDefinition Height="100"/>
                     <RowDefinition Height="50"/>
-                    <RowDefinition Height="50"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
@@ -27,77 +91,82 @@
                     </Button>
                 </Border>
 
-                    <Border Grid.Row="0" CornerRadius="0,20,20,0" HorizontalAlignment="Right">
-                        <TextBox Style="{StaticResource SearchBoxStyle}" Width="200" Height="30"
-                                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                                 Margin="0,0,15,0"/>
-                    </Border>
+                <Border Grid.Row="0" CornerRadius="0,20,20,0" HorizontalAlignment="Right">
+                    <TextBox Style="{StaticResource SearchBoxStyle}" Width="200" Height="30"
+                             Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                             Margin="0,0,15,0"/>
+                </Border>
 
-                    <Border Grid.Row="1" Background="Brown" Height="1" VerticalAlignment="Bottom">
-                        <Border.Effect>
-                            <DropShadowEffect Color="Black" Direction="270" ShadowDepth="3" Opacity="0.5"/>
-                        </Border.Effect>
-                    </Border>
+                <Border Grid.Row="1" Background="#BA1B1D" Height="1" VerticalAlignment="Bottom">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" Direction="270" ShadowDepth="3" Opacity="0.5"/>
+                    </Border.Effect>
+                </Border>
 
-                    <Border Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,20" BorderBrush="LightGray" Background="#F5F5F5">
-                        <Border.Effect>
-                            <DropShadowEffect ShadowDepth="3" Direction="320" Color="DarkGray" Opacity="0.5"/>
-                        </Border.Effect>
-                        <StackPanel Orientation="Horizontal">
-                            <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
-                                <Grid>
-                                    <Button Style="{StaticResource IconStyle1}" Click="OnClick_Review"/>
-                                </Grid>
-                            </Border>
+                <Border Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,20" BorderBrush="LightGray" Background="#F24333">
+                    <Border.Effect>
+                        <DropShadowEffect ShadowDepth="3" Direction="320" Color="DarkGray" Opacity="0.5"/>
+                    </Border.Effect>
+                    <StackPanel Orientation="Horizontal">
+                        <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
+                            <Grid>
+                                <Button Style="{StaticResource IconStyle1}" Click="OnClick_Review"/>
+                            </Grid>
+                        </Border>
 
-                            <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
-                                <Grid>
-                                    <Button Style="{StaticResource IconStyle2}" Click="MyReservations_Click"/>
-                                </Grid>
-                            </Border>
+                        <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
+                            <Grid>
+                                <Button Style="{StaticResource IconStyle2}" Click="MyReservations_Click"/>
+                            </Grid>
+                        </Border>
 
-                            <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
-                                <Grid>
+                        <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
+                            <Grid>
                                 <Button x:Name="IconButton" Style="{StaticResource IconStyle3}" Click="Rate_Click"/>
-                                </Grid>
-                            </Border>
+                            </Grid>
+                        </Border>
 
-                            <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
-                                <Grid>
-                                    <Button Style="{StaticResource IconStyle4}" />
-                                </Grid>
-                            </Border>
+                        <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
+                            <Grid>
+                                <Button Style="{StaticResource IconStyle4}" />
+                            </Grid>
+                        </Border>
 
+                        <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
+                            <Grid>
+                                <Button Style="{StaticResource IconStyle5}"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </Border>
 
-                            <Border BorderThickness="1" CornerRadius="50" Width="50" Height="50" Margin="5">
-                                <Grid>
-                                    <Button Style="{StaticResource IconStyle5}"/>
-                                </Grid>
-                            </Border>
-                        </StackPanel>
-                    </Border>
+                <Grid Grid.Row="3" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-                    <Button Grid.Row="3" Width ="300" Style="{StaticResource FilterSortButtonStyle}" 
-                            Margin="10" Click="OnClick_Filter_Sort">
-                        Filter and Sort
+                    <Button Grid.Column="0" Style="{StaticResource RoundedLeftButtonStyle}" Click="OnClick_Filter_Sort" HorizontalAlignment="Right" Foreground="White">
+                        <TextBlock Text="Filter and Sort" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PoppinsBlack}"/>
                     </Button>
-                    <Button Grid.Row="4" Width ="300" Style="{StaticResource FilterSortButtonStyle}" Margin="10">
-                        Anytime, Anywhere
+                    <Button Grid.Column="1" Style="{StaticResource RoundedRightButtonStyle}" HorizontalAlignment="Left">
+                        <TextBlock Text="Anytime, Anywhere" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PoppinsBlack}"/>
                     </Button>
+                </Grid>
 
-                    <ScrollViewer Grid.Row="5" VerticalScrollBarVisibility="Auto" Padding="0,0,0,10" Margin="10">
-                        <ItemsControl ItemsSource="{Binding FilteredAccommodations}"
-                                      guiElements:ItemsControlExtensions.SelectedItem="{Binding SelectedAccommodation, Mode=TwoWay}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <ContentControl Style="{StaticResource AccommodationItemControl}"
-                                                    MouseLeftButtonDown="ContentControl_MouseLeftButtonDown"/>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </ScrollViewer>
+                <ScrollViewer Grid.Row="4" VerticalScrollBarVisibility="Auto" Padding="0,0,0,10" Margin="10">
+                    <ItemsControl ItemsSource="{Binding FilteredAccommodations}"
+                                  guiElements:ItemsControlExtensions.SelectedItem="{Binding SelectedAccommodation, Mode=TwoWay}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <ContentControl Style="{StaticResource AccommodationItemControl}"
+                                                MouseLeftButtonDown="ContentControl_MouseLeftButtonDown"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
             </Grid>
         </Border>
+        <Frame Grid.Row="0" Grid.RowSpan="7" Name="MenuFrame" Visibility="Collapsed" Width="500" HorizontalAlignment="Left"/>
     </Grid>
-    <Page.Resources/>
 </Page>

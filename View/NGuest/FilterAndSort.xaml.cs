@@ -31,7 +31,7 @@ namespace BookingApp.View.NGuest
 
         private void OnClick_Back(object sender, RoutedEventArgs e)
         {
-            NavigationService.GoBack();
+            FilterAndSortViewModel.OnClick_Back();
         }
 
         private void OnClick_Confirm(object sender, RoutedEventArgs e)

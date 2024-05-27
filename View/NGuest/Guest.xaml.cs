@@ -16,6 +16,8 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BookingApp.GUI_Elements;
@@ -154,13 +156,27 @@ namespace BookingApp.View
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             MenuViewModel menuViewModel = new MenuViewModel("Home", NavigationService, LoggedInUser);
-            NavigationService.Navigate(new Menu(menuViewModel));
+
+            MenuFrame.Visibility = Visibility.Visible;
+            Menu menuPage = new Menu(menuViewModel);
+            MenuFrame.Navigate(menuPage);
+
+            MainGrid.Effect = (Effect)Resources["BlurEffect"];
+
+            Storyboard openMenuStoryboard = (Storyboard)Resources["OpenMenuStoryboard"];
+            openMenuStoryboard.Begin(MenuFrame);
         }
 
         private void OnClick_Filter_Sort(object sender, RoutedEventArgs e)
         {
             FilterAndSortViewModel filterAndSortViewModel = new FilterAndSortViewModel(FilteredAccommodations, Locations, NavigationService, cache);
-            NavigationService.Navigate(new FilterAndSort(filterAndSortViewModel));
+
+            MenuFrame.Visibility = Visibility.Visible;
+            MenuFrame.Navigate(new FilterAndSort(filterAndSortViewModel));
+            MainGrid.Effect = (Effect)Resources["BlurEffect"];
+
+            Storyboard openMenuStoryboard = (Storyboard)Resources["OpenMenuStoryboard"];
+            openMenuStoryboard.Begin(MenuFrame);
         }
 
         private void OnClick_Review(object sender, RoutedEventArgs e)
@@ -168,6 +184,18 @@ namespace BookingApp.View
             ReviewViewModel reviewViewModel = new ReviewViewModel(LoggedInUser.Id);
             Review review = new Review(reviewViewModel);
             NavigationService.Navigate(review);
+        }
+
+        public void RemoveBlurEffect()
+        {
+            Storyboard closeMenuStoryboard = (Storyboard)Resources["CloseMenuStoryboard"];
+            closeMenuStoryboard.Completed += (s, e) =>
+            {
+                MenuFrame.Visibility = Visibility.Collapsed;
+            };
+            closeMenuStoryboard.Begin(MenuFrame);
+
+            MainGrid.Effect = null;
         }
     }
 }
