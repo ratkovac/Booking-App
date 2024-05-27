@@ -25,9 +25,14 @@
                 </Grid.RowDefinitions>
 
                 <Border Grid.Row="0" Margin="10,0,0,0">
-                    <Button HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="0" Margin="0">
-                        <Image Source="/View/NGuest/menu-svgrepo-com.png" Height="20" Width="20" Stretch="Fill"/>
-                    </Button>
+                    <StackPanel Orientation="Horizontal">
+                        <Button HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="0" Margin="0">
+                            <Image Source="/View/NGuest/menu-svgrepo-com.png" Height="20" Width="20" Stretch="Fill"/>
+                        </Button>
+                        <Button HorizontalAlignment="Left" Background="{x:Null}" BorderThickness="0" Margin="0" Click="OnClick_Back">
+                            <Image Source="/Icon/back.png" Height="20" Width="20" Stretch="Fill"/>
+                        </Button>
+                    </StackPanel>
                 </Border>
 
                 <Border Grid.Row="0" HorizontalAlignment="Right" CornerRadius="50" Width="40" Height="40" Margin="5">
@@ -248,20 +253,24 @@
                 </Border>
 
                 <Border Grid.Row="4">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <StackPanel Orientation="Horizontal" Margin="20,10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="480"/>
+                            <ColumnDefinition Width="480"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" Margin="50,10">
                             <Label Content="CheckIn:" FontSize="20" Padding="20,0" Margin="10"/>
                             <DatePicker Style="{StaticResource ReservationDatePicker}"
                                         SelectedDate="{Binding StartDate, Converter={StaticResource DateOnlyToDateTimeConverter}}"
                                         DisplayDateStart="{x:Static sys:DateTime.Today}" />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="20,10">
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="50,10">
                             <Label Content="CheckOut:" FontSize="20" Padding="20,0" Margin="10"/>
                             <DatePicker Style="{StaticResource ReservationDatePicker}"
                                         SelectedDate="{Binding EndDate, Converter={StaticResource DateOnlyToDateTimeConverter}}"
                                         DisplayDateStart="{x:Static sys:DateTime.Today}" />
                         </StackPanel>
-                    </StackPanel>
+                    </Grid>
                 </Border>
                 <Border Grid.Row="5">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -285,6 +294,5 @@
                 <Frame x:Name="AccommodationFrame" Grid.RowSpan="6" NavigationUIVisibility="Hidden" Margin="10"/>
             </Grid>
         </Border>
-        <Frame x:Name="ReservationPage" Grid.RowSpan="6" NavigationUIVisibility="Hidden" Margin="10"/>
     </Grid>
 </Page>

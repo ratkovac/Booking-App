@@ -1,0 +1,50 @@
+﻿<Window x:Class="BookingApp.View.Driver.MinutesLateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:BookingApp.View.Driver"
+        mc:Ignorable="d"
+        Title="Minutes Late Window"
+        Height="200" Width="300"
+        MinHeight="200" MaxHeight="200"
+        MinWidth="300" MaxWidth="300"
+        WindowStartupLocation="CenterOwner">
+    <Window.Resources>
+        <Style TargetType="Button" x:Key="ButtonStyle">
+            <Setter Property="Background" Value="{Binding ColorTwo}"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="20">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="Black"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="Black"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Background="{Binding ColorOne}">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock FontSize="20" Margin="0 0 0 0" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center">Enter the number of minutes</TextBlock>
+            <TextBlock FontSize="20" Margin="0 0 0 10" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center">you are late:</TextBlock>
+            <TextBox x:Name="MinutesLateTextBox" FontSize="16" Padding="10" Margin="0 0 0 10" VerticalAlignment="Center" HorizontalAlignment="Center" Width="130" Height="40" PreviewTextInput="MinutesLateTextBox_PreviewTextInput"/>
+            <Button Content="Confirm" FontSize="17" Padding="10" Margin="0 0 0 0" Click="btnConfirmation_Click" Style="{StaticResource ButtonStyle}" Height="40" Width="130" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </StackPanel>
+    </Grid>
+</Window>

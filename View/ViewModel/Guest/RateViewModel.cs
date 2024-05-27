@@ -65,6 +65,35 @@ namespace BookingApp.View.ViewModel
             }
         }
 
+        private string suggest;
+
+        public string Suggest
+        {
+            get { return suggest; }
+            set
+            {
+                if (suggest != value)
+                {
+                    suggest = value;
+                    OnPropertyChanged(nameof(Suggest));
+                }
+            }
+        }
+
+        private RenovationUrgencyLevel urgencyLevel;
+        public RenovationUrgencyLevel UrgencyLevel
+        {
+            get { return urgencyLevel; }
+            set
+            {
+                if (urgencyLevel != value)
+                {
+                    urgencyLevel = value;
+                    OnPropertyChanged(nameof(UrgencyLevel));
+                }
+            }
+        }
+
 
         public RateViewModel(AccommodationReservation accommodationReservation)
         {
@@ -104,8 +133,8 @@ namespace BookingApp.View.ViewModel
 
         public void AddGrade()
         {
-            GradeAccommodation gradeAccommodation = new GradeAccommodation(AccommodationReservation.Id, Cleanliness,
-                OwnerCorrectness, Comment, Images.ToList());
+            GradeAccommodation gradeAccommodation = new GradeAccommodation(AccommodationReservation, Cleanliness,
+                OwnerCorrectness, Comment, Suggest, UrgencyLevel, Images.ToList());
             gradeAccommodationService.Create(gradeAccommodation);
             MessageBox.Show("Request successfully rated the owner.");
         }

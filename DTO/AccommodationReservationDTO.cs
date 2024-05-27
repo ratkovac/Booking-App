@@ -196,6 +196,22 @@ namespace BookingApp.DTO
             }
         }
 
+        private string frontImagePath;
+        public string FrontImagePath
+        {
+            get
+            {
+                return frontImagePath;
+            }
+            set
+            {
+                if (frontImagePath != value)
+                {
+                    frontImagePath = value;
+                    OnPropertyChanged("FrontImagePath");
+                }
+            }
+        }
 
         public AccommodationReservationDTO()
         {

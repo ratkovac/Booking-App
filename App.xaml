@@ -5,7 +5,7 @@
              StartupUri="/View/SignInForm.xaml">
     <Application.Resources>
 
-        <FontFamily x:Key="PoppinsBlack">pack://application:,,,/Fonts/Poppins-Black.ttf#Poppins</FontFamily>
+        <FontFamily x:Key="PoppinsBlack">pack://application:,,,/Fonts/Roboto-Black.ttf#Roboto</FontFamily>
         <BitmapImage x:Key="NextIcon" UriSource="Icon/next.png"/>
         <BitmapImage x:Key="Next1" UriSource="Icon/next - Copy.png" />
         <BitmapImage x:Key="Back" UriSource="Icon/back.png"/>
@@ -14,9 +14,9 @@
 
         <Style x:Key="SearchBoxStyle" TargetType="TextBox">
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="BorderBrush" Value="Black"/>
             <Setter Property="Padding" Value="8,5"/>
-            <Setter Property="Background" Value="White"/>
+            <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="FontSize" Value="10"/>
@@ -54,7 +54,7 @@
                                     <TextBlock x:Name="PlaceholderTextBlock"
                                        Text="Search Here..."
                                        Grid.Column="1"
-                                       Foreground="LightGray"
+                                       Foreground="Black"
                                        IsHitTestVisible="False"
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Right"
@@ -74,7 +74,7 @@
                             </Trigger>
 
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="BorderBrush" Value="Brown" TargetName="SearchBorder"/>
+                                <Setter Property="BorderBrush" Value="#BA1B1D" TargetName="SearchBorder"/>
                                 <Trigger.EnterActions>
                                     <BeginStoryboard>
                                         <Storyboard>
@@ -92,7 +92,7 @@
                             </Trigger>
 
                             <Trigger Property="IsKeyboardFocused" Value="True">
-                                <Setter Property="BorderBrush" Value="Brown" TargetName="SearchBorder"/>
+                                <Setter Property="BorderBrush" Value="#BA1B1D" TargetName="SearchBorder"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -104,7 +104,7 @@
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="BorderBrush" Value="LightGray"/>
             <Setter Property="Padding" Value="8,5"/>
-            <Setter Property="Background" Value="#F5F5F5"/>
+            <Setter Property="Background" Value="#F24333"/>
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="FontSize" Value="10"/>
@@ -118,7 +118,7 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="IconImage" Property="Source" Value="Icon/calendar (1)ch.png"/>
-                                <Setter Property="Background" Value="Brown"/>
+                                <Setter Property="Background" Value="#BA1B1D"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -130,7 +130,7 @@
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="BorderBrush" Value="LightGray"/>
             <Setter Property="Padding" Value="8,5"/>
-            <Setter Property="Background" Value="#F5F5F5"/>
+            <Setter Property="Background" Value="#F24333"/>
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="FontSize" Value="10"/>
@@ -144,7 +144,7 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="IconImage" Property="Source" Value="C:\Users\Korisnik\OneDrive\Radna površina\ProjekatSIMS\sims-ra-2024-group-7-team-a\Icon\favorite - Copy.png"/>
-                                <Setter Property="Background" Value="Brown"/>
+                                <Setter Property="Background" Value="#BA1B1D"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -156,7 +156,7 @@
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="BorderBrush" Value="Gray"/>
             <Setter Property="Padding" Value="8,5"/>
-            <Setter Property="Background" Value="#F5F5F5"/>
+            <Setter Property="Background" Value="#F24333"/>
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontFamily" Value="Tahoma"/>
             <Setter Property="Cursor" Value="Hand"/>
@@ -171,7 +171,7 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="IconImage" Property="Source" Value="C:\Users\Korisnik\OneDrive\Radna površina\ProjekatSIMS\sims-ra-2024-group-7-team-a\Icon\calendar - Copy.png"/>
-                                <Setter Property="Background" Value="Brown"/>
+                                <Setter Property="Background" Value="#BA1B1D"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -183,7 +183,7 @@
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="BorderBrush" Value="LightGray"/>
             <Setter Property="Padding" Value="8,5"/>
-            <Setter Property="Background" Value="#F5F5F5"/>
+            <Setter Property="Background" Value="#F24333"/>
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontFamily" Value="Tahoma"/>
             <Setter Property="Cursor" Value="Hand"/>
@@ -198,7 +198,7 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="IconImage" Property="Source" Value="C:\Users\Korisnik\OneDrive\Radna površina\ProjekatSIMS\sims-ra-2024-group-7-team-a\Icon\group - Copy.png"/>
-                                <Setter Property="Background" Value="Brown"/>
+                                <Setter Property="Background" Value="#BA1B1D"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -210,7 +210,7 @@
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="BorderBrush" Value="Gray"/>
             <Setter Property="Padding" Value="8,5"/>
-            <Setter Property="Background" Value="#F5F5F5"/>
+            <Setter Property="Background" Value="#F24333"/>
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontFamily" Value="Tahoma"/>
             <Setter Property="Cursor" Value="Hand"/>
@@ -225,7 +225,7 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="IconImage" Property="Source" Value="C:\Users\Korisnik\OneDrive\Radna površina\ProjekatSIMS\sims-ra-2024-group-7-team-a\Icon\logout - Copy.png"/>
-                                <Setter Property="Background" Value="Brown"/>
+                                <Setter Property="Background" Value="#BA1B1D"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -253,9 +253,9 @@
 
         <Style x:Key="AccommodationItemControl" TargetType="ContentControl">
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="BorderBrush" Value="#F24333"/>
             <Setter Property="Padding" Value="8,5"/>
-            <Setter Property="Background" Value="White"/>
+            <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="FontSize" Value="10"/>
@@ -290,7 +290,7 @@
                                        Panel.ZIndex="2"/>
 
                                 <Rectangle x:Name="BackgroundRectangle" Grid.Column="1" Grid.Row="0" RadiusX="10" RadiusY="10"
-                                           HorizontalAlignment="Left" Fill="Brown" Opacity="0.5"
+                                           HorizontalAlignment="Left" Fill="#BA1B1D" Opacity="0.5"
                                            Width="100" Height="Auto" Margin="-10,0,0,0"
                                            Panel.ZIndex="1"/>
 
@@ -340,6 +340,118 @@
                                     <Path Data="M 10,1 L 12,7 H 18 L 13,11 L 15,17 L 10,13 L 5,17 L 7,11 L 2,7 H 8 z"
                                           Fill="Gold" Stretch="Fill"
                                           Width="20" Height="20" Margin="2"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="Black" Opacity="0.5" Direction="320" ShadowDepth="5" BlurRadius="5"/>
+                                    </Setter.Value>
+                                </Setter>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="BackgroundRectangle"
+                                                             Storyboard.TargetProperty="Width"
+                                                             To="250" Duration="0:0:0.3"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="BackgroundRectangle"
+                                                             Storyboard.TargetProperty="Width"
+                                                             To="100" Duration="0:0:0.3"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="GuestGradeStyle" TargetType="ContentControl">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="Padding" Value="8,5"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ContentControl">
+                        <Border BorderThickness="{TemplateBinding BorderThickness}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            Background="{TemplateBinding Background}" 
+                            CornerRadius="4"
+                            Margin="10"
+                            Padding="1">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="3"
+                                       Source="/Images/Accommodation.jpg"
+                                       Stretch="Fill" 
+                                       Width="150"
+                                       Margin="0"
+                                       HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Stretch"
+                                       Panel.ZIndex="2"/>
+
+                                <Rectangle x:Name="BackgroundRectangle" Grid.Column="1" Grid.Row="0" RadiusX="10" RadiusY="10"
+                                           HorizontalAlignment="Left" Fill="#FFC857" Opacity="0.5"
+                                           Width="100" Height="Auto" Margin="-10,0,0,0"
+                                           Panel.ZIndex="1"/>
+
+                                <TextBlock Text="{Binding AccommodationReservation.Accommodation.Name}" Grid.Column="1" Grid.Row="0"
+                                       Padding="2" Background="Transparent"
+                                       FontSize="20"
+                                       FontFamily="{StaticResource PoppinsBlack}"
+                                       VerticalAlignment="Center" HorizontalAlignment="Left"/>
+
+                                <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left">
+                                    <Image Source="C:\Users\Korisnik\OneDrive\Radna površina\ProjekatSIMS\sims-ra-2024-group-7-team-a\Icon\washing-hands.png"
+                                       Width="30" Height="30" Stretch="Uniform" Margin="5"/>
+                                    <Path Data="M 10,1 L 12,7 H 18 L 13,11 L 15,17 L 10,13 L 5,17 L 7,11 L 2,7 H 8 z"
+                                          Fill="Gold" Stretch="Fill"
+                                          Width="20" Height="20" Margin="2"/>
+                                    <TextBlock Text="{Binding Cleanliness}"
+                                           Padding="2" Background="Transparent"
+                                           FontSize="15"
+                                           VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left">
+                                    <Image Source="Icon/corrected.png"
+                                           Width="30" Height="30" Stretch="Uniform" Margin="5"/>
+                                    <Path Data="M 10,1 L 12,7 H 18 L 13,11 L 15,17 L 10,13 L 5,17 L 7,11 L 2,7 H 8 z"
+                                          Fill="Gold" Stretch="Fill"
+                                          Width="20" Height="20" Margin="2"/>
+                                    <TextBlock Text="{Binding RulesFollowing}"
+                                               Padding="2" Background="Transparent"
+                                               FontSize="15"
+                                               VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,5,0">
+                                    <TextBlock Text="{Binding Comment}"
+                                               Padding="2" Background="Transparent"
+                                               FontSize="10"
+                                               VerticalAlignment="Center" HorizontalAlignment="Left"/>
+
                                 </StackPanel>
                             </Grid>
                         </Border>
@@ -762,6 +874,76 @@
                                 <Setter TargetName="ReserveIcon" Property="Source" Value="Icon/trueBlue.png"/>
                             </Trigger>
                         </ControlTemplate.Triggers> 
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="MenuButton" TargetType="Button">
+            <Setter Property="Height" Value="60"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="{StaticResource PoppinsBlack}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ActiveButtonStyle" TargetType="Button">
+            <Setter Property="Height" Value="60"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="Foreground" Value="#BA1B1D"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="{StaticResource PoppinsBlack}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="XButton" TargetType="Button">
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>

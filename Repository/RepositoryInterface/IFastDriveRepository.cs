@@ -11,7 +11,7 @@ namespace BookingApp.Repository.RepositoryInterface
 {
     public interface IFastDriveRepository : IGenericRepository<FastDrive, int>
     {
-        ObservableCollection<FastDrive> GetDrivesByLocations(ObservableCollection<int> locations);
+        List<FastDrive> GetDrivesByLocations(ObservableCollection<int> locations);
 
         public void Subscribe(IObserver observer)
         {

@@ -21,15 +21,22 @@ namespace BookingApp.View.NGuest
     /// </summary>
     public partial class SuggestedReservations : Page
     {
+        private SuggestedReservationsViewModel suggestedReservationViewModel;
         public SuggestedReservations(SuggestedReservationsViewModel suggestedReservationViewModel)
         {
             InitializeComponent();
             this.DataContext = suggestedReservationViewModel;
+            this.suggestedReservationViewModel = suggestedReservationViewModel;
         }
 
         private void ContentControl_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            throw new NotImplementedException();
+            suggestedReservationViewModel.MakeReservation(sender, e);
+        }
+
+        private void OnClick_Back(object sender, RoutedEventArgs e)
+        {
+            NavigationService.GoBack();
         }
     }
 }

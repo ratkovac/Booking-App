@@ -69,11 +69,11 @@ namespace BookingApp.Repository
             return drive;
         }
 
-        public ObservableCollection<Drive> GetDrivesByDriver(User user)
+        public List<Drive> GetDrivesByDriver(User user)
         {
             _drives = _serializer.FromCSV(FilePath);
             List<Drive> filteredDrives = _drives.FindAll(c => c.Driver.Id == user.Id);
-            return new ObservableCollection<Drive>(filteredDrives);
+            return new List<Drive>(filteredDrives);
         }
 
         public List<Drive> GetByDriverId(int driverId)
@@ -92,6 +92,34 @@ namespace BookingApp.Repository
         {
             _drives = _serializer.FromCSV(FilePath);
             return _drives.FindAll(c => c.Date.Date == DateTime.Today);
+        }
+        public int GetAvailableDriverId()
+        {
+            _drives = _serializer.FromCSV(FilePath);
+
+            var driversWithDrivesToday = _drives.Where(d => d.Date.Date == DateTime.Today).GroupBy(d => d.Driver.Id).ToList();
+
+            var availableDrivers = new List<int>();
+            if (driversWithDrivesToday.Count > 0)
+            {
+                var minDriveCount = driversWithDrivesToday.Min(g => g.Count());
+                availableDrivers = driversWithDrivesToday.Where(g => g.Count() == minDriveCount).Select(g => g.Key).ToList();
+            }
+
+            if (availableDrivers.Count > 0)
+            {
+                return availableDrivers.First();
+            }
+            else
+            {
+                return _drives.FirstOrDefault()?.Driver.Id ?? -1;
+            }
+        }
+
+        public Drive GetById(int id)
+        {
+            _drives = _serializer.FromCSV(FilePath);
+            return _drives.FirstOrDefault(d => d.Id == id);
         }
     }
 }

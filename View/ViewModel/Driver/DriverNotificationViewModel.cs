@@ -3,6 +3,7 @@ using BookingApp.Service;
 using BookingApp.ViewModel;
 using System;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -13,20 +14,34 @@ public class DriverNotificationViewModel : BaseViewModel
     private DateTime StartTime;
 
     private ObservableCollection<DriveNotification> _notifications;
-    public ObservableCollection<DriveNotification> Notifications
-    {
-        get { return _notifications; }
-        set
-        {
-            _notifications = value;
-            OnPropertyChanged(nameof(Notifications));
-        }
-    }
-    public ObservableCollection<int> cancelledIds;
-    FastDriveService fastDriveService = new FastDriveService();
+    private ObservableCollection<DriveNotification> CancelledNotifications;
+
+
     public User LoggedDriver {  get; set; }
     ObservableCollection<int> locations = new ObservableCollection<int>();
     ObservableCollection<FastDrive> fastDrives = new ObservableCollection<FastDrive>();
+
+    private DriveNotification _selectedNotification;
+    public DriveNotification SelectedNotification
+    {
+        get { return _selectedNotification; }
+        set
+        {
+            _selectedNotification = value;
+            OnPropertyChanged(nameof(SelectedNotification));
+        }
+    }
+    private Visibility _ButtonVisibility;
+    public Visibility ButtonVisibility
+    {
+        get { return _ButtonVisibility; }
+        set
+        {
+            _ButtonVisibility = value;
+            OnPropertyChanged(nameof(ButtonVisibility)); 
+        }
+    }
+
     private string _messageDisplay;
     public string MessageDisplay
     {
@@ -36,6 +51,10 @@ public class DriverNotificationViewModel : BaseViewModel
             _messageDisplay = value;
             OnPropertyChanged(nameof(MessageDisplay));
         }
+    }
+    public string NumberOfNotifications
+    {
+        get { return _notifications?.Count.ToString(); }
     }
 
     private string _notificationText;
@@ -48,12 +67,24 @@ public class DriverNotificationViewModel : BaseViewModel
             OnPropertyChanged(nameof(NotificationText));
         }
     }
+    public ObservableCollection<DriveNotification> Notifications
+    {
+        get { return _notifications; }
+        set
+        {
+            _notifications = value;
+            OnPropertyChanged(nameof(Notifications));
+            OnPropertyChanged(nameof(NumberOfNotifications));
+        }
+    }
 
     public DriverNotificationViewModel(User driver)
     {
-        cancelledIds = new ObservableCollection<int>();
-        _fastDriveService = fastDriveService;
+        ButtonVisibility = Visibility.Hidden;
+        _fastDriveService = new FastDriveService();
+        CancelledNotifications = new ObservableCollection<DriveNotification>();  
         LoggedDriver = driver;
+        Notifications = new ObservableCollection<DriveNotification>();
         LoadNotifications();
         StartTimer();
         StartTime = DateTime.Now;
@@ -61,7 +92,7 @@ public class DriverNotificationViewModel : BaseViewModel
     private void StartTimer()
     {
         _timer = new DispatcherTimer();
-        _timer.Interval = TimeSpan.FromSeconds(60);
+        _timer.Interval = TimeSpan.FromSeconds(15);
         _timer.Tick += Timer_Tick;
         _timer.Start();
     }
@@ -74,41 +105,22 @@ public class DriverNotificationViewModel : BaseViewModel
         Notifications.Clear();
         var fastDrivesList = _fastDriveService.GetAllFastDrives();
         ObservableCollection<FastDrive> fastDrives = new ObservableCollection<FastDrive>(fastDrivesList);
+        int IntNumberOfNotifications = 0;
         foreach (var fastDrive in fastDrives)
         {
-            DriveNotification newNotification = new DriveNotification($"Brza voznja{fastDrive.Id}", "Da li prihvatate brzu voznju?");
+            Location location = _fastDriveService.GetLocationById(fastDrive.StartAddress.LocationId);
+            DriveNotification newNotification = new DriveNotification($"Brza voznja u {location.City}", $"Da li prihvatate brzu voznju u {fastDrive.StartAddress.Street} {fastDrive.StartAddress.Number}, {location.City}, {location.Country} ?");
             newNotification.fastDrive = fastDrive;
             if (FilterOneByTime(newNotification))
             {
-                if (newNotification.fastDrive.DriverId == 0 && !cancelledIds.Contains(newNotification.fastDrive.Id))
+                if (newNotification.fastDrive.DriverId == 0)
                 {
                     Notifications.Add(newNotification);
+                    IntNumberOfNotifications++;
                 }
             }
         }
     }
-    private void FilterByTime(ObservableCollection<DriveNotification> notifications)
-    {
-        foreach (DriveNotification notification in notifications)
-        {
-            TimeSpan duration = DateTime.Now - notification.fastDrive.TimeOfReservation;
-            if (duration.TotalMinutes > 5)
-            {
-                _fastDriveService.Delete(notification.fastDrive);
-                fastDrives.Remove(notification.fastDrive);
-            }
-        }
-    }
-    private bool FilterOneByTime(DriveNotification notification)
-    {
-        TimeSpan duration = DateTime.Now - notification.fastDrive.TimeOfReservation;
-        if (duration.TotalMinutes > 5)
-            {
-            return false;
-        }
-        return true;
-    }
-
     private void LoadNotifications()
     {
         var fastDrivesList = _fastDriveService.GetAllFastDrives();
@@ -118,16 +130,33 @@ public class DriverNotificationViewModel : BaseViewModel
 
         foreach (var fastDrive in fastDrives)
         {
-            DriveNotification newNotification = new DriveNotification($"Brza voznja{fastDrive.Id}", "Da li prihvatate brzu voznju?");
+            Location location = _fastDriveService.GetLocationById(fastDrive.StartAddress.LocationId);
+            DriveNotification newNotification = new DriveNotification($"Brza voznja u  {location.City}", $"Da li prihvatate brzu voznju u {fastDrive.StartAddress.Street} {fastDrive.StartAddress.Number}, {location.City}, {location.Country} ?");
             newNotification.fastDrive = fastDrive;
             if (FilterOneByTime(newNotification))
             {
-                if (newNotification.fastDrive.DriverId == 0 && !cancelledIds.Contains(newNotification.fastDrive.Id))
+                if (newNotification.fastDrive.DriverId == 0)
                 {
+                    if(!CancelledNotifications.Contains(newNotification))
                     Notifications.Add(newNotification);
                 }
             }
+            else
+            {
+                if (newNotification.fastDrive.DriverId == 0)
+                {
+                    FastDrive fastDriveEnd = newNotification.fastDrive;
+                    fastDriveEnd.DriverId = _fastDriveService.GetAvailableDriver();
+                    _fastDriveService.Update(fastDriveEnd);
+                }
+            }
         }
+    }
+
+    private bool FilterOneByTime(DriveNotification notification)
+    {
+        TimeSpan duration = DateTime.Now - notification.fastDrive.TimeOfReservation;
+        return _fastDriveService.CheckDuration(duration.TotalMinutes);
     }
 
     public void AcceptAction(object parameter)
@@ -138,10 +167,11 @@ public class DriverNotificationViewModel : BaseViewModel
             _fastDriveService.SaveDrive(drive);
             FastDrive newFastDrive = selectedNotification.fastDrive;
             newFastDrive.DriverId = LoggedDriver.Id;
-            _fastDriveService.Update(selectedNotification.fastDrive);
+            _fastDriveService.Update(newFastDrive);
             Notifications.Remove(selectedNotification);
             MessageDisplay = "";
             NotificationText = "";
+            _fastDriveService.AddBonusPoints(LoggedDriver.Id);
         }
     }
 
@@ -149,8 +179,13 @@ public class DriverNotificationViewModel : BaseViewModel
     {
         if (parameter is DriveNotification selectedNotification)
         {
-            cancelledIds.Add(selectedNotification.fastDrive.Id);
+            FastDrive fastDrive = selectedNotification.fastDrive;
+            //fastDrive.DriverId = 0;
+            //_fastDriveService.Update(selectedNotification.fastDrive);
+            CancelledNotifications.Add(selectedNotification);
             Notifications.Remove(selectedNotification);
+            MessageDisplay = "";
+            NotificationText = "";
         }
     }
     public void SelectionChanged(int parameter)
@@ -160,6 +195,9 @@ public class DriverNotificationViewModel : BaseViewModel
         {
             MessageDisplay = selectedNotification.Caption;
             NotificationText = selectedNotification.Text;
+            if (selectedNotification != null) {
+                ButtonVisibility = Visibility.Visible;
+            }
         }
     }
 }

@@ -32,6 +32,7 @@ namespace BookingApp.Model
             Read = false;
         }
 
+
         public DelayReservation()
         {
 

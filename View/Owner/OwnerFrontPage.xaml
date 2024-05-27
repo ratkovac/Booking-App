@@ -1,4 +1,4 @@
-<Window x:Class="BookingApp.View.Owner.OwnerFrontPage"
+﻿<Window x:Class="BookingApp.View.Owner.OwnerFrontPage"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,14 +12,97 @@
         <Label x:Name="GuestGrade" Content="Grade guest" HorizontalAlignment="Left" Height="34" Margin="61,305,0,0" VerticalAlignment="Top" Width="125" Grid.Column="1" MouseLeftButtonDown="GuestGrade_MouseLeftButtonDown" FontSize="18" Grid.ColumnSpan="2"/>
         <Label x:Name="AccommodationGrades" Content="All owner grades" HorizontalAlignment="Left" Height="34" Margin="61,344,0,0" VerticalAlignment="Top" Width="167" FontSize="18" MouseLeftButtonDown="AccommodationGrades_MouseLeftButtonDown"/>
         <Label x:Name="DelayRequests" Content="Delay requests" HorizontalAlignment="Left" Height="34" Margin="61,378,0,0" VerticalAlignment="Top" Width="167" FontSize="18" MouseLeftButtonDown="DelayRequests_MouseLeftButtonDown"/>
+        <Label x:Name="Renovations" Content="All renovations" HorizontalAlignment="Left" Height="34" Margin="61,412,0,0" VerticalAlignment="Top" Width="167" FontSize="18" MouseLeftButtonDown="Renovations_MouseLeftButtonDown"/>
         <Label x:Name="Username" HorizontalAlignment="Left" Height="34" Margin="36,156,0,0" VerticalAlignment="Top" Width="192" Grid.Column="1" FontSize="18" HorizontalContentAlignment="Center" Grid.ColumnSpan="2"/>
         <Label x:Name="Role" HorizontalAlignment="Left" Height="34" Margin="36,195,0,0" VerticalAlignment="Top" Width="192" FontSize="14" HorizontalContentAlignment="Center"/>
-        <Grid>
-            <Border x:Name="SuperOwnerBorder" BorderBrush="Black" BorderThickness="3" CornerRadius="10"  Margin="365,51,675,447"/>
+        <Border x:Name="SuperOwnerBorder" BorderBrush="Black" BorderThickness="3" CornerRadius="10"  Margin="365,51,675,447"/>
             <Label x:Name="Username_Copy" HorizontalAlignment="Left" Height="34" Margin="382,153,0,0" VerticalAlignment="Top" Width="192" FontSize="18" HorizontalContentAlignment="Center"  Content="wefdssd"/>
             <Label x:Name="Role_Copy" HorizontalAlignment="Left" Height="26" Margin="382,187,0,0" VerticalAlignment="Top" Width="192" FontSize="14" HorizontalContentAlignment="Center" Content="wefdssd"/>
             <Image x:Name="SuperOwnerImage" HorizontalAlignment="Left" Height="52" VerticalAlignment="Top" Width="56" Margin="522,174,0,0"/>
             <Image x:Name="OwnerIcon" HorizontalAlignment="Left" Height="82" VerticalAlignment="Top" Width="82" Margin="437,66,0,0" Source="/View/Owner/user.jpg"/>
-        </Grid>
+            <Border BorderBrush="white" Background="#3cd3de" BorderThickness="2" CornerRadius="10" Margin="640,32,10,32">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="-2,0,0,0">
+                <StackPanel Margin="10">
+                    <StackPanel Grid.Row="0" Margin="0,0,0,10">
+                        <ItemsControl ItemsSource="{Binding accommodations}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="2" CornerRadius="10" HorizontalAlignment="Center" Width="600" Margin="10,10,0,5">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="BorderBrush" Value="white"/>
+                                                <Setter Property="Background" Value="#93DBEB"/>
+                                            </Style>
+                                        </Border.Style>
+                                        <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
+                                            <Grid>
+                                                <Image Width="70" Height="70" Source="/View/Owner/noimage.png"/>
+                                            </Grid>
+                                            <StackPanel Orientation="Vertical" Margin="20,0,0,0">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Source="/View/Owner/profile.png" Width="30" Height="30" Margin="0,0,10,0"/>
+                                                    <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="Bold" VerticalAlignment="Center" Width="150"/>
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal"  Margin="0,10,0,0">
+                                                    <Image Source="/View/Owner/accommodation.png" Width="30" Height="30" Margin="0,0,10,0"/>
+                                                    <TextBlock Text="{Binding Type}" FontSize="16" FontWeight="Bold" VerticalAlignment="Center" Width="150"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Vertical" Margin="10,0,0,0">
+                                                <StackPanel Orientation="Horizontal" Width="220">
+                                                    <Image Source="/View/Owner/calendar.png" Width="30" Height="30" Margin="0,0,10,0"/>
+                                                    <TextBlock FontSize="16" FontWeight="Bold" VerticalAlignment="Center">
+                                                        <TextBlock.Text>
+                                                            <MultiBinding StringFormat="{}{0} / {1}">
+                                                                <Binding Path="City"/>
+                                                                <Binding Path="Country"/>
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Vertical" Margin="20,0,0,0">
+                                                <Button x:Name="Stats" Command="{Binding DataContext.StatisticCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding}" Content="📊" HorizontalAlignment="Center" Margin="0,0,10,0" FontSize="15" Height="30" Width="30">
+                                                    <Button.Style>
+                                                        <Style TargetType="Button">
+                                                            <Setter Property="Foreground" Value="#31ed07"/>
+                                                            <Setter Property="BorderBrush" Value="#31ed07"/>
+                                                            <Setter Property="Background" Value="Transparent"/>
+                                                            <Style.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Background" Value="#31ed07"/>
+                                                                    <Setter Property="Foreground" Value="White"/>
+                                                                    <Setter Property="Background" Value="#31ed07"/>
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Button.Style>
+                                                </Button>
+                                                <Button x:Name="Renovation" Content="🛠️" HorizontalAlignment="Center" Margin="0,10,10,0" FontSize="15" Height="30" Width="30" Command="{Binding DataContext.RenovationCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding}">
+                                                    <Button.Style>
+                                                        <Style TargetType="Button">
+                                                            <Setter Property="Foreground" Value="#d40404"/>
+                                                            <Setter Property="BorderBrush" Value="#d40404"/>
+                                                            <Setter Property="Background" Value="Transparent"/>
+                                                            <Style.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Background" Value="#d40404"/>
+                                                                    <Setter Property="Foreground" Value="White"/>
+                                                                    <Setter Property="BorderBrush" Value="#d40404"/>
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Button.Style>
+                                                </Button>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
     </Grid>
 </Window>

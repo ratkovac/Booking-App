@@ -13,14 +13,29 @@ using CLI.Observer;
 
 namespace BookingApp.View.ViewModel.Guest
 {
-    public class DelayReservationViewModel : IObserver
+    public class DelayReservationViewModel : IObserver, INotifyPropertyChanged
     {
-        public ObservableCollection<AccommodationReservationDTO> SuggestedReservations { get; set; }
         private SuggestReservationService suggestReservationsService;
         private DelayReservationService delayReservationService;
         public AccommodationReservationDTO SelectedReservation { get; set; }
         private AccommodationReservationDTO AccommodationReservation { get; set; }
         private AccommodationReservationDTO CurrentReservation { get; set; }
+
+
+
+        private ObservableCollection<AccommodationReservationDTO> suggestedReservations;
+        public ObservableCollection<AccommodationReservationDTO> SuggestedReservations
+        {
+            get { return suggestedReservations; }
+            set
+            {
+                if (value != suggestedReservations)
+                {
+                    suggestedReservations = value;
+                    OnPropertyChanged(nameof(SuggestedReservations));
+                }
+            }
+        }
 
         private int reservationDays;
         public int ReservationDays
@@ -86,8 +101,9 @@ namespace BookingApp.View.ViewModel.Guest
 
         public void FindAllFreeReservation()
         {
-            SuggestedReservations = suggestReservationsService.SuggestReservation(reservationDays,
-                SuggestedReservations, StartDate, EndDate);
+            SuggestedReservations = new ObservableCollection<AccommodationReservationDTO>(
+                suggestReservationsService.CreateReservationsWithoutChecking(StartDate, EndDate, reservationDays)
+                );
 
             foreach (var accommodationReservation in SuggestedReservations)
             {

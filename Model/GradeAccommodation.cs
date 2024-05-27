@@ -9,6 +9,7 @@ using System.Windows.Documents;
 
 namespace BookingApp.Model
 {
+    public enum RenovationUrgencyLevel { Empty, Level1, Level2, Level3, Level4, Level5 };
     public class GradeAccommodation : ISerializable
     {
         public int Id { get; set; }
@@ -17,6 +18,9 @@ namespace BookingApp.Model
         public int Cleanliness { get; set; }
         public int Correctness { get; set; }
         public string Comment { get; set; }
+        public string Suggest { get; set; }
+        public RenovationUrgencyLevel? UrgencyLevel { get; set; }
+
 
         public List<Image> Images { get; set; }
 
@@ -24,20 +28,28 @@ namespace BookingApp.Model
         {
 
         }
-        public GradeAccommodation(int accommodationReservationId, int cleanliness, int ownerCorrectness, string comment)
+        public GradeAccommodation(AccommodationReservation accommodationReservation, int cleanliness, int ownerCorrectness, string comment)
         {
-            AccommodationReservationId = accommodationReservationId;
-            AccommodationReservationRepository accommodationReservationRepository = new AccommodationReservationRepository();
-            AccommodationReservation = accommodationReservationRepository.GetByID(accommodationReservationId);
+            AccommodationReservation = accommodationReservation;
             Cleanliness = cleanliness;
             Correctness = ownerCorrectness;
             Comment = comment;
         }
-        public GradeAccommodation(int accommodationReservationId, int cleanliness, int ownerCorrectness, string comment, List<Image> images)
+
+        public GradeAccommodation(AccommodationReservation accommodationReservation, int cleanliness, int correctness, string comment, string suggest, RenovationUrgencyLevel urgencyLevel, List<Image> images)
         {
-            AccommodationReservationId = accommodationReservationId;
-            AccommodationReservationRepository accommodationReservationRepository = new AccommodationReservationRepository();
-            AccommodationReservation = accommodationReservationRepository.GetByID(accommodationReservationId);
+            AccommodationReservation = accommodationReservation;
+            Cleanliness = cleanliness;
+            Correctness = correctness;
+            Comment = comment;
+            Suggest = suggest;
+            UrgencyLevel = urgencyLevel;
+            Images = images;
+        }
+
+        public GradeAccommodation(AccommodationReservation accommodationReservation, int cleanliness, int ownerCorrectness, string comment, List<Image> images)
+        {
+            AccommodationReservation = accommodationReservation;
             Cleanliness = cleanliness;
             Correctness = ownerCorrectness;
             Comment = comment;
@@ -47,14 +59,16 @@ namespace BookingApp.Model
         public string[] ToCSV()
         {
             string imagesString = string.Join("|", Images.Select(image => image.Id.ToString()));
-
+            string accommodationReservation = AccommodationReservation.Id.ToString();
             string[] values =
             {
                 Id.ToString(),
-                AccommodationReservationId.ToString(),
+                accommodationReservation,
                 Cleanliness.ToString(),
                 Correctness.ToString(),
                 Comment,
+                Suggest,
+                UrgencyLevel?.ToString() ?? "",
                 imagesString
             };
 
@@ -66,11 +80,16 @@ namespace BookingApp.Model
             try
             {
                 Id = Convert.ToInt32(values[0]);
-                int AccommodationReservationId = Convert.ToInt32(values[1]);
+                int reservationId = Convert.ToInt32(values[1]);
+                AccommodationReservationRepository accommodationReservationRepository = new AccommodationReservationRepository();
+                AccommodationReservation = accommodationReservationRepository.GetByID(reservationId);
                 Cleanliness = Convert.ToInt32(values[2]);
                 Correctness = Convert.ToInt32(values[3]);
                 Comment = values[4];
-                for (int i = 5; i < values.Length; i++)
+                Suggest = values[5];
+                bool success = Enum.TryParse(values[6], out RenovationUrgencyLevel parsedType);
+                UrgencyLevel = parsedType;
+                for (int i = 7; i < values.Length; i++)
                 {
                     ImageRepository imageRepository = new ImageRepository();
                     Image image = imageRepository.GetById(Convert.ToInt32(values[i]));

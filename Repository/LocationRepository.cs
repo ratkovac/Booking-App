@@ -100,6 +100,10 @@ namespace BookingApp.Repository
         {
             return _locations.FirstOrDefault(location => location.City == city && location.Country == country);
         }
+        public Location? GetLocationByCity(string city)
+        {
+            return _locations.FirstOrDefault(location => location.City == city);
+        }
         public int GetCityIdByName(string cityName)
         {
             return _locations.FirstOrDefault(loc => loc.City == cityName)?.Id ?? 0;

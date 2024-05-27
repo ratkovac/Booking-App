@@ -1,6 +1,9 @@
 ﻿using BookingApp.Model;
+using BookingApp.View.Owner;
 using System;
 using System.ComponentModel;
+using BookingApp.View;
+
 namespace BookingApp.DTO
 {
     public class DelayReservationDTO : INotifyPropertyChanged
@@ -20,7 +23,25 @@ namespace BookingApp.DTO
                 if (value != accommodationName)
                 {
                     accommodationName = value;
-                    OnPropertyChanged("accommodationName");
+                    OnPropertyChanged("AccommodationName");
+                }
+            }
+        }
+
+        private AccommodationReservation reservation;
+
+        public AccommodationReservation Reservation
+        {
+            get
+            {
+                return reservation;
+            }
+            set
+            {
+                if (value != reservation)
+                {
+                    reservation = value;
+                    OnPropertyChanged("Reservation");
                 }
             }
         }
@@ -120,6 +141,36 @@ namespace BookingApp.DTO
                 }
             }
         }
+        private bool busy;
+
+        public bool Busy
+        {
+            get { return busy; }
+            set
+            {
+                if (value != busy)
+                {
+                    busy = value;
+                    OnPropertyChanged(nameof(Busy));
+                }
+            }
+        }
+        private string frontImagePath;
+        public string FrontImagePath
+        {
+            get
+            {
+                return frontImagePath;
+            }
+            set
+            {
+                if (frontImagePath != value)
+                {
+                    frontImagePath = value;
+                    OnPropertyChanged("FrontImagePath");
+                }
+            }
+        }
         public DelayReservationDTO()
         {
         }
@@ -127,11 +178,18 @@ namespace BookingApp.DTO
         {
             Id = delayReservation.Id;
             accommodationName = delayReservation.Reservation.Accommodation.Name;
+            reservation = delayReservation.Reservation;
             oldStartDate = delayReservation.Reservation.StartDate;
             oldEndDate = delayReservation.Reservation.EndDate;
             newStartDate = delayReservation.NewStartDate; 
             newEndDate = delayReservation.NewEndDate;
             reservationId = delayReservation.Reservation.Id;
+        }
+
+        public DelayReservation ToDelayReservation()
+        {
+            DelayReservation delayReservation = new DelayReservation(reservation, newStartDate, newEndDate);
+            return delayReservation;
         }
         private void OnPropertyChanged(string name)
         {

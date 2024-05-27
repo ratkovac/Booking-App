@@ -116,9 +116,10 @@ namespace BookingApp.Repository
             else return -1;
         }
 
-        public ObservableCollection<FastDrive> GetDrivesByLocations(ObservableCollection<int> locations)
+
+        public List<FastDrive> GetDrivesByLocations(ObservableCollection<int> locations)
         {
-            var drivesForLocations = new ObservableCollection<FastDrive>();
+            var drivesForLocations = new List<FastDrive>();
 
             foreach (var fastDrive in _fastDrives)
             {
