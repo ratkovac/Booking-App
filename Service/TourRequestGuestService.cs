@@ -25,6 +25,10 @@ namespace BookingApp.Service
         {
             return tourRequestGuestRepository.GetAll();
         }
+        public List<TourRequestGuest> GetAllForSegmentId(int tourSegmentId)
+        {
+            return tourRequestGuestRepository.GetAllForSegmentId(tourSegmentId);
+        }
         public TourRequestGuest GetTourRequestGuestsById(int id)
         {
             return tourRequestGuestRepository.GetById(id);

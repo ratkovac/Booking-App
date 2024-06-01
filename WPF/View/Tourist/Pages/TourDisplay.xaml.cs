@@ -72,12 +72,12 @@ namespace BookingApp.WPF.View.Tourist.Pages
         {
             if (SelectedTour != null)
             {
-                var tour_reservation = new TourReservation(SelectedTour, Tourist);
+                var tour_reservation = new TourReservationView(SelectedTour, Tourist);
                 NavigationService.Navigate(tour_reservation);
             }
             else
             {
-                MessageBox.Show("Morate selektovati turu da bi ste vidjeli vise detalja o njoj!");
+                MessageBox.Show("You have to select a tour in order to book it!");
             }
         }
 

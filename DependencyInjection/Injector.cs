@@ -38,7 +38,7 @@ namespace BookingApp.DependencyInjection
             { typeof(IReservedDriveRepository), new ReservedDriveRepository() },
             { typeof(ITourImageRepository), new TourImageRepository() },
             { typeof(ISuperGuestRepository), new SuperGuestRepository() },
-            { typeof(IAccommodationEventRepository), new AccommodationEventRepository() }
+            { typeof(IAccommodationEventRepository), new AccommodationEventRepository() },
             { typeof(ITourRequestRepository), new TourRequestRepository() },
             { typeof(ITourRequestSegmentRepository), new TourRequestSegmentRepository() },
             { typeof(ITourRequestGuestRepository), new TourRequestGuestRepository() },

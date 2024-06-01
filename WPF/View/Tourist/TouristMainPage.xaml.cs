@@ -77,8 +77,8 @@ namespace BookingApp.WPF.View.Tourist
                     _tourReservationService.UpdateTouristState(Tourist.Id, tourInstance, TouristState.Present);
                     CheckTouristReservation();
                 }
-            }*/
-            //_voucherService.UpdateValidVouchers();
+            }
+            _voucherService.UpdateValidVouchers();*/
         }
 
         public void CheckForFastDriveNotification()
@@ -198,8 +198,14 @@ namespace BookingApp.WPF.View.Tourist
 
         private void ComplexRequest_Click(object sender, RoutedEventArgs e)
         {
+            ComplexTourRequestViewModel complexTourRequestViewModel = new ComplexTourRequestViewModel(Tourist.User, _locationService, _languageService, _tourRequestService, _tourRequestSegmentService, _tourRequestGuestService);
+            FrameHomePage.Navigate(new ComplexTourRequest(Tourist.User, _locationService, _languageService, _tourRequestService, _tourRequestSegmentService, _tourRequestGuestService));
+        }
+
+        private void TourRequest_Click(object sender, RoutedEventArgs e)
+        {
             TourRequestViewModel tourRequestViewModel = new TourRequestViewModel(Tourist.User, _locationService, _languageService, _tourRequestService, _tourRequestSegmentService, _tourRequestGuestService);
-            FrameHomePage.Navigate(new TourRequestView(Tourist.User, _locationService, _languageService, _tourRequestService, _tourRequestSegmentService, _tourRequestGuestService));
+            FrameHomePage.Navigate(new Pages.TourRequest(Tourist.User, _locationService, _languageService, _tourRequestService, _tourRequestSegmentService, _tourRequestGuestService));
         }
 
         private void Statistics_Click(object sender, RoutedEventArgs e)
@@ -241,7 +247,8 @@ namespace BookingApp.WPF.View.Tourist
         }
         private void Tours_Click(object sender, RoutedEventArgs e)
         {
-            FrameHomePage.Navigate(new MyTours(Tourist.User));
+            ReservationsDisplayViewModel reservationsDisplayViewModel = new ReservationsDisplayViewModel(Tourist);
+            FrameHomePage.Navigate(new BookingApp.WPF.View.Tourist.Pages.ReservationsDisplay(reservationsDisplayViewModel));
         }
         private void Profile_Click(object sender, MouseButtonEventArgs e)
         {

@@ -59,6 +59,14 @@ namespace BookingApp.WPF.ViewModel.Tourist
             }
         }
 
+        public void RemoveLastPicture(GradeTourFormViewModel gradeTourFormViewModel)
+        {
+            if (gradeTourFormViewModel.ImagePaths.Any())
+            {
+                gradeTourFormViewModel.ImagePaths.RemoveAt(gradeTourFormViewModel.ImagePaths.Count - 1);
+            }
+        }
+
         private string[] OpenImageFileDialog()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();

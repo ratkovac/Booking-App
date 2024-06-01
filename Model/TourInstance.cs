@@ -1,4 +1,5 @@
-﻿using BookingApp.Serializer;
+﻿using BookingApp.Repository;
+using BookingApp.Serializer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -85,6 +86,8 @@ namespace BookingApp.Model
         {
             Id = Convert.ToInt32(values[0]);
             TourId = Convert.ToInt32(values[1]);
+            TourRepository tourRepository = new TourRepository();
+            Tour = tourRepository.GetById(TourId);
             AvailableSlots = Convert.ToInt32(values[2]);
             StartTime = DateTime.Parse(values[3]);
             State = (TourInstanceState)Enum.Parse(typeof(TourInstanceState), values[4]);

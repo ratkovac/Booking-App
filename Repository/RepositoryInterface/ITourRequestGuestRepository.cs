@@ -11,6 +11,7 @@ namespace BookingApp.Repository.RepositoryInterface
 {
     public interface ITourRequestGuestRepository : IGenericRepository<TourRequestGuest, int>
     {
+        public List<TourRequestGuest> GetAllForSegmentId(int tourSegmentId);
         public void Subscribe(IObserver observer)
         {
 

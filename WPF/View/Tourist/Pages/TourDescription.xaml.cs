@@ -48,7 +48,7 @@ namespace BookingApp.WPF.View.Tourist.Pages
             DescriptionTextBox.Text = selectedTour.Description;
             LanguageTextBox.Text = selectedTour.Language.Name;
             MaxGuestsTextBox.Text = selectedTour.MaxGuests.ToString();
-            DurationTextBox.Text = selectedTour.Duration.ToString();
+            DurationTextBox.Text = $"{selectedTour.Duration}h";
             CheckPoints = _checkPointRepository.GetCheckPoints(selectedTour.Id);
             CheckPointTextBox.Text = string.Join(Environment.NewLine, CheckPoints.Select(cp => "\u2022" + " " + cp.PointText));
 
@@ -72,12 +72,25 @@ namespace BookingApp.WPF.View.Tourist.Pages
         {
             if (SelectedTour != null)
             {
-                var tour_reservation = new TourReservation(SelectedTour, Tourist);
+                var tour_reservation = new TourReservationView(SelectedTour, Tourist);
                 NavigationService.Navigate(tour_reservation);
             }
             else
             {
-                MessageBox.Show("Morate selektovati turu da bi ste vidjeli vise detalja o njoj!");
+                MessageBox.Show("It is not possible to book this tour!");
+            }
+        }
+
+        private void Gallery_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedTour != null)
+            {
+                var gallery = new Gallery(SelectedTour);
+                NavigationService.Navigate(gallery);
+            }
+            else
+            {
+                MessageBox.Show("This tour has no images!");
             }
         }
     }

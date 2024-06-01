@@ -1,4 +1,5 @@
-﻿using BookingApp.Serializer;
+﻿using BookingApp.Repository;
+using BookingApp.Serializer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,8 @@ namespace BookingApp.Model
             Name = values[1];
             Age = values[2];
             TourReservationId = int.Parse(values[3]);
+            TourReservationRepository tourReservationRepository = new TourReservationRepository();
+            TourReservation = tourReservationRepository.GetById(TourReservationId);
             TouristId = int.Parse(values[4]);
             CheckpointId = int.Parse(values[5]);
             State = (GuestState)Enum.Parse(typeof(GuestState), values[6]);

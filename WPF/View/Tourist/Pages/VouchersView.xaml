@@ -10,7 +10,7 @@
 
     <Grid>
         <Label Content="It's never a bad idea to save money!" FontWeight="Bold" FontSize="45" HorizontalAlignment="Left" Margin="20,30,0,0" VerticalAlignment="Top"/>
-        <Border CornerRadius="10" Background="AliceBlue" Margin="110,200,130,130">
+        <Border CornerRadius="10" Background="AliceBlue" Margin="90,150,90,150">
             <Border.Effect>
                 <DropShadowEffect ShadowDepth="0" BlurRadius="10"/>
             </Border.Effect>

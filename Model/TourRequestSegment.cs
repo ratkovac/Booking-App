@@ -1,4 +1,5 @@
-﻿using BookingApp.Serializer;
+﻿using BookingApp.Repository;
+using BookingApp.Serializer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +13,15 @@ namespace BookingApp.Model
     {
         public int Id { get; set; }
         public int TourRequestId { get; set; }
+        public TourRequest TourRequest { get; set; }
         public DateTime DateAccepted { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string? TourDescription { get; set; }
         public int Capacity { get; set; }
         public int LocationId { get; set; }
+        public Location Location { get; set; }
+        public Language Language { get; set; }
         public int LanguageId { get; set; }
         public TourRequestStatus IsAccepted { get; set; }
 
@@ -45,9 +49,15 @@ namespace BookingApp.Model
         {
             Id = Convert.ToInt32(values[0]);
             TourRequestId = Convert.ToInt32(values[1]);
+            TourRequestRepository tourRequestRepository = new TourRequestRepository();
+            TourRequest = tourRequestRepository.GetById(TourRequestId);
             TourDescription = values[2];
             LocationId = Convert.ToInt32(values[3]);
+            LocationRepository locationRepository = new LocationRepository();
+            Location = locationRepository.GetById(LocationId);
             LanguageId = Convert.ToInt32(values[4]);
+            LanguageRepository languageRepository = new LanguageRepository();
+            Language = languageRepository.GetById(LanguageId);
             Capacity = Convert.ToInt32(values[5]);
             StartDate = DateTime.Parse(values[6]);
             EndDate = DateTime.Parse(values[7]);

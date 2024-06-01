@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BookingApp.Model;
+using BookingApp.Repository;
 using BookingApp.Serializer;
 using BookingApp.View;
 
@@ -36,6 +37,8 @@ namespace BookingApp.Model
         {
             Id = Convert.ToInt32(values[0]);
             TourInstanceId = Convert.ToInt32(values[1]);
+            TourInstanceRepository tourInstanceRepository = new TourInstanceRepository();
+            TourInstance = tourInstanceRepository.GetById(TourInstanceId);
             TouristId = Convert.ToInt32(values[2]);
             State = (TouristState)Enum.Parse(typeof(TouristState), values[3]);
             UsedVoucher = Convert.ToBoolean(values[4]);

@@ -71,6 +71,11 @@ namespace BookingApp.Repository
             return _tourRequestGuests;
         }
 
+        public List<TourRequestGuest> GetAllForSegmentId(int tourSegmentId)
+        {
+            return _tourRequestGuests.Where(guest => guest.TourSegmentId == tourSegmentId).ToList();
+        }
+
         public TourRequestGuest GetById(int id)
         {
             return _tourRequestGuests.Find(trg => trg.Id == id);

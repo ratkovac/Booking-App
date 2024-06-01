@@ -1,15 +1,18 @@
 ﻿using BookingApp.Model;
+using BookingApp.Repository;
 using BookingApp.Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BookingApp.WPF.ViewModel.Tourist
 {
-    public class TourRequestViewModel
+    public class ComplexTourRequestViewModel
     {
         private User Tourist;
         public ObservableCollection<TourRequestSegmentViewModel> TourSegments { get; set; }
@@ -24,7 +27,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
         private LocationService _locationService;
         private LanguageService _languageService;
 
-        public TourRequestViewModel(User tourist, LocationService locationService, LanguageService languageService, TourRequestService tourRequestService, TourRequestSegmentService tourRequestSegmentService, TourRequestGuestService tourRequestGuestService)
+        public ComplexTourRequestViewModel(User tourist, LocationService locationService, LanguageService languageService, TourRequestService tourRequestService, TourRequestSegmentService tourRequestSegmentService, TourRequestGuestService tourRequestGuestService)
         {
             Tourist = tourist;
             TourSegments = new ObservableCollection<TourRequestSegmentViewModel>();
@@ -63,24 +66,24 @@ namespace BookingApp.WPF.ViewModel.Tourist
 
         public void AddSegment()
         {
-            /*foreach (var segment in TourSegments)
+            foreach (var segment in TourSegments)
             {
                 segment.IsExpanded = false;
-            }*/
+            }
 
             var newSegment = new TourRequestSegmentViewModel(_locationService, Countries, Languages);
-            //newSegment.IsExpanded = true;
+            newSegment.IsExpanded = true;
             TourSegments.Add(newSegment);
         }
 
 
-        /*public void RemoveSegment(TourRequestSegmentViewModel segment)
+        public void RemoveSegment(TourRequestSegmentViewModel segment)
         {
             if (TourSegments.Count > 1)
             {
                 TourSegments.Remove(segment);
             }
-        }*/
+        }
 
         public void CreateTourRequest()
         {

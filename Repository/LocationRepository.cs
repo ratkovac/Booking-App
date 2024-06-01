@@ -86,6 +86,11 @@ namespace BookingApp.Repository
         {
             return _locations.Find(c => c.Id == locationId);
         }
+
+        public Location? GetLocationById(int locationId)
+        {
+            return _locations.Find(c => c.Id == locationId);
+        }
         public List<Location> GetAllLocations()
         {
             _locations = _serializer.FromCSV(FilePath);

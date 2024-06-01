@@ -43,7 +43,7 @@
             </Style>
         </Grid.Resources>
         <Label Content="My drive reservations" FontWeight="Bold" FontSize="52" HorizontalAlignment="Left" Margin="100,10,0,0" VerticalAlignment="Top"/>
-        <Border CornerRadius="10" Background="AliceBlue" Margin="90,120,110,150">
+        <Border CornerRadius="10" Background="AliceBlue" Margin="90,120,90,150">
             <Border.Effect>
                 <DropShadowEffect ShadowDepth="0" BlurRadius="10"/>
             </Border.Effect>

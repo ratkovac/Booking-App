@@ -136,7 +136,7 @@
                                 <Popup Name="Popup" PlacementTarget="{Binding ElementName=toggleButton}" Placement="Bottom" StaysOpen="False" IsOpen="{Binding IsChecked, ElementName=toggleButton}">
                                     <Border BorderThickness="0" BorderBrush="Gray" Background="Gray">
                                         <StackPanel>
-                                            <Button Content="Tour request" Click="ComplexRequest_Click" Margin="0"/>
+                                            <Button Content="Tour request" Click="TourRequest_Click" Margin="0"/>
                                             <Button Content="My tour requests" Click="TourRequestDisplay_Click" Margin="0"/>
                                         </StackPanel>
                                     </Border>

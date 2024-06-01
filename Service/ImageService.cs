@@ -31,5 +31,9 @@ namespace BookingApp.Service
         {
             return _imageRepository.GetByAccommodationId(accommodationId);
         }
+        public List<Image> GetByTourId(int tourId)
+        {
+            return _imageRepository.GetByTourId(tourId);
+        }
     }
 }

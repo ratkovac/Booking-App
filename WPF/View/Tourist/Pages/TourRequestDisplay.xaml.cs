@@ -24,12 +24,22 @@ namespace BookingApp.WPF.View.Tourist.Pages
     public partial class TourRequestDisplay : Page
     {
         public TourRequestDisplayViewModel ViewModel { get; set; }
+        public BookingApp.Model.Tourist Tourist { get; set; }
 
         public TourRequestDisplay(TourRequestDisplayViewModel tourRequestDisplayViewModel)
         {
             InitializeComponent();
             this.DataContext = tourRequestDisplayViewModel;
             ViewModel = tourRequestDisplayViewModel;
+        }
+
+        private void TourRequestDescription_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            TourRequestSegment selectedSegment = (TourRequestSegment)button.DataContext;
+
+            var tourRequestDescription = new TourRequestDescription(selectedSegment, Tourist);
+            NavigationService.Navigate(tourRequestDescription);
         }
     }
 }
