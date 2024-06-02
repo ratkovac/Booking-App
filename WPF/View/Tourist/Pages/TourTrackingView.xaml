@@ -24,7 +24,7 @@
                 </StackPanel.Resources>
 
                 <StackPanel Orientation="Horizontal" Margin="20,20,0,20">
-                    <Label Content="Current checkpoint:" Width="210"/>
+                    <Label Content="Current checkpoint:" Width="250"/>
                     <TextBox x:Name="CheckpointTextBox" Text="{Binding TourReservation.TourInstance.CurrentCheckpoint}" Margin="0,5,0,0" IsReadOnly="True" BorderThickness="0" Width="240" Background="AliceBlue" FontSize="25"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="20,0,0,15">

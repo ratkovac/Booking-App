@@ -71,6 +71,21 @@ namespace BookingApp.Repository
             return _tourRequestSegments;
         }
 
+        public List<TourRequestSegment> GetAllNonComplexRequests()
+        {
+            return _tourRequestSegments.Where(segment => !segment.TourRequest.IsComplex).ToList();
+        }
+
+        public List<TourRequestSegment> GetAllComplexRequests()
+        {
+            return _tourRequestSegments.Where(segment => segment.TourRequest.IsComplex).ToList();
+        }
+
+        public List<TourRequestSegment> GetAllComplexSegmentsByTourRequestId(int tourRequestId)
+        {
+            return _tourRequestSegments.Where(segment => segment.TourRequestId == tourRequestId).ToList();
+        }
+
         public TourRequestSegment GetById(int id)
         {
             return _tourRequestSegments.Find(trs => trs.Id == id);

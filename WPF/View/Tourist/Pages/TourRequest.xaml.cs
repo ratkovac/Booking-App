@@ -28,20 +28,6 @@ namespace BookingApp.WPF.View.Tourist.Pages
             DataContext = ViewModel;
         }
 
-        /*private void AddSegment_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.AddSegment();
-        }
-
-        private void RemoveSegment_Click(object sender, RoutedEventArgs e)
-        {
-            var button = sender as Button;
-            if (button != null && button.DataContext is TourRequestSegmentViewModel segment)
-            {
-                ViewModel.RemoveSegment(segment);
-            }
-        }*/
-
         private void Submit_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.CreateTourRequest();

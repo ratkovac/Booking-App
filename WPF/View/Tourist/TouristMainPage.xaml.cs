@@ -26,6 +26,7 @@ namespace BookingApp.WPF.View.Tourist
         public BookingApp.Model.Tourist Tourist { get; set; }
         public FinishedToursViewModel FinishedToursViewModel { get; set; }
         public TourReservationService _tourReservationService { get; set; }
+        public TourReservationRepository _tourReservationRepository { get; set; }
         public UserRepository _userRepository { get; set; }
         public TouristService _touristService { get; set; }
         public TourInstanceService _tourInstanceService { get; set; }
@@ -48,6 +49,7 @@ namespace BookingApp.WPF.View.Tourist
             DataContext = this;
             Tourist = tourist;
             _tourReservationService = new TourReservationService();
+            _tourReservationRepository = new TourReservationRepository();
             _touristService = new TouristService();
             _tourInstanceService = new TourInstanceService();
             _tourRequestService = new TourRequestService();
@@ -64,7 +66,6 @@ namespace BookingApp.WPF.View.Tourist
             _userRepository = new UserRepository();
             _reservedDriveRepository = new ReservedDriveRepository();
             _reservedGroupDriveRepository = new ReservedGroupDriveRepository();
-            CheckTouristReservation();
             TourDisplay tourDisplay = new TourDisplay(tourist);
             FrameHomePage.Navigate(tourDisplay);
             /*if (_tourReservationService.GetTourInstanceIdWhereTouristIsWaiting(Tourist) != null)
@@ -162,18 +163,25 @@ namespace BookingApp.WPF.View.Tourist
 
         public void CheckTouristReservation()
         {
-            int number = 0;
+            int number = Tourist.NumberOfToursAttended;
+            List<BookingApp.Model.TourReservation> reservations = new List<BookingApp.Model.TourReservation>();
             foreach (BookingApp.Model.TourReservation reservation in _tourReservationService.GetReservationsForGuest(Tourist.Id))
             {
-                if (reservation.State == TouristState.Present && reservation.TourInstance.StartTime > DateTime.Now.AddYears(-1))
+                if (reservation.State == TouristState.Present && reservation.TourInstance.StartTime > DateTime.Now.AddYears(-1) && !reservation.WonVoucher)
                 {
                     number++;
+                    reservations.Add(reservation);
+                    if (number % 5 == 0)
+                    {
+                        _touristService.GiveVoucherForGuestWhenFiveTimePresent(Tourist.Id);
+                        MessageBox.Show("Congratulations! You have won a voucher!");
+                        Tourist.NumberOfToursAttended = 0;
+                        foreach (BookingApp.Model.TourReservation res in reservations)
+                        {
+                            _tourReservationRepository.UsedForWinningVoucher(res);
+                        }
+                    }
                 }
-            }
-            if (number % 5 == 0)
-            {
-                _touristService.GiveVoucherForGuestWhenFiveTimePresent(Tourist.Id);
-                MessageBox.Show("Cestitamo! Uspjesno ste osvojili vaucer!");
             }
         }
 
@@ -182,6 +190,7 @@ namespace BookingApp.WPF.View.Tourist
             CheckForGroupDriveNotification();
             CheckForFastDriveNotification();
             CheckForTourRequestNotification();
+            CheckTouristReservation();
         }
 
         private void TourDisplay_Click(object sender, RoutedEventArgs e)
@@ -193,25 +202,23 @@ namespace BookingApp.WPF.View.Tourist
         private void TourRequestDisplay_Click(object sender, RoutedEventArgs e)
         {
             TourRequestDisplayViewModel tourRequestDisplayViewModel = new TourRequestDisplayViewModel(Tourist.User);
-            FrameHomePage.Navigate(new BookingApp.WPF.View.Tourist.Pages.TourRequestDisplay(tourRequestDisplayViewModel));
+            FrameHomePage.Navigate(new BookingApp.WPF.View.Tourist.Pages.TourRequestDisplay(tourRequestDisplayViewModel, Tourist));
+        }
+
+        private void ComplexTourRequestDisplay_Click(object sender, RoutedEventArgs e)
+        {
+            ComplexRequestDisplayViewModel complexRequestDisplayViewModel = new ComplexRequestDisplayViewModel(Tourist.User);
+            FrameHomePage.Navigate(new BookingApp.WPF.View.Tourist.Pages.ComplexTourRequestDisplay(complexRequestDisplayViewModel, Tourist));
         }
 
         private void ComplexRequest_Click(object sender, RoutedEventArgs e)
         {
-            ComplexTourRequestViewModel complexTourRequestViewModel = new ComplexTourRequestViewModel(Tourist.User, _locationService, _languageService, _tourRequestService, _tourRequestSegmentService, _tourRequestGuestService);
             FrameHomePage.Navigate(new ComplexTourRequest(Tourist.User, _locationService, _languageService, _tourRequestService, _tourRequestSegmentService, _tourRequestGuestService));
         }
 
         private void TourRequest_Click(object sender, RoutedEventArgs e)
         {
-            TourRequestViewModel tourRequestViewModel = new TourRequestViewModel(Tourist.User, _locationService, _languageService, _tourRequestService, _tourRequestSegmentService, _tourRequestGuestService);
             FrameHomePage.Navigate(new Pages.TourRequest(Tourist.User, _locationService, _languageService, _tourRequestService, _tourRequestSegmentService, _tourRequestGuestService));
-        }
-
-        private void Statistics_Click(object sender, RoutedEventArgs e)
-        {
-            TourRequestStatisticsViewModel tourRequestStatisticsViewModel = new TourRequestStatisticsViewModel(Tourist.Id, _tourRequestService, _tourRequestSegmentService);
-            FrameHomePage.Navigate(new TourRequestStatsView(Tourist, _tourRequestService, _tourRequestSegmentService));
         }
 
         private void DriveDisplay_Click(object sender, RoutedEventArgs e)

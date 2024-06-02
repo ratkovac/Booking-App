@@ -1,5 +1,6 @@
 ﻿using BookingApp.Model;
 using BookingApp.Service;
+using Syncfusion.Blazor.Charts;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -52,12 +53,13 @@ namespace BookingApp.WPF.ViewModel.Tourist
             _tourRequestSegmentService = new TourRequestSegmentService();
             CheckAndCancelWaitingTours();
             TourRequestSegmentService tourRequestSegmentService = new TourRequestSegmentService();
-            ListTourSegments = new ObservableCollection<TourRequestSegment>(tourRequestSegmentService.GetAllTourRequestSegments());
+            ListTourSegments = new ObservableCollection<TourRequestSegment>(tourRequestSegmentService.GetAllNonComplexRequests());
+
         }
 
         private void CheckAndCancelWaitingTours()
         {
-            var allSegments = _tourRequestSegmentService.GetAllTourRequestSegments().ToList();
+            var allSegments = _tourRequestSegmentService.GetAllNonComplexRequests().ToList();
 
             foreach (var segment in allSegments)
             {

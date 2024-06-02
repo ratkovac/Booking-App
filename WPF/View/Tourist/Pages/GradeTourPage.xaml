@@ -95,6 +95,6 @@
                 </StackPanel>
             </ScrollViewer>
         </Border>
-        <Button Content="Confirm" BorderBrush="CadetBlue" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="580,0,0,70" Click="ConfirmButton_Click"/>
+        <Button Content="Rate tour!" BorderBrush="CadetBlue" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="580,0,0,70" Click="ConfirmButton_Click"/>
     </Grid>
 </Page>

@@ -18,7 +18,7 @@
         <TextBlock FontSize="45" Text="{Binding Tourist.Name}" HorizontalAlignment="Left" Margin="210,275,0,0" VerticalAlignment="Top"/>
         <Label Content="Lastname:" FontWeight="Bold" FontSize="45" HorizontalAlignment="Left" Margin="50,350,0,0" VerticalAlignment="Top"/>
         <TextBlock FontSize="45" Text="{Binding Tourist.LastName}" HorizontalAlignment="Left" Margin="285,355,0,0" VerticalAlignment="Top"/>
-        <Button Content="Request statistics" FontSize="35" FontWeight="Bold" Background="CadetBlue" Foreground="White" BorderBrush="CadetBlue" BorderThickness="2" Width="320" Height="70" Margin="58,280,0,0" HorizontalAlignment="Left" VerticalContentAlignment="Center"/>
+        <Button Content="Request statistics" Click="Statistics_Click" FontSize="35" FontWeight="Bold" Background="CadetBlue" Foreground="White" BorderBrush="CadetBlue" BorderThickness="2" Width="320" Height="70" Margin="58,280,0,0" HorizontalAlignment="Left" VerticalContentAlignment="Center"/>
         <Image Width="210" Height="270" Margin="580,175,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Source="{Binding Tourist.ProfilePicture}" />
         <Label Content="Profile picture" FontSize="30" HorizontalAlignment="Left" Margin="580,440,0,0" VerticalAlignment="Top"/>
     </Grid>

@@ -9,8 +9,8 @@
       Title="Tour Description">
 
     <Grid>
-        <Label FontWeight="Bold" FontSize="55" Width="400" HorizontalAlignment="Left" Margin="50,35,0,0" VerticalAlignment="Top">
-            <TextBox x:Name="NameTextBox" IsReadOnly="True" BorderThickness="0" Background="LightBlue" Width="400" TextDecorations="Underline"/>
+        <Label FontWeight="Bold" FontSize="55" Width="850" HorizontalAlignment="Left" Margin="50,35,0,0" VerticalAlignment="Top">
+            <TextBox x:Name="NameTextBox" IsReadOnly="True" BorderThickness="0" Background="LightBlue" Width="850" TextDecorations="Underline"/>
         </Label>
         <StackPanel Margin="50,140,0,0">
             <StackPanel.Resources>

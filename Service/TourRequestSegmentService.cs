@@ -46,6 +46,18 @@ namespace BookingApp.Service
         {
             tourRequestSegmentRepository.Subscribe(observer);
         }
+        public List<TourRequestSegment> GetAllNonComplexRequests()
+        {
+            return tourRequestSegmentRepository.GetAllNonComplexRequests();
+        }
+        public List<TourRequestSegment> GetAllComplexRequests()
+        {
+            return tourRequestSegmentRepository.GetAllComplexRequests();
+        }
+        public List<TourRequestSegment> GetAllComplexSegmentsByComplexTourRequestId(int tourRequestId)
+        {
+            return tourRequestSegmentRepository.GetAllComplexSegmentsByTourRequestId(tourRequestId);
+        }
         public TourRequestSegment GetByTourRequestId(int id)
         {
             return tourRequestSegmentRepository.GetAll().FirstOrDefault(request => request.TourRequestId == id);

@@ -1,3 +1,7 @@
-1|1|6|Present|True|True
-2|2|6|Present|True|False
-3|3|6|Present|True|False
+1|1|6|Present|True|True|False
+2|2|6|Present|True|False|False
+3|3|6|Present|True|False|False
+4|4|6|Present|True|False|False
+5|5|6|Present|True|False|False
+6|6|6|Present|True|False|False
+7|6|6|Present|True|False|False

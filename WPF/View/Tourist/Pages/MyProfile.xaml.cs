@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BookingApp.Service;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,12 +19,21 @@ namespace BookingApp.WPF.View.Tourist.Pages
     public partial class MyProfile : Page
     {
         public BookingApp.Model.Tourist Tourist { get; set; }
+        public TourRequestService _tourRequestService;
+        public TourRequestSegmentService _tourRequestSegmentService;
 
         public MyProfile(BookingApp.Model.Tourist tourist)
         {
             InitializeComponent();
             DataContext = this;
             Tourist = tourist;
+            _tourRequestService = new TourRequestService();
+            _tourRequestSegmentService = new TourRequestSegmentService();
+        }
+
+        private void Statistics_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new TourRequestStatsView(Tourist, _tourRequestService, _tourRequestSegmentService));
         }
     }
 }

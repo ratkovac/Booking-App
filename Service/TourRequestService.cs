@@ -55,7 +55,7 @@ namespace BookingApp.Service
             {
                 return new List<TourRequest>();
             }
-            return requests.Where(request => request.TouristId == touristId).ToList();
+            return requests.Where(request => request.TouristId == touristId && request.IsComplex == false).ToList();
         }
 
         public List<TourRequest> GetRequests()
@@ -66,6 +66,16 @@ namespace BookingApp.Service
                 return new List<TourRequest>();
             }
             return allRequests.Where(request => request.IsComplex == false).ToList();
+        }
+
+        public List<TourRequest> GetComplexRequests()
+        {
+            var allRequests = tourRequestRepository.GetAll();
+            if (allRequests == null)
+            {
+                return new List<TourRequest>();
+            }
+            return allRequests.Where(request => request.IsComplex == true).ToList();
         }
 
         public List<TourRequest> GetAllRequests()

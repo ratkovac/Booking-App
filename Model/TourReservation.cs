@@ -21,6 +21,7 @@ namespace BookingApp.Model
         public bool RatedTour { get; set; }
         public Tourist Tourist { get; set; }
         public TouristState State { get; set; }
+        public bool WonVoucher { get; set; }
 
         public TourReservation() { }
 
@@ -31,6 +32,7 @@ namespace BookingApp.Model
             TouristId = touristId;
             UsedVoucher = usedVoucher;
             RatedTour = ratedTour;
+            WonVoucher = false;
         }
 
         public void FromCSV(string[] values)
@@ -43,12 +45,13 @@ namespace BookingApp.Model
             State = (TouristState)Enum.Parse(typeof(TouristState), values[3]);
             UsedVoucher = Convert.ToBoolean(values[4]);
             RatedTour = bool.Parse(values[5]);
+            WonVoucher = bool.Parse(values[6]);
         }
 
         public string[] ToCSV()
         {
             string[] csvvalues = { Id.ToString(), TourInstanceId.ToString(), TouristId.ToString(), State.ToString(), UsedVoucher.ToString(),
-            RatedTour.ToString()};
+            RatedTour.ToString(), WonVoucher.ToString()};
             return csvvalues;
         }
     }

@@ -119,6 +119,11 @@ namespace BookingApp.Repository
             TourReservation tourReservation = _tourReservations.Find(r => r.TouristId == tourist.Id && r.TourInstanceId == tourInstance.Id);
             return tourReservation;
         }
+        public void UsedForWinningVoucher(TourReservation reservation)
+        {
+            reservation.WonVoucher = true;
+            Update(reservation);
+        }
         public List<int> FindTourInstanceIdsWhereTouristPresent(int touristId)
         {
             List<int> tourIds = new List<int>();
