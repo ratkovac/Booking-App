@@ -394,6 +394,15 @@ namespace BookingApp.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Generate PDF.
+        /// </summary>
+        internal static string GeneratePDF {
+            get {
+                return ResourceManager.GetString("GeneratePDF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Go back.
         /// </summary>
         internal static string GoBack {

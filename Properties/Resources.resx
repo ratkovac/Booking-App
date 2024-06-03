@@ -228,6 +228,9 @@
   <data name="Gallery" xml:space="preserve">
     <value>Gallery</value>
   </data>
+  <data name="GeneratePDF" xml:space="preserve">
+    <value>Generate PDF</value>
+  </data>
   <data name="GoBack" xml:space="preserve">
     <value>Go back</value>
   </data>

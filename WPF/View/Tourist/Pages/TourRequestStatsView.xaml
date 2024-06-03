@@ -11,6 +11,40 @@
       Title="TourRequestStats">
 
     <Grid>
+        <Grid.Resources>
+            <Style TargetType="Button">
+                <Setter Property="FontSize" Value="25"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Margin" Value="10,5"/>
+                <Setter Property="Padding" Value="10"/>
+                <Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource ButtonBackgroundBrush}"/>
+                <Setter Property="BorderThickness" Value="2"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="Width" Value="230"/>
+                <Setter Property="Height" Value="60"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}"
+      BorderBrush="{TemplateBinding BorderBrush}"
+      BorderThickness="{TemplateBinding BorderThickness}">
+                                <ContentPresenter HorizontalAlignment="Center"
+VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{DynamicResource ButtonMouseOverBackgroundBrush}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource ButtonMouseOverBorderBrush}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Resources>
         <Label Content="{ns:Loc MyStatistics}" Foreground="{DynamicResource ForegroundBrush}" FontWeight="Bold" FontSize="45" HorizontalAlignment="Left" Margin="50,30,0,0" VerticalAlignment="Top"/>
 
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="50,120,0,15">
@@ -47,5 +81,6 @@
 
         <TextBlock Text="{Binding AcceptedPercentage}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22" Margin="690,140,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <TextBlock Text="{Binding DeclinedPercentage}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22" Margin="685,205,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Button BorderBrush="{DynamicResource ButtonBackgroundBrush}" Content="{ns:Loc GeneratePDF}" Command="{Binding DataContext.GeneratePDFCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="520,0,0,150"/>
     </Grid>
 </Page>

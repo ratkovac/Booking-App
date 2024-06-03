@@ -73,6 +73,80 @@ namespace BookingApp.Service
 
             return earliest;
         }
+        public double GetAverageNumberOfPeopleForYear(int year)
+        {
+            var segments = tourRequestSegmentRepository.GetAll()
+                                                       .Where(segment => segment.DateAccepted.Year == year && segment.IsAccepted == TourRequestStatus.ACCEPTED)
+                                                       .ToList();
+
+            if (segments.Count == 0)
+            {
+                return 0;
+            }
+
+            double totalCapacity = segments.Sum(segment => segment.Capacity);
+            double averageCapacity = totalCapacity / segments.Count;
+
+            return averageCapacity;
+        }
+        public string GetMostFrequentLanguageForYear(int year)
+        {
+            var segments = tourRequestSegmentRepository.GetAll()
+                                                       .Where(segment => segment.DateAccepted.Year == year && segment.IsAccepted == TourRequestStatus.ACCEPTED)
+                                                       .ToList();
+
+            if (segments.Count == 0)
+            {
+                return "No data available for the given year.";
+            }
+
+            var languageCounts = segments.GroupBy(segment => segment.Language)
+                                        .Select(group => new { Language = group.Key, Count = group.Count() })
+                                        .OrderByDescending(item => item.Count);
+
+            var mostFrequentLanguage = languageCounts.First();
+
+            return mostFrequentLanguage.Language.Name;
+        }
+
+        public string GetMostFrequentCountryForYear(int year)
+        {
+            var segments = tourRequestSegmentRepository.GetAll()
+                                                       .Where(segment => segment.DateAccepted.Year == year && segment.IsAccepted == TourRequestStatus.ACCEPTED)
+                                                       .ToList();
+
+            if (segments.Count == 0)
+            {
+                return "No data available for the given year.";
+            }
+
+            var locationCounts = segments.GroupBy(segment => segment.Location)
+                                         .Select(group => new { Location = group.Key, Count = group.Count() })
+                                         .OrderByDescending(item => item.Count);
+
+            var mostFrequentLocation = locationCounts.First();
+
+            return mostFrequentLocation.Location.Country;
+        }
+        public string GetMostFrequentCityForYear(int year)
+        {
+            var segments = tourRequestSegmentRepository.GetAll()
+                                                       .Where(segment => segment.DateAccepted.Year == year && segment.IsAccepted == TourRequestStatus.ACCEPTED)
+                                                       .ToList();
+
+            if (segments.Count == 0)
+            {
+                return "";
+            }
+
+            var locationCounts = segments.GroupBy(segment => segment.Location)
+                                         .Select(group => new { Location = group.Key, Count = group.Count() })
+                                         .OrderByDescending(item => item.Count);
+
+            var mostFrequentLocation = locationCounts.First();
+
+            return mostFrequentLocation.Location.City;
+        }
         public void SetAsAccepted(TourRequestSegment tourRequestSegment)
         {
             var tourRequest = tourRequestSegmentRepository.GetById(tourRequestSegment.Id);
