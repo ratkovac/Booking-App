@@ -67,11 +67,11 @@ namespace BookingApp.Service
             int hour = int.Parse(DepartureHour);
             int minute = int.Parse(SelectedMinute);
 
-            if (hour < 0 || hour > 23 || minute < 0 || minute > 59)
+            if (hour < 0 || hour > 23)
             {
-                throw new ArgumentException("Nevažeći sati ili minuti.");
+                return DateTime.MinValue;
             }
-
+            
             DateTime selectedDateTime = new DateTime(DepartureDate.Year, DepartureDate.Month, DepartureDate.Day, hour, minute, 0);
             return selectedDateTime;
         }

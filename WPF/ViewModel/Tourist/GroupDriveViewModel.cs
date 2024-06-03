@@ -1,6 +1,7 @@
 ﻿using BookingApp.Model;
 using BookingApp.Repository;
 using BookingApp.Service;
+using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,6 +10,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace BookingApp.WPF.ViewModel.Tourist
 {
@@ -20,6 +23,8 @@ namespace BookingApp.WPF.ViewModel.Tourist
         private int DetailedEndAddressId { get; set; }
         public int AddressId { get; set; }
         public string CountryName { get; set; }
+        public ICommand ReservationCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
 
         public LocationService _locationService { get; set; }
         public AddressService _addressService { get; set; }
@@ -166,7 +171,33 @@ namespace BookingApp.WPF.ViewModel.Tourist
             _locationService = new LocationService();
             _addressService = new AddressService();
             _groupDriveService = new GroupDriveService();
+            ReservationCommand = new RelayCommand<GroupDriveViewModel>(ExecuteReservationCommand);
+            CancelCommand = new RelayCommand<GroupDriveViewModel>(ExecuteCancelCommand);
             DepartureDate = DateTime.Today;
+            SelectedMinute = "00";
+            NumberOfPeople = 2;
+        }
+
+        private void ExecuteReservationCommand(GroupDriveViewModel groupDriveViewModel)
+        {
+            MessageBox.Show(Reservation());
+        }
+
+        private void ExecuteCancelCommand(GroupDriveViewModel groupDriveViewModel)
+        {
+            SelectedCountry = null;
+            SelectedCity = null;
+            StartStreet = string.Empty;
+            EndStreet = string.Empty;
+            DepartureDate = DateTime.Today;
+            DepartureHour = string.Empty;
+            SelectedMinute = "00";
+            SelectedLanguage = null;
+            NumberOfPeople = 1;
+
+            InputCountries();
+            InputLanguages();
+            Cities = new ObservableCollection<string>();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

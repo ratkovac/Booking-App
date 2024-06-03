@@ -4,13 +4,14 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:BookingApp.WPF.View.Tourist.Pages"
+      xmlns:ns="clr-namespace:BookingApp.Localization"
       mc:Ignorable="d" 
-      d:DesignHeight="720" d:DesignWidth="950" Background="LightBlue"
+      d:DesignHeight="720" d:DesignWidth="950" Background="{DynamicResource BackgroundBrush}"
       Title="TourTrackingView">
 
     <Grid>
-        <Label Content="Tour tracking" FontWeight="Bold" FontSize="45" HorizontalAlignment="Left" Margin="50,30,0,0" VerticalAlignment="Top"/>
-        <Border Background="AliceBlue" Margin="90,120,110,150">
+        <Label Content="{ns:Loc TourTracking}" Foreground="{DynamicResource ForegroundBrush}" FontWeight="Bold" FontSize="45" HorizontalAlignment="Left" Margin="50,30,0,0" VerticalAlignment="Top"/>
+        <Border Background="{DynamicResource BackgroundBrush1}" Margin="90,120,110,150">
             <Border.Effect>
                 <DropShadowEffect ShadowDepth="0" BlurRadius="10"/>
             </Border.Effect>
@@ -19,20 +20,20 @@
                     <Style TargetType="Label">
                         <Setter Property="FontSize" Value="25"/>
                         <Setter Property="FontWeight" Value="Bold"/>
-                        <Setter Property="Width" Value="250"/>
+                        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
                     </Style>
                 </StackPanel.Resources>
 
                 <StackPanel Orientation="Horizontal" Margin="20,20,0,20">
-                    <Label Content="Current checkpoint:" Width="250"/>
-                    <TextBox x:Name="CheckpointTextBox" Text="{Binding TourReservation.TourInstance.CurrentCheckpoint}" Margin="0,5,0,0" IsReadOnly="True" BorderThickness="0" Width="240" Background="AliceBlue" FontSize="25"/>
+                    <Label Content="{ns:Loc CurrentCheckpoint:}"/>
+                    <TextBox x:Name="CheckpointTextBox" Foreground="{DynamicResource ForegroundBrush}" Text="{Binding TourReservation.TourInstance.CurrentCheckpoint}" Margin="5,5,0,0" IsReadOnly="True" BorderThickness="0" Width="240" Background="{DynamicResource BackgroundBrush1}" FontSize="25"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="20,0,0,15">
-                    <Label Content="Attendance:" Width="160"/>
-                    <TextBlock FontSize="25" VerticalAlignment="Center" Margin="270,0,0,0">Present</TextBlock>
-                    <TextBlock FontSize="25" VerticalAlignment="Center" Margin="30,0,0,0">Absent</TextBlock>
+                    <Label Content="{ns:Loc Attendance:}"/>
+                    <TextBlock Foreground="{DynamicResource ForegroundBrush}" FontSize="25" VerticalAlignment="Center" Margin="280,0,0,0" Text="{ns:Loc Present}"/>
+                    <TextBlock Foreground="{DynamicResource ForegroundBrush}" FontSize="25" VerticalAlignment="Center" Margin="30,0,0,0" Text="{ns:Loc Absent}"/>
                 </StackPanel>
-                <Border Height="240" Width="700" BorderThickness="3" BorderBrush="Black" Background="AliceBlue" Margin="0,0,0,0">
+                <Border Height="240" Width="700" BorderThickness="3" BorderBrush="{DynamicResource ForegroundBrush}" Background="{DynamicResource BackgroundBrush1}" Margin="0,0,0,0">
                     <ListView ItemsSource="{Binding TourGuests}">
                         <ListView.ItemTemplate>
                             <DataTemplate>

@@ -4,8 +4,9 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:BookingApp.WPF.View.Tourist.Pages"
+      xmlns:ns="clr-namespace:BookingApp.Localization"
       mc:Ignorable="d" 
-      d:DesignHeight="720" d:DesignWidth="950" Background="LightBlue"
+      d:DesignHeight="720" d:DesignWidth="950" Background="{DynamicResource BackgroundBrush}"
       Title="Complex Tour Request">
 
     <Grid>
@@ -15,22 +16,22 @@
             <RowDefinition Height="130"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Vertical">
-            <Label Content="Got interesting ideas for complex tours?" FontWeight="Bold" FontSize="45" HorizontalAlignment="Left" Margin="50,30,0,0" VerticalAlignment="Top"/>
+            <Label Content="{ns:Loc GotInterestingIdeasForComplexTours?}" Foreground="{DynamicResource ForegroundBrush}" FontWeight="Bold" FontSize="45" HorizontalAlignment="Left" Margin="50,30,0,0" VerticalAlignment="Top"/>
             <Label FontSize="40" HorizontalAlignment="Left" Margin="80,-25,0,0" VerticalAlignment="Top">
-                <TextBlock TextDecorations="Underline">Be creative!</TextBlock>
+                <TextBlock TextDecorations="Underline" Text="{ns:Loc BeCreative!}" Foreground="{DynamicResource ForegroundBrush}"/>
             </Label>
         </StackPanel>
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
             <Grid>
                 <Grid.Resources>
                     <Style TargetType="Button">
-                        <Setter Property="FontSize" Value="22"/>
+                        <Setter Property="FontSize" Value="25"/>
                         <Setter Property="FontWeight" Value="Bold"/>
                         <Setter Property="Margin" Value="10,5"/>
                         <Setter Property="Padding" Value="10"/>
-                        <Setter Property="Background" Value="CadetBlue"/>
-                        <Setter Property="Foreground" Value="White"/>
-                        <Setter Property="BorderBrush" Value="CadetBlue"/>
+                        <Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBackgroundBrush}"/>
                         <Setter Property="BorderThickness" Value="2"/>
                         <Setter Property="HorizontalAlignment" Value="Left"/>
                         <Setter Property="Width" Value="230"/>
@@ -39,18 +40,19 @@
                             <Setter.Value>
                                 <ControlTemplate TargetType="Button">
                                     <Border Background="{TemplateBinding Background}"
-BorderBrush="{TemplateBinding BorderBrush}"
-BorderThickness="{TemplateBinding BorderThickness}">
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+      BorderBrush="{TemplateBinding BorderBrush}"
+      BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter HorizontalAlignment="Center"
+VerticalAlignment="Center"/>
                                     </Border>
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="LightBlue"/>
-                                <Setter Property="Foreground" Value="White"/>
-                                <Setter Property="BorderBrush" Value="LightBlue"/>
+                                <Setter Property="Background" Value="{DynamicResource ButtonMouseOverBackgroundBrush}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+                                <Setter Property="BorderBrush" Value="{DynamicResource ButtonMouseOverBorderBrush}"/>
                             </Trigger>
                         </Style.Triggers>
                     </Style>
@@ -60,44 +62,44 @@ BorderThickness="{TemplateBinding BorderThickness}">
                         <DataTemplate>
                             <StackPanel>
                                 <DockPanel>
-                                    <Button Content="❌" DockPanel.Dock="Right" Width="30" Height="30" FontSize="15" HorizontalAlignment="Right" Click="RemoveSegment_Click"/>
-                                    <Expander Header="Tour segment" FontSize="25" IsExpanded="{Binding IsExpanded, Mode=TwoWay}" Margin="30,0,0,0">
+                                    <Button Content="❌" DockPanel.Dock="Right" Width="30" Height="30" FontSize="15" HorizontalAlignment="Right" Command="{Binding DataContext.RemoveSegmentCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Mode=OneWay}"/>
+                                    <Expander Foreground="{DynamicResource ForegroundBrush}" Header="{ns:Loc TourSegment}" FontSize="25" IsExpanded="{Binding IsExpanded, Mode=TwoWay}" Margin="30,0,0,0">
                                         <Grid>
                                             <StackPanel Margin="10,20,0,0">
                                                 <StackPanel.Resources>
                                                     <Style TargetType="Label">
                                                         <Setter Property="FontSize" Value="25"/>
                                                         <Setter Property="FontWeight" Value="Bold"/>
-                                                        <Setter Property="Width" Value="250"/>
+                                                        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
                                                     </Style>
                                                 </StackPanel.Resources>
                                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                                                    <Label Content="Country:" Width="120"/>
-                                                    <ComboBox FontSize="25" Width="220" Height="40" ItemsSource="{Binding Countries}"
+                                                    <Label Content="{ns:Loc Country:}"/>
+                                                    <ComboBox FontSize="25" Width="220" Height="40" Margin="5,0,0,0" ItemsSource="{Binding Countries}"
                                               DisplayMemberPath="Value"
                                               SelectedValuePath="Key"
                                               SelectedItem="{Binding SelectedCountry}"/>
                                                 </StackPanel>
 
                                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                                                    <Label Content="City:" Width="70"/>
-                                                    <ComboBox FontSize="25" Width="270" Height="40" ItemsSource="{Binding Cities}"
+                                                    <Label Content="{ns:Loc City:}"/>
+                                                    <ComboBox FontSize="25" Width="270" Margin="5,0,0,0" Height="40" ItemsSource="{Binding Cities}"
                                               DisplayMemberPath="Value"
                                               SelectedValuePath="Key"
                                               SelectedItem="{Binding SelectedCity}"/>
                                                 </StackPanel>
 
                                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                                                    <Label Content="Language:" Width="140"/>
-                                                    <ComboBox FontSize="25" Width="200" Height="40" ItemsSource="{Binding Languages}"
+                                                    <Label Content="{ns:Loc Language:}"/>
+                                                    <ComboBox FontSize="25" Width="200" Height="40" Margin="5,0,0,0" ItemsSource="{Binding Languages}"
                                               DisplayMemberPath="Value"
                                               SelectedValuePath="Key"
                                               SelectedItem="{Binding SelectedLanguage}"/>
                                                 </StackPanel>
 
                                                 <StackPanel Orientation="Vertical" Width="330" Margin="5,0,0,0" HorizontalAlignment="Left">
-                                                    <Label Content="Description:" Width="190" Margin="-40,0,110,0"/>
-                                                    <TextBox BorderBrush="CornflowerBlue" BorderThickness="3" Width="330" Height="135" Background="LightBlue" FontSize="25" Text="{Binding TourDescription, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    <Label Content="{ns:Loc Description:}" Margin="-5,0,110,0"/>
+                                                    <TextBox Foreground="{DynamicResource ForegroundBrush}" BorderBrush="{DynamicResource TextBoxBorderBrush}" BorderThickness="3" Width="330" Height="135" Background="{DynamicResource BackgroundBrush}" FontSize="25" Text="{Binding TourDescription, UpdateSourceTrigger=PropertyChanged}"/>
                                                 </StackPanel>
                                             </StackPanel>
                                             <StackPanel Margin="470,20,0,0">
@@ -105,30 +107,30 @@ BorderThickness="{TemplateBinding BorderThickness}">
                                                     <Style TargetType="Label">
                                                         <Setter Property="FontSize" Value="25"/>
                                                         <Setter Property="FontWeight" Value="Bold"/>
-                                                        <Setter Property="Width" Value="250"/>
+                                                        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
                                                     </Style>
                                                 </StackPanel.Resources>
 
                                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                                                    <Label Content="Start date:" Width="140" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                                    <DatePicker FontSize="25" Width="220" Height="40" Margin="0,0,0,0" SelectedDate="{Binding StartDate}"/>
+                                                    <Label Content="{ns:Loc StartDate:}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                                    <DatePicker FontSize="22" Width="190" Height="40" Margin="5,0,0,0" SelectedDate="{Binding StartDate}"/>
                                                 </StackPanel>
 
                                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                                                    <Label Content="End date:" Width="130" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                                    <DatePicker FontSize="25" Width="230" Height="40" Margin="0,0,0,0" SelectedDate="{Binding EndDate}"/>
+                                                    <Label Content="{ns:Loc EndDate:}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                                    <DatePicker FontSize="22" Width="200" Height="40" Margin="5,0,0,0" SelectedDate="{Binding EndDate}"/>
                                                 </StackPanel>
 
                                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                                                    <Label Content="Number of people:" Width="240" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                                    <ComboBox FontSize="25" Width="50" Height="40" ItemsSource="{Binding NumberOfPeopleSelection}" SelectedItem="{Binding NumberOfPeople}"/>
+                                                    <Label Content="{ns:Loc NumberOfPeople:}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                                    <ComboBox FontSize="25" Width="50" Height="40" Margin="5,0,0,0" ItemsSource="{Binding NumberOfPeopleSelection}" SelectedItem="{Binding NumberOfPeople}"/>
                                                 </StackPanel>
 
                                                 <StackPanel Orientation="Vertical" Margin="0,0,0,10">
                                                     <StackPanel Orientation="Horizontal">
-                                                        <Label Content="Name" Width="130" HorizontalContentAlignment="Center"/>
-                                                        <Label Content="Lastname" Width="160" HorizontalContentAlignment="Center"/>
-                                                        <Label Content="Age" Width="90" HorizontalContentAlignment="Center"/>
+                                                        <Label Content="{ns:Loc Name}" Width="130" HorizontalContentAlignment="Center"/>
+                                                        <Label Content="{ns:Loc Lastname}" Width="160" HorizontalContentAlignment="Center"/>
+                                                        <Label Content="{ns:Loc Age}" Width="100" HorizontalContentAlignment="Center"/>
                                                     </StackPanel>
                                                     <ScrollViewer MaxHeight="135">
                                                         <ItemsControl ItemsSource="{Binding TourGuestInputs}">
@@ -157,13 +159,13 @@ BorderThickness="{TemplateBinding BorderThickness}">
         <Grid Grid.Row="2">
             <Grid.Resources>
                 <Style TargetType="Button">
-                    <Setter Property="FontSize" Value="22"/>
+                    <Setter Property="FontSize" Value="25"/>
                     <Setter Property="FontWeight" Value="Bold"/>
                     <Setter Property="Margin" Value="10,5"/>
                     <Setter Property="Padding" Value="10"/>
-                    <Setter Property="Background" Value="CadetBlue"/>
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="BorderBrush" Value="CadetBlue"/>
+                    <Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource ButtonBackgroundBrush}"/>
                     <Setter Property="BorderThickness" Value="2"/>
                     <Setter Property="HorizontalAlignment" Value="Left"/>
                     <Setter Property="Width" Value="230"/>
@@ -172,24 +174,25 @@ BorderThickness="{TemplateBinding BorderThickness}">
                         <Setter.Value>
                             <ControlTemplate TargetType="Button">
                                 <Border Background="{TemplateBinding Background}"
-            BorderBrush="{TemplateBinding BorderBrush}"
-            BorderThickness="{TemplateBinding BorderThickness}">
-                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+      BorderBrush="{TemplateBinding BorderBrush}"
+      BorderThickness="{TemplateBinding BorderThickness}">
+                                    <ContentPresenter HorizontalAlignment="Center"
+VerticalAlignment="Center"/>
                                 </Border>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="LightBlue"/>
-                            <Setter Property="Foreground" Value="White"/>
-                            <Setter Property="BorderBrush" Value="LightBlue"/>
+                            <Setter Property="Background" Value="{DynamicResource ButtonMouseOverBackgroundBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource ButtonMouseOverBorderBrush}"/>
                         </Trigger>
                     </Style.Triggers>
                 </Style>
             </Grid.Resources>
-            <Button Content="Confirm" Click="Submit_Click" BorderBrush="CadetBlue" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="580,0,0,70"/>
-            <Button Content="Add tour segment" Click="AddSegment_Click" BorderBrush="CadetBlue" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="120,0,0,70"/>
+            <Button Content="{ns:Loc Confirm}" Command="{Binding DataContext.SubmitCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="580,0,0,70"/>
+            <Button Content="{ns:Loc AddTourSegment}" Command="{Binding DataContext.AddSegmentCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding}" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="120,0,0,70"/>
         </Grid>
     </Grid>
 </Page>

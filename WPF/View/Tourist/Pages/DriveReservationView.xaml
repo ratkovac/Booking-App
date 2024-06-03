@@ -4,26 +4,27 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:BookingApp.WPF.View.Tourist.Pages"
+      xmlns:ns="clr-namespace:BookingApp.Localization"
       mc:Ignorable="d" 
-      d:DesignHeight="720" d:DesignWidth="950" Background="LightBlue"
+      d:DesignHeight="720" d:DesignWidth="950" Background="{DynamicResource BackgroundBrush}"
       Title="Drive Reservation">
     <Grid>
-        <Label Content="Where do you want to go?" FontWeight="Bold" FontSize="45" HorizontalAlignment="Left" Margin="50,30,0,0" VerticalAlignment="Top"/>
+        <Label Content="{ns:Loc WhereDoYouWantToGo?}" Foreground="{DynamicResource ForegroundBrush}" FontWeight="Bold" FontSize="45" HorizontalAlignment="Left" Margin="50,30,0,0" VerticalAlignment="Top"/>
         <StackPanel Margin="40,150,0,0">
             <StackPanel.Resources>
                 <Style TargetType="Label">
                     <Setter Property="FontSize" Value="25"/>
                     <Setter Property="FontWeight" Value="Bold"/>
-                    <Setter Property="Width" Value="250"/>
+                    <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
                 </Style>
                 <Style TargetType="Button">
                     <Setter Property="FontSize" Value="25"/>
                     <Setter Property="FontWeight" Value="Bold"/>
                     <Setter Property="Margin" Value="10,5"/>
                     <Setter Property="Padding" Value="10"/>
-                    <Setter Property="Background" Value="CadetBlue"/>
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="BorderBrush" Value="CadetBlue"/>
+                    <Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource ButtonBackgroundBrush}"/>
                     <Setter Property="BorderThickness" Value="2"/>
                     <Setter Property="HorizontalAlignment" Value="Left"/>
                     <Setter Property="Width" Value="230"/>
@@ -32,79 +33,79 @@
                         <Setter.Value>
                             <ControlTemplate TargetType="Button">
                                 <Border Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}">
+      BorderBrush="{TemplateBinding BorderBrush}"
+      BorderThickness="{TemplateBinding BorderThickness}">
                                     <ContentPresenter HorizontalAlignment="Center"
-                              VerticalAlignment="Center"/>
+VerticalAlignment="Center"/>
                                 </Border>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="LightBlue"/>
-                            <Setter Property="Foreground" Value="White"/>
-                            <Setter Property="BorderBrush" Value="LightBlue"/>
+                            <Setter Property="Background" Value="{DynamicResource ButtonMouseOverBackgroundBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource ButtonMouseOverBorderBrush}"/>
                         </Trigger>
                     </Style.Triggers>
                 </Style>
             </StackPanel.Resources>
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                <Label Content="Country:" Width="120"/>
-                <ComboBox x:Name="CountryComboBox" FontSize="25" Width="240" Height="40" Margin="0,0,0,0" SelectionChanged="CountryComboBox_SelectionChanged"/>
+                <Label Content="{ns:Loc Country:}"/>
+                <ComboBox x:Name="CountryComboBox" FontSize="25" Width="240" Height="40" Margin="5,0,0,0" SelectionChanged="CountryComboBox_SelectionChanged"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                <Label Content="City:" Width="70"/>
-                <ComboBox x:Name="CityComboBox" FontSize="25" Width="290" Height="40" Margin="0,0,0,0" SelectionChanged="CityComboBox_SelectionChanged"/>
+                <Label Content="{ns:Loc City:}"/>
+                <ComboBox x:Name="CityComboBox" FontSize="25" Width="290" Height="40" Margin="5,0,0,0" SelectionChanged="CityComboBox_SelectionChanged"/>
             </StackPanel>
 
-            <Label FontWeight="Bold" FontSize="27" HorizontalAlignment="Left" Margin="0,10,0,15" VerticalAlignment="Top">
-                <TextBlock TextDecorations="Underline">Current address:</TextBlock>
+            <Label FontWeight="Bold" FontSize="27" HorizontalAlignment="Left" Margin="5,10,0,15" VerticalAlignment="Top">
+                <TextBlock TextDecorations="Underline" Text="{ns:Loc CurrentAddress:}"/>
             </Label>
             
             <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                <Label Content="Street:" Width="90"/>
-                <TextBox x:Name="startStreetTextBox" FontSize="25" Width="270" Height="40" Margin="0,0,8,0"/>
+                <Label Content="{ns:Loc Street:}"/>
+                <TextBox x:Name="startStreetTextBox" FontSize="25" Width="270" Height="40" Margin="5,0,8,0"/>
             </StackPanel>
 
-            <Label FontWeight="Bold" FontSize="27" HorizontalAlignment="Left" Margin="0,10,0,15" VerticalAlignment="Top">
-                <TextBlock TextDecorations="Underline">Destination:</TextBlock>
+            <Label FontWeight="Bold" FontSize="27" HorizontalAlignment="Left" Margin="5,10,0,15" VerticalAlignment="Top">
+                <TextBlock TextDecorations="Underline" Text="{ns:Loc Destination:}"/>
             </Label>
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                <Label Content="Street:" Width="90"/>
-                <TextBox x:Name="endStreetTextBox" FontSize="25" Width="270" Height="40" Margin="0,0,100,0"/>
+                <Label Content="{ns:Loc Street:}"/>
+                <TextBox x:Name="endStreetTextBox" FontSize="25" Width="270" Height="40" Margin="5,0,100,0"/>
             </StackPanel>
 
-            <Button Content="Reserve drive!" HorizontalAlignment="Center" Click="Reservation_Click" Margin="405,30,0,0"/>
-            <Button Content="Go back" Click="ButtonBack" Margin="80,-60,0,0"/>
+            <Button Content="{ns:Loc ReserveDrive!}" BorderBrush="{DynamicResource ButtonBackgroundBrush}" HorizontalAlignment="Center" Click="Reservation_Click" Margin="405,30,0,0"/>
+            <Button Content="{ns:Loc GoBack}" BorderBrush="{DynamicResource ButtonBackgroundBrush}" Click="ButtonBack" Margin="80,-60,0,0"/>
         </StackPanel>
         <StackPanel Margin="480,150,0,0">
             <StackPanel.Resources>
                 <Style TargetType="Label">
                     <Setter Property="FontSize" Value="25"/>
                     <Setter Property="FontWeight" Value="Bold"/>
-                    <Setter Property="Width" Value="250"/>
+                    <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
                 </Style>
             </StackPanel.Resources>
             
             <StackPanel Orientation="Vertical" Margin="0,0,0,15">
                 <Label FontWeight="Bold" FontSize="27" HorizontalAlignment="Left" Margin="0,0,0,15" VerticalAlignment="Top">
-                    <TextBlock TextDecorations="Underline">Departure date:</TextBlock>
+                    <TextBlock TextDecorations="Underline" Text="{ns:Loc DepartureDate:}"/>
                 </Label>
                 <DatePicker x:Name="dateDp" FontSize="27" Width="330" Height="40" Margin="0,0,120,0"/>
             </StackPanel>
 
             <StackPanel Orientation="Vertical" Margin="0,0,0,15">
                 <Label FontWeight="Bold" FontSize="27" HorizontalAlignment="Left" Margin="0,10,0,15" VerticalAlignment="Top">
-                    <TextBlock TextDecorations="Underline">Departure time:</TextBlock>
+                    <TextBlock TextDecorations="Underline" Text="{ns:Loc DepartureTime:}"/>
                 </Label>
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="Time:" Width="90"/>
-                    <TextBox x:Name="hourTextBox" FontSize="27" Width="70" Height="40" Margin="0,0,10,0"/>
-                    <TextBlock FontSize="30">:</TextBlock>
+                    <Label Content="{ns:Loc Time:}"/>
+                    <TextBox x:Name="hourTextBox" FontSize="27" Width="70" Height="40" Margin="5,0,10,0"/>
+                    <TextBlock FontSize="30" Text=":" Foreground="{DynamicResource ForegroundBrush}"/>
                     <ComboBox x:Name="minuteComboBox" FontSize="27" Width="70" Height="40" Margin="10,0,0,0" SelectionChanged="minuteComboBox_SelectionChanged">
                         <ComboBoxItem Content="00"/>
                         <ComboBoxItem Content="15"/>
@@ -116,7 +117,7 @@
 
             <StackPanel Orientation="Vertical" Margin="0,12,0,0">
                 <Label FontWeight="Bold" FontSize="27" HorizontalAlignment="Left" Margin="0,0,0,15" VerticalAlignment="Top">
-                    <TextBlock TextDecorations="Underline">Driver:</TextBlock>
+                    <TextBlock TextDecorations="Underline" Text="{ns:Loc Driver:}"/>
                 </Label>
                 <ComboBox x:Name="driversComboBox" FontSize="25" Width="330" Height="40" Margin="0,0,120,0" SelectionChanged="driversComboBox_SelectionChanged"/>
             </StackPanel>

@@ -55,16 +55,20 @@
     <None Remove="Images\apartment2.jpg" />
     <None Remove="Images\reserve.png" />
     <None Remove="Resources\Images\add.png" />
+    <None Remove="Resources\Images\bell.png" />
+    <None Remove="Resources\Images\bell1.png" />
     <None Remove="Resources\Images\delete.png" />
     <None Remove="Resources\Images\doggo.jpg" />
     <None Remove="Resources\Images\edit.png" />
     <None Remove="Resources\Images\language.png" />
+    <None Remove="Resources\Images\language1.png" />
     <None Remove="Resources\Images\losangeles.jpg" />
-    <None Remove="Resources\Images\notifications.png" />
     <None Remove="Resources\Images\ny.jpg" />
-    <None Remove="Resources\Images\profile.png" />
     <None Remove="Resources\Images\strpce.jpg" />
     <None Remove="Resources\Images\theme.png" />
+    <None Remove="Resources\Images\theme1.png" />
+    <None Remove="Resources\Images\user.png" />
+    <None Remove="Resources\Images\user1.png" />
     <None Remove="Resources\Images\view.png" />
     <None Remove="View\GuideView\GuideImages\navigation.png" />
     <None Remove="View\GuideView\GuideImages\profile.png" />
@@ -131,28 +135,40 @@
     <Content Include="download.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Images\bell.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\bell1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Images\doggo.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Images\language.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Images\language1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Images\losangeles.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\Images\notifications.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Resources\Images\ny.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Images\profile.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Images\strpce.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Images\theme.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\user.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\theme1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\user1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="View\GuideView\GuideImages\navigation.png" />
@@ -196,19 +212,31 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="WPF\View\Tourist\Pages\AvailableTours.xaml.cs">
-      <SubType>Code</SubType>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Update="WPF\View\Tourist\Pages\DriveReservation.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="WPF\View\Tourist\TouristFrontPage.xaml.cs">
-      <SubType>Code</SubType>
+    <Compile Update="Properties\Resources.sr-LATN.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.sr-LATN.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Domain\Model\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.sr-LATN.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.sr-LATN.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

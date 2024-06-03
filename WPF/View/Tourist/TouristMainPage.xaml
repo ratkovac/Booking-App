@@ -4,10 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BookingApp.WPF.View.Tourist"
+        xmlns:ns="clr-namespace:BookingApp.Localization"
         mc:Ignorable="d"
         Title="TouristMainPage" Height="720" Width="1280" WindowStartupLocation="CenterScreen">
     <Window.Background>
-        <SolidColorBrush Color="LightBlue" />
+        <SolidColorBrush Color="{DynamicResource BackgroundColor}" />
     </Window.Background>
 
     <Window.Resources>
@@ -19,9 +20,9 @@
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Margin" Value="10,5"/>
             <Setter Property="Padding" Value="10"/>
-            <Setter Property="Background" Value="CadetBlue"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="CadetBlue"/>
+            <Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource ButtonBackgroundBrush}"/>
             <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="Width" Value="280"/>
@@ -40,9 +41,9 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="LightBlue"/>
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="BorderBrush" Value="LightBlue"/>
+                    <Setter Property="Background" Value="{DynamicResource ButtonMouseOverBackgroundBrush}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource ButtonMouseOverBorderBrush}"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -51,9 +52,9 @@
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Margin" Value="10,5"/>
             <Setter Property="Padding" Value="10"/>
-            <Setter Property="Background" Value="CadetBlue"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="CadetBlue"/>
+            <Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource ButtonBackgroundBrush}"/>
             <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="Width" Value="280"/>
@@ -72,33 +73,29 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="LightBlue"/>
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="BorderBrush" Value="LightBlue"/>
+                    <Setter Property="Background" Value="{DynamicResource ButtonMouseOverBackgroundBrush}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource ButtonMouseOverBorderBrush}"/>
                 </Trigger>
                 <Trigger Property="IsChecked" Value="True">
-                    <Setter Property="Background" Value="LightBlue"/>
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="BorderBrush" Value="LightBlue"/>
+                    <Setter Property="Background" Value="{DynamicResource ButtonMouseOverBackgroundBrush}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource ButtonMouseOverBorderBrush}"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
     </Window.Resources>
 
     <Grid>
-        <StackPanel Orientation="Vertical" Background="AliceBlue" Margin="0,0,950,0">
+        <StackPanel Orientation="Vertical" Background="{DynamicResource BackgroundBrush1}" Margin="0,0,950,0">
             <Grid Height="575" Width="300">
-                <Image Source="/Resources/Images/theme.png" Width="65" Height="65" Margin="0,0,215,480"/>
-                <Ellipse Width="65" Height="65" Margin="0,0,70,480">
-                    <Ellipse.Fill>
-                        <ImageBrush ImageSource="/Resources/Images/language.png"/>
-                    </Ellipse.Fill>
-                </Ellipse>
-                <Image Source="/Resources/Images/notifications.png" Width="79" Height="79" Margin="70,0,0,480" MouseDown="Notification_Click"/>
-                <Image Source="/Resources/Images/profile.png" Width="65" Height="65" Margin="215,0,0,480" MouseDown="Profile_Click"/>
-                <Button Content="Home page" Click="TourDisplay_Click" Margin="0,0,0,320" HorizontalAlignment="Center"/>
-                <Button Content="My reservations" Click="Tours_Click" Margin="0,0,0,180" HorizontalAlignment="Center"/>
-                <ToggleButton Content="Tour request" Margin="0,0,0,40" HorizontalAlignment="Center" Checked="ToggleButton_Checked">
+                <Image Source="{DynamicResource ThemeImage}" Width="65" Height="65" Margin="0,0,215,480" MouseDown="Theme_Click"/>
+                <Image Source="{DynamicResource LanguageImage}" Width="55" Height="55" Margin="0,0,70,480" MouseDown="Language_Click"/>
+                <Image Source="{DynamicResource NotifImage}" Width="58" Height="58" Margin="70,0,0,480" MouseDown="Notification_Click"/>
+                <Image Source="{DynamicResource UserImage}" Width="60" Height="60" Margin="215,0,0,480" MouseDown="Profile_Click"/>
+                <Button Content="{ns:Loc HomePage}" Click="TourDisplay_Click" Margin="0,0,0,320" HorizontalAlignment="Center"/>
+                <Button Content="{ns:Loc MyReservations}" Click="Tours_Click" Margin="0,0,0,180" HorizontalAlignment="Center"/>
+                <ToggleButton Content="{ns:Loc TourRequest}" Margin="0,0,0,40" HorizontalAlignment="Center" Checked="ToggleButton_Checked">
                     <ToggleButton.Template>
                         <ControlTemplate TargetType="ToggleButton">
                             <Grid>
@@ -113,8 +110,8 @@
                                 <Popup Name="Popup" PlacementTarget="{Binding ElementName=toggleButton}" Placement="Bottom" StaysOpen="False" IsOpen="{Binding IsChecked, ElementName=toggleButton}">
                                     <Border BorderThickness="0" BorderBrush="Gray" Background="Gray">
                                         <StackPanel>
-                                            <Button Content="Tour request" Click="TourRequest_Click" Margin="0"/>
-                                            <Button Content="My tour requests" Click="TourRequestDisplay_Click" Margin="0"/>
+                                            <Button Content="{ns:Loc TourRequest}" Click="TourRequest_Click" Margin="0"/>
+                                            <Button Content="{ns:Loc MyTourRequests}" Click="TourRequestDisplay_Click" Margin="0"/>
                                         </StackPanel>
                                     </Border>
                                 </Popup>
@@ -122,7 +119,7 @@
                         </ControlTemplate>
                     </ToggleButton.Template>
                 </ToggleButton>
-                <ToggleButton Content="Complex tour request" Margin="0,100,0,0" FontSize="22" HorizontalAlignment="Center" Checked="ToggleButton_Checked">
+                <ToggleButton Content="{ns:Loc ComplexTourRequest}" Margin="0,100,0,0" FontSize="22" HorizontalAlignment="Center" Checked="ToggleButton_Checked">
                     <ToggleButton.Template>
                         <ControlTemplate TargetType="ToggleButton">
                             <Grid>
@@ -137,8 +134,8 @@
                                 <Popup Name="Popup" PlacementTarget="{Binding ElementName=toggleButton}" Placement="Bottom" StaysOpen="False" IsOpen="{Binding IsChecked, ElementName=toggleButton}">
                                     <Border BorderThickness="0" BorderBrush="Gray" Background="Gray">
                                         <StackPanel>
-                                            <Button Content="Complex tour request" Click="ComplexRequest_Click" Margin="0"/>
-                                            <Button Content="My complex tour requests" Click="ComplexTourRequestDisplay_Click" FontSize="22" Margin="0"/>
+                                            <Button Content="{ns:Loc ComplexTourRequest}" Click="ComplexRequest_Click" Margin="0"/>
+                                            <Button Content="{ns:Loc MyComplexTourRequests}" Click="ComplexTourRequestDisplay_Click" FontSize="22" Margin="0"/>
                                         </StackPanel>
                                     </Border>
                                 </Popup>
@@ -146,7 +143,7 @@
                         </ControlTemplate>
                     </ToggleButton.Template>
                 </ToggleButton>
-                <ToggleButton Content="Drive reservation" Margin="0,240,0,0" HorizontalAlignment="Center" Checked="ToggleButton_Checked">
+                <ToggleButton Content="{ns:Loc DriveReservation}" Margin="0,240,0,0" HorizontalAlignment="Center" Checked="ToggleButton_Checked">
                     <ToggleButton.Template>
                         <ControlTemplate TargetType="ToggleButton">
                             <Grid>
@@ -161,10 +158,10 @@
                                 <Popup Name="Popup" PlacementTarget="{Binding ElementName=toggleButton}" Placement="Bottom" StaysOpen="False" IsOpen="{Binding IsChecked, ElementName=toggleButton}">
                                     <Border BorderThickness="0" BorderBrush="Gray" Background="Gray">
                                         <StackPanel>
-                                            <Button Content="Drive reservation" Click="DriveReservation_Click" Margin="0"/>
-                                            <Button Content="Fast drive reservation" Click="FastDrive_Click" Margin="0"/>
-                                            <Button Content="Group drive reservation" Click="GroupDrive_Click" Margin="0"/>
-                                            <Button Content="My drives" Click="DriveDisplay_Click" Margin="0"/>
+                                            <Button Content="{ns:Loc DriveReservation}" Click="DriveReservation_Click" Margin="0"/>
+                                            <Button Content="{ns:Loc FastDriveReservation}" Click="FastDrive_Click" Margin="0"/>
+                                            <Button Content="{ns:Loc GroupDriveReservation}" Click="GroupDrive_Click" Margin="0"/>
+                                            <Button Content="{ns:Loc MyDrives}" Click="DriveDisplay_Click" Margin="0"/>
                                         </StackPanel>
                                     </Border>
                                 </Popup>
@@ -172,10 +169,10 @@
                         </ControlTemplate>
                     </ToggleButton.Template>
                 </ToggleButton>
-                <Button Content="Vouchers" Click="Vouchers_Click" Margin="0,380,0,0" HorizontalAlignment="Center"/>
+                <Button Content="{ns:Loc Vouchers}" Click="Vouchers_Click" Margin="0,380,0,0" HorizontalAlignment="Center"/>
             </Grid>
             <Grid Height="140" Width="280">
-                <Button Content="Log out" Click="BackToSignIn" Margin="0,0,0,50" HorizontalAlignment="Center"/>
+                <Button Content="{ns:Loc LogOut}" Click="BackToSignIn" Margin="0,0,0,50" HorizontalAlignment="Center"/>
             </Grid>
         </StackPanel>
 

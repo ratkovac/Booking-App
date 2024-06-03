@@ -52,7 +52,8 @@ namespace BookingApp.WPF.View.Tourist.Pages
 
         private void ComplexTourRequest_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Pages.ComplexTourRequest(Tourist.User, _locationService, _languageService, _tourRequestService, _tourRequestSegmentService, _tourRequestGuestService));
+            ComplexTourRequestViewModel complexTourRequestViewModel = new ComplexTourRequestViewModel(Tourist.User, _locationService, _languageService, _tourRequestService, _tourRequestSegmentService, _tourRequestGuestService);
+            NavigationService.Navigate(new Pages.ComplexTourRequest(complexTourRequestViewModel));
         }
     }
 }

@@ -18,29 +18,10 @@ namespace BookingApp.WPF.View.Tourist.Pages
 {
     public partial class GroupDrivePage : Page
     {
-        private GroupDriveViewModel viewModel;
         public GroupDrivePage(GroupDriveViewModel groupDriveViewModel)
         {
             InitializeComponent();
             this.DataContext = groupDriveViewModel;
-            viewModel = groupDriveViewModel;
-        }
-
-        private void ButtonBack(object sender, RoutedEventArgs e)
-        {
-            if (NavigationService.CanGoBack)
-            {
-                NavigationService.GoBack();
-            }
-            else
-            {
-                MessageBox.Show("Nema prethodne stranice!");
-            }
-        }
-
-        private void Reservation_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show(viewModel.Reservation());
         }
     }
 }

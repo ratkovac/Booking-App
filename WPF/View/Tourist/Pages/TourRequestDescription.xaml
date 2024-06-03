@@ -4,29 +4,34 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:BookingApp.WPF.View.Tourist.Pages"
+      xmlns:ns="clr-namespace:BookingApp.Localization"
       mc:Ignorable="d" 
-      d:DesignHeight="720" d:DesignWidth="950" Background="LightBlue"
+      d:DesignHeight="720" d:DesignWidth="950" Background="{DynamicResource BackgroundBrush}"
       Title="TourRequestDescription">
 
     <Grid>
         <Label HorizontalAlignment="Left" Margin="50,30,0,0" VerticalAlignment="Top">
-            <TextBlock Text="Description" FontWeight="Bold" FontSize="45" TextDecorations="Underline"/>
+            <TextBlock Text="{ns:Loc Description}" Foreground="{DynamicResource ForegroundBrush}" FontWeight="Bold" FontSize="45" TextDecorations="Underline"/>
         </Label>
         <StackPanel Margin="40,140,0,0">
             <StackPanel.Resources>
                 <Style TargetType="Label">
                     <Setter Property="FontSize" Value="25"/>
                     <Setter Property="FontWeight" Value="Bold"/>
-                    <Setter Property="Width" Value="250"/>
+                    <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+                </Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+                    <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
                 </Style>
                 <Style TargetType="Button">
                     <Setter Property="FontSize" Value="25"/>
                     <Setter Property="FontWeight" Value="Bold"/>
                     <Setter Property="Margin" Value="10,5"/>
                     <Setter Property="Padding" Value="10"/>
-                    <Setter Property="Background" Value="CadetBlue"/>
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="BorderBrush" Value="CadetBlue"/>
+                    <Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource ButtonBackgroundBrush}"/>
                     <Setter Property="BorderThickness" Value="2"/>
                     <Setter Property="HorizontalAlignment" Value="Left"/>
                     <Setter Property="Width" Value="230"/>
@@ -44,42 +49,42 @@
                     </Setter>
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="LightBlue"/>
-                            <Setter Property="Foreground" Value="White"/>
-                            <Setter Property="BorderBrush" Value="LightBlue"/>
+                            <Setter Property="Background" Value="{DynamicResource ButtonMouseOverBackgroundBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource ButtonMouseOverBackgroundBrush}"/>
                         </Trigger>
                     </Style.Triggers>
                 </Style>
             </StackPanel.Resources>
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                <Label Content="City:" Width="65"/>
-                <TextBox x:Name="CityTextBox" Margin="0,5,0,0" IsReadOnly="True" BorderThickness="0" Width="240" Background="LightBlue" FontSize="25"/>
+                <Label Content="{ns:Loc City:}"/>
+                <TextBox Text="{Binding SelectedSegment.Location.City}" x:Name="CityTextBox" Margin="5,5,0,0" IsReadOnly="True" BorderThickness="0" Width="240" FontSize="25"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                <Label Content="Country:" Width="115"/>
-                <TextBox x:Name="CountryTextBox" Margin="0,5,0,0" IsReadOnly="True" BorderThickness="0" Width="240" Background="LightBlue" FontSize="25"/>
+                <Label Content="{ns:Loc Country:}"/>
+                <TextBox Text="{Binding SelectedSegment.Location.Country}" x:Name="CountryTextBox" Margin="5,5,0,0" IsReadOnly="True" BorderThickness="0" Width="240" FontSize="25"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                <Label Content="Status:" Width="90"/>
-                <TextBox x:Name="StatusTextBox" Margin="0,5,0,0" IsReadOnly="True" BorderThickness="0" Width="240" Background="LightBlue" FontSize="25"/>
+                <Label Content="{ns:Loc Status:}"/>
+                <TextBox Text="{Binding SelectedSegment.IsAccepted}" x:Name="StatusTextBox" Margin="5,5,0,0" IsReadOnly="True" BorderThickness="0" Width="240" FontSize="25"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                <Label Content="Language:" Width="135"/>
-                <TextBox x:Name="LanguageTextBox" Margin="0,5,0,0" IsReadOnly="True" BorderThickness="0" Width="240" Background="LightBlue" FontSize="25"/>
+                <Label Content="{ns:Loc Language:}"/>
+                <TextBox Text="{Binding SelectedSegment.Language}" x:Name="LanguageTextBox" Margin="5,5,0,0" IsReadOnly="True" BorderThickness="0" Width="240" FontSize="25"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                <Label Content="Number of guests:" Width="230"/>
-                <TextBox x:Name="GuestsTextBox" Margin="0,5,0,0" IsReadOnly="True" BorderThickness="0" Width="80" Background="LightBlue" FontSize="25"/>
+                <Label Content="{ns:Loc NumberOfGuests:}"/>
+                <TextBox Text="{Binding SelectedSegment.Capacity}" x:Name="GuestsTextBox" Margin="5,5,0,0" IsReadOnly="True" BorderThickness="0" Width="80" FontSize="25"/>
             </StackPanel>
 
             <StackPanel Orientation="Vertical" Width="300" Margin="5,0,0,0" HorizontalAlignment="Left">
-                <Label Content="Duration span:" Width="190" Margin="-10,0,110,0"/>
-                <TextBox x:Name="DurationSpanTextBox" IsReadOnly="True" BorderBrush="CornflowerBlue" BorderThickness="3" Width="300" Height="40" Background="LightBlue" FontSize="25"/>
+                <Label Content="{ns:Loc DurationSpan:}" Margin="-5,0,0,0"/>
+                <TextBox x:Name="DurationSpanTextBox" IsReadOnly="True" BorderBrush="{DynamicResource TextBoxBorderBrush}" BorderThickness="3" Width="300" Height="40" FontSize="25"/>
             </StackPanel>
         </StackPanel>
         <StackPanel Margin="480,140,0,0">
@@ -87,18 +92,22 @@
                 <Style TargetType="Label">
                     <Setter Property="FontSize" Value="25"/>
                     <Setter Property="FontWeight" Value="Bold"/>
-                    <Setter Property="Width" Value="250"/>
+                    <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+                </Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+                    <Setter Property="Background" Value="{DynamicResource BackgroundBrush}"/>
                 </Style>
             </StackPanel.Resources>
 
             <StackPanel Orientation="Vertical" Width="370" HorizontalAlignment="Left">
-                <Label Content="Description:" Width="160" Margin="0,0,140,0"/>
-                <TextBox x:Name="DescriptionTextBox" TextWrapping="Wrap" IsReadOnly="True" BorderBrush="CornflowerBlue" BorderThickness="3" Width="330" Margin="40,0,0,0" Height="140" Background="LightBlue" FontSize="25"/>
+                <Label Content="{ns:Loc Description:}" Margin="40,0,140,0"/>
+                <TextBox Text="{Binding SelectedSegment.TourDescription}" x:Name="DescriptionTextBox" TextWrapping="Wrap" IsReadOnly="True" BorderBrush="{DynamicResource TextBoxBorderBrush}" BorderThickness="3" Width="330" Margin="40,0,0,0" Height="140" FontSize="25"/>
             </StackPanel>
 
             <StackPanel Orientation="Vertical" Width="370" Margin="0,30,0,0" HorizontalAlignment="Left">
-                <Label Content="Tour guests:" Width="160" Margin="0,0,140,0"/>
-                <TextBox x:Name="TourGuestsTextBox" TextWrapping="Wrap" IsReadOnly="True" BorderBrush="CornflowerBlue" BorderThickness="3" Width="330" Margin="40,0,0,0" Height="110" Background="LightBlue" FontSize="25"/>
+                <Label Content="{ns:Loc TourGuests:}" Margin="40,0,140,0"/>
+                <TextBox x:Name="TourGuestsTextBox" TextWrapping="Wrap" IsReadOnly="True" BorderBrush="{DynamicResource TextBoxBorderBrush}" BorderThickness="3" Width="330" Margin="40,0,0,0" Height="110" FontSize="25"/>
             </StackPanel>
         </StackPanel>
     </Grid>

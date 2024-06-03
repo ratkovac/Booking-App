@@ -4,20 +4,24 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:BookingApp.WPF.View.Tourist.Pages"
+      xmlns:ns="clr-namespace:BookingApp.Localization"
       mc:Ignorable="d" 
-        d:DesignHeight="720" d:DesignWidth="950" Background="LightBlue"
+        d:DesignHeight="720" d:DesignWidth="950" Background="{DynamicResource BackgroundBrush}"
   Title="TourRequestDisplay">
 
     <Grid>
         <Grid.Resources>
+            <Style TargetType="Label">
+                <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
+            </Style>
             <Style TargetType="Button">
                 <Setter Property="FontSize" Value="22"/>
                 <Setter Property="FontWeight" Value="Bold"/>
                 <Setter Property="Margin" Value="10,5"/>
                 <Setter Property="Padding" Value="10"/>
-                <Setter Property="Background" Value="CadetBlue"/>
-                <Setter Property="Foreground" Value="White"/>
-                <Setter Property="BorderBrush" Value="CadetBlue"/>
+                <Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource ButtonBackgroundBrush}"/>
                 <Setter Property="BorderThickness" Value="2"/>
                 <Setter Property="HorizontalAlignment" Value="Left"/>
                 <Setter Property="Width" Value="230"/>
@@ -26,65 +30,74 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
                             <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        BorderBrush="{TemplateBinding BorderBrush}"
+        BorderThickness="{TemplateBinding BorderThickness}">
+                                <ContentPresenter HorizontalAlignment="Center"
+  VerticalAlignment="Center"/>
                             </Border>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="LightBlue"/>
-                        <Setter Property="Foreground" Value="White"/>
-                        <Setter Property="BorderBrush" Value="LightBlue"/>
+                        <Setter Property="Background" Value="{DynamicResource ButtonMouseOverBackgroundBrush}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource ButtonMouseOverBorderBrush}"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>
         </Grid.Resources>
-        <Label Content="Complex request details" FontWeight="Bold" FontSize="52" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
-        <Border CornerRadius="10" Background="AliceBlue" Margin="90,120,90,150">
+        <Label Content="{ns:Loc ComplexRequestDetails}" FontWeight="Bold" FontSize="52" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
+        <Border CornerRadius="10" Background="{DynamicResource BackgroundBrush1}" Margin="90,120,90,150">
             <Border.Effect>
                 <DropShadowEffect ShadowDepth="0" BlurRadius="10"/>
             </Border.Effect>
             <ListView SelectedItem="{Binding SelectedTourSegment, UpdateSourceTrigger=PropertyChanged}"
               ItemsSource="{Binding ListTourSegments, UpdateSourceTrigger=PropertyChanged}"
-              HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+              HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="{DynamicResource BackgroundBrush1}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="400" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="1" Margin="15,10,0,0" VerticalAlignment="Center">
-                                <TextBlock>
-                            <Run Text="Tour request " FontSize="27" FontWeight="Bold"/>
-                            <Run Text="{Binding Id}" FontSize="27" FontWeight="Bold"/>
-                                </TextBlock>
-                                <TextBlock Margin="15,10,0,0">
-                            <Run Text="Location: " FontSize="22" FontWeight="Bold"/>
-                            <Run Text="{Binding Location.City}" FontSize="22"/>
-                            <Run Text=", " FontSize="22" FontWeight="Bold"/>
-                            <Run Text="{Binding Location.Country}" FontSize="22"/>
-                                </TextBlock>
-                                <TextBlock Margin="15,0,0,0">
-                            <Run Text="Language: " FontSize="22" FontWeight="Bold"/>
-                            <Run Text="{Binding Language.Name}" FontSize="22"/>
-                                </TextBlock>
-                                <TextBlock Margin="15,0,0,0">
-                            <Run Text="Status: " FontSize="22" FontWeight="Bold"/>
-                            <Run Text="{Binding IsAccepted}" FontSize="22"/>
-                                </TextBlock>
-                                <TextBlock Margin="35,0,0,0">
-                            <Run Text="The guide set the time: " FontSize="22"/>
-                            <Run Text="{Binding DateAccepted, StringFormat='{}{0:HH:mm}'}" FontSize="22"/></TextBlock>
-                            </StackPanel>
-                            <StackPanel Grid.Column="2" VerticalAlignment="Center">
-                                <Button Content="See more" Margin="90,0,0,0" Click="TourRequestDescription_Click" BorderBrush="CadetBlue" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="40"/>
-                            </StackPanel>
-                        </Grid>
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="400" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="1" Margin="15,10,0,0" VerticalAlignment="Center">
+                                    <TextBlock>
+                                        <Run Text="{ns:Loc TourRequest}" Foreground="{DynamicResource ForegroundBrush}" FontSize="27" FontWeight="Bold"/>
+                                        <Run Text=" "/>
+                                        <Run Text="{Binding Id}" Foreground="{DynamicResource ForegroundBrush}" FontSize="27" FontWeight="Bold"/>
+                                    </TextBlock>
+                                    <TextBlock Margin="15,10,0,0">
+                                        <Run Text="{ns:Loc Location:}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22" FontWeight="Bold"/>
+                                        <Run Text=" "/>
+                                        <Run Text="{Binding Location.City}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22"/>
+                                        <Run Text=", " FontSize="22" Foreground="{DynamicResource ForegroundBrush}" FontWeight="Bold"/>
+                                        <Run Text="{Binding Location.Country}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22"/>
+                                    </TextBlock>
+                                    <TextBlock Margin="15,0,0,0">
+                                        <Run Text="{ns:Loc Language:}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22" FontWeight="Bold"/>
+                                        <Run Text=" "/>
+                                        <Run Text="{Binding Language.Name}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22"/>
+                                    </TextBlock>
+                                    <TextBlock Margin="15,0,0,0">
+                                        <Run Text="{ns:Loc Status:}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22" FontWeight="Bold"/>
+                                        <Run Text=" "/>
+                                        <Run Text="{Binding IsAccepted}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22"/>
+                                    </TextBlock>
+                                    <TextBlock Margin="35,0,0,0">
+                                        <Run Text="{ns:Loc TheGuideSetTheTime:}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22"/>
+                                        <Run Text=" "/>
+                                        <Run Text="{Binding DateAccepted, StringFormat='{}{0:HH:mm}'}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22"/></TextBlock>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                                    <Button Content="{ns:Loc SeeMore}" BorderBrush="{DynamicResource ButtonBackgroundBrush}" Margin="90,0,0,0" Click="TourRequestDescription_Click" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="40"/>
+                                </StackPanel>
+                            </Grid>
+                            <Separator Margin="0,10,0,10" Background="{DynamicResource ForegroundBrush}" Height="1"/>
+                        </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

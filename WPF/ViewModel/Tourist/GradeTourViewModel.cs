@@ -2,6 +2,7 @@
 using BookingApp.Repository;
 using BookingApp.Repository.RepositoryInterface;
 using BookingApp.Service;
+using GalaSoft.MvvmLight.Command;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace BookingApp.WPF.ViewModel.Tourist
 {
@@ -20,6 +24,9 @@ namespace BookingApp.WPF.ViewModel.Tourist
 
         private GradeTourService _gradeTourService;
         private TourGuestService _tourGuestService;
+        public ICommand AddPictureCommand { get; set; }
+        public ICommand RemovePictureCommand { get; set; }
+        public ICommand ConfirmCommand { get; set; }
 
         public int TouristId { get; set; }
 
@@ -30,7 +37,34 @@ namespace BookingApp.WPF.ViewModel.Tourist
             _tourGuestService = new TourGuestService();
             SelectedTourReservation = tourReservation;
             ReviewForms = new ObservableCollection<GradeTourFormViewModel>();
+            AddPictureCommand = new RelayCommand<object>(ExecuteAddPictureCommand);
+            RemovePictureCommand = new RelayCommand<object>(ExecuteRemovePictureCommand);
+            ConfirmCommand = new RelayCommand<GradeTourViewModel>(ExecuteConfirmCommand);
             SetReviewForms();
+        }
+
+        private void ExecuteAddPictureCommand(object sender)
+        {
+            var button = sender as Button;
+            if (button != null && button.DataContext is GradeTourFormViewModel gradeTourFormViewModel)
+            {
+                AddPicture(gradeTourFormViewModel);
+            }
+        }
+
+        private void ExecuteRemovePictureCommand(object sender)
+        {
+            var button = sender as Button;
+            if (button != null && button.DataContext is GradeTourFormViewModel gradeTourFormViewModel)
+            {
+                RemoveLastPicture(gradeTourFormViewModel);
+            }
+        }
+
+        private void ExecuteConfirmCommand(GradeTourViewModel gradeTourViewModel)
+        {
+            SaveReviews();
+            ResetReviewForms();
         }
 
         private void SetReviewForms()
@@ -81,9 +115,23 @@ namespace BookingApp.WPF.ViewModel.Tourist
             return null;
         }
 
+        private void ResetReviewForms()
+        {
+            ReviewForms.Clear();
+            SetReviewForms();
+        }
+
         public void SaveReviews()
         {
             _gradeTourService.SaveReviews(ReviewForms, SelectedTourReservation.Id, TouristId);
+            if (App.CurrentLanguage == "en-US")
+            {
+                MessageBox.Show("Tour successfully rated!");
+            }
+            else
+            {
+                MessageBox.Show("Tura uspješno ocijenjena!");
+            }
         }
 
     }

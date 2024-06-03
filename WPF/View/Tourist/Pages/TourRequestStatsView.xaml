@@ -3,40 +3,49 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:BookingApp.WPF.View.Tourist.Pages" xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+      xmlns:local="clr-namespace:BookingApp.WPF.View.Tourist.Pages"
+      xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+      xmlns:ns="clr-namespace:BookingApp.Localization"
       mc:Ignorable="d" 
-      d:DesignHeight="720" d:DesignWidth="950" Background="LightBlue"
+      d:DesignHeight="720" d:DesignWidth="950" Background="{DynamicResource BackgroundBrush}"
       Title="TourRequestStats">
 
     <Grid>
-        <Label Content="My statistics" FontWeight="Bold" FontSize="45" HorizontalAlignment="Left" Margin="50,30,0,0" VerticalAlignment="Top"/>
+        <Label Content="{ns:Loc MyStatistics}" Foreground="{DynamicResource ForegroundBrush}" FontWeight="Bold" FontSize="45" HorizontalAlignment="Left" Margin="50,30,0,0" VerticalAlignment="Top"/>
 
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="50,120,0,15">
             <StackPanel.Resources>
                 <Style TargetType="Label">
                     <Setter Property="FontSize" Value="25"/>
                     <Setter Property="FontWeight" Value="Bold"/>
-                    <Setter Property="Width" Value="250"/>
+                    <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
                 </Style>
             </StackPanel.Resources>
-            <Label Content="Choose a year: " Width="190"/>
-                <ComboBox x:Name="YearPicker" FontSize="25" Width="150" Height="40" Margin="0,0,0,0" SelectedItem="{Binding SelectedYear}" ItemsSource="{Binding Years}"/>
+            <Label Content="{ns:Loc ChooseAYear:}"/>
+                <ComboBox x:Name="YearPicker" FontSize="25" Width="150" Height="40" Margin="5,0,0,0" SelectedItem="{Binding SelectedYear}" ItemsSource="{Binding Years}"/>
         </StackPanel>
 
         <lvc:PieChart HorizontalAlignment="Left" Width="800" Height="350" VerticalAlignment="Top" Margin="0,250,0,0"
               LegendLocation="Right">
             <lvc:PieChart.Series>
-                <lvc:PieSeries Title="Percentage of accepted tours:" Values="{Binding PieChartData[0].Values}" DataLabels="True"/>
-                <lvc:PieSeries Title="Percentage of declined tours:" Values="{Binding PieChartData[1].Values}" DataLabels="True"/>
+                <lvc:PieSeries Title="{ns:Loc PercentageOfAcceptedTours:}" 
+                       Foreground="{DynamicResource ForegroundBrush}" 
+                       Values="{Binding PieChartData[0].Values}" 
+                       DataLabels="True"/>
+                <lvc:PieSeries Title="{ns:Loc PercentageOfCancelledTours:}" 
+                       Foreground="{DynamicResource ForegroundBrush}" 
+                       Values="{Binding PieChartData[1].Values}" 
+                       DataLabels="True"/>
             </lvc:PieChart.Series>
             <lvc:PieChart.Resources>
                 <Style TargetType="lvc:DefaultLegend">
+                    <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}"/>
                     <Setter Property="FontSize" Value="22"/>
                 </Style>
             </lvc:PieChart.Resources>
         </lvc:PieChart>
 
-        <TextBlock Text="{Binding AcceptedPercentage}" FontSize="22" Margin="720,140,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBlock Text="{Binding DeclinedPercentage}" FontSize="22" Margin="705,205,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock Text="{Binding AcceptedPercentage}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22" Margin="690,140,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock Text="{Binding DeclinedPercentage}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22" Margin="685,205,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
     </Grid>
 </Page>

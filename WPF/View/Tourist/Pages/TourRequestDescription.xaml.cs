@@ -33,12 +33,6 @@ namespace BookingApp.WPF.View.Tourist.Pages
             tourRequestGuestService = new TourRequestGuestService();
             TourRequestGuestList = tourRequestGuestService.GetAllForSegmentId(SelectedSegment.Id);
 
-            CityTextBox.Text = SelectedSegment.Location.City;
-            CountryTextBox.Text = SelectedSegment.Location.Country;
-            DescriptionTextBox.Text = SelectedSegment.TourDescription;
-            LanguageTextBox.Text = SelectedSegment.Language.Name;
-            GuestsTextBox.Text = SelectedSegment.Capacity.ToString();
-            StatusTextBox.Text = SelectedSegment.IsAccepted.ToString();
             DurationSpanTextBox.Text = $"{SelectedSegment.StartDate.ToString("dd.MM.yyyy")} - {SelectedSegment.EndDate.ToString("dd.MM.yyyy")}";
             TourGuestsTextBox.Text = string.Join(Environment.NewLine, TourRequestGuestList.Select((guest, index) => $"{index + 1}. {guest.Name}, {guest.Age}"));
         }

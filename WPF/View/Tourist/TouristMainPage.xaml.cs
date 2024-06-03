@@ -24,7 +24,6 @@ namespace BookingApp.WPF.View.Tourist
     public partial class TouristMainPage : Window
     {
         public BookingApp.Model.Tourist Tourist { get; set; }
-        public FinishedToursViewModel FinishedToursViewModel { get; set; }
         public TourReservationService _tourReservationService { get; set; }
         public TourReservationRepository _tourReservationRepository { get; set; }
         public UserRepository _userRepository { get; set; }
@@ -193,6 +192,38 @@ namespace BookingApp.WPF.View.Tourist
             CheckTouristReservation();
         }
 
+        private void Language_Click(object sender, RoutedEventArgs e)
+        {
+            App app = (App)Application.Current;
+
+            if (App.CurrentLanguage == "sr-LATN")
+            {
+                app.ChangeLanguage("en-US");
+                App.CurrentLanguage = "en-US";
+            }
+            else
+            {
+                app.ChangeLanguage("sr-LATN");
+                App.CurrentLanguage = "sr-LATN";
+            }
+        }
+
+        private void Theme_Click(object sender, RoutedEventArgs e)
+        {
+            App app = (App)Application.Current;
+
+            if (App.IsDark)
+            {
+                app.ChangeTheme(new Uri("Themes/Light.xaml", UriKind.Relative));
+                App.IsDark = false;
+            }
+            else
+            {
+                app.ChangeTheme(new Uri("Themes/Dark.xaml", UriKind.Relative));
+                App.IsDark = true;
+            }
+        }
+
         private void TourDisplay_Click(object sender, RoutedEventArgs e)
         {
             TourDisplay tourDisplay = new TourDisplay(Tourist);
@@ -213,7 +244,8 @@ namespace BookingApp.WPF.View.Tourist
 
         private void ComplexRequest_Click(object sender, RoutedEventArgs e)
         {
-            FrameHomePage.Navigate(new ComplexTourRequest(Tourist.User, _locationService, _languageService, _tourRequestService, _tourRequestSegmentService, _tourRequestGuestService));
+            ComplexTourRequestViewModel complexTourRequestViewModel = new ComplexTourRequestViewModel(Tourist.User, _locationService, _languageService, _tourRequestService, _tourRequestSegmentService, _tourRequestGuestService);
+            FrameHomePage.Navigate(new ComplexTourRequest(complexTourRequestViewModel));
         }
 
         private void TourRequest_Click(object sender, RoutedEventArgs e)
@@ -241,11 +273,6 @@ namespace BookingApp.WPF.View.Tourist
         {
             GroupDriveViewModel groupDriveViewModel = new GroupDriveViewModel(Tourist.User);
             FrameHomePage.Navigate(new BookingApp.WPF.View.Tourist.Pages.GroupDrivePage(groupDriveViewModel));
-        }
-        private void FinishedTours_Click(object sender, RoutedEventArgs e)
-        {
-            FinishedToursViewModel finishedToursViewModel = new FinishedToursViewModel(Tourist);
-            FrameHomePage.Navigate(new FinishedTours(finishedToursViewModel));
         }
         private void Vouchers_Click(object sender, RoutedEventArgs e)
         {

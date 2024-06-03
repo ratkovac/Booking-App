@@ -12,6 +12,8 @@ using System.Windows.Controls;
 using System.Windows;
 using BookingApp.Service;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
+using GalaSoft.MvvmLight.Command;
 
 namespace BookingApp.WPF.ViewModel.Tourist
 {
@@ -24,6 +26,8 @@ namespace BookingApp.WPF.ViewModel.Tourist
         public int AddressId { get; set; }
         public string CountryName { get; set; }
         public string CityName { get; set; }
+        public ICommand ReservationCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
 
         public LocationRepository _locationRepository { get; set; }
         public AddressRepository _addressRepository { get; set; }
@@ -136,7 +140,29 @@ namespace BookingApp.WPF.ViewModel.Tourist
             _locationRepository = new LocationRepository();
             _addressRepository = new AddressRepository();
             _fastDriveService = new FastDriveService();
+            ReservationCommand = new RelayCommand<FastDriveViewModel>(ExecuteReservationCommand);
+            CancelCommand = new RelayCommand<FastDriveViewModel>(ExecuteCancelCommand);
+            SelectedMinute = "00";
             DepartureDate = DateTime.Today;
+        }
+
+        private void ExecuteReservationCommand(FastDriveViewModel fastDriveViewModel)
+        {
+            MessageBox.Show(Reservation());
+        }
+
+        private void ExecuteCancelCommand(FastDriveViewModel fastDriveViewModel)
+        {
+            SelectedCountry = null;
+            SelectedCity = null;
+            StartStreet = string.Empty;
+            EndStreet = string.Empty;
+            DepartureDate = DateTime.Today;
+            DepartureHour = string.Empty;
+            SelectedMinute = "00";
+
+            InputCountries();
+            Cities = new ObservableCollection<string>();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -209,6 +235,22 @@ namespace BookingApp.WPF.ViewModel.Tourist
         public string Reservation()
         {
             DateTime departure = _fastDriveService.CreateDateTimeFromSelections(DepartureDate, DepartureHour, SelectedMinute);
+
+            if (departure == DateTime.MinValue)
+            {
+                string errorMessage;
+                if (App.CurrentLanguage == "en-US")
+                {
+                    errorMessage = "Invalid hours.";
+                }
+                else
+                {
+                    errorMessage = "Nevažeći sati.";
+                }
+
+                DepartureHour = string.Empty;
+                return errorMessage;
+            }
 
             SetDetailedAddressId(StartStreet, true);
             SetDetailedAddressId(EndStreet, false);

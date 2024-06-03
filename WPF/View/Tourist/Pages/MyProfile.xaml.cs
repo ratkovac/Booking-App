@@ -1,4 +1,5 @@
 ﻿using BookingApp.Service;
+using BookingApp.WPF.ViewModel.Tourist;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,8 @@ namespace BookingApp.WPF.View.Tourist.Pages
 
         private void Statistics_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new TourRequestStatsView(Tourist, _tourRequestService, _tourRequestSegmentService));
+            TourRequestStatisticsViewModel tourRequestStatisticsViewModel = new TourRequestStatisticsViewModel(Tourist.Id, _tourRequestService, _tourRequestSegmentService);
+            NavigationService.Navigate(new TourRequestStatsView(tourRequestStatisticsViewModel));
         }
     }
 }

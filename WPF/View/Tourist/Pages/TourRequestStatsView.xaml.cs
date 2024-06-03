@@ -20,12 +20,10 @@ namespace BookingApp.WPF.View.Tourist.Pages
 {
     public partial class TourRequestStatsView : Page
     {
-        public TourRequestStatisticsViewModel ViewModel { get; }
-        public TourRequestStatsView(BookingApp.Model.Tourist tourist, TourRequestService requestService, TourRequestSegmentService segmentService)
+        public TourRequestStatsView(TourRequestStatisticsViewModel tourRequestStatisticsViewModel)
         {
             InitializeComponent();
-            ViewModel = new TourRequestStatisticsViewModel(tourist.Id, requestService, segmentService);
-            DataContext = ViewModel;
+            this.DataContext = tourRequestStatisticsViewModel;
         }
     }
 }

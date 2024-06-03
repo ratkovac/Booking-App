@@ -1,14 +1,11 @@
 ﻿using BookingApp.Model;
-using BookingApp.Repository;
 using BookingApp.Service;
-using System;
+using GalaSoft.MvvmLight.Command;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace BookingApp.WPF.ViewModel.Tourist
 {
@@ -19,6 +16,9 @@ namespace BookingApp.WPF.ViewModel.Tourist
 
         public ObservableCollection<KeyValuePair<int, string>> Countries { get; private set; }
         public ObservableCollection<KeyValuePair<int, string>> Languages { get; private set; }
+        public ICommand AddSegmentCommand { get; set; }
+        public ICommand RemoveSegmentCommand { get; set; }
+        public ICommand SubmitCommand { get; set; }
 
         private TourRequestService _tourRequestService;
         private TourRequestSegmentService _tourRequestSegmentService;
@@ -38,9 +38,32 @@ namespace BookingApp.WPF.ViewModel.Tourist
             _tourRequestService = tourRequestService;
             _tourRequestSegmentService = tourRequestSegmentService;
             _tourRequestGuestService = tourRequestGuestService;
+            AddSegmentCommand = new RelayCommand<ComplexTourRequestViewModel>(ExecuteAddSegmentCommand);
+            RemoveSegmentCommand = new RelayCommand<object>(ExecuteRemoveSegmentCommand);
+            SubmitCommand = new RelayCommand<ComplexTourRequestViewModel>(ExecuteSubmitCommand);
             FillCountries();
             FillLanguages();
             AddSegment();
+        }
+
+        private void ExecuteAddSegmentCommand(ComplexTourRequestViewModel complexTourRequestViewModel)
+        {
+            AddSegment();
+        }
+
+        private void ExecuteRemoveSegmentCommand(object sender)
+        {
+            var button = sender as Button;
+            if (button != null && button.DataContext is TourRequestSegmentViewModel segment)
+            {
+                RemoveSegment(segment);
+            }
+        }
+
+        private void ExecuteSubmitCommand(ComplexTourRequestViewModel complexTourRequestViewModel)
+        {
+            CreateTourRequest();
+            MessageBox.Show("Tour request added successfully!");
         }
 
         private void FillCountries()

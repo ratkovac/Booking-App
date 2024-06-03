@@ -4,20 +4,21 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:BookingApp.WPF.View.Tourist.Pages"
+      xmlns:ns="clr-namespace:BookingApp.Localization"
       mc:Ignorable="d" 
-      d:DesignHeight="720" d:DesignWidth="950" Background="LightBlue"
+      d:DesignHeight="720" d:DesignWidth="950" Background="{DynamicResource BackgroundBrush}"
       Title="GradeTour">
 
     <Grid>
         <Grid.Resources>
             <Style TargetType="Button">
-                <Setter Property="FontSize" Value="22"/>
+                <Setter Property="FontSize" Value="25"/>
                 <Setter Property="FontWeight" Value="Bold"/>
                 <Setter Property="Margin" Value="10,5"/>
                 <Setter Property="Padding" Value="10"/>
-                <Setter Property="Background" Value="CadetBlue"/>
-                <Setter Property="Foreground" Value="White"/>
-                <Setter Property="BorderBrush" Value="CadetBlue"/>
+                <Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource ButtonBackgroundBrush}"/>
                 <Setter Property="BorderThickness" Value="2"/>
                 <Setter Property="HorizontalAlignment" Value="Left"/>
                 <Setter Property="Width" Value="230"/>
@@ -26,24 +27,25 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
                             <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+      BorderBrush="{TemplateBinding BorderBrush}"
+      BorderThickness="{TemplateBinding BorderThickness}">
+                                <ContentPresenter HorizontalAlignment="Center"
+VerticalAlignment="Center"/>
                             </Border>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="LightBlue"/>
-                        <Setter Property="Foreground" Value="White"/>
-                        <Setter Property="BorderBrush" Value="LightBlue"/>
+                        <Setter Property="Background" Value="{DynamicResource ButtonMouseOverBackgroundBrush}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource ButtonMouseOverBorderBrush}"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>
         </Grid.Resources>
-        <Label Content="We appreciate feedback!" FontWeight="Bold" FontSize="52" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
-        <Border Background="AliceBlue" Margin="90,120,90,150">
+        <Label Content="{ns:Loc WeAppreciateFeedback!}" Foreground="{DynamicResource ForegroundBrush}" FontWeight="Bold" FontSize="52" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
+        <Border Background="{DynamicResource BackgroundBrush1}" Margin="90,120,90,150">
             <Border.Effect>
                 <DropShadowEffect ShadowDepth="0" BlurRadius="10"/>
             </Border.Effect>
@@ -55,26 +57,30 @@
                                 <Border Padding="10" Margin="5">
                                     <StackPanel Margin="5">
                                         <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                                            <TextBlock Text="Name: " FontSize="25" FontWeight="Bold" VerticalAlignment="Center" />
-                                            <TextBlock Text="{Binding Guest.Name}" VerticalAlignment="Center" FontSize="25"/>
+                                            <TextBlock Text="{ns:Loc Name:}" Foreground="{DynamicResource ForegroundBrush}" FontSize="25" FontWeight="Bold" VerticalAlignment="Center" />
+                                            <TextBlock Text=" "/>
+                                            <TextBlock Text="{Binding Guest.Name}" Foreground="{DynamicResource ForegroundBrush}" VerticalAlignment="Center" FontSize="25"/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                                            <TextBlock Text="Rate the tour: " FontSize="25" FontWeight="Bold" VerticalAlignment="Center" />
+                                            <TextBlock Text="{ns:Loc RateTheTour:}" Foreground="{DynamicResource ForegroundBrush}" FontSize="25" FontWeight="Bold" VerticalAlignment="Center" />
+                                            <TextBlock Text=" "/>
                                             <ComboBox Width="40" VerticalAlignment="Center" FontSize="22" Margin="0,4,0,0"
                                                 ItemsSource="{Binding Grades}"
                                                 SelectedItem="{Binding SelectedGrade, Mode=TwoWay}" />
                                         </StackPanel>
                                         <StackPanel Orientation="Vertical" Margin="0,0,0,10">
-                                            <TextBlock Text="Add a comment: " FontSize="25" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,0,10"/>
-                                            <TextBox Text="{Binding Comment}" Height="100" Width="350" FontSize="25" TextWrapping="Wrap" HorizontalAlignment="Left" />
+                                            <TextBlock Text="{ns:Loc AddAComment:}" Foreground="{DynamicResource ForegroundBrush}" FontSize="25" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,0,0"/>
+                                            <TextBlock Text=" "/>
+                                            <TextBox Text="{Binding Comment}" BorderThickness="3" Background="{DynamicResource BackgroundBrush1}" BorderBrush="{DynamicResource BackgroundBrush}" Foreground="{DynamicResource ForegroundBrush}" Height="100" Width="350" FontSize="25" TextWrapping="Wrap" HorizontalAlignment="Left" />
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                                            <TextBlock Text="Add pictures of the tour: " FontSize="25" FontWeight="Bold" VerticalAlignment="Center" />
-                                            <Button Width="35" Height="35" BorderThickness="0" VerticalAlignment="Center" Margin="0,5,0,0" Click="AddPictureButton_Click" Background="Transparent">
+                                            <TextBlock Text="{ns:Loc AddPicturesOfTheTour:}" Foreground="{DynamicResource ForegroundBrush}" FontSize="25" FontWeight="Bold" VerticalAlignment="Center" />
+                                            <TextBlock Text=" "/>
+                                            <Button Width="35" Height="35" BorderThickness="0" VerticalAlignment="Center" Margin="0,5,0,0" Command="{Binding DataContext.AddPictureCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Mode=OneWay}" Background="Transparent">
                                                 <Image Source="/BookingApp;component/Resources/Images/add.png" Width="30" Height="30" />
                                             </Button>
-                                            <TextBlock Text="/" FontSize="25" FontWeight="Bold" VerticalAlignment="Center"/>
-                                            <Button Width="35" Height="35" BorderThickness="0" VerticalAlignment="Center" Margin="0,5,0,0" Click="RemoveLastPictureButton_Click" Background="Transparent">
+                                            <TextBlock Text="/" Foreground="{DynamicResource ForegroundBrush}" FontSize="25" FontWeight="Bold" VerticalAlignment="Center"/>
+                                            <Button Width="35" Height="35" BorderThickness="0" VerticalAlignment="Center" Margin="0,5,0,0" Command="{Binding DataContext.RemovePictureCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Mode=OneWay}" Background="Transparent">
                                                 <Image Source="/BookingApp;component/Resources/Images/delete.png" Width="30" Height="30" />
                                             </Button>
                                         </StackPanel>
@@ -82,7 +88,7 @@
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                        <TextBlock Text="{Binding}" FontSize="15" Margin="5,0,5,0"/>
+                                                        <TextBlock Text="{Binding}" Foreground="{DynamicResource ForegroundBrush}" FontSize="15" Margin="5,0,5,0"/>
                                                     </StackPanel>
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
@@ -95,6 +101,6 @@
                 </StackPanel>
             </ScrollViewer>
         </Border>
-        <Button Content="Rate tour!" BorderBrush="CadetBlue" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="580,0,0,70" Click="ConfirmButton_Click"/>
+        <Button Content="{ns:Loc RateTour!}" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="580,0,0,70" Command="{Binding DataContext.ConfirmCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding}"/>
     </Grid>
 </Page>

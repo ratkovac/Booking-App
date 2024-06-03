@@ -4,8 +4,9 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:BookingApp.WPF.View.Tourist.Pages"
+      xmlns:ns="clr-namespace:BookingApp.Localization"
       mc:Ignorable="d" 
-      d:DesignHeight="720" d:DesignWidth="950" Background="LightBlue"
+      d:DesignHeight="720" d:DesignWidth="950" Background="{DynamicResource BackgroundBrush}"
       Title="Tour Display">
     <Grid>
         <Grid.Resources>
@@ -14,9 +15,9 @@
                 <Setter Property="FontWeight" Value="Bold"/>
                 <Setter Property="Margin" Value="10,5"/>
                 <Setter Property="Padding" Value="10"/>
-                <Setter Property="Background" Value="CadetBlue"/>
-                <Setter Property="Foreground" Value="White"/>
-                <Setter Property="BorderBrush" Value="CadetBlue"/>
+                <Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource ButtonBackgroundBrush}"/>
                 <Setter Property="BorderThickness" Value="2"/>
                 <Setter Property="HorizontalAlignment" Value="Left"/>
                 <Setter Property="Width" Value="230"/>
@@ -34,21 +35,21 @@
                 </Setter>
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="LightBlue"/>
-                        <Setter Property="Foreground" Value="White"/>
-                        <Setter Property="BorderBrush" Value="LightBlue"/>
+                        <Setter Property="Background" Value="{DynamicResource ButtonMouseOverBackgroundBrush}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource ButtonMouseOverBorderBrush}"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>
         </Grid.Resources>
-        <Label Content="Choose your tour!" FontWeight="Bold" FontSize="52" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
-        <Border CornerRadius="10" Background="AliceBlue" Margin="90,120,90,150">
+        <Label Content="{ns:Loc ChooseYourTour!}" Foreground="{DynamicResource ForegroundBrush}" FontWeight="Bold" FontSize="52" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
+        <Border CornerRadius="10" Background="{DynamicResource BackgroundBrush1}" Margin="90,120,90,150">
             <Border.Effect>
                 <DropShadowEffect ShadowDepth="0" BlurRadius="10"/>
             </Border.Effect>
             <ListView SelectedItem="{Binding SelectedTour, UpdateSourceTrigger=PropertyChanged}"
                       ItemsSource="{Binding ListTour, UpdateSourceTrigger=PropertyChanged}"
-                      HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                      HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="{DynamicResource BackgroundBrush1}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -60,27 +61,29 @@
                             <Image Source="{Binding ImagePath}" Width="130" Height="130" Stretch="Uniform" />
                             <StackPanel Grid.Column="1" Margin="15,0,0,0" VerticalAlignment="Center">
                                 <TextBlock>
-                                    <Run Text="{Binding Name}" FontSize="27" FontWeight="Bold"/>
+                                    <Run Text="{Binding Name}" Foreground="{DynamicResource ForegroundBrush}" FontSize="27" FontWeight="Bold"/>
                                 </TextBlock>
                                 <TextBlock Margin="15,0,0,0">
-                                    <Run Text="Location: " FontSize="22" FontWeight="Bold"/>
-                                    <Run Text="{Binding Location.City}" FontSize="22"/>
-                                    <Run Text=", " FontSize="22" FontWeight="Bold"/>
-                                    <Run Text="{Binding Location.Country}" FontSize="22"/>
+                                    <Run Text="{ns:Loc Location:}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22" FontWeight="Bold"/>
+                                    <Run Text=" "/>
+                                    <Run Text="{Binding Location.City}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22"/>
+                                    <Run Text=", " Foreground="{DynamicResource ForegroundBrush}" FontSize="22" FontWeight="Bold"/>
+                                    <Run Text="{Binding Location.Country}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22"/>
                                 </TextBlock>
                                 <TextBlock Margin="15,0,0,0">
-                                    <Run Text="Language: " FontSize="22" FontWeight="Bold"/>
-                                    <Run Text="{Binding Language.Name}" FontSize="22"/>
+                                    <Run Text="{ns:Loc Language:}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22" FontWeight="Bold"/>
+                                    <Run Text=" "/>
+                                    <Run Text="{Binding Language.Name}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22"/>
                                 </TextBlock>
                             </StackPanel>
                             <StackPanel Grid.Column="2" VerticalAlignment="Center">
-                                <Button Content="See more" Click="TourDescription_Click" BorderBrush="CadetBlue" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="40"/>
+                                <Button Content="{ns:Loc SeeMore}" Click="TourDescription_Click" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="40"/>
                             </StackPanel>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </Border>
-        <Button Content="Book tour!" HorizontalAlignment="Left" BorderBrush="CadetBlue" BorderThickness="2" VerticalAlignment="Top" Click="Tour_Reservation" Margin="578,555,0,0" FontSize="25"/>
+        <Button Content="{ns:Loc BookTour!}" HorizontalAlignment="Left" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" VerticalAlignment="Top" Click="Tour_Reservation" Margin="578,555,0,0" FontSize="25"/>
     </Grid>
 </Page>

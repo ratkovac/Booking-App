@@ -40,8 +40,8 @@ namespace BookingApp.WPF.View.Tourist.Pages
             Button button = (Button)sender;
             BookingApp.Model.TourReservation selectedReservation = (BookingApp.Model.TourReservation)button.DataContext;
 
-            var gradeTour = new GradeTourPage(selectedReservation, selectedReservation.TouristId);
-            NavigationService.Navigate(gradeTour);
+            var gradeTourViewModel = new GradeTourViewModel(selectedReservation, selectedReservation.TouristId);
+            NavigationService.Navigate(new GradeTourPage(gradeTourViewModel));
         }
     }
 }
