@@ -24,7 +24,6 @@ namespace BookingApp.WPF.ViewModel.Tourist
 
         public ObservableCollection<TourGuestViewModel> TourGuestInputs { get; } = new ObservableCollection<TourGuestViewModel>();
 
-        private ObservableCollection<int> _numberOfPeopleSelection = new ObservableCollection<int>();
         private ObservableCollection<KeyValuePair<int, string>> _languages = new ObservableCollection<KeyValuePair<int, string>>();
         private ObservableCollection<KeyValuePair<int, string>> _countries = new ObservableCollection<KeyValuePair<int, string>>();
         private ObservableCollection<KeyValuePair<int, string>> _cities = new ObservableCollection<KeyValuePair<int, string>>();
@@ -38,6 +37,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
                 {
                     _startDate = value;
                     OnPropertyChanged(nameof(StartDate));
+                    OnPropertyChanged(nameof(IsValid));
                 }
             }
         }
@@ -51,6 +51,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
                 {
                     _endDate = value;
                     OnPropertyChanged(nameof(EndDate));
+                    OnPropertyChanged(nameof(IsValid));
                 }
             }
         }
@@ -78,6 +79,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
                     _selectedCountry = value;
                     FillCities();
                     OnPropertyChanged(nameof(SelectedCountry));
+                    OnPropertyChanged(nameof(IsValid));
                 }
             }
         }
@@ -105,17 +107,8 @@ namespace BookingApp.WPF.ViewModel.Tourist
                 {
                     _selectedCity = value;
                     OnPropertyChanged(nameof(SelectedCity));
+                    OnPropertyChanged(nameof(IsValid));
                 }
-            }
-        }
-
-        public ObservableCollection<int> NumberOfPeopleSelection
-        {
-            get => _numberOfPeopleSelection;
-            private set
-            {
-                _numberOfPeopleSelection = value;
-                OnPropertyChanged(nameof(NumberOfPeopleSelection));
             }
         }
 
@@ -141,6 +134,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
                 {
                     _selectedLanguage = value;
                     OnPropertyChanged(nameof(SelectedLanguage));
+                    OnPropertyChanged(nameof(IsValid));
                 }
             }
         }
@@ -168,6 +162,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
                 {
                     _tourDescription = value;
                     OnPropertyChanged(nameof(TourDescription));
+                    OnPropertyChanged(nameof(IsValid));
                 }
             }
         }
@@ -182,55 +177,110 @@ namespace BookingApp.WPF.ViewModel.Tourist
                     _numberOfPeople = value;
                     GenerateGuests(value);
                     OnPropertyChanged(nameof(NumberOfPeople));
+                    OnPropertyChanged(nameof(IsValid));
                 }
             }
+        }
+
+        private string _numberOfPeopleText;
+        public string NumberOfPeopleText
+        {
+            get => _numberOfPeopleText;
+            set
+            {
+                if (_numberOfPeopleText != value)
+                {
+                    _numberOfPeopleText = value;
+                    OnPropertyChanged(nameof(NumberOfPeopleText));
+
+                    if (int.TryParse(value, out int numberOfPeople))
+                    {
+                        NumberOfPeople = numberOfPeople;
+                    }
+                }
+            }
+        }
+
+        public bool IsValid
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(TourDescription) &&
+                       NumberOfPeople > 0 &&
+                       !SelectedCountry.Equals(default(KeyValuePair<int, string>)) &&
+                       !SelectedCity.Equals(default(KeyValuePair<int, string>)) &&
+                       !SelectedLanguage.Equals(default(KeyValuePair<int, string>)) &&
+                       TourGuestInputs.All(guest => guest.IsValid);
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
         public TourRequestSegmentViewModel(LocationService locationService, ObservableCollection<KeyValuePair<int, string>> countries, ObservableCollection<KeyValuePair<int, string>> languages)
         {
-            NumberOfPeopleOptions();
-            _startDate = DateTime.Now;
-            _endDate = DateTime.Now;
+            _locationService = locationService;
             Countries = countries;
             Languages = languages;
-            _locationService = locationService;
+            StartDate = DateTime.Now;
+            EndDate = DateTime.Now;
+            TourGuestInputs.CollectionChanged += TourGuestInputs_CollectionChanged;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
+        private void TourGuestInputs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private void NumberOfPeopleOptions()
-        {
-            NumberOfPeopleSelection.Clear();
-            NumberOfPeopleSelection.Add(1);
-            NumberOfPeopleSelection.Add(2);
-            NumberOfPeopleSelection.Add(3);
-            NumberOfPeopleSelection.Add(4);
-            NumberOfPeopleSelection.Add(5);
-        }
-
-        private void GenerateGuests(int numberOfPeople)
-        {
-            TourGuestInputs.Clear();
-            if (numberOfPeople > 0)
+            if (e.NewItems != null)
             {
-                for (int i = 0; i < numberOfPeople; i++)
+                foreach (TourGuestViewModel guest in e.NewItems)
                 {
-                    TourGuestInputs.Add(new TourGuestViewModel());
+                    guest.PropertyChanged += TourGuest_PropertyChanged;
                 }
+            }
+
+            if (e.OldItems != null)
+            {
+                foreach (TourGuestViewModel guest in e.OldItems)
+                {
+                    guest.PropertyChanged -= TourGuest_PropertyChanged;
+                }
+            }
+
+            OnPropertyChanged(nameof(IsValid));
+        }
+
+        private void TourGuest_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(TourGuestViewModel.FirstName) ||
+                e.PropertyName == nameof(TourGuestViewModel.LastName) ||
+                e.PropertyName == nameof(TourGuestViewModel.Age))
+            {
+                OnPropertyChanged(nameof(IsValid));
             }
         }
 
-        public void FillCities()
+        private void FillCities()
         {
-            var cities = _locationService.GetCitiesByCountry(SelectedCountry.Value).ToList();
+            var cities = _locationService.GetCitiesByCountry(SelectedCountry.Value);
             Cities.Clear();
             foreach (var city in cities)
             {
                 Cities.Add(city);
+            }
+        }
+
+        private void GenerateGuests(int numberOfGuests)
+        {
+            while (TourGuestInputs.Count < numberOfGuests)
+            {
+                TourGuestInputs.Add(new TourGuestViewModel());
+            }
+            while (TourGuestInputs.Count > numberOfGuests)
+            {
+                TourGuestInputs.RemoveAt(TourGuestInputs.Count - 1);
             }
         }
     }

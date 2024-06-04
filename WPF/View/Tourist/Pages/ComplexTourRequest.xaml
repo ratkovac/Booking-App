@@ -99,7 +99,7 @@ VerticalAlignment="Center"/>
 
                                                 <StackPanel Orientation="Vertical" Width="330" Margin="5,0,0,0" HorizontalAlignment="Left">
                                                     <Label Content="{ns:Loc Description:}" Margin="-5,0,110,0"/>
-                                                    <TextBox Foreground="{DynamicResource ForegroundBrush}" BorderBrush="{DynamicResource TextBoxBorderBrush}" BorderThickness="3" Width="330" Height="135" Background="{DynamicResource BackgroundBrush}" FontSize="25" Text="{Binding TourDescription, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    <TextBox BorderBrush="{DynamicResource TextBoxBorderBrush}" BorderThickness="3" Width="330" Height="135" FontSize="25" Text="{Binding TourDescription, UpdateSourceTrigger=PropertyChanged}"/>
                                                 </StackPanel>
                                             </StackPanel>
                                             <StackPanel Margin="470,20,0,0">
@@ -123,7 +123,7 @@ VerticalAlignment="Center"/>
 
                                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                                                     <Label Content="{ns:Loc NumberOfPeople:}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                                    <ComboBox FontSize="25" Width="50" Height="40" Margin="5,0,0,0" ItemsSource="{Binding NumberOfPeopleSelection}" SelectedItem="{Binding NumberOfPeople}"/>
+                                                    <TextBox Text="{Binding NumberOfPeopleText, UpdateSourceTrigger=PropertyChanged}" FontSize="25" Width="50" Height="40" Margin="5,0,0,0"/>
                                                 </StackPanel>
 
                                                 <StackPanel Orientation="Vertical" Margin="0,0,0,10">

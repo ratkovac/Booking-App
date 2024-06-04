@@ -547,6 +547,15 @@ namespace BookingApp.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to My drive reservations.
+        /// </summary>
+        internal static string MyDriveReservations {
+            get {
+                return ResourceManager.GetString("MyDriveReservations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to My drive reservations:.
         /// </summary>
         internal static string MyDriveReservations_ {

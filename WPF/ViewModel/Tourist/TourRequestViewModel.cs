@@ -1,21 +1,25 @@
 ﻿using BookingApp.Model;
 using BookingApp.Service;
+using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace BookingApp.WPF.ViewModel.Tourist
 {
-    public class TourRequestViewModel
+    public class TourRequestViewModel : INotifyPropertyChanged
     {
         private User Tourist;
         public ObservableCollection<TourRequestSegmentViewModel> TourSegments { get; set; }
 
         public ObservableCollection<KeyValuePair<int, string>> Countries { get; private set; }
         public ObservableCollection<KeyValuePair<int, string>> Languages { get; private set; }
+        public ICommand CancelCommand { get; set; }
 
         private TourRequestService _tourRequestService;
         private TourRequestSegmentService _tourRequestSegmentService;
@@ -24,10 +28,13 @@ namespace BookingApp.WPF.ViewModel.Tourist
         private LocationService _locationService;
         private LanguageService _languageService;
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public TourRequestViewModel(User tourist, LocationService locationService, LanguageService languageService, TourRequestService tourRequestService, TourRequestSegmentService tourRequestSegmentService, TourRequestGuestService tourRequestGuestService)
         {
             Tourist = tourist;
             TourSegments = new ObservableCollection<TourRequestSegmentViewModel>();
+            TourSegments.CollectionChanged += TourSegments_CollectionChanged;
             Countries = new ObservableCollection<KeyValuePair<int, string>>();
             Languages = new ObservableCollection<KeyValuePair<int, string>>();
             _locationService = locationService;
@@ -35,9 +42,28 @@ namespace BookingApp.WPF.ViewModel.Tourist
             _tourRequestService = tourRequestService;
             _tourRequestSegmentService = tourRequestSegmentService;
             _tourRequestGuestService = tourRequestGuestService;
+            CancelCommand = new RelayCommand<TourRequestViewModel>(ExecuteCancelCommand);
             FillCountries();
             FillLanguages();
             AddSegment();
+        }
+
+        private void ExecuteCancelCommand(TourRequestViewModel tourRequestViewModel)
+        {
+            foreach (var segment in TourSegments)
+            {
+                segment.TourDescription = string.Empty;
+                segment.NumberOfPeople = 0;
+                segment.NumberOfPeopleText = string.Empty;
+                segment.StartDate = DateTime.Now;
+                segment.EndDate = DateTime.Now;
+                segment.SelectedCountry = new KeyValuePair<int, string>();
+                segment.SelectedCity = new KeyValuePair<int, string>();
+                segment.SelectedLanguage = new KeyValuePair<int, string>();
+                segment.TourGuestInputs.Clear();
+            }
+            FillCountries();
+            FillLanguages();
         }
 
         private void FillCountries()
@@ -60,27 +86,12 @@ namespace BookingApp.WPF.ViewModel.Tourist
             }
         }
 
-
         public void AddSegment()
         {
-            /*foreach (var segment in TourSegments)
-            {
-                segment.IsExpanded = false;
-            }*/
-
             var newSegment = new TourRequestSegmentViewModel(_locationService, Countries, Languages);
-            //newSegment.IsExpanded = true;
+            newSegment.PropertyChanged += Segment_PropertyChanged;
             TourSegments.Add(newSegment);
         }
-
-
-        /*public void RemoveSegment(TourRequestSegmentViewModel segment)
-        {
-            if (TourSegments.Count > 1)
-            {
-                TourSegments.Remove(segment);
-            }
-        }*/
 
         public void CreateTourRequest()
         {
@@ -117,6 +128,32 @@ namespace BookingApp.WPF.ViewModel.Tourist
                     _tourRequestGuestService.Create(tourRequestGuest);
                 }
             }
+        }
+
+        private void TourSegments_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(CanConfirm));
+        }
+
+        private void Segment_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(TourRequestSegmentViewModel.IsValid))
+            {
+                OnPropertyChanged(nameof(CanConfirm));
+            }
+        }
+
+        public bool CanConfirm
+        {
+            get
+            {
+                return TourSegments.All(segment => segment.IsValid);
+            }
+        }
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
     }

@@ -29,6 +29,17 @@ namespace BookingApp.WPF.ViewModel.Tourist
             get => _age;
             set { _age = value; OnPropertyChanged(nameof(Age)); }
         }
+
+        public bool IsValid
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(FirstName) &&
+                       !string.IsNullOrEmpty(LastName) &&
+                       Age > 0;
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {

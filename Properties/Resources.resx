@@ -279,6 +279,9 @@
   <data name="MyComplexTourRequests" xml:space="preserve">
     <value>My complex tour requests</value>
   </data>
+  <data name="MyDriveReservations" xml:space="preserve">
+    <value>My drive reservations</value>
+  </data>
   <data name="MyDriveReservations:" xml:space="preserve">
     <value>My drive reservations:</value>
   </data>

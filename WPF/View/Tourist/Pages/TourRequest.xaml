@@ -45,6 +45,12 @@
                             <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource ButtonMouseOverBorderBrush}"/>
                         </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="True">
+                            <Setter Property="Opacity" Value="1"/>
+                        </Trigger>
                     </Style.Triggers>
                 </Style>
             </Grid.Resources>
@@ -88,7 +94,7 @@
 
                                         <StackPanel Orientation="Vertical" Width="330" Margin="5,0,0,0" HorizontalAlignment="Left">
                                             <Label Content="{ns:Loc Description:}" Margin="-5,0,110,0"/>
-                                            <TextBox Background="{DynamicResource BackgroundBrush}" BorderBrush="{DynamicResource TextBoxBorderBrush}" Foreground="{DynamicResource ForegroundBrush}" BorderThickness="3" Width="330" Height="150" FontSize="25" Text="{Binding TourDescription, UpdateSourceTrigger=PropertyChanged}"/>
+                                            <TextBox BorderBrush="{DynamicResource TextBoxBorderBrush}" BorderThickness="3" Width="330" Height="150" FontSize="25" Text="{Binding TourDescription, UpdateSourceTrigger=PropertyChanged}"/>
                                         </StackPanel>
                                     </StackPanel>
                                     <StackPanel Margin="480,170,0,0">
@@ -112,7 +118,7 @@
 
                                         <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
                                             <Label Content="{ns:Loc NumberOfPeople:}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                            <ComboBox FontSize="25" Width="50" Height="40" ItemsSource="{Binding NumberOfPeopleSelection}" SelectedItem="{Binding NumberOfPeople}"/>
+                                            <TextBox FontSize="25" Width="50" Height="40" Text="{Binding NumberOfPeopleText, UpdateSourceTrigger=PropertyChanged}"/>
                                         </StackPanel>
 
                                         <StackPanel Orientation="Vertical" Margin="0,0,0,15">
@@ -142,8 +148,8 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <Button Content="{ns:Loc Confirm}" Click="Submit_Click" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="580,0,0,70"/>
-            <Button Content="{ns:Loc GoBack}" Click="ButtonBack" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="120,0,0,70"/>
+            <Button Content="{ns:Loc Confirm}" IsEnabled="{Binding CanConfirm}" Click="Submit_Click" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="580,0,0,70"/>
+            <Button Content="{ns:Loc Cancel}" Command="{Binding DataContext.CancelCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding}" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="120,0,0,70"/>
         </Grid>
     </Grid>
 </Page>

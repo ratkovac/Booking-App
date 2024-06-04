@@ -34,12 +34,12 @@
                                     <TextBlock Margin="15,0,0,0">
                                         <Run Text="{ns:Loc CreationDate:}" Foreground="{DynamicResource ForegroundBrush}" FontSize="25" FontWeight="Bold"/>
                                         <Run Text=" "/>
-                                        <Run Text="{Binding CreationDate}" Foreground="{DynamicResource ForegroundBrush}" FontSize="25"/>
+                                        <Run Text="{Binding CreationDate, StringFormat='{}{0:dd/MM/yyyy}'}" Foreground="{DynamicResource ForegroundBrush}" FontSize="25"/>
                                     </TextBlock>
                                     <TextBlock Margin="15,0,0,0">
                                         <Run Text="{ns:Loc ExpirationDate:}" Foreground="{DynamicResource ForegroundBrush}" FontSize="25" FontWeight="Bold"/>
                                         <Run Text=" "/>
-                                        <Run Text="{Binding ExpirationDate}" Foreground="{DynamicResource ForegroundBrush}" FontSize="25"/>
+                                        <Run Text="{Binding ExpirationDate, StringFormat='{}{0:dd/MM/yyyy}'}" Foreground="{DynamicResource ForegroundBrush}" FontSize="25"/>
                                     </TextBlock>
                                     <TextBlock Margin="15,0,0,0" FontSize="25">
                                         <TextBlock.Style>

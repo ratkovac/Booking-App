@@ -95,19 +95,19 @@
                 <Image Source="{DynamicResource UserImage}" Width="60" Height="60" Margin="215,0,0,480" MouseDown="Profile_Click"/>
                 <Button Content="{ns:Loc HomePage}" Click="TourDisplay_Click" Margin="0,0,0,320" HorizontalAlignment="Center"/>
                 <Button Content="{ns:Loc MyReservations}" Click="Tours_Click" Margin="0,0,0,180" HorizontalAlignment="Center"/>
-                <ToggleButton Content="{ns:Loc TourRequest}" Margin="0,0,0,40" HorizontalAlignment="Center" Checked="ToggleButton_Checked">
+                <ToggleButton Content="{ns:Loc TourRequest}" Margin="0,0,0,40" HorizontalAlignment="Center" Name="TourRequestToggle" Checked="ToggleButton_Checked">
                     <ToggleButton.Template>
                         <ControlTemplate TargetType="ToggleButton">
                             <Grid>
                                 <Border Background="{TemplateBinding Background}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
                                     <Grid>
                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                         <Path x:Name="Arrow" Data="M 0 0 L 8 8 L 16 0 Z" Fill="White" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                                     </Grid>
                                 </Border>
-                                <Popup Name="Popup" PlacementTarget="{Binding ElementName=toggleButton}" Placement="Bottom" StaysOpen="False" IsOpen="{Binding IsChecked, ElementName=toggleButton}">
+                                <Popup Name="Popup" PlacementTarget="{Binding ElementName=TourRequestToggle}" Placement="Bottom" StaysOpen="False" IsOpen="{Binding IsChecked, ElementName=TourRequestToggle}">
                                     <Border BorderThickness="0" BorderBrush="Gray" Background="Gray">
                                         <StackPanel>
                                             <Button Content="{ns:Loc TourRequest}" Click="TourRequest_Click" Margin="0"/>
@@ -119,19 +119,20 @@
                         </ControlTemplate>
                     </ToggleButton.Template>
                 </ToggleButton>
-                <ToggleButton Content="{ns:Loc ComplexTourRequest}" Margin="0,100,0,0" FontSize="22" HorizontalAlignment="Center" Checked="ToggleButton_Checked">
+
+                <ToggleButton Content="{ns:Loc ComplexTourRequest}" Margin="0,100,0,0" FontSize="22" HorizontalAlignment="Center" Name="ComplexTourRequestToggle" Checked="ToggleButton_Checked">
                     <ToggleButton.Template>
                         <ControlTemplate TargetType="ToggleButton">
                             <Grid>
                                 <Border Background="{TemplateBinding Background}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
                                     <Grid>
                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                         <Path x:Name="Arrow" Data="M 0 0 L 8 8 L 16 0 Z" Fill="White" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                                     </Grid>
                                 </Border>
-                                <Popup Name="Popup" PlacementTarget="{Binding ElementName=toggleButton}" Placement="Bottom" StaysOpen="False" IsOpen="{Binding IsChecked, ElementName=toggleButton}">
+                                <Popup Name="Popup" PlacementTarget="{Binding ElementName=ComplexTourRequestToggle}" Placement="Bottom" StaysOpen="False" IsOpen="{Binding IsChecked, ElementName=ComplexTourRequestToggle}">
                                     <Border BorderThickness="0" BorderBrush="Gray" Background="Gray">
                                         <StackPanel>
                                             <Button Content="{ns:Loc ComplexTourRequest}" Click="ComplexRequest_Click" Margin="0"/>
@@ -143,19 +144,20 @@
                         </ControlTemplate>
                     </ToggleButton.Template>
                 </ToggleButton>
-                <ToggleButton Content="{ns:Loc DriveReservation}" Margin="0,240,0,0" HorizontalAlignment="Center" Checked="ToggleButton_Checked">
+
+                <ToggleButton Content="{ns:Loc DriveReservation}" Margin="0,240,0,0" HorizontalAlignment="Center" Name="DriveReservationToggle" Checked="ToggleButton_Checked">
                     <ToggleButton.Template>
                         <ControlTemplate TargetType="ToggleButton">
                             <Grid>
                                 <Border Background="{TemplateBinding Background}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
                                     <Grid>
                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                         <Path x:Name="Arrow" Data="M 0 0 L 8 8 L 16 0 Z" Fill="White" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                                     </Grid>
                                 </Border>
-                                <Popup Name="Popup" PlacementTarget="{Binding ElementName=toggleButton}" Placement="Bottom" StaysOpen="False" IsOpen="{Binding IsChecked, ElementName=toggleButton}">
+                                <Popup Name="Popup" PlacementTarget="{Binding ElementName=DriveReservationToggle}" Placement="Bottom" StaysOpen="False" IsOpen="{Binding IsChecked, ElementName=DriveReservationToggle}">
                                     <Border BorderThickness="0" BorderBrush="Gray" Background="Gray">
                                         <StackPanel>
                                             <Button Content="{ns:Loc DriveReservation}" Click="DriveReservation_Click" Margin="0"/>

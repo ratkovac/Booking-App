@@ -2,6 +2,7 @@
 using BookingApp.Repository;
 using BookingApp.Service;
 using BookingApp.WPF.ViewModel.Tourist;
+using Microsoft.JSInterop;
 using Syncfusion.Blazor.Charts;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,9 @@ namespace BookingApp.WPF.View.Tourist.Pages
     public partial class TourReservationView : Page, INotifyPropertyChanged
     {
         private int _numberOfPeople;
+        private bool _canBookNow;
+        private string _selectedStartTime;
+
         public int UserId { get; set; }
         public TourInstance SelectedTourInstance { get; set; }
         public Tour SelectedTour { get; set; }
@@ -32,22 +36,12 @@ namespace BookingApp.WPF.View.Tourist.Pages
         public Voucher SelectedVoucher { get; set; }
         public ObservableCollection<Voucher> ListVoucher { get; set; }
         public ObservableCollection<TourGuestViewModel> TourGuestInputs { get; } = new ObservableCollection<TourGuestViewModel>();
-        private ObservableCollection<int> _numberOfPeopleSelection = new ObservableCollection<int>();
+        public BookingApp.Model.Tourist Tourist { get; set; }
 
         private VoucherService voucherService;
         private readonly TourInstanceRepository _tourInstanceRepository;
         private readonly TourReservationRepository _tourReservationRepository;
         private readonly TourGuestRepository _tourGuestRepository;
-
-        public ObservableCollection<int> NumberOfPeopleSelection
-        {
-            get => _numberOfPeopleSelection;
-            private set
-            {
-                _numberOfPeopleSelection = value;
-                OnPropertyChanged(nameof(NumberOfPeopleSelection));
-            }
-        }
 
         public int NumberOfPeople
         {
@@ -57,8 +51,38 @@ namespace BookingApp.WPF.View.Tourist.Pages
                 if (_numberOfPeople != value)
                 {
                     _numberOfPeople = value;
-                    GenerateGuests(value);
                     OnPropertyChanged(nameof(NumberOfPeople));
+                    if (CheckAvailableSeats(_numberOfPeople))
+                    {
+                        GenerateGuests(value);
+                        UpdateCanBookNow();
+                    }
+                }
+            }
+        }
+
+        public string SelectedStartTime
+        {
+            get => _selectedStartTime;
+            set
+            {
+                if (_selectedStartTime != value)
+                {
+                    _selectedStartTime = value;
+                    OnPropertyChanged(nameof(SelectedStartTime));
+                }
+            }
+        }
+
+        public bool CanBookNow
+        {
+            get => _canBookNow;
+            private set
+            {
+                if (_canBookNow != value)
+                {
+                    _canBookNow = value;
+                    OnPropertyChanged(nameof(CanBookNow));
                 }
             }
         }
@@ -69,7 +93,7 @@ namespace BookingApp.WPF.View.Tourist.Pages
             DataContext = this;
             UserId = tourist.Id;
             SelectedTour = selectedTour;
-            NumberOfPeopleOptions();
+            Tourist = tourist;
 
             voucherService = new VoucherService();
             _tourInstanceRepository = new TourInstanceRepository();
@@ -83,6 +107,14 @@ namespace BookingApp.WPF.View.Tourist.Pages
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private bool CheckIfTourInstancesExist()
+        {
+            var tourInstances = _tourInstanceRepository.GetAllById(SelectedTour.Id)
+                .Where(t => t.AvailableSlots > 0 && t.State != TourInstanceState.Finished && t.State != TourInstanceState.Cancelled);
+
+            return tourInstances.Any();
         }
 
         private void GenerateDatesComboBox()
@@ -102,16 +134,7 @@ namespace BookingApp.WPF.View.Tourist.Pages
             }
 
             SelectedTourInstance = _tourInstanceRepository.GetByIdAndDate(SelectedTour.Id, selectedDate);
-        }
-
-        private void NumberOfPeopleOptions()
-        {
-            NumberOfPeopleSelection.Clear();
-            NumberOfPeopleSelection.Add(1);
-            NumberOfPeopleSelection.Add(2);
-            NumberOfPeopleSelection.Add(3);
-            NumberOfPeopleSelection.Add(4);
-            NumberOfPeopleSelection.Add(5);
+            SelectedStartTime = selectedTime;
         }
 
         private void GenerateGuests(int numberOfPeople)
@@ -121,8 +144,43 @@ namespace BookingApp.WPF.View.Tourist.Pages
             {
                 for (int i = 0; i < numberOfPeople; i++)
                 {
-                    TourGuestInputs.Add(new TourGuestViewModel());
+                    var guest = new TourGuestViewModel();
+                    guest.PropertyChanged += (sender, e) => UpdateCanBookNow();
+                    TourGuestInputs.Add(guest);
                 }
+            }
+            UpdateCanBookNow();
+        }
+
+        private void Validate_Click(object sender, RoutedEventArgs e)
+        {
+            if (int.TryParse(NumberOfPeopleTextBox.Text, out int numberOfPeople))
+            {
+                if (numberOfPeople < 1 || numberOfPeople > 120)
+                {
+                    MessageBox.Show("Number of people must be between 1 and 120.");
+                    NumberOfPeopleTextBox.Clear();
+                }
+                else
+                {
+                    NumberOfPeople = numberOfPeople;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please enter a valid number.");
+                NumberOfPeopleTextBox.Clear();
+            }
+        }
+
+        private void CheckStartingTimes(object sender, EventArgs e)
+        {
+            if (!CheckIfTourInstancesExist())
+            {
+                MessageBox.Show("Nema dostupnih termina za ovu turu.");
+                StartTimeComboBox.IsDropDownOpen = false;
+                NavigationService.GoBack();
+                return;
             }
         }
 
@@ -170,6 +228,8 @@ namespace BookingApp.WPF.View.Tourist.Pages
                 int reservedSeats = SelectedTour.MaxGuests - (SelectedTourInstance?.AvailableSlots ?? 0);
                 int remainingSeats = SelectedTourInstance.AvailableSlots;
                 MessageBox.Show($"Na ovoj turi nema dovoljan broj slobodnih mjesta za unijeti broj ljudi.\nBroj rezervisanih mjesta je: {reservedSeats}.\nBroj slobodnih mjesta je: {remainingSeats}.");
+                NumberOfPeople = 0;
+                NumberOfPeopleTextBox.Clear();
                 return false;
             }
             return true;
@@ -209,16 +269,31 @@ namespace BookingApp.WPF.View.Tourist.Pages
             }
         }
 
-        private void ButtonBack(object sender, RoutedEventArgs e)
+        private void UpdateCanBookNow()
         {
-            if (NavigationService.CanGoBack)
+            bool allGuestsValid = TourGuestInputs.All(guest =>
+                !string.IsNullOrWhiteSpace(guest.FirstName) &&
+                !string.IsNullOrWhiteSpace(guest.LastName) &&
+                guest.Age > 0 && guest.Age <= 120);
+
+            CanBookNow = !string.IsNullOrEmpty(SelectedStartTime) && allGuestsValid;
+        }
+
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            TourGuestInputs.Clear();
+            NumberOfPeople = 0;
+            SelectedTourInstance = null;
+            SelectedVoucher = null;
+            var activeVouchers = voucherService.GetActiveVouchers(Tourist.VoucherIds);
+            ListVoucher.Clear();
+            foreach (var voucher in activeVouchers)
             {
-                NavigationService.GoBack();
+                ListVoucher.Add(voucher);
             }
-            else
-            {
-                MessageBox.Show("Nema prethodne stranice!");
-            }
+            StartTimeComboBox.SelectedItem = null;
+            NumberOfPeopleTextBox.Clear();
         }
     }
+
 }

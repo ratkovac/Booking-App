@@ -58,12 +58,12 @@
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
                 <Label Content="{ns:Loc SelectTheDateAndTime:}"/>
-                <ComboBox x:Name="StartTimeComboBox" SelectionChanged="ChangedStartTimeComboBox" Margin="5" FontSize="27" Width="260" Height="40"/>
+                <ComboBox DropDownOpened="CheckStartingTimes" x:Name="StartTimeComboBox" SelectionChanged="ChangedStartTimeComboBox" Margin="5" FontSize="27" Width="260" Height="40"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
                 <Label Content="{ns:Loc EnterTheNumberOfGuests:}"/>
-                <ComboBox Margin="5" FontSize="25" Width="50" Height="40" ItemsSource="{Binding NumberOfPeopleSelection}" SelectedItem="{Binding NumberOfPeople}"/>
+                <TextBox x:Name="NumberOfPeopleTextBox" Margin="5" FontSize="25" Width="50" Height="40" Text="{Binding NumberOfPeople, UpdateSourceTrigger=PropertyChanged}" MouseDown="Validate_Click"/>
             </StackPanel>
 
             <StackPanel Orientation="Vertical" Margin="0,0,0,15">
@@ -96,10 +96,9 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <Label Content="{ns:Loc *ExpirationDate}" Margin="10,5,0,0" Width="210" FontWeight="Medium" FontSize="18" Foreground="red"/>
             </StackPanel>
         </StackPanel>
-        <Button Content="{ns:Loc BookNow!}" Click="Reservation_Click" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="580,0,0,70"/>
-        <Button Content="{ns:Loc GoBack}" Click="ButtonBack" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="120,0,0,70"/>
+        <Button IsEnabled="{Binding CanBookNow}" x:Name="BookNowButton" Content="{ns:Loc BookNow!}" Click="Reservation_Click" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="580,0,0,70"/>
+        <Button Content="{ns:Loc Cancel}" Click="Cancel_Click" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="120,0,0,70"/>
     </Grid>
 </Page>

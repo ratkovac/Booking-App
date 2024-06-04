@@ -4,6 +4,7 @@ using BookingApp.WPF.ViewModel.Tourist;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -31,6 +32,12 @@ namespace BookingApp.WPF.View.Tourist.Pages
             Button button = (Button)sender;
             BookingApp.Model.TourReservation selectedReservation = (BookingApp.Model.TourReservation)button.DataContext;
 
+            if (selectedReservation.TourInstance.IsCompleted)
+            {
+                MessageBox.Show("The tour has already finished.");
+                return;
+            }
+
             var trackTour = new TourTrackingView(selectedReservation);
             NavigationService.Navigate(trackTour);
         }
@@ -39,6 +46,12 @@ namespace BookingApp.WPF.View.Tourist.Pages
         {
             Button button = (Button)sender;
             BookingApp.Model.TourReservation selectedReservation = (BookingApp.Model.TourReservation)button.DataContext;
+
+            if (!selectedReservation.TourInstance.IsCompleted)
+            {
+                MessageBox.Show("The tour has not yet finished.");
+                return;
+            }
 
             var gradeTourViewModel = new GradeTourViewModel(selectedReservation, selectedReservation.TouristId);
             NavigationService.Navigate(new GradeTourPage(gradeTourViewModel));

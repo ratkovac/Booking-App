@@ -279,6 +279,9 @@
   <data name="MyComplexTourRequests" xml:space="preserve">
     <value>Moji složeni zahtjevi tura</value>
   </data>
+  <data name="MyDriveReservations" xml:space="preserve">
+    <value>Moje rezervacije vožnji</value>
+  </data>
   <data name="MyDriveReservations:" xml:space="preserve">
     <value>Moje rezervacije vožnji:</value>
   </data>

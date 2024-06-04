@@ -63,8 +63,27 @@ namespace BookingApp.WPF.ViewModel.Tourist
 
         private void ExecuteConfirmCommand(GradeTourViewModel gradeTourViewModel)
         {
-            SaveReviews();
-            ResetReviewForms();
+            if (AreAllGradesEntered())
+            {
+                SaveReviews();
+                ResetReviewForms();
+            }
+            else
+            {
+                MessageBox.Show("Please enter grades for all guests before confirming.");
+            }
+        }
+
+        private bool AreAllGradesEntered()
+        {
+            foreach (var reviewForm in ReviewForms)
+            {
+                if (reviewForm.SelectedGrade == 0)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private void SetReviewForms()

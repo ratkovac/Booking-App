@@ -74,7 +74,7 @@
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                 <Label Content="{ns:Loc Language:}"/>
-                <TextBox Text="{Binding SelectedSegment.Language}" x:Name="LanguageTextBox" Margin="5,5,0,0" IsReadOnly="True" BorderThickness="0" Width="240" FontSize="25"/>
+                <TextBox Text="{Binding SelectedSegment.Language.Name}" x:Name="LanguageTextBox" Margin="5,5,0,0" IsReadOnly="True" BorderThickness="0" Width="240" FontSize="25"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
@@ -106,7 +106,7 @@
             </StackPanel>
 
             <StackPanel Orientation="Vertical" Width="370" Margin="0,30,0,0" HorizontalAlignment="Left">
-                <Label Content="{ns:Loc TourGuests:}" Margin="40,0,140,0"/>
+                <Label Content="{ns:Loc TourGuests:}" Margin="40,-20,140,0"/>
                 <TextBox x:Name="TourGuestsTextBox" TextWrapping="Wrap" IsReadOnly="True" BorderBrush="{DynamicResource TextBoxBorderBrush}" BorderThickness="3" Width="330" Margin="40,0,0,0" Height="110" FontSize="25"/>
             </StackPanel>
         </StackPanel>

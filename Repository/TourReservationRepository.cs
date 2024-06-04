@@ -30,6 +30,13 @@ namespace BookingApp.Repository
             return _tourReservations;
         }
 
+        public List<TourReservation> GetFinishedAndStartedReservations()
+        {
+            return _tourReservations
+                .Where(reservation => reservation.TourInstance.StartTime <= DateTime.Now)
+                .ToList();
+        }
+
         public TourReservation Save(TourReservation tourReservation)
         {
             tourReservation.Id = NextId();

@@ -33,17 +33,5 @@ namespace BookingApp.WPF.View.Tourist.Pages
             ViewModel.CreateTourRequest();
             MessageBox.Show("Tour request added successfully!");
         }
-
-        private void ButtonBack(object sender, RoutedEventArgs e)
-        {
-            if (NavigationService.CanGoBack)
-            {
-                NavigationService.GoBack();
-            }
-            else
-            {
-                MessageBox.Show("Nema prethodne stranice!");
-            }
-        }
     }
 }

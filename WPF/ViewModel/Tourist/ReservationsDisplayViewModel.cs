@@ -45,7 +45,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
         {
             Tourist = tourist;
             tourReservationRepository = new TourReservationRepository();
-            ListReservation = new ObservableCollection<TourReservation>(tourReservationRepository.GetAll());
+            ListReservation = new ObservableCollection<TourReservation>(tourReservationRepository.GetFinishedAndStartedReservations());
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
