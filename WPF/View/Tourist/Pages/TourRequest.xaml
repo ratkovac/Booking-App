@@ -17,7 +17,7 @@
         <Grid>
             <Grid.Resources>
                 <Style TargetType="Button">
-                    <Setter Property="FontSize" Value="22"/>
+                    <Setter Property="FontSize" Value="25"/>
                     <Setter Property="FontWeight" Value="Bold"/>
                     <Setter Property="Margin" Value="10,5"/>
                     <Setter Property="Padding" Value="10"/>
@@ -94,7 +94,7 @@
 
                                         <StackPanel Orientation="Vertical" Width="330" Margin="5,0,0,0" HorizontalAlignment="Left">
                                             <Label Content="{ns:Loc Description:}" Margin="-5,0,110,0"/>
-                                            <TextBox BorderBrush="{DynamicResource TextBoxBorderBrush}" BorderThickness="3" Width="330" Height="150" FontSize="25" Text="{Binding TourDescription, UpdateSourceTrigger=PropertyChanged}"/>
+                                            <TextBox TextWrapping="Wrap"  BorderBrush="{DynamicResource TextBoxBorderBrush}" BorderThickness="3" Width="330" Height="150" FontSize="25" Text="{Binding TourDescription, UpdateSourceTrigger=PropertyChanged}"/>
                                         </StackPanel>
                                     </StackPanel>
                                     <StackPanel Margin="500,150,0,0">

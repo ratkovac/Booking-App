@@ -253,14 +253,14 @@ namespace BookingApp.WPF.View.Tourist.Pages
             }
             else
             {
-                if (App.CurrentLanguage == "en-US")
+                /*if (App.CurrentLanguage == "en-US")
                 {
                     MessageBox.Show("Please enter a valid date and time.");
                 }
                 else
                 {
                     MessageBox.Show("Molimo unesite validan datum i sat.");
-                }
+                }*/
                 return DateTime.MinValue;
             }
         }
@@ -364,6 +364,23 @@ namespace BookingApp.WPF.View.Tourist.Pages
                 {
                     endStreetTextBox.Text = string.Empty;
                 }
+                MessageBox.Show(errorMessage);
+                return;
+            }
+
+            if (departure == DateTime.MinValue)
+            {
+                string errorMessage;
+                if (App.CurrentLanguage == "en-US")
+                {
+                    errorMessage = "Invalid hours.";
+                }
+                else
+                {
+                    errorMessage = "Nevažeći sati.";
+                }
+
+                hourTextBox.Text = string.Empty;
                 MessageBox.Show(errorMessage);
                 return;
             }

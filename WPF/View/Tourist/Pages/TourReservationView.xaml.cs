@@ -126,14 +126,14 @@ namespace BookingApp.WPF.View.Tourist.Pages
         {
             if (!(StartTimeComboBox.SelectedItem is string selectedTime) || !DateTime.TryParse(selectedTime, out DateTime selectedDate))
             {
-                if (App.CurrentLanguage == "en-US")
+                /*if (App.CurrentLanguage == "en-US")
                 {
                     MessageBox.Show("Date not valid.");
                 }
                 else
                 {
                     MessageBox.Show("Datum nije validan.");
-                }
+                }*/
                 return;
             }
 

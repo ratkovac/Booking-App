@@ -62,7 +62,8 @@ namespace BookingApp.Service
 
             if (hour < 0 || hour > 23 || minute < 0 || minute > 59)
             {
-                throw new ArgumentException("Nevažeći sati ili minuti.");
+                //MessageBox.Show("Nevažeći sati ili minuti.");
+                return DateTime.MinValue;
             }
 
             DateTime selectedDateTime = new DateTime(DepartureDate.Year, DepartureDate.Month, DepartureDate.Day, hour, minute, 0);
@@ -83,7 +84,14 @@ namespace BookingApp.Service
 
             if (parts.Length != 2)
             {
-                MessageBox.Show("Neispravan format unosa. Molimo unesite ulicu i broj odvojene zarezom.");
+                if (App.CurrentLanguage == "en-US")
+                {
+                    MessageBox.Show("Incorrect input. Please enter street name and number separated by a comma..");
+                }
+                else
+                {
+                    MessageBox.Show("Neispravan format unosa. Molimo unesite ulicu i broj odvojene zarezom.");
+                }
                 return 0;
             }
 

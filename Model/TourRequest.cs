@@ -18,6 +18,10 @@ namespace BookingApp.Model
         {
             get { return IsAccepted != TourRequestStatus.CANCELLED; }
         }
+        public bool CanSeeMoreWaiting
+        {
+            get { return IsAccepted != TourRequestStatus.WAITING; }
+        }
 
         public TourRequest() { }
 

@@ -57,6 +57,9 @@
     <None Remove="Resources\Images\add.png" />
     <None Remove="Resources\Images\bell.png" />
     <None Remove="Resources\Images\bell1.png" />
+    <None Remove="Resources\Images\beograd.jpeg" />
+    <None Remove="Resources\Images\beograd1.jpg" />
+    <None Remove="Resources\Images\beograd2.jpg" />
     <None Remove="Resources\Images\budimpesta1.jpg" />
     <None Remove="Resources\Images\budimpesta2.jpg" />
     <None Remove="Resources\Images\delete.png" />
@@ -66,6 +69,7 @@
     <None Remove="Resources\Images\language1.png" />
     <None Remove="Resources\Images\logo.jpg" />
     <None Remove="Resources\Images\losangeles.jpg" />
+    <None Remove="Resources\Images\novisad.jpeg" />
     <None Remove="Resources\Images\ny.jpg" />
     <None Remove="Resources\Images\strpce.jpg" />
     <None Remove="Resources\Images\theme.png" />
@@ -144,6 +148,15 @@
     <Content Include="Resources\Images\bell1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Images\beograd.jpeg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\beograd1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\beograd2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Images\budimpesta2.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -160,6 +173,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Images\losangeles.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\novisad.jpeg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\Images\ny.jpg">

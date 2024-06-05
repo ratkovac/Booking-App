@@ -49,21 +49,21 @@
                 <TextBlock Text="{ns:Loc Person:}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22" FontWeight="Bold" TextAlignment="Center"/>
             </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                <TextBlock Text="Name: " Foreground="{DynamicResource ForegroundBrush}" FontSize="20" FontWeight="Bold"/>
-                <TextBlock Text=" "/>
+                <TextBlock Text="{ns:Loc Name:}" Foreground="{DynamicResource ForegroundBrush}" FontSize="20" FontWeight="Bold"/>
+                <TextBlock Text="  "/>
                 <TextBox x:Name="NameTextBox" Height="30" Width="170" HorizontalAlignment="Left" FontSize="20"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                <TextBlock Text="Lastname: " Foreground="{DynamicResource ForegroundBrush}" FontSize="20" FontWeight="Bold"/>
-                <TextBlock Text=" "/>
+                <TextBlock Text="{ns:Loc Lastname:}" Foreground="{DynamicResource ForegroundBrush}" FontSize="20" FontWeight="Bold"/>
+                <TextBlock Text="  "/>
                 <TextBox x:Name="LastnameTextBox" Height="30" Width="135" HorizontalAlignment="Left" FontSize="20"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Text="Age: " Foreground="{DynamicResource ForegroundBrush}" FontSize="20" FontWeight="Bold"/>
-                <TextBlock Text=" "/>
+                <TextBlock Text="{ns:Loc Age:}" Foreground="{DynamicResource ForegroundBrush}" FontSize="20" FontWeight="Bold"/>
+                <TextBlock Text="  "/>
                 <TextBox x:Name="AgeTextBox" Height="30" Width="50" HorizontalAlignment="Left" FontSize="20"/>
             </StackPanel>
-            <Button Content="Add" Click="OkButton_Click" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" Margin="0,30,0,0"/>
+            <Button Content="{ns:Loc Add}" Click="OkButton_Click" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" Margin="0,30,0,0"/>
         </StackPanel>
     </Grid>
 </Window>

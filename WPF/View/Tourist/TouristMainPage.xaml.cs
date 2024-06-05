@@ -216,8 +216,8 @@ namespace BookingApp.WPF.View.Tourist
 
         private void Notification_Click(object sender, RoutedEventArgs e)
         {
-            NotificationViewModel notificationViewModel = new NotificationViewModel(Tourist);
-            FrameHomePage.Navigate(new BookingApp.WPF.View.Tourist.Pages.NotificationView(notificationViewModel));
+            //NotificationViewModel notificationViewModel = new NotificationViewModel(Tourist);
+            //FrameHomePage.Navigate(new BookingApp.WPF.View.Tourist.Pages.NotificationView(notificationViewModel));
             CheckForTourRequestNotification();
         }
 

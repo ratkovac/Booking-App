@@ -11,7 +11,7 @@
     <Grid>
         <Grid.Resources>
             <Style TargetType="Button">
-                <Setter Property="FontSize" Value="22"/>
+                <Setter Property="FontSize" Value="25"/>
                 <Setter Property="FontWeight" Value="Bold"/>
                 <Setter Property="Margin" Value="10,5"/>
                 <Setter Property="Padding" Value="10"/>
