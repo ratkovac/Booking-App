@@ -1,5 +1,6 @@
 ﻿using BookingApp.Repository;
 using BookingApp.Service;
+using BookingApp.WPF.View.Tourist.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -175,7 +176,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
                 if (_numberOfPeople != value)
                 {
                     _numberOfPeople = value;
-                    GenerateGuests(value);
+                    AddGuests(value); // Update to call AddGuests
                     OnPropertyChanged(nameof(NumberOfPeople));
                     OnPropertyChanged(nameof(IsValid));
                 }
@@ -272,16 +273,45 @@ namespace BookingApp.WPF.ViewModel.Tourist
             }
         }
 
-        private void GenerateGuests(int numberOfGuests)
+        private void AddGuests(int numberOfPeople)
         {
-            while (TourGuestInputs.Count < numberOfGuests)
+            TourGuestInputs.Clear();
+
+            for (int i = 0; i < numberOfPeople; i++)
             {
-                TourGuestInputs.Add(new TourGuestViewModel());
+                AddGuestsView addGuestsWindow = new AddGuestsView(i + 1);
+                bool? dialogResult = addGuestsWindow.ShowDialog();
+
+                if (dialogResult == true)
+                {
+                    int age = addGuestsWindow.Age;
+                    string name = addGuestsWindow.Name;
+                    string lastname = addGuestsWindow.Lastname;
+
+                    var guest = new TourGuestViewModel
+                    {
+                        Age = age,
+                        FirstName = name,
+                        LastName = lastname
+                    };
+
+                    guest.PropertyChanged += (sender, e) => UpdateCanBookNow();
+                    TourGuestInputs.Add(guest);
+                }
+                else
+                {
+                    UpdateCanBookNow();
+                    return;
+                }
             }
-            while (TourGuestInputs.Count > numberOfGuests)
-            {
-                TourGuestInputs.RemoveAt(TourGuestInputs.Count - 1);
-            }
+
+            UpdateCanBookNow();
+        }
+
+        private void UpdateCanBookNow()
+        {
+            OnPropertyChanged(nameof(IsValid));
         }
     }
+
 }

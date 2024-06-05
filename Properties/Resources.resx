@@ -123,6 +123,9 @@
   <data name="Absent" xml:space="preserve">
     <value>Absent</value>
   </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
   <data name="AddAComment:" xml:space="preserve">
     <value>Add a comment:</value>
   </data>
@@ -134,6 +137,9 @@
   </data>
   <data name="Age" xml:space="preserve">
     <value>Age</value>
+  </data>
+  <data name="Age:" xml:space="preserve">
+    <value>Age:</value>
   </data>
   <data name="Attendance:" xml:space="preserve">
     <value>Attendance:</value>
@@ -221,6 +227,9 @@
   </data>
   <data name="EnterDelayMinutes:" xml:space="preserve">
     <value>Enter delay (minutes):</value>
+  </data>
+  <data name="EnterThe" xml:space="preserve">
+    <value>Enter the</value>
   </data>
   <data name="EnterTheNumberOfGuests:" xml:space="preserve">
     <value>Enter the number of guests:</value>
@@ -341,6 +350,9 @@
   </data>
   <data name="PercentageOfCancelledTours:" xml:space="preserve">
     <value>Percentage of cancelled tours:</value>
+  </data>
+  <data name="Person:" xml:space="preserve">
+    <value>person:</value>
   </data>
   <data name="Present" xml:space="preserve">
     <value>Present</value>

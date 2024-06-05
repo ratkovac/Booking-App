@@ -51,12 +51,9 @@ namespace BookingApp.WPF.View.Tourist.Pages
                 if (_numberOfPeople != value)
                 {
                     _numberOfPeople = value;
+                    AddGuests(value);
+                    UpdateCanBookNow();
                     OnPropertyChanged(nameof(NumberOfPeople));
-                    if (CheckAvailableSeats(_numberOfPeople))
-                    {
-                        GenerateGuests(value);
-                        UpdateCanBookNow();
-                    }
                 }
             }
         }
@@ -144,20 +141,41 @@ namespace BookingApp.WPF.View.Tourist.Pages
             SelectedStartTime = selectedTime;
         }
 
-        private void GenerateGuests(int numberOfPeople)
+        private void AddGuests(int numberOfPeople)
         {
             TourGuestInputs.Clear();
-            if (numberOfPeople > 0)
+
+            for (int i = 0; i < numberOfPeople; i++)
             {
-                for (int i = 0; i < numberOfPeople; i++)
+                AddGuestsView addGuestsWindow = new AddGuestsView(i + 1);
+                bool? dialogResult = addGuestsWindow.ShowDialog();
+
+                if (dialogResult == true)
                 {
-                    var guest = new TourGuestViewModel();
+                    int age = addGuestsWindow.Age;
+                    string name = addGuestsWindow.Name;
+                    string lastname = addGuestsWindow.Lastname;
+
+                    var guest = new TourGuestViewModel
+                    {
+                        Age = age,
+                        FirstName = name,
+                        LastName = lastname
+                    };
+
                     guest.PropertyChanged += (sender, e) => UpdateCanBookNow();
                     TourGuestInputs.Add(guest);
                 }
+                else
+                {
+                    UpdateCanBookNow();
+                    return;
+                }
             }
+
             UpdateCanBookNow();
         }
+
 
         private void Validate_Click(object sender, RoutedEventArgs e)
         {

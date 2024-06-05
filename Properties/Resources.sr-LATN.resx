@@ -123,6 +123,9 @@
   <data name="Absent" xml:space="preserve">
     <value>Odsutan</value>
   </data>
+  <data name="Add" xml:space="preserve">
+    <value>Dodaj</value>
+  </data>
   <data name="AddAComment:" xml:space="preserve">
     <value>Dodaj komentar:</value>
   </data>
@@ -134,6 +137,9 @@
   </data>
   <data name="Age" xml:space="preserve">
     <value>Godine</value>
+  </data>
+  <data name="Age:" xml:space="preserve">
+    <value>Godine:</value>
   </data>
   <data name="Attendance:" xml:space="preserve">
     <value>Prisustvo:</value>
@@ -221,6 +227,9 @@
   </data>
   <data name="EnterDelayMinutes:" xml:space="preserve">
     <value>Unesite kašnjenje (minute):</value>
+  </data>
+  <data name="EnterThe" xml:space="preserve">
+    <value>Dodaj</value>
   </data>
   <data name="EnterTheNumberOfGuests:" xml:space="preserve">
     <value>Unesi broj gostiju:</value>
@@ -341,6 +350,9 @@
   </data>
   <data name="PercentageOfCancelledTours:" xml:space="preserve">
     <value>Procenat otkazanih tura:</value>
+  </data>
+  <data name="Person:" xml:space="preserve">
+    <value>osobu:</value>
   </data>
   <data name="Present" xml:space="preserve">
     <value>Prisutan</value>

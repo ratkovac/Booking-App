@@ -79,6 +79,15 @@ namespace BookingApp.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        internal static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add a comment:.
         /// </summary>
         internal static string AddAComment_ {
@@ -111,6 +120,15 @@ namespace BookingApp.Properties {
         internal static string Age {
             get {
                 return ResourceManager.GetString("Age", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Age:.
+        /// </summary>
+        internal static string Age_ {
+            get {
+                return ResourceManager.GetString("Age:", resourceCulture);
             }
         }
         
@@ -372,6 +390,15 @@ namespace BookingApp.Properties {
         internal static string EnterDelayMinutes_ {
             get {
                 return ResourceManager.GetString("EnterDelayMinutes:", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter the.
+        /// </summary>
+        internal static string EnterThe {
+            get {
+                return ResourceManager.GetString("EnterThe", resourceCulture);
             }
         }
         
@@ -732,6 +759,15 @@ namespace BookingApp.Properties {
         internal static string PercentageOfCancelledTours_ {
             get {
                 return ResourceManager.GetString("PercentageOfCancelledTours:", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to person:.
+        /// </summary>
+        internal static string Person_ {
+            get {
+                return ResourceManager.GetString("Person:", resourceCulture);
             }
         }
         

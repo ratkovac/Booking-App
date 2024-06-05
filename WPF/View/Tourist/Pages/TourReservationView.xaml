@@ -43,6 +43,12 @@
                         <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
                         <Setter Property="BorderBrush" Value="{DynamicResource ButtonMouseOverBorderBrush}"/>
                     </Trigger>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Opacity" Value="0.5"/>
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="True">
+                        <Setter Property="Opacity" Value="1"/>
+                    </Trigger>
                 </Style.Triggers>
             </Style>
         </Grid.Resources>
@@ -58,7 +64,7 @@
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
                 <Label Content="{ns:Loc SelectTheDateAndTime:}"/>
-                <ComboBox DropDownOpened="CheckStartingTimes" x:Name="StartTimeComboBox" SelectionChanged="ChangedStartTimeComboBox" Margin="5" FontSize="27" Width="260" Height="40"/>
+                <ComboBox DropDownOpened="CheckStartingTimes" x:Name="StartTimeComboBox" SelectionChanged="ChangedStartTimeComboBox" Margin="5" FontSize="22" Width="260" Height="40"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
