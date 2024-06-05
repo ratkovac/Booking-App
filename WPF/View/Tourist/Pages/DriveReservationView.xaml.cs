@@ -2,9 +2,12 @@
 using BookingApp.Repository;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,7 +22,7 @@ using System.Windows.Shapes;
 
 namespace BookingApp.WPF.View.Tourist.Pages
 {
-    public partial class DriveReservationView : Page
+    public partial class DriveReservationView : Page, INotifyPropertyChanged
     {
         public User Tourist;
         public Location SelectedLocation { get; set; }
@@ -42,16 +45,40 @@ namespace BookingApp.WPF.View.Tourist.Pages
             _addressRepository = new AddressRepository();
         }
 
-        private void ButtonBack(object sender, RoutedEventArgs e)
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            if (NavigationService.CanGoBack)
-            {
-                NavigationService.GoBack();
-            }
-            else
-            {
-                MessageBox.Show("Nema prethodne stranice!");
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            CountryComboBox.SelectedItem = null;
+            CityComboBox.SelectedItem = null;
+            minuteComboBox.SelectedItem = null;
+            driversComboBox.SelectedItem = null;
+
+            startStreetTextBox.Text = string.Empty;
+            endStreetTextBox.Text = string.Empty;
+            hourTextBox.Text = string.Empty;
+
+            dateDp.SelectedDate = null;
+
+            SelectedLocation = null;
+            DetailedStartAddressId = 0;
+            DetailedEndAddressId = 0;
+            SelectedDriver = null;
+            AddressId = 0;
+            CountryName = string.Empty;
+            CityName = string.Empty;
+
+            OnPropertyChanged(nameof(SelectedLocation));
+            OnPropertyChanged(nameof(DetailedStartAddressId));
+            OnPropertyChanged(nameof(DetailedEndAddressId));
+            OnPropertyChanged(nameof(SelectedDriver));
+            OnPropertyChanged(nameof(AddressId));
+            OnPropertyChanged(nameof(CountryName));
+            OnPropertyChanged(nameof(CityName));
         }
 
         private void InputCountries(ComboBox comboBox)
@@ -137,7 +164,14 @@ namespace BookingApp.WPF.View.Tourist.Pages
                 string[] parts = input.Split(',');
                 if (parts.Length != 2)
                 {
-                    MessageBox.Show("Neispravan format unosa. Molimo unesite ulicu i broj odvojene zarezom.");
+                    if (App.CurrentLanguage == "en-US")
+                    {
+                        MessageBox.Show("Invalid input format. Please enter the street and number separated by a comma.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Neispravan format unosa. Molimo unesite ulicu i broj odvojene zarezom.");
+                    }
                     return;
                 }
 
@@ -158,7 +192,6 @@ namespace BookingApp.WPF.View.Tourist.Pages
                 streetTextBox.Text = "";
             }
         }
-
 
         private void InputAddressForCity(ComboBox cityComboBox, TextBox streetTextBox)
         {
@@ -207,29 +240,37 @@ namespace BookingApp.WPF.View.Tourist.Pages
                 }
                 else
                 {
-                    MessageBox.Show("Nije moguće pretvoriti datum i vrijeme.");
+                    if (App.CurrentLanguage == "en-US")
+                    {
+                        MessageBox.Show("It is not possible to convert the date and time.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Nije moguće pretvoriti datum i vrijeme.");
+                    }
                     return DateTime.MinValue;
                 }
             }
             else
             {
-                MessageBox.Show("Molimo unesite validan datum i sat.");
+                if (App.CurrentLanguage == "en-US")
+                {
+                    MessageBox.Show("Please enter a valid date and time.");
+                }
+                else
+                {
+                    MessageBox.Show("Molimo unesite validan datum i sat.");
+                }
                 return DateTime.MinValue;
             }
         }
 
         private void UpdateDriverList()
         {
-            if (!AreAllCriteriaMet())
-            {
-                MessageBox.Show("Molimo popunite sva polja.");
-                return;
-            }
-
             VehicleRepository vehicleRepository = new VehicleRepository();
-            List<int> drivers = vehicleRepository.GetDriverIdsByLocationId(SelectedLocation.Id);
-            DateTime? date = CreateDateTimeFromSelections();
-            drivers = FilterDrivers(drivers, date);
+            List<int> drivers = vehicleRepository.GetAllDriverIds();
+            /*DateTime? date = CreateDateTimeFromSelections();
+            drivers = FilterDrivers(drivers, date);*/
             InputDriverComboBox(drivers);
         }
 
@@ -286,6 +327,47 @@ namespace BookingApp.WPF.View.Tourist.Pages
         {
             DateTime departure = CreateDateTimeFromSelections();
 
+            if (!AreAllCriteriaMet())
+            {
+                if (App.CurrentLanguage == "en-US")
+                {
+                    MessageBox.Show("Please fill in all fields.");
+                }
+                else
+                {
+                    MessageBox.Show("Molimo popunite sva polja.");
+                }
+                return;
+            }
+
+            if (!IsValidStreetFormat(startStreetTextBox.Text) || !IsValidStreetFormat(endStreetTextBox.Text))
+            {
+                string errorMessage;
+                if (App.CurrentLanguage == "en-US")
+                {
+                    errorMessage = "Invalid street format! Correct format is 'Name, number'";
+                }
+                else
+                {
+                    errorMessage = "Pogrešan format ulice! Ispravno je 'Naziv, broj'";
+                }
+                if (!IsValidStreetFormat(startStreetTextBox.Text) && !IsValidStreetFormat(endStreetTextBox.Text))
+                {
+                    startStreetTextBox.Text = string.Empty;
+                    endStreetTextBox.Text = string.Empty;
+                }
+                else if (!IsValidStreetFormat(startStreetTextBox.Text))
+                {
+                    startStreetTextBox.Text = string.Empty;
+                }
+                else if (!IsValidStreetFormat(endStreetTextBox.Text))
+                {
+                    endStreetTextBox.Text = string.Empty;
+                }
+                MessageBox.Show(errorMessage);
+                return;
+            }
+
             SetDetailedAddressId(startStreetTextBox, true);
             SetDetailedAddressId(endStreetTextBox, false);
             if (DetailedStartAddressId == 0)
@@ -301,7 +383,40 @@ namespace BookingApp.WPF.View.Tourist.Pages
             Drive drive = new(DetailedStartAddressId, DetailedEndAddressId, departure, SelectedDriver, Tourist, 2, 0, 0);
             DriveRepository driveRepository = new DriveRepository();
             driveRepository.Save(drive);
-            MessageBox.Show("Rezervacija uspješna");
+            if (App.CurrentLanguage == "en-US")
+            {
+                MessageBox.Show("Reservation successful!");
+            }
+            else
+            {
+                MessageBox.Show("Rezervacija uspješna!");
+            }
+        }
+
+        private bool IsValidStreetFormat(string street)
+        {
+            if (string.IsNullOrWhiteSpace(street))
+            {
+                return false;
+            }
+            string[] parts = street.Split(',');
+
+            if (parts.Length != 2)
+            {
+                return false;
+            }
+
+            if (int.TryParse(parts[0].Trim(), out _))
+            {
+                return false;
+            }
+
+            if (!int.TryParse(parts[1].Trim(), out _))
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private int AddNewAddress(string address)
@@ -310,7 +425,14 @@ namespace BookingApp.WPF.View.Tourist.Pages
 
             if (parts.Length != 2)
             {
-                MessageBox.Show("Neispravan format unosa. Molimo unesite ulicu i broj odvojene zarezom.");
+                if (App.CurrentLanguage == "en-US")
+                {
+                    MessageBox.Show("Invalid input format. Please enter the street and number separated by a comma.");
+                }
+                else
+                {
+                    MessageBox.Show("Neispravan format unosa. Molimo unesite ulicu i broj odvojene zarezom.");
+                }
                 return 0;
             }
 

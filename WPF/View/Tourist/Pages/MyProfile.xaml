@@ -47,10 +47,10 @@ VerticalAlignment="Center"/>
                 </Style.Triggers>
             </Style>
         </Grid.Resources>
-        <Label FontWeight="Bold" FontSize="70" HorizontalAlignment="Left" Margin="50,35,0,0" VerticalAlignment="Top">
+        <Label FontWeight="Bold" FontSize="70" HorizontalAlignment="Left" Margin="70,20,0,0" VerticalAlignment="Top">
             <TextBlock TextDecorations="Underline" Text="{ns:Loc MyProfile}" Foreground="{DynamicResource ForegroundBrush}"/>
         </Label>
-        <StackPanel Orientation="Vertical" Margin="50,190,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" MaxWidth="500" Height="250">
+        <StackPanel Orientation="Vertical" Margin="70,190,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" MaxWidth="500" Height="250">
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                 <Label Content="{ns:Loc Username:}" FontWeight="Bold" FontSize="40"/>
                 <TextBlock Text=" "/>
@@ -67,7 +67,7 @@ VerticalAlignment="Center"/>
                 <TextBlock Foreground="{DynamicResource ForegroundBrush}" FontSize="40" Text="{Binding Tourist.LastName}" VerticalAlignment="Center"/>
             </StackPanel>
         </StackPanel>
-        <Button Content="{ns:Loc RequestStatistics}" Click="Statistics_Click" FontSize="35" FontWeight="Bold" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" Width="320" Height="70" Margin="58,280,0,0" HorizontalAlignment="Left" VerticalContentAlignment="Center"/>
+        <Button Content="{ns:Loc RequestStatistics}" Click="Statistics_Click" FontSize="35" FontWeight="Bold" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" Width="320" Height="70" Margin="80,280,0,0" HorizontalAlignment="Left" VerticalContentAlignment="Center"/>
         <Image Width="210" Height="270" Margin="580,175,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Source="{Binding Tourist.ProfilePicture}" />
         <Label Content="{ns:Loc ProfilePicture}" FontSize="30" HorizontalAlignment="Left" Margin="580,440,0,0" VerticalAlignment="Top"/>
     </Grid>

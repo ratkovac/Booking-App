@@ -122,6 +122,10 @@ namespace BookingApp.Service
         {
             return GetAllReservations().Where(r => r.TouristId == touristId).ToList();
         }
+        public void UsedForWinningVoucher(TourReservation reservation)
+        {
+            tourReservationRepository.UsedForWinningVoucher(reservation);
+        }
         public void MarkTourReservationAsRated(int tourReservationId)
         {
             var tourReservation = tourReservationRepository.GetById(tourReservationId);

@@ -1,4 +1,4 @@
-﻿<Page x:Class="BookingApp.WPF.View.Tourist.Pages.ComplexTourRequestDisplay"
+﻿<Page x:Class="BookingApp.WPF.View.Tourist.Pages.NotificationView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,7 +7,7 @@
       xmlns:ns="clr-namespace:BookingApp.Localization"
       mc:Ignorable="d" 
       d:DesignHeight="720" d:DesignWidth="950" Background="{DynamicResource BackgroundBrush}"
-      Title="ComplexTourRequestDisplay">
+      Title="NotificationView">
 
     <Grid>
         <Grid.Resources>
@@ -30,10 +30,9 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
                             <Border Background="{TemplateBinding Background}"
-      BorderBrush="{TemplateBinding BorderBrush}"
-      BorderThickness="{TemplateBinding BorderThickness}">
-                                <ContentPresenter HorizontalAlignment="Center"
-VerticalAlignment="Center"/>
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                         </ControlTemplate>
                     </Setter.Value>
@@ -44,50 +43,44 @@ VerticalAlignment="Center"/>
                         <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
                         <Setter Property="BorderBrush" Value="{DynamicResource ButtonMouseOverBorderBrush}"/>
                     </Trigger>
-                    <Trigger Property="IsEnabled" Value="False">
-                        <Setter Property="Opacity" Value="0.5"/>
-                    </Trigger>
-                    <Trigger Property="IsEnabled" Value="True">
-                        <Setter Property="Opacity" Value="1"/>
-                    </Trigger>
                 </Style.Triggers>
             </Style>
         </Grid.Resources>
-        <Label Content="{ns:Loc MyComplexTourRequests}" FontWeight="Bold" FontSize="52" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
+        <Label Content="{ns:Loc MyNotifications}" FontWeight="Bold" FontSize="52" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
         <Border CornerRadius="10" Background="{DynamicResource BackgroundBrush1}" Margin="80,120,90,150">
             <Border.Effect>
                 <DropShadowEffect ShadowDepth="0" BlurRadius="10"/>
             </Border.Effect>
-            <ListView SelectedItem="{Binding SelectedComplexTour, UpdateSourceTrigger=PropertyChanged}"
-                  ItemsSource="{Binding ListComplexTours, UpdateSourceTrigger=PropertyChanged}"
-                  HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="{DynamicResource BackgroundBrush1}">
+            <ListView SelectedItem="{Binding SelectedNotification, UpdateSourceTrigger=PropertyChanged}"
+              ItemsSource="{Binding ListNotification, UpdateSourceTrigger=PropertyChanged}"
+              HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="{DynamicResource BackgroundBrush1}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="400"/>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="700" />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <StackPanel Grid.Column="0" Orientation="Vertical" Margin="20,20,0,20">
+                                <StackPanel Grid.Column="1" Margin="15,10,0,0" VerticalAlignment="Center">
                                     <TextBlock>
-                                        <Run Text="{ns:Loc ComplexTourRequest}" Foreground="{DynamicResource ForegroundBrush}" FontSize="27" FontWeight="Bold"/>
-                                        <Run Text=" "></Run>
-                                        <Run Text="{Binding Id}" Foreground="{DynamicResource ForegroundBrush}" FontSize="27" FontWeight="Bold"/>
+                                        <Run Text="{Binding Title}" Foreground="{DynamicResource ForegroundBrush}" FontSize="27" FontWeight="Bold"/>
+                                    </TextBlock>
+                                    <TextBlock Margin="15,10,0,0">
+                                        <Run Text="{ns:Loc Description:}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22" FontWeight="Bold"/>
+                                        <Run Text=" "/>
+                                        <Run Text="{Binding Text}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22"/>
                                     </TextBlock>
                                     <TextBlock Margin="15,0,0,0">
-                                        <Run Text="{ns:Loc Status:}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22" FontWeight="Bold"/>
-                                        <Run Text=" "></Run>
-                                        <Run Text="{Binding IsAccepted}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22"/>
+                                        <Run Text="{ns:Loc DateIssued:}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22" FontWeight="Bold"/>
+                                        <Run Text=" "/>
+                                        <TextBlock Foreground="{DynamicResource ForegroundBrush}" FontSize="22">
+                                            <TextBlock.Text>
+                                                <Binding Path="DateIssued" StringFormat="{}{0:dd/MM/yyyy HH:mm}"/>
+                                            </TextBlock.Text>
+                                        </TextBlock>
                                     </TextBlock>
-                                    <TextBlock Margin="15,0,0,0">
-                                        <Run Text="{ns:Loc NumberOfSegments:}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22" FontWeight="Bold"/>
-                                        <Run Text=" "></Run>
-                                        <Run Text="{Binding SegmentCount}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22"/>
-                                    </TextBlock>
-                                </StackPanel>
-                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                    <Button Content="{ns:Loc SeeMore}" IsEnabled="{Binding CanSeeMore}" Margin="120,0,0,0" Click="ComplexRequestSegments_Click" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="40"/>
                                 </StackPanel>
                             </Grid>
                             <Separator Margin="0,10,0,10" Background="{DynamicResource ForegroundBrush}" Height="1"/>
@@ -96,6 +89,5 @@ VerticalAlignment="Center"/>
                 </ListView.ItemTemplate>
             </ListView>
         </Border>
-        <Button Content="{ns:Loc NewRequest}" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="580,0,0,70" Click="ComplexTourRequest_Click"/>
     </Grid>
 </Page>

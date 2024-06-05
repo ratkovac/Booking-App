@@ -4,17 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BookingApp.WPF.View.Tourist.Pages"
+        xmlns:ns="clr-namespace:BookingApp.Localization"
         mc:Ignorable="d"
-        Title="Tourist Delay" Height="170" Width="350" WindowStartupLocation="CenterScreen" Background="LightBlue">
+        Title="Tourist Delay" Height="170" Width="370" WindowStartupLocation="CenterScreen" Background="{DynamicResource BackgroundBrush}">
     <Grid>
         <Grid.Resources>
             <Style TargetType="Button">
                 <Setter Property="FontSize" Value="20"/>
                 <Setter Property="FontWeight" Value="Bold"/>
                 <Setter Property="Padding" Value="10"/>
-                <Setter Property="Background" Value="CadetBlue"/>
-                <Setter Property="Foreground" Value="White"/>
-                <Setter Property="BorderBrush" Value="CadetBlue"/>
+                <Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource ButtonBackgroundBrush}"/>
                 <Setter Property="BorderThickness" Value="2"/>
                 <Setter Property="HorizontalAlignment" Value="Center"/>
                 <Setter Property="Width" Value="100"/>
@@ -32,19 +33,20 @@
                 </Setter>
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="LightBlue"/>
-                        <Setter Property="Foreground" Value="White"/>
-                        <Setter Property="BorderBrush" Value="LightBlue"/>
+                        <Setter Property="Background" Value="{DynamicResource ButtonMouseOverBackgroundBrush}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource ButtonMouseOverBorderBrush}"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>
         </Grid.Resources>
         <StackPanel Margin="20">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Enter delay (minutes):   " FontSize="20" FontWeight="Bold"/>
-                <TextBox x:Name="DelayTextBox" Height="30" Width="70" HorizontalAlignment="Left" FontSize="20"/>
+                <TextBlock Text="{ns:Loc EnterDelayMinutes:}" Foreground="{DynamicResource ForegroundBrush}" FontSize="20" FontWeight="Bold"/>
+                <TextBlock Text=" "/>
+                <TextBox x:Name="DelayTextBox" Height="30" Width="40" HorizontalAlignment="Left" FontSize="20"/>
             </StackPanel>
-            <Button Content="OK" Click="OkButton_Click" BorderBrush="CadetBlue" BorderThickness="2" Margin="0 20 0 0"/>
+            <Button Content="OK" Click="OkButton_Click" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" Margin="0 20 0 0"/>
         </StackPanel>
     </Grid>
 </Window>

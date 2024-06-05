@@ -16,8 +16,8 @@
             <RowDefinition Height="130"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Vertical">
-            <Label Content="{ns:Loc GotInterestingIdeasForComplexTours?}" Foreground="{DynamicResource ForegroundBrush}" FontWeight="Bold" FontSize="45" HorizontalAlignment="Left" Margin="50,30,0,0" VerticalAlignment="Top"/>
-            <Label FontSize="40" HorizontalAlignment="Left" Margin="80,-25,0,0" VerticalAlignment="Top">
+            <Label Content="{ns:Loc GotInterestingIdeasForComplexTours?}" Foreground="{DynamicResource ForegroundBrush}" FontWeight="Bold" FontSize="45" HorizontalAlignment="Left" Margin="55,20,0,0" VerticalAlignment="Top"/>
+            <Label FontSize="45" HorizontalAlignment="Left" Margin="70,-25,0,0" VerticalAlignment="Top">
                 <TextBlock TextDecorations="Underline" Text="{ns:Loc BeCreative!}" Foreground="{DynamicResource ForegroundBrush}"/>
             </Label>
         </StackPanel>
@@ -65,7 +65,7 @@ VerticalAlignment="Center"/>
                                     <Button Content="❌" DockPanel.Dock="Right" Width="30" Height="30" FontSize="15" HorizontalAlignment="Right" Command="{Binding DataContext.RemoveSegmentCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Mode=OneWay}"/>
                                     <Expander Foreground="{DynamicResource ForegroundBrush}" Header="{ns:Loc TourSegment}" FontSize="25" IsExpanded="{Binding IsExpanded, Mode=TwoWay}" Margin="30,0,0,0">
                                         <Grid>
-                                            <StackPanel Margin="10,20,0,0">
+                                            <StackPanel Margin="40,20,0,0">
                                                 <StackPanel.Resources>
                                                     <Style TargetType="Label">
                                                         <Setter Property="FontSize" Value="25"/>
@@ -188,10 +188,16 @@ VerticalAlignment="Center"/>
                             <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
                             <Setter Property="BorderBrush" Value="{DynamicResource ButtonMouseOverBorderBrush}"/>
                         </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="True">
+                            <Setter Property="Opacity" Value="1"/>
+                        </Trigger>
                     </Style.Triggers>
                 </Style>
             </Grid.Resources>
-            <Button Content="{ns:Loc Confirm}" Command="{Binding DataContext.SubmitCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="580,0,0,70"/>
+            <Button Content="{ns:Loc Confirm}" IsEnabled="{Binding CanConfirm}" Command="{Binding DataContext.SubmitCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="580,0,0,70"/>
             <Button Content="{ns:Loc AddTourSegment}" Command="{Binding DataContext.AddSegmentCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding}" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="120,0,0,70"/>
         </Grid>
     </Grid>

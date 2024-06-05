@@ -77,7 +77,14 @@ namespace BookingApp.WPF.View.Tourist.Pages
             }
             else
             {
-                MessageBox.Show("You have to select a tour in order to book it!");
+                if (App.CurrentLanguage == "en-US")
+                {
+                    MessageBox.Show("You have to select a tour in order to book it!");
+                }
+                else
+                {
+                    MessageBox.Show("Moraš izabrati turu kako bi je rezervisao!");
+                }
             }
         }
 

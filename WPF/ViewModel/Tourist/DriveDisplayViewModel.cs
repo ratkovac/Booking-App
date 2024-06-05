@@ -19,7 +19,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
 {
     public class DriveDisplayViewModel : INotifyPropertyChanged
     {
-        private DriveRepository driveRepository;
+        public DriveService driveService;
         public DriverUnreliableReportService unreliableReportService;
         public List<Drive> ListDrive { get; set; }
         public Drive SelectedDrive { get; set; }
@@ -30,8 +30,8 @@ namespace BookingApp.WPF.ViewModel.Tourist
         public DriveDisplayViewModel(BookingApp.Model.Tourist tourist)
         {
             Tourist = tourist;
-            driveRepository = new DriveRepository();
-            ListDrive = new List<Drive>(driveRepository.GetAll());
+            driveService = new DriveService();
+            ListDrive = new List<Drive>(driveService.GetAllDrives());
             unreliableReportService = new DriverUnreliableReportService();
             TouristDelayCommand = new RelayCommand<object>(ExecuteTouristDelayCommand);
             UnreliableDriverCommand = new RelayCommand<object>(ExecuteUnreliableDriverCommand);
@@ -48,7 +48,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
                 double delayMinutes = delayWindow.DelayMinutes;
 
                 selectedDrive.TouristDelay = delayMinutes;
-                driveRepository.Update(selectedDrive);
+                driveService.Update(selectedDrive);
             }
         }
 
@@ -60,18 +60,39 @@ namespace BookingApp.WPF.ViewModel.Tourist
                 SelectedDrive = selectedDrive;
                 if (!IsDriverLate())
                 {
-                    MessageBox.Show("You can report only if the driver is 10 minutes late.");
+                    if (App.CurrentLanguage == "en-US")
+                    {
+                        MessageBox.Show("You can report only if the driver is 10 minutes late.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Možete prijaviti samo ako je vozač kasni 10 minuta.");
+                    }
                     return;
                 }
                 else if (IsReported())
                 {
-                    MessageBox.Show("This driver was already reported.");
+                    if (App.CurrentLanguage == "en-US")
+                    {
+                        MessageBox.Show("This driver was already reported.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ovaj vozač je već prijavljen.");
+                    }
                     return;
                 }
                 else
                 {
                     ReportUnreliableDriver();
-                    MessageBox.Show("Your report was successful!");
+                    if (App.CurrentLanguage == "en-US")
+                    {
+                        MessageBox.Show("Your report was successful!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Vaša prijava je uspješna!");
+                    }
                 }
             }
         }
@@ -85,7 +106,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
         private void UpdateDriveList()
         {
             ListDrive.Clear();
-            foreach (var drive in driveRepository.GetAll())
+            foreach (var drive in driveService.GetAllDrives())
             {
                 ListDrive.Add(drive);
             }
@@ -98,22 +119,12 @@ namespace BookingApp.WPF.ViewModel.Tourist
 
         public bool IsReported()
         {
-            /*if (SelectedDrive == null)
-            {
-                MessageBox.Show("You have to select a drive!");
-                return false;
-            }*/
             var driverId = SelectedDrive.DriverId;
             return unreliableReportService.ReportAlreadyExists(driverId, SelectedDrive.Id, Tourist.Id);
         }
 
         public bool IsDriverLate()
         {
-            /*if (SelectedDrive == null)
-            {
-                MessageBox.Show("You have to select a drive!");
-                return false;
-            }*/
             DateTime currentTime = DateTime.Now;
             DateTime scheduledTime = SelectedDrive.Date;
             DateTime scheduledPlusTenMinutes = scheduledTime.AddMinutes(10);
@@ -130,11 +141,6 @@ namespace BookingApp.WPF.ViewModel.Tourist
 
         public void ReportUnreliableDriver()
         {
-            /*if (SelectedDrive == null)
-            {
-                MessageBox.Show("You have to select a drive!");
-                return;
-            }*/
             var driverId = SelectedDrive.DriverId;
             DateTime time = DateTime.Now;
             DriverUnreliableReport report = new DriverUnreliableReport(Tourist.Id, driverId, SelectedDrive.Id, time);

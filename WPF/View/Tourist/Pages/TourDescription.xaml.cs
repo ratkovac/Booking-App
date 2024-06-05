@@ -77,7 +77,14 @@ namespace BookingApp.WPF.View.Tourist.Pages
             }
             else
             {
-                MessageBox.Show("It is not possible to book this tour!");
+                if (App.CurrentLanguage == "en-US")
+                {
+                    MessageBox.Show("It is not possible to book this tour!");
+                }
+                else
+                {
+                    MessageBox.Show("Nije moguće rezervisati ovu turu!");
+                }
             }
         }
 
@@ -90,7 +97,14 @@ namespace BookingApp.WPF.View.Tourist.Pages
             }
             else
             {
-                MessageBox.Show("This tour has no images!");
+                if (App.CurrentLanguage == "en-US")
+                {
+                    MessageBox.Show("This tour has no images!");
+                }
+                else
+                {
+                    MessageBox.Show("Ova tura nema slika!");
+                }
             }
         }
     }

@@ -24,6 +24,14 @@ namespace BookingApp.Model
         public Language Language { get; set; }
         public int LanguageId { get; set; }
         public TourRequestStatus IsAccepted { get; set; }
+        public bool IsCancelled
+        {
+            get { return IsAccepted == TourRequestStatus.CANCELLED; }
+        }
+        public bool IsWaiting
+        {
+            get { return IsAccepted == TourRequestStatus.WAITING; }
+        }
 
         public TourRequestSegment(int tourRequestId, string tourDescription, int locationId, int languageId, int capacity, DateTime startDate, DateTime endDate)
         {

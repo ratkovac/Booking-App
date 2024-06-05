@@ -1,15 +1,18 @@
 ﻿using BookingApp.Model;
 using BookingApp.Service;
 using GalaSoft.MvvmLight.Command;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace BookingApp.WPF.ViewModel.Tourist
 {
-    public class ComplexTourRequestViewModel
+    public class ComplexTourRequestViewModel : INotifyPropertyChanged
     {
         private User Tourist;
         public ObservableCollection<TourRequestSegmentViewModel> TourSegments { get; set; }
@@ -26,6 +29,8 @@ namespace BookingApp.WPF.ViewModel.Tourist
 
         private LocationService _locationService;
         private LanguageService _languageService;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public ComplexTourRequestViewModel(User tourist, LocationService locationService, LanguageService languageService, TourRequestService tourRequestService, TourRequestSegmentService tourRequestSegmentService, TourRequestGuestService tourRequestGuestService)
         {
@@ -63,7 +68,14 @@ namespace BookingApp.WPF.ViewModel.Tourist
         private void ExecuteSubmitCommand(ComplexTourRequestViewModel complexTourRequestViewModel)
         {
             CreateTourRequest();
-            MessageBox.Show("Tour request added successfully!");
+            if (App.CurrentLanguage == "en-US")
+            {
+                MessageBox.Show("Tour request added successfully!");
+            }
+            else
+            {
+                MessageBox.Show("Uspješno dodat zahtjev ture!");
+            }
         }
 
         private void FillCountries()
@@ -96,6 +108,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
 
             var newSegment = new TourRequestSegmentViewModel(_locationService, Countries, Languages);
             newSegment.IsExpanded = true;
+            newSegment.PropertyChanged += Segment_PropertyChanged;
             TourSegments.Add(newSegment);
         }
 
@@ -105,6 +118,20 @@ namespace BookingApp.WPF.ViewModel.Tourist
             if (TourSegments.Count > 1)
             {
                 TourSegments.Remove(segment);
+            }
+            else
+            {
+                segment.TourDescription = string.Empty;
+                segment.NumberOfPeople = 0;
+                segment.NumberOfPeopleText = string.Empty;
+                segment.StartDate = DateTime.Now;
+                segment.EndDate = DateTime.Now;
+                segment.SelectedCountry = new KeyValuePair<int, string>();
+                segment.SelectedCity = new KeyValuePair<int, string>();
+                segment.SelectedLanguage = new KeyValuePair<int, string>();
+                segment.TourGuestInputs.Clear();
+                FillCountries();
+                FillLanguages();
             }
         }
 
@@ -143,6 +170,32 @@ namespace BookingApp.WPF.ViewModel.Tourist
                     _tourRequestGuestService.Create(tourRequestGuest);
                 }
             }
+        }
+
+        private void TourSegments_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(CanConfirm));
+        }
+
+        private void Segment_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(TourRequestSegmentViewModel.IsValid))
+            {
+                OnPropertyChanged(nameof(CanConfirm));
+            }
+        }
+
+        public bool CanConfirm
+        {
+            get
+            {
+                return TourSegments.All(segment => segment.IsValid);
+            }
+        }
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
     }

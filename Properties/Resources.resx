@@ -186,6 +186,9 @@
   <data name="CurrentCheckpoint:" xml:space="preserve">
     <value>Current checkpoint:</value>
   </data>
+  <data name="DateIssued:" xml:space="preserve">
+    <value>Date issued:</value>
+  </data>
   <data name="DepartureDate:" xml:space="preserve">
     <value>Departure date:</value>
   </data>
@@ -216,6 +219,9 @@
   <data name="EndDate:" xml:space="preserve">
     <value>End date:</value>
   </data>
+  <data name="EnterDelayMinutes:" xml:space="preserve">
+    <value>Enter delay (minutes):</value>
+  </data>
   <data name="EnterTheNumberOfGuests:" xml:space="preserve">
     <value>Enter the number of guests:</value>
   </data>
@@ -238,7 +244,7 @@
     <value>Going to be late?</value>
   </data>
   <data name="GotInterestingIdeasForComplexTours?" xml:space="preserve">
-    <value>Go interesting ideas for complex tours?</value>
+    <value>Got interesting ideas for complex tours?</value>
   </data>
   <data name="GotInterestingIdeasForNewTour?" xml:space="preserve">
     <value>Got interesting ideas for new tours?</value>
@@ -288,6 +294,9 @@
   <data name="MyDrives" xml:space="preserve">
     <value>My drives</value>
   </data>
+  <data name="MyNotifications" xml:space="preserve">
+    <value>My notifications</value>
+  </data>
   <data name="MyProfile" xml:space="preserve">
     <value>My profile</value>
   </data>
@@ -323,6 +332,9 @@
   </data>
   <data name="NumberOfPeople:" xml:space="preserve">
     <value>Number of people:</value>
+  </data>
+  <data name="NumberOfSegments:" xml:space="preserve">
+    <value>Number of segments:</value>
   </data>
   <data name="PercentageOfAcceptedTours:" xml:space="preserve">
     <value>Percentage of accepted tours:</value>
@@ -386,6 +398,9 @@
   </data>
   <data name="Time:" xml:space="preserve">
     <value>Time:</value>
+  </data>
+  <data name="Title:" xml:space="preserve">
+    <value>Title:</value>
   </data>
   <data name="TourGuests:" xml:space="preserve">
     <value>Tour guests:</value>

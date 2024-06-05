@@ -186,6 +186,9 @@
   <data name="CurrentCheckpoint:" xml:space="preserve">
     <value>Trenutna tačka ture:</value>
   </data>
+  <data name="DateIssued:" xml:space="preserve">
+    <value>Datum izdavanja:</value>
+  </data>
   <data name="DepartureDate:" xml:space="preserve">
     <value>Datum polaska:</value>
   </data>
@@ -215,6 +218,9 @@
   </data>
   <data name="EndDate:" xml:space="preserve">
     <value>Krajnji datum:</value>
+  </data>
+  <data name="EnterDelayMinutes:" xml:space="preserve">
+    <value>Unesite kašnjenje (minute):</value>
   </data>
   <data name="EnterTheNumberOfGuests:" xml:space="preserve">
     <value>Unesi broj gostiju:</value>
@@ -288,6 +294,9 @@
   <data name="MyDrives" xml:space="preserve">
     <value>Moje vožnje</value>
   </data>
+  <data name="MyNotifications" xml:space="preserve">
+    <value>Moja obavjestenja</value>
+  </data>
   <data name="MyProfile" xml:space="preserve">
     <value>Moj profil</value>
   </data>
@@ -323,6 +332,9 @@
   </data>
   <data name="NumberOfPeople:" xml:space="preserve">
     <value>Broj ljudi:</value>
+  </data>
+  <data name="NumberOfSegments:" xml:space="preserve">
+    <value>Broj segmenata:</value>
   </data>
   <data name="PercentageOfAcceptedTours:" xml:space="preserve">
     <value>Procenat prihvaćenih tura:</value>
@@ -386,6 +398,9 @@
   </data>
   <data name="Time:" xml:space="preserve">
     <value>Vrijeme:</value>
+  </data>
+  <data name="Title:" xml:space="preserve">
+    <value>Naslov:</value>
   </data>
   <data name="TourGuests:" xml:space="preserve">
     <value>Gosti ture:</value>

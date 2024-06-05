@@ -146,7 +146,7 @@ public class DriverNotificationViewModel : BaseViewModel
                 if (newNotification.fastDrive.DriverId == 0)
                 {
                     FastDrive fastDriveEnd = newNotification.fastDrive;
-                    fastDriveEnd.DriverId = _fastDriveService.GetAvailableDriver();
+                    //fastDriveEnd.DriverId = _fastDriveService.GetAvailableDriver();
                     _fastDriveService.Update(fastDriveEnd);
                 }
             }

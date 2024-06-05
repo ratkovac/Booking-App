@@ -7,7 +7,7 @@
       xmlns:ns="clr-namespace:BookingApp.Localization"
       mc:Ignorable="d" 
       d:DesignHeight="720" d:DesignWidth="950" Background="{DynamicResource BackgroundBrush}"
-      Title="ReservationsDisplaz">
+      Title="ReservationsDisplay">
 
     <Grid>
         <Grid.Resources>
@@ -44,8 +44,8 @@ VerticalAlignment="Center"/>
                 </Style.Triggers>
             </Style>
         </Grid.Resources>
-        <Label Content="{ns:Loc MyTourReservations}" Foreground="{DynamicResource ForegroundBrush}" FontWeight="Bold" FontSize="52" HorizontalAlignment="Left" Margin="100,10,0,0" VerticalAlignment="Top"/>
-        <Border CornerRadius="10" Background="{DynamicResource BackgroundBrush1}" Margin="90,120,90,150">
+        <Label Content="{ns:Loc MyTourReservations}" Foreground="{DynamicResource ForegroundBrush}" FontWeight="Bold" FontSize="52" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
+        <Border CornerRadius="10" Background="{DynamicResource BackgroundBrush1}" Margin="80,120,90,150">
             <Border.Effect>
                 <DropShadowEffect ShadowDepth="0" BlurRadius="10"/>
             </Border.Effect>

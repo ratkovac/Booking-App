@@ -70,7 +70,14 @@ namespace BookingApp.WPF.ViewModel.Tourist
             }
             else
             {
-                MessageBox.Show("Please enter grades for all guests before confirming.");
+                if (App.CurrentLanguage == "en-US")
+                {
+                    MessageBox.Show("Please enter grades for all guests before confirming.");
+                }
+                else
+                {
+                    MessageBox.Show("Molimo unesite ocjene za sve goste prije nego sto potvrdite.");
+                }
             }
         }
 

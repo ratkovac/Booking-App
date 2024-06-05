@@ -16,6 +16,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
     {
         private User Tourist;
         private TourRequestService _tourRequestService;
+        private TourRequestSegmentService _tourRequestSegmentService;
 
         private ObservableCollection<TourRequest> _listComplexTours;
         public ObservableCollection<TourRequest> ListComplexTours
@@ -49,7 +50,12 @@ namespace BookingApp.WPF.ViewModel.Tourist
         {
             Tourist = tourist;
             _tourRequestService = new TourRequestService();
+            _tourRequestSegmentService = new TourRequestSegmentService();
             ListComplexTours = new ObservableCollection<TourRequest>(_tourRequestService.GetComplexRequests());
+            foreach (var tourRequest in ListComplexTours)
+            {
+                tourRequest.SegmentCount = _tourRequestSegmentService.GetAllComplexSegmentsByComplexTourRequestId(tourRequest.Id).Count;
+            }
         }
     }
 }

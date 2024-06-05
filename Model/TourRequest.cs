@@ -13,6 +13,11 @@ namespace BookingApp.Model
         public int TouristId { get; set; }
         public bool IsComplex { get; set; }
         public TourRequestStatus IsAccepted { get; set; }
+        public int SegmentCount { get; set; }
+        public bool CanSeeMore
+        {
+            get { return IsAccepted != TourRequestStatus.CANCELLED; }
+        }
 
         public TourRequest() { }
 

@@ -34,7 +34,14 @@ namespace BookingApp.WPF.View.Tourist.Pages
 
             if (selectedReservation.TourInstance.IsCompleted)
             {
-                MessageBox.Show("The tour has already finished.");
+                if (App.CurrentLanguage == "en-US")
+                {
+                    MessageBox.Show("The tour has already finished.");
+                }
+                else
+                {
+                    MessageBox.Show("Ova tura je već završena.");
+                }
                 return;
             }
 
@@ -49,7 +56,14 @@ namespace BookingApp.WPF.View.Tourist.Pages
 
             if (!selectedReservation.TourInstance.IsCompleted)
             {
-                MessageBox.Show("The tour has not yet finished.");
+                if (App.CurrentLanguage == "en-US")
+                {
+                    MessageBox.Show("The tour has not yet finished.");
+                }
+                else
+                {
+                    MessageBox.Show("Ova tura još nije završena.");
+                }
                 return;
             }
 

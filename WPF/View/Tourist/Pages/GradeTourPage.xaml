@@ -45,7 +45,7 @@ VerticalAlignment="Center"/>
             </Style>
         </Grid.Resources>
         <Label Content="{ns:Loc WeAppreciateFeedback!}" Foreground="{DynamicResource ForegroundBrush}" FontWeight="Bold" FontSize="52" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
-        <Border Background="{DynamicResource BackgroundBrush1}" Margin="90,120,90,150">
+        <Border Background="{DynamicResource BackgroundBrush1}" Margin="80,120,90,150">
             <Border.Effect>
                 <DropShadowEffect ShadowDepth="0" BlurRadius="10"/>
             </Border.Effect>

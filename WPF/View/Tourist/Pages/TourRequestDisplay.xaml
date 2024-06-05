@@ -47,7 +47,7 @@
             </Style>
         </Grid.Resources>
         <Label Content="{ns:Loc MyTourRequests}" FontWeight="Bold" FontSize="52" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
-        <Border CornerRadius="10" Background="{DynamicResource BackgroundBrush1}" Margin="90,120,90,150">
+        <Border CornerRadius="10" Background="{DynamicResource BackgroundBrush1}" Margin="80,120,90,150">
             <Border.Effect>
                 <DropShadowEffect ShadowDepth="0" BlurRadius="10"/>
             </Border.Effect>
@@ -87,13 +87,25 @@
                                     <Run Text="{Binding IsAccepted}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22"/>
                                 </TextBlock>
                                 <TextBlock Margin="35,0,0,0">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsCancelled}" Value="True">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding IsWaiting}" Value="True">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
                                     <Run Text="{ns:Loc TheGuideSetTheTime:}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22"/>
                                     <Run Text=" "/>
                                     <Run Text="{Binding DateAccepted, StringFormat='{}{0:HH:mm}'}" FontSize="22" Foreground="{DynamicResource ForegroundBrush}"/>
                                 </TextBlock>
                             </StackPanel>
                             <StackPanel Grid.Column="2" VerticalAlignment="Center">
-                                <Button Content="{ns:Loc SeeMore}" Margin="90,0,0,0" Click="TourRequestDescription_Click" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="40"/>
+                                <Button Content="{ns:Loc SeeMore}" Margin="120,0,0,0" Click="TourRequestDescription_Click" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="40"/>
                             </StackPanel>
                         </Grid>
                             <Separator Margin="0,10,0,10" Background="{DynamicResource ForegroundBrush}" Height="1"/>

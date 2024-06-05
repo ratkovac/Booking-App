@@ -67,18 +67,6 @@ namespace BookingApp.WPF.View.Tourist
             _reservedGroupDriveRepository = new ReservedGroupDriveRepository();
             TourDisplay tourDisplay = new TourDisplay(tourist);
             FrameHomePage.Navigate(tourDisplay);
-            /*if (_tourReservationService.GetTourInstanceIdWhereTouristIsWaiting(Tourist) != null)
-            {
-                int tourInstanceId = _tourReservationService.GetTourInstanceIdWhereTouristIsWaiting(Tourist).TourInstanceId;
-                TourInstance tourInstance = _tourInstanceService.GetById(tourInstanceId);
-                MessageBoxResult answer = MessageBox.Show("Da li ste prisutni na turi " + tourInstance.Tour.Name + "?", "", MessageBoxButton.YesNo);
-                if (answer == MessageBoxResult.Yes)
-                {
-                    _tourReservationService.UpdateTouristState(Tourist.Id, tourInstance, TouristState.Present);
-                    CheckTouristReservation();
-                }
-            }
-            _voucherService.UpdateValidVouchers();*/
         }
 
         public void CheckForFastDriveNotification()
@@ -114,13 +102,41 @@ namespace BookingApp.WPF.View.Tourist
         {
             var tourRequests = _tourRequestService.GetAllTourRequests();
 
-            var lastAcceptedRequest = tourRequests.LastOrDefault(request => request.IsAccepted == TourRequestStatus.ACCEPTED);
+            var lastWaitingRequest = tourRequests.LastOrDefault(request => request.IsAccepted == TourRequestStatus.WAITING);
+            if (lastWaitingRequest != null)
+            {
+                var tourRequestSegments = _tourRequestSegmentService.GetAllComplexSegmentsByComplexTourRequestId(lastWaitingRequest.Id);
+                if (tourRequestSegments.Any() && (tourRequestSegments[0].StartDate - DateTime.Now).TotalHours < 48)
+                {
+                    lastWaitingRequest.IsAccepted = TourRequestStatus.CANCELLED;
+                    return;
+                }
+            }
 
+            var lastAcceptedRequest = tourRequests.LastOrDefault(request => request.IsAccepted == TourRequestStatus.ACCEPTED);
             if (lastAcceptedRequest != null)
             {
-                MessageBox.Show($"A guide has accepted your tour request with ID={lastAcceptedRequest.Id}!");
+                var acceptedTourRequestSegments = _tourRequestSegmentService.GetAllComplexSegmentsByComplexTourRequestId(lastAcceptedRequest.Id);
+                bool allSegmentsAccepted = true;
+
+                foreach (var segment in acceptedTourRequestSegments)
+                {
+                    if (segment.IsAccepted != TourRequestStatus.ACCEPTED)
+                    {
+                        allSegmentsAccepted = false;
+                        break;
+                    }
+                }
+
+                lastAcceptedRequest.IsAccepted = allSegmentsAccepted ? TourRequestStatus.ACCEPTED : TourRequestStatus.CANCELLED;
+
+                if (allSegmentsAccepted)
+                {
+                    MessageBox.Show($"A guide has accepted your tour request with ID={lastAcceptedRequest.Id}!");
+                }
             }
         }
+
 
         public void CheckForGroupDriveNotification()
         {
@@ -144,53 +160,15 @@ namespace BookingApp.WPF.View.Tourist
                     _groupDriveRepository.Delete(groupDrive);
                     _reservedGroupDriveRepository.Save(groupDrive);
                 }
-
-                /*if (driverId != -1)
-                {
-                    User driver = _userRepository.GetByID(driverId);
-                    MessageBox.Show($"Driver {driver.Username} has accepted your reservation!", "Notification", MessageBoxButton.OK);
-                    _reservedGroupDriveRepository.Save(groupDrive);
-                    _groupDriveRepository.Delete(groupDrive);
-                }
-
-                if (DateTime.Now - groupDrive.TimeOfReservation > TimeSpan.FromMinutes(5))
-                {
-                    _groupDriveRepository.Delete(groupDrive);
-                }*/
             }
         }
 
-        public void CheckTouristReservation()
-        {
-            int number = Tourist.NumberOfToursAttended;
-            List<BookingApp.Model.TourReservation> reservations = new List<BookingApp.Model.TourReservation>();
-            foreach (BookingApp.Model.TourReservation reservation in _tourReservationService.GetReservationsForGuest(Tourist.Id))
-            {
-                if (reservation.State == TouristState.Present && reservation.TourInstance.StartTime > DateTime.Now.AddYears(-1) && !reservation.WonVoucher)
-                {
-                    number++;
-                    reservations.Add(reservation);
-                    if (number % 5 == 0)
-                    {
-                        _touristService.GiveVoucherForGuestWhenFiveTimePresent(Tourist.Id);
-                        MessageBox.Show("Congratulations! You have won a voucher!");
-                        Tourist.NumberOfToursAttended = 0;
-                        foreach (BookingApp.Model.TourReservation res in reservations)
-                        {
-                            _tourReservationRepository.UsedForWinningVoucher(res);
-                        }
-                    }
-                }
-            }
-        }
-
-        private void Notification_Click(object sender, MouseButtonEventArgs e)
+        /*private void Notification_Click(object sender, MouseButtonEventArgs e)
         {
             CheckForGroupDriveNotification();
             CheckForFastDriveNotification();
             CheckForTourRequestNotification();
-            CheckTouristReservation();
-        }
+        }*/
 
         private void Language_Click(object sender, RoutedEventArgs e)
         {
@@ -234,6 +212,13 @@ namespace BookingApp.WPF.View.Tourist
         {
             TourRequestDisplayViewModel tourRequestDisplayViewModel = new TourRequestDisplayViewModel(Tourist.User);
             FrameHomePage.Navigate(new BookingApp.WPF.View.Tourist.Pages.TourRequestDisplay(tourRequestDisplayViewModel, Tourist));
+        }
+
+        private void Notification_Click(object sender, RoutedEventArgs e)
+        {
+            NotificationViewModel notificationViewModel = new NotificationViewModel(Tourist);
+            FrameHomePage.Navigate(new BookingApp.WPF.View.Tourist.Pages.NotificationView(notificationViewModel));
+            CheckForTourRequestNotification();
         }
 
         private void ComplexTourRequestDisplay_Click(object sender, RoutedEventArgs e)

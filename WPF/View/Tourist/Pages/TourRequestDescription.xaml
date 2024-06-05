@@ -10,10 +10,10 @@
       Title="TourRequestDescription">
 
     <Grid>
-        <Label HorizontalAlignment="Left" Margin="50,30,0,0" VerticalAlignment="Top">
+        <Label HorizontalAlignment="Left" Margin="50,20,0,0" VerticalAlignment="Top">
             <TextBlock Text="{ns:Loc Description}" Foreground="{DynamicResource ForegroundBrush}" FontWeight="Bold" FontSize="45" TextDecorations="Underline"/>
         </Label>
-        <StackPanel Margin="40,140,0,0">
+        <StackPanel Margin="70,120,0,0">
             <StackPanel.Resources>
                 <Style TargetType="Label">
                     <Setter Property="FontSize" Value="25"/>
@@ -87,7 +87,7 @@
                 <TextBox x:Name="DurationSpanTextBox" IsReadOnly="True" BorderBrush="{DynamicResource TextBoxBorderBrush}" BorderThickness="3" Width="300" Height="40" FontSize="25"/>
             </StackPanel>
         </StackPanel>
-        <StackPanel Margin="480,140,0,0">
+        <StackPanel Margin="480,120,0,0">
             <StackPanel.Resources>
                 <Style TargetType="Label">
                     <Setter Property="FontSize" Value="25"/>
@@ -107,7 +107,7 @@
 
             <StackPanel Orientation="Vertical" Width="370" Margin="0,30,0,0" HorizontalAlignment="Left">
                 <Label Content="{ns:Loc TourGuests:}" Margin="40,-20,140,0"/>
-                <TextBox x:Name="TourGuestsTextBox" TextWrapping="Wrap" IsReadOnly="True" BorderBrush="{DynamicResource TextBoxBorderBrush}" BorderThickness="3" Width="330" Margin="40,0,0,0" Height="110" FontSize="25"/>
+                <TextBox x:Name="TourGuestsTextBox" TextWrapping="Wrap" IsReadOnly="True" BorderBrush="{DynamicResource TextBoxBorderBrush}" BorderThickness="3" Width="330" Margin="40,0,0,0" Height="130" FontSize="25"/>
             </StackPanel>
         </StackPanel>
     </Grid>

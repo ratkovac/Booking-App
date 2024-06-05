@@ -33,6 +33,19 @@ namespace BookingApp.Repository
             return _serializer.FromCSV(FilePath);
         }
 
+        public List<int> GetAllDriverIds()
+        {
+            var vehicles = _serializer.FromCSV(FilePath);
+
+            var driverIds = vehicles
+                .Select(vehicle => vehicle.User.Id)
+                .Distinct()
+                .ToList();
+
+            return driverIds;
+        }
+
+
         public Vehicle Save(Vehicle vehicle)
         {
             vehicle.Id = NextId();

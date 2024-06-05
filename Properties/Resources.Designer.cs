@@ -268,6 +268,15 @@ namespace BookingApp.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date issued:.
+        /// </summary>
+        internal static string DateIssued_ {
+            get {
+                return ResourceManager.GetString("DateIssued:", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Departure date:.
         /// </summary>
         internal static string DepartureDate_ {
@@ -358,6 +367,15 @@ namespace BookingApp.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter delay (minutes):.
+        /// </summary>
+        internal static string EnterDelayMinutes_ {
+            get {
+                return ResourceManager.GetString("EnterDelayMinutes:", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter the number of guests:.
         /// </summary>
         internal static string EnterTheNumberOfGuests_ {
@@ -421,7 +439,7 @@ namespace BookingApp.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Go interesting ideas for complex tours?.
+        ///   Looks up a localized string similar to Got interesting ideas for complex tours?.
         /// </summary>
         internal static string GotInterestingIdeasForComplexTours_ {
             get {
@@ -574,6 +592,15 @@ namespace BookingApp.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to My notifications.
+        /// </summary>
+        internal static string MyNotifications {
+            get {
+                return ResourceManager.GetString("MyNotifications", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to My profile.
         /// </summary>
         internal static string MyProfile {
@@ -678,6 +705,15 @@ namespace BookingApp.Properties {
         internal static string NumberOfPeople_ {
             get {
                 return ResourceManager.GetString("NumberOfPeople:", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of segments:.
+        /// </summary>
+        internal static string NumberOfSegments_ {
+            get {
+                return ResourceManager.GetString("NumberOfSegments:", resourceCulture);
             }
         }
         
@@ -867,6 +903,15 @@ namespace BookingApp.Properties {
         internal static string Time_ {
             get {
                 return ResourceManager.GetString("Time:", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title:.
+        /// </summary>
+        internal static string Title_ {
+            get {
+                return ResourceManager.GetString("Title:", resourceCulture);
             }
         }
         

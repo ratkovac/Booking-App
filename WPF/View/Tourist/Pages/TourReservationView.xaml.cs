@@ -129,7 +129,14 @@ namespace BookingApp.WPF.View.Tourist.Pages
         {
             if (!(StartTimeComboBox.SelectedItem is string selectedTime) || !DateTime.TryParse(selectedTime, out DateTime selectedDate))
             {
-                MessageBox.Show("Date not valid.");
+                if (App.CurrentLanguage == "en-US")
+                {
+                    MessageBox.Show("Date not valid.");
+                }
+                else
+                {
+                    MessageBox.Show("Datum nije validan.");
+                }
                 return;
             }
 
@@ -158,7 +165,14 @@ namespace BookingApp.WPF.View.Tourist.Pages
             {
                 if (numberOfPeople < 1 || numberOfPeople > 120)
                 {
-                    MessageBox.Show("Number of people must be between 1 and 120.");
+                    if (App.CurrentLanguage == "en-US")
+                    {
+                        MessageBox.Show("Number of people must be between 1 and 120.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Broj ljudi mora biti između 1 i 120.");
+                    }
                     NumberOfPeopleTextBox.Clear();
                 }
                 else
@@ -168,7 +182,14 @@ namespace BookingApp.WPF.View.Tourist.Pages
             }
             else
             {
-                MessageBox.Show("Please enter a valid number.");
+                if (App.CurrentLanguage == "en-US")
+                {
+                    MessageBox.Show("Please enter a valid number.");
+                }
+                else
+                {
+                    MessageBox.Show("Molimo unesite validan broj.");
+                }
                 NumberOfPeopleTextBox.Clear();
             }
         }
@@ -177,7 +198,14 @@ namespace BookingApp.WPF.View.Tourist.Pages
         {
             if (!CheckIfTourInstancesExist())
             {
-                MessageBox.Show("Nema dostupnih termina za ovu turu.");
+                if (App.CurrentLanguage == "en-US")
+                {
+                    MessageBox.Show("There is no available instances for this tour.");
+                }
+                else
+                {
+                    MessageBox.Show("Nema dostupnih termina za ovu turu.");
+                }
                 StartTimeComboBox.IsDropDownOpen = false;
                 NavigationService.GoBack();
                 return;
@@ -212,11 +240,25 @@ namespace BookingApp.WPF.View.Tourist.Pages
 
             if (isReservationSaved)
             {
-                MessageBox.Show("Rezervacija uspješna!");
+                if (App.CurrentLanguage == "en-US")
+                {
+                    MessageBox.Show("Reservation successful!");
+                }
+                else
+                {
+                    MessageBox.Show("Rezervacija uspješna!");
+                }
             }
             else
             {
-                MessageBox.Show("Rezervacija nije uspješna. Molimo pokušajte ponovo.");
+                if (App.CurrentLanguage == "en-US")
+                {
+                    MessageBox.Show("Reservation unsuccessful. Please try again.");
+                }
+                else
+                {
+                    MessageBox.Show("Rezervacija nije uspješna. Molimo pokušajte ponovo.");
+                }
             }
         }
 
@@ -227,7 +269,14 @@ namespace BookingApp.WPF.View.Tourist.Pages
             {
                 int reservedSeats = SelectedTour.MaxGuests - (SelectedTourInstance?.AvailableSlots ?? 0);
                 int remainingSeats = SelectedTourInstance.AvailableSlots;
-                MessageBox.Show($"Na ovoj turi nema dovoljan broj slobodnih mjesta za unijeti broj ljudi.\nBroj rezervisanih mjesta je: {reservedSeats}.\nBroj slobodnih mjesta je: {remainingSeats}.");
+                if (App.CurrentLanguage == "en-US")
+                {
+                    MessageBox.Show($"There are not enough available seats on this tour to enter the number of people.\nNumber of reserved seats is: {reservedSeats}.\nNumber of available seats is: {remainingSeats}.");
+                }
+                else
+                {
+                    MessageBox.Show($"Na ovoj turi nema dovoljan broj slobodnih mjesta za unijeti broj ljudi.\nBroj rezervisanih mjesta je: {reservedSeats}.\nBroj slobodnih mjesta je: {remainingSeats}.");
+                }
                 NumberOfPeople = 0;
                 NumberOfPeopleTextBox.Clear();
                 return false;

@@ -120,10 +120,10 @@ namespace BookingApp.Service
             return true;
         }
 
-        public int GetAvailableDriver()
+        /*public int GetAvailableDriver()
         {
             return _driveRepository.GetAvailableDriverId();
-        }
+        }*/
 
         public void AddBonusPoints(int id)
         {

@@ -31,7 +31,14 @@ namespace BookingApp.WPF.View.Tourist.Pages
         private void Submit_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.CreateTourRequest();
-            MessageBox.Show("Tour request added successfully!");
+            if (App.CurrentLanguage == "en-US")
+            {
+                MessageBox.Show("Tour request added successfully!");
+            }
+            else
+            {
+                MessageBox.Show("Uspješno dodat zahtjev ture!");
+            }
         }
     }
 }

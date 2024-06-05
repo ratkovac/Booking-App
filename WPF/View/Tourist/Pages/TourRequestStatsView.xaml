@@ -45,9 +45,9 @@ VerticalAlignment="Center"/>
                 </Style.Triggers>
             </Style>
         </Grid.Resources>
-        <Label Content="{ns:Loc MyStatistics}" Foreground="{DynamicResource ForegroundBrush}" FontWeight="Bold" FontSize="45" HorizontalAlignment="Left" Margin="50,30,0,0" VerticalAlignment="Top"/>
+        <Label Content="{ns:Loc MyStatistics}" Foreground="{DynamicResource ForegroundBrush}" FontWeight="Bold" FontSize="45" HorizontalAlignment="Left" Margin="70,20,0,0" VerticalAlignment="Top"/>
 
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="50,120,0,15">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="70,120,0,15">
             <StackPanel.Resources>
                 <Style TargetType="Label">
                     <Setter Property="FontSize" Value="25"/>
@@ -59,7 +59,7 @@ VerticalAlignment="Center"/>
                 <ComboBox x:Name="YearPicker" FontSize="25" Width="150" Height="40" Margin="5,0,0,0" SelectedItem="{Binding SelectedYear}" ItemsSource="{Binding Years}"/>
         </StackPanel>
 
-        <lvc:PieChart HorizontalAlignment="Left" Width="800" Height="350" VerticalAlignment="Top" Margin="0,250,0,0"
+        <lvc:PieChart HorizontalAlignment="Left" Width="800" Height="350" VerticalAlignment="Top" Margin="20,250,0,0"
               LegendLocation="Right">
             <lvc:PieChart.Series>
                 <lvc:PieSeries Title="{ns:Loc PercentageOfAcceptedTours:}" 
@@ -79,8 +79,8 @@ VerticalAlignment="Center"/>
             </lvc:PieChart.Resources>
         </lvc:PieChart>
 
-        <TextBlock Text="{Binding AcceptedPercentage}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22" Margin="690,140,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBlock Text="{Binding DeclinedPercentage}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22" Margin="685,205,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Button BorderBrush="{DynamicResource ButtonBackgroundBrush}" Content="{ns:Loc GeneratePDF}" Command="{Binding DataContext.GeneratePDFCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="520,0,0,150"/>
+        <TextBlock Text="{Binding AcceptedPercentage}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22" Margin="730,140,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock Text="{Binding DeclinedPercentage}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22" Margin="725,205,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Button BorderBrush="{DynamicResource ButtonBackgroundBrush}" Content="{ns:Loc GeneratePDF}" Command="{Binding DataContext.GeneratePDFCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="560,0,0,130"/>
     </Grid>
 </Page>

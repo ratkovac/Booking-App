@@ -10,10 +10,10 @@
       Title="Tour Description">
 
     <Grid>
-        <Label FontWeight="Bold" FontSize="55" Width="850" HorizontalAlignment="Left" Margin="50,35,0,0" VerticalAlignment="Top">
+        <Label FontWeight="Bold" FontSize="55" Width="850" HorizontalAlignment="Left" Margin="50,15,0,0" VerticalAlignment="Top">
             <TextBox x:Name="NameTextBox" Foreground="{DynamicResource ForegroundBrush}" IsReadOnly="True" BorderThickness="0" Background="{DynamicResource BackgroundBrush}" Width="850" TextDecorations="Underline"/>
         </Label>
-        <StackPanel Margin="50,140,0,0">
+        <StackPanel Margin="70,120,0,0">
             <StackPanel.Resources>
                 <Style TargetType="Label">
                     <Setter Property="FontSize" Value="25"/>
@@ -87,10 +87,10 @@
                 <TextBox x:Name="StartTimesTextBox" IsReadOnly="True" BorderBrush="{DynamicResource TextBoxBorderBrush}" BorderThickness="3" Width="300" Height="100" FontSize="20"/>
             </StackPanel>
 
-            <Button Content="{ns:Loc BookTour!}" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" Click="Tour_Reservation" HorizontalAlignment="Center" Margin="400,30,0,0"/>
-            <Button Content="{ns:Loc ViewGallery}" Click="Gallery_Click" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" HorizontalAlignment="Center" Margin="-600,-60,0,0"/>
+            <Button Content="{ns:Loc BookTour!}" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" Click="Tour_Reservation" HorizontalAlignment="Center" Margin="380,50,0,0"/>
+            <Button Content="{ns:Loc ViewGallery}" Click="Gallery_Click" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" HorizontalAlignment="Center" Margin="-540,-60,0,0"/>
         </StackPanel>
-        <StackPanel Margin="480,140,0,0">
+        <StackPanel Margin="480,120,0,0">
             <StackPanel.Resources>
                 <Style TargetType="Label">
                     <Setter Property="FontSize" Value="25"/>

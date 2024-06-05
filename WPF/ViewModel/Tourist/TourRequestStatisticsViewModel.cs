@@ -206,7 +206,6 @@ namespace BookingApp.WPF.ViewModel.Tourist
                 gfx.DrawString(authorName, smallFont, XBrushes.Black, authorX, authorY);
                 gfx.DrawString(currentDate, smallFont, XBrushes.Black, dateX, dateY);
 
-                // Center the title
                 gfx.DrawString("Tour Request Report", titleFont, XBrushes.Black, new XRect(0, 0, page.Width, 40), XStringFormats.Center);
 
                 double yPoint = logoY + logoHeight + 20;
@@ -240,6 +239,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
 
                     acceptedPercentage = Math.Round(acceptedPercentage, 0);
                     declinedPercentage = Math.Round(declinedPercentage, 0);
+                    double average = Math.Round(averageNumberOfPeople, 2);
 
                     gfx.DrawString($"  Number of Tours: {totalTours}", regularFont, XBrushes.Black, new XRect(margin + 40, yPoint, page.Width - margin * 2, page.Height), XStringFormats.TopLeft);
                     yPoint += 20;
@@ -247,7 +247,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
                     yPoint += 20;
                     gfx.DrawString($"  Percentage of cancelled tours: {declinedPercentage}%", regularFont, XBrushes.Black, new XRect(margin + 40, yPoint, page.Width - margin * 2, page.Height), XStringFormats.TopLeft);
                     yPoint += 20;
-                    gfx.DrawString($"  Average number of people: {averageNumberOfPeople}", regularFont, XBrushes.Black, new XRect(margin + 40, yPoint, page.Width - margin * 2, page.Height), XStringFormats.TopLeft);
+                    gfx.DrawString($"  Average number of people: {average}", regularFont, XBrushes.Black, new XRect(margin + 40, yPoint, page.Width - margin * 2, page.Height), XStringFormats.TopLeft);
                     yPoint += 20;
                     gfx.DrawString($"  Most frequent language: {mostFrequentLanguage}", regularFont, XBrushes.Black, new XRect(margin + 40, yPoint, page.Width - margin * 2, page.Height), XStringFormats.TopLeft);
                     yPoint += 20;
@@ -256,21 +256,6 @@ namespace BookingApp.WPF.ViewModel.Tourist
 
                     gfx.DrawLine(XPens.Gray, margin, yPoint, page.Width - margin, yPoint);
                     yPoint += 15;
-
-                    /*for (int month = 1; month <= 12; month++)
-                    {
-                        if (yPoint > page.Height - margin)
-                        {
-                            page = document.AddPage();
-                            gfx = XGraphics.FromPdfPage(page);
-                            yPoint = margin;
-                        }
-                        
-                        string monthName = new DateTime(1, month, 1).ToString("MMMM", CultureInfo.InvariantCulture);
-
-                        gfx.DrawString($"Month: {monthName}", regularFont, XBrushes.Black, new XRect(margin + 20, yPoint, page.Width - margin * 2, page.Height), XStringFormats.TopLeft);
-                        yPoint += 15;
-                    }*/
                 }
 
                 document.Save(filePath);

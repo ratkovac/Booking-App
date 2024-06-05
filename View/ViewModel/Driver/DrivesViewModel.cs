@@ -70,10 +70,10 @@ namespace BookingApp.ViewModel.Driver
             _unsuccessfulDriveRepository = new UnsuccessfulDrivesRepository();
             _driverStatsRepository = new DriverStatsRepository();
             _driverStatsUpdateRepository = new DriverStatsUpdateRepository();
-            LoadDrives();
+            //LoadDrives();
         }
 
-        private void LoadDrives()
+        /*private void LoadDrives()
         {
             ListDrive.Clear();
             var drives = _driveRepository.GetDrivesByDriver(LoggedInUser);
@@ -84,7 +84,7 @@ namespace BookingApp.ViewModel.Driver
                     ListDrive.Add(driveDTO);
                 }
             }
-        }
+        }*/
 
         public void CancelDrive(DriveDTO selectedDrive)
         {
@@ -98,7 +98,7 @@ namespace BookingApp.ViewModel.Driver
                 var stats = _driverStatsRepository.GetById(LoggedInUser.Id);
                 stats.CancelledDrives += 1;
                 _driverStatsRepository.Update(stats);
-                LoadDrives();
+                //LoadDrives();
 
             }
         }
@@ -109,7 +109,7 @@ namespace BookingApp.ViewModel.Driver
         }
         public void RefreshDriveList()
         {
-            LoadDrives();
+            //LoadDrives();
             IsOverlayVisible = false;
         }
     }

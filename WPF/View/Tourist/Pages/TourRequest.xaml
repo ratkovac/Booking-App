@@ -10,8 +10,8 @@
       Title="TourRequest">
 
     <Grid>
-        <Label Content="{ns:Loc GotInterestingIdeasForNewTour?}" Foreground="{DynamicResource ForegroundBrush}" FontWeight="Bold" FontSize="45" HorizontalAlignment="Left" Margin="50,30,0,0" VerticalAlignment="Top"/>
-        <Label FontSize="50" HorizontalAlignment="Left" Margin="80,75,0,0" VerticalAlignment="Top">
+        <Label Content="{ns:Loc GotInterestingIdeasForNewTour?}" Foreground="{DynamicResource ForegroundBrush}" FontWeight="Bold" FontSize="45" HorizontalAlignment="Left" Margin="60,20,0,0" VerticalAlignment="Top"/>
+        <Label FontSize="45" HorizontalAlignment="Left" Margin="90,65,0,0" VerticalAlignment="Top">
             <TextBlock TextDecorations="Underline" Text="{ns:Loc BeCreative!}" Foreground="{DynamicResource ForegroundBrush}"/>
         </Label>
         <Grid>
@@ -60,7 +60,7 @@
                         <StackPanel>
                             <DockPanel>
                                 <Grid>
-                                    <StackPanel Margin="30,170,0,0">
+                                    <StackPanel Margin="70,150,0,0">
                                         <StackPanel.Resources>
                                             <Style TargetType="Label">
                                                 <Setter Property="FontSize" Value="25"/>
@@ -97,7 +97,7 @@
                                             <TextBox BorderBrush="{DynamicResource TextBoxBorderBrush}" BorderThickness="3" Width="330" Height="150" FontSize="25" Text="{Binding TourDescription, UpdateSourceTrigger=PropertyChanged}"/>
                                         </StackPanel>
                                     </StackPanel>
-                                    <StackPanel Margin="480,170,0,0">
+                                    <StackPanel Margin="500,150,0,0">
                                         <StackPanel.Resources>
                                             <Style TargetType="Label">
                                                 <Setter Property="FontSize" Value="25"/>
@@ -108,12 +108,12 @@
 
                                         <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
                                             <Label Content="{ns:Loc StartDate:}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                            <DatePicker FontSize="25" Width="220" Height="40" Margin="0,0,0,0" SelectedDate="{Binding StartDate}"/>
+                                            <DatePicker FontSize="22" Width="220" Height="40" Margin="0,0,0,0" SelectedDate="{Binding StartDate}"/>
                                         </StackPanel>
 
                                         <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
                                             <Label Content="{ns:Loc EndDate:}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                            <DatePicker FontSize="25" Width="230" Height="40" Margin="0,0,0,0" SelectedDate="{Binding EndDate}"/>
+                                            <DatePicker FontSize="22" Width="230" Height="40" Margin="0,0,0,0" SelectedDate="{Binding EndDate}"/>
                                         </StackPanel>
 
                                         <StackPanel Orientation="Horizontal" Margin="0,0,0,15">

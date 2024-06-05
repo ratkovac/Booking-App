@@ -19,6 +19,7 @@ namespace BookingApp.Repository.RepositoryInterface
         public List<TourReservation> GetAllByTourInstanceId(int tourInstanceId);
         public List<int> FindTourInstanceIdsWhereTouristPresent(int touristId);
         public List<TourReservation> GetToursWhichFinished();
+        public void UsedForWinningVoucher(TourReservation reservation);
 
         public void Subscribe(IObserver observer)
         {

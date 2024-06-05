@@ -53,6 +53,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
                 _selectedCountry = value;
                 OnPropertyChanged(nameof(SelectedCountry));
                 InputCities();
+                CheckReservationEligibility();
             }
         }
 
@@ -75,6 +76,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
             {
                 _selectedCity = value;
                 OnPropertyChanged(nameof(SelectedCity));
+                CheckReservationEligibility();
             }
         }
 
@@ -86,6 +88,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
             {
                 _startStreet = value;
                 OnPropertyChanged(nameof(StartStreet));
+                CheckReservationEligibility();
             }
         }
 
@@ -97,6 +100,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
             {
                 _endStreet = value;
                 OnPropertyChanged(nameof(EndStreet));
+                CheckReservationEligibility();
             }
         }
 
@@ -108,6 +112,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
             {
                 _departureDate = value;
                 OnPropertyChanged(nameof(DepartureDate));
+                CheckReservationEligibility();
             }
         }
 
@@ -119,6 +124,7 @@ namespace BookingApp.WPF.ViewModel.Tourist
             {
                 _departureHour = value;
                 OnPropertyChanged(nameof(DepartureHour));
+                CheckReservationEligibility();
             }
         }
 
@@ -130,6 +136,21 @@ namespace BookingApp.WPF.ViewModel.Tourist
             {
                 _selectedMinute = value;
                 OnPropertyChanged(nameof(SelectedMinute));
+                CheckReservationEligibility();
+            }
+        }
+
+        private bool _canReserve;
+        public bool CanReserve
+        {
+            get { return _canReserve; }
+            set
+            {
+                if (_canReserve != value)
+                {
+                    _canReserve = value;
+                    OnPropertyChanged(nameof(CanReserve));
+                }
             }
         }
 
@@ -144,6 +165,17 @@ namespace BookingApp.WPF.ViewModel.Tourist
             CancelCommand = new RelayCommand<FastDriveViewModel>(ExecuteCancelCommand);
             SelectedMinute = "00";
             DepartureDate = DateTime.Today;
+            CanReserve = false;
+        }
+
+        private void CheckReservationEligibility()
+        {
+            CanReserve = !string.IsNullOrEmpty(SelectedCountry) &&
+                         !string.IsNullOrEmpty(SelectedCity) &&
+                         !string.IsNullOrEmpty(StartStreet) &&
+                         !string.IsNullOrEmpty(EndStreet) &&
+                         !string.IsNullOrEmpty(DepartureHour) &&
+                         !string.IsNullOrEmpty(SelectedMinute);
         }
 
         private void ExecuteReservationCommand(FastDriveViewModel fastDriveViewModel)
@@ -236,6 +268,33 @@ namespace BookingApp.WPF.ViewModel.Tourist
         {
             DateTime departure = _fastDriveService.CreateDateTimeFromSelections(DepartureDate, DepartureHour, SelectedMinute);
 
+            if (!IsValidStreetFormat(StartStreet) || !IsValidStreetFormat(EndStreet))
+            {
+                string errorMessage;
+                if (App.CurrentLanguage == "en-US")
+                {
+                    errorMessage = "Invalid street format! Correct format is 'Name, number'";
+                }
+                else
+                {
+                    errorMessage = "Pogrešan format ulice! Ispravno je 'Naziv, broj'";
+                }
+                if (!IsValidStreetFormat(StartStreet) && !IsValidStreetFormat(EndStreet))
+                {
+                    StartStreet = string.Empty;
+                    EndStreet = string.Empty;
+                }
+                else if (!IsValidStreetFormat(StartStreet))
+                {
+                    StartStreet = string.Empty;
+                }
+                else if (!IsValidStreetFormat(EndStreet))
+                {
+                    EndStreet = string.Empty;
+                }
+                return errorMessage;
+            }
+
             if (departure == DateTime.MinValue)
             {
                 string errorMessage;
@@ -266,9 +325,41 @@ namespace BookingApp.WPF.ViewModel.Tourist
 
             FastDrive fastDrive = new FastDrive(DetailedStartAddressId, DetailedEndAddressId, departure, DateTime.Now, Tourist, 2, 0, 0);
             _fastDriveService.Create(fastDrive);
-            return "Rezervacija uspješna";
+            if (App.CurrentLanguage == "en-US")
+            {
+                return "Reservation successful!";
+            }
+            else
+            {
+                return "Rezervacija uspješna!";
+            }
         }
 
+        private bool IsValidStreetFormat(string street)
+        {
+            if (string.IsNullOrWhiteSpace(street))
+            {
+                return false;
+            }
+            string[] parts = street.Split(',');
+
+            if (parts.Length != 2)
+            {
+                return false;
+            }
+
+            if (int.TryParse(parts[0].Trim(), out _))
+            {
+                return false;
+            }
+
+            if (!int.TryParse(parts[1].Trim(), out _))
+            {
+                return false;
+            }
+
+            return true;
+        }
 
         private int AddNewAddress(string address)
         {
