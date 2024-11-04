@@ -15,20 +15,19 @@ namespace BookingApp.Service
     public class SuggestReservationService
     {
         private IAccommodationReservationRepository _accommodationReservationRepository;
-        private ObservableCollection<AccommodationReservationDTO> accommodationReservations;
 
         public SuggestReservationService()
         {
             _accommodationReservationRepository = Injector.CreateInstance<IAccommodationReservationRepository>();
-            var reservations = _accommodationReservationRepository.GetAll();
-            accommodationReservations = FillReservationsDTO(reservations);
         }
 
-        public ObservableCollection<AccommodationReservationDTO> FillReservationsDTO(List<AccommodationReservation> accommodationReservations)
+
+
+        public ObservableCollection<AccommodationReservationDTO> FillReservationsDTO()
         {
             var reservationDTOs = new ObservableCollection<AccommodationReservationDTO>();
 
-            foreach (var reservation in accommodationReservations)
+            foreach (var reservation in _accommodationReservationRepository.GetAll())
             {
                 var reservationDTO = new AccommodationReservationDTO(reservation);
                 reservationDTOs.Add(reservationDTO);
@@ -37,11 +36,11 @@ namespace BookingApp.Service
             return reservationDTOs;
         }
 
-        public ObservableCollection<AccommodationReservationDTO> SuggestReservation(int reservationDays, ObservableCollection<AccommodationReservationDTO> availableAccommodationPeriods,
+        public List<AccommodationReservationDTO> SuggestReservation(List<AccommodationReservationDTO> accommodationReservations, int reservationDays, List<AccommodationReservationDTO> availableAccommodationPeriods,
             DateOnly startDate, DateOnly endDate)
         {
-            ObservableCollection<AccommodationReservationDTO> sortedAccommodationReservations =
-                SortAccommodationReservations(startDate, endDate);
+            List<AccommodationReservationDTO> sortedAccommodationReservations =
+                SortAccommodationReservations(accommodationReservations, startDate, endDate);
 
             FillGapsBetweenReservations(sortedAccommodationReservations, reservationDays, availableAccommodationPeriods);
             FillGapBeforeFirstReservation(sortedAccommodationReservations, startDate, reservationDays, availableAccommodationPeriods);
@@ -51,10 +50,10 @@ namespace BookingApp.Service
             return availableAccommodationPeriods;
         }
 
-        private ObservableCollection<AccommodationReservationDTO> SortAccommodationReservations(DateOnly startDate, DateOnly endDate)
+        private List<AccommodationReservationDTO> SortAccommodationReservations(List<AccommodationReservationDTO> accommodationReservations, DateOnly startDate, DateOnly endDate)
         {
             var sorted = accommodationReservations.OrderBy(reservation => reservation.StartDate).ToList();
-            ObservableCollection<AccommodationReservationDTO> sortedAccommodationReservations = new ObservableCollection<AccommodationReservationDTO>();
+            List<AccommodationReservationDTO> sortedAccommodationReservations = new List<AccommodationReservationDTO>();
 
             foreach (var reservation in sorted)
             {
@@ -68,9 +67,9 @@ namespace BookingApp.Service
         }
 
         private void FillGapsBetweenReservations(
-            ObservableCollection<AccommodationReservationDTO> reservations,
+            List<AccommodationReservationDTO> reservations,
             int reservationDays,
-            ObservableCollection<AccommodationReservationDTO> availableAccommodationPeriods)
+            List<AccommodationReservationDTO> availableAccommodationPeriods)
         {
             for (int i = 0; i < reservations.Count - 1; i++)
             {
@@ -81,9 +80,9 @@ namespace BookingApp.Service
         }
 
         private void FillGapBeforeFirstReservation(
-            ObservableCollection<AccommodationReservationDTO> reservations,
+            List<AccommodationReservationDTO> reservations,
             DateOnly periodStart, int reservationDays,
-            ObservableCollection<AccommodationReservationDTO> availableAccommodationPeriods)
+            List<AccommodationReservationDTO> availableAccommodationPeriods)
         {
             if (reservations.Any())
             {
@@ -94,9 +93,9 @@ namespace BookingApp.Service
         }
 
         private void FillGapAfterLastReservation(
-            ObservableCollection<AccommodationReservationDTO> reservations,
+            List<AccommodationReservationDTO> reservations,
             DateOnly periodEnd, int reservationDays,
-            ObservableCollection<AccommodationReservationDTO> availableAccommodationPeriods)
+            List<AccommodationReservationDTO> availableAccommodationPeriods)
         {
             if (reservations.Any())
             {
@@ -107,9 +106,9 @@ namespace BookingApp.Service
         }
 
         private void FillEntirePeriodIfNoReservations(
-            ObservableCollection<AccommodationReservationDTO> reservations,
+            List<AccommodationReservationDTO> reservations,
             DateOnly periodStart, DateOnly periodEnd, int reservationDays,
-            ObservableCollection<AccommodationReservationDTO> availableAccommodationPeriods)
+            List<AccommodationReservationDTO> availableAccommodationPeriods)
         {
             if (!reservations.Any())
             {
@@ -126,7 +125,7 @@ namespace BookingApp.Service
         private void FillGap(
             DateOnly start, int gapDays,
             int reservationDays,
-            ObservableCollection<AccommodationReservationDTO> availableAccommodationPeriods)
+            List<AccommodationReservationDTO> availableAccommodationPeriods)
         {
             while (gapDays >= reservationDays)
             {
@@ -142,6 +141,31 @@ namespace BookingApp.Service
                 start = start.AddDays(reservationDays);
                 gapDays -= reservationDays;
             }
+        }
+
+        public List<AccommodationReservationDTO> CreateReservationsWithoutChecking(
+            DateOnly startDate,
+            DateOnly endDate,
+            int reservationDays)
+        {
+            var newReservations = new List<AccommodationReservationDTO>();
+            DateOnly currentDate = startDate;
+
+            while (currentDate <= endDate)
+            {
+                var newReservationDTO = new AccommodationReservationDTO
+                {
+                    StartDate = currentDate,
+                    EndDate = currentDate.AddDays(reservationDays - 1),
+                    ReservationDays = reservationDays,
+                };
+
+                newReservations.Add(newReservationDTO);
+
+                currentDate = currentDate.AddDays(reservationDays);
+            }
+
+            return newReservations;
         }
 
         public void Subscribe(IObserver observer)

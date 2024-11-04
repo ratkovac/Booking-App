@@ -65,7 +65,7 @@ namespace BookingApp.Model
             Name = values[1];
             int locationId = Convert.ToInt32(values[2]);
             LocationRepository locationRepository = new LocationRepository();
-            Location = locationRepository.GetLocationById(locationId);
+            Location = locationRepository.GetById(locationId);
             bool success = Enum.TryParse(values[3], out AccommodationType parsedType);
             Type = parsedType;
             Capacity = Convert.ToInt32(values[4]);

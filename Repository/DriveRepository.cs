@@ -1,7 +1,9 @@
 ﻿using BookingApp.DTO;
 using BookingApp.Model;
+using BookingApp.Repository.RepositoryInterface;
 using BookingApp.Serializer;
 using BookingApp.WPF.View.Tourist.Pages;
+using CLI.Observer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,12 +11,12 @@ using System.Linq;
 
 namespace BookingApp.Repository
 {
-    public class DriveRepository
+    public class DriveRepository : IDriveRepository
     {
         private const string FilePath = "../../../Resources/Data/drives.csv";
 
         private readonly Serializer<Drive> _serializer;
-
+        private List<IObserver> observers;
         private List<Drive> _drives;
 
         public DriveRepository()
@@ -23,15 +25,9 @@ namespace BookingApp.Repository
             _drives = _serializer.FromCSV(FilePath);
         }
 
-        public List<Drive> GetAll()
-        {
-            return _serializer.FromCSV(FilePath);
-        }
-
         public Drive Save(Drive drive)
         {
             drive.Id = NextId();
-            _drives = _serializer.FromCSV(FilePath);
             _drives.Add(drive);
             _serializer.ToCSV(FilePath, _drives);
             return drive;
@@ -39,59 +35,63 @@ namespace BookingApp.Repository
 
         public int NextId()
         {
-            _drives = _serializer.FromCSV(FilePath);
-            if (_drives.Count < 1)
+            if (_drives.Count == 0)
             {
-                return 1;
+                return 0;
             }
-            return _drives.Max(c => c.Id) + 1;
+            return _drives.Max(fd => fd.Id) + 1;
+        }
+
+        public void Create(Drive drive)
+        {
+            drive.Id = NextId();
+            _drives.Add(drive);
+            _serializer.ToCSV(FilePath, _drives);
         }
 
         public void Delete(Drive drive)
         {
-            _drives = _serializer.FromCSV(FilePath);
-            Drive founded = _drives.Find(c => c.Id == drive.Id);
-            if (founded != null)
+            Drive found = _drives.Find(fd => fd.Id == drive.Id);
+            _drives.Remove(found);
+            _serializer.ToCSV(FilePath, _drives);
+        }
+
+        public void Update(Drive drive)
+        {
+            int index = _drives.FindIndex(fd => drive.Id == fd.Id);
+            if (index != -1)
             {
-                _drives.Remove(founded);
+                _drives[index] = drive;
+                _serializer.ToCSV(FilePath, _drives);
             }
-            _serializer.ToCSV(FilePath, _drives);
         }
 
-        public Drive Update(Drive drive)
+        public List<Drive> GetAll()
         {
-            _drives = _serializer.FromCSV(FilePath);
-            Drive current = _drives.Find(c => c.Id == drive.Id);
-            int index = _drives.IndexOf(current);
-            _drives.Remove(current);
-            _drives.Insert(index, drive);
-            _serializer.ToCSV(FilePath, _drives);
-            return drive;
+            return _drives;
         }
 
-        public ObservableCollection<Drive> GetDrivesByDriver(User user)
+        public Drive GetById(int id)
         {
-            _drives = _serializer.FromCSV(FilePath);
-            List<Drive> filteredDrives = _drives.FindAll(c => c.Driver.Id == user.Id);
-            return new ObservableCollection<Drive>(filteredDrives);
+            return _drives.Find(fd => fd.Id == id);
         }
 
-        public List<Drive> GetByDriverId(int driverId)
+        public void Subscribe(IObserver observer)
         {
-            _drives = _serializer.FromCSV(FilePath);
-            return _drives.FindAll(r => r.DriverId == driverId);
+            observers.Add(observer);
         }
 
-        public List<Drive> GetByTourist(int guestId)
+        public void Unsubscribe(IObserver observer)
         {
-            _drives = _serializer.FromCSV(FilePath);
-            return _drives.FindAll(r => r.GuestId == guestId);
+            observers.Remove(observer);
         }
 
-        public List<Drive> GetDrivesForToday()
+        public void NotifyObservers()
         {
-            _drives = _serializer.FromCSV(FilePath);
-            return _drives.FindAll(c => c.Date.Date == DateTime.Today);
+            foreach (var observer in observers)
+            {
+                observer.Update();
+            }
         }
     }
 }

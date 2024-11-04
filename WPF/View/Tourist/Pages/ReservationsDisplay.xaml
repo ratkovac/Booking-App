@@ -1,0 +1,91 @@
+﻿<Page x:Class="BookingApp.WPF.View.Tourist.Pages.ReservationsDisplay"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BookingApp.WPF.View.Tourist.Pages"
+      xmlns:ns="clr-namespace:BookingApp.Localization"
+      mc:Ignorable="d" 
+      d:DesignHeight="720" d:DesignWidth="950" Background="{DynamicResource BackgroundBrush}"
+      Title="ReservationsDisplay">
+
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="Button">
+                <Setter Property="FontSize" Value="22"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Margin" Value="10,5"/>
+                <Setter Property="Padding" Value="10"/>
+                <Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource ButtonBackgroundBrush}"/>
+                <Setter Property="BorderThickness" Value="2"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="Width" Value="230"/>
+                <Setter Property="Height" Value="60"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}"
+      BorderBrush="{TemplateBinding BorderBrush}"
+      BorderThickness="{TemplateBinding BorderThickness}">
+                                <ContentPresenter HorizontalAlignment="Center"
+VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{DynamicResource ButtonMouseOverBackgroundBrush}"/>
+                        <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource ButtonMouseOverBorderBrush}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Resources>
+        <Label Content="{ns:Loc MyTourReservations}" Foreground="{DynamicResource ForegroundBrush}" FontWeight="Bold" FontSize="52" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top"/>
+        <Border CornerRadius="10" Background="{DynamicResource BackgroundBrush1}" Margin="80,120,90,150">
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="0" BlurRadius="10"/>
+            </Border.Effect>
+            <ListView SelectedItem="{Binding SelectedReservation, UpdateSourceTrigger=PropertyChanged}"
+          ItemsSource="{Binding ListReservation, UpdateSourceTrigger=PropertyChanged}"
+          HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="{DynamicResource BackgroundBrush1}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="380" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image Source="{Binding TourInstance.Tour.ImagePath}" Width="130" Height="130" Stretch="Uniform" />
+                            <StackPanel Grid.Column="1" Margin="15,0,0,0" VerticalAlignment="Center">
+                                <TextBlock>
+                                    <Run Text="{Binding TourInstance.Tour.Name}" Foreground="{DynamicResource ForegroundBrush}" FontSize="27" FontWeight="Bold"/>
+                                </TextBlock>
+                                <TextBlock Margin="15,0,0,0">
+                                    <Run Text="{ns:Loc Location:}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22" FontWeight="Bold"/>
+                                    <Run Text=" "/>
+                                    <Run Text="{Binding TourInstance.Tour.Location.City}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22"/>
+                                    <Run Text=", " Foreground="{DynamicResource ForegroundBrush}" FontSize="22" FontWeight="Bold"/>
+                                    <Run Text="{Binding TourInstance.Tour.Location.Country}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22"/>
+                                </TextBlock>
+                                <TextBlock Margin="15,0,0,0">
+                                    <Run Text="{ns:Loc Language:}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22" FontWeight="Bold"/>
+                                    <Run Text=" "/>
+                                    <Run Text="{Binding TourInstance.Tour.Language.Name}" Foreground="{DynamicResource ForegroundBrush}" FontSize="22"/>
+                                </TextBlock>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                                <Button Content="{ns:Loc RateTour}" Click="RateTour_Click" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="40"/>
+                                <Button Content="{ns:Loc TrackTour}" Click="TrackTour_Click" BorderBrush="{DynamicResource ButtonBackgroundBrush}" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="40"/>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Border>
+    </Grid>
+</Page>

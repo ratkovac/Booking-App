@@ -19,8 +19,12 @@ namespace BookingApp.DependencyInjection
             { typeof(ITouristRepository), new TouristRepository() },
             { typeof(ITourReservationRepository), new TourReservationRepository() },
             { typeof(IAccommodationReservationRepository), new AccommodationReservationRepository() },
+            { typeof(ITourRepository), new TourRepository() },
+            { typeof(ICheckPointRepository), new CheckPointRepository() },
             { typeof(IAccommodationRepository), new AccommodationRepository() },
-            //{ typeof(ITourGuestRepository), new TourGuestRepository() },
+            { typeof(ILanguageRepository), new LanguageRepository() },
+            { typeof(IAddressRepository), new AddressRepository() },
+            { typeof(ITourGuestRepository), new TourGuestRepository() },
             { typeof(IGradeAccommodationRepository), new GradeAccommodationRepository() },
             { typeof(ICanceledReservationRepository), new CanceledReservationRepository() },
             { typeof(IFastDriveRepository), new FastDriveRepository() },
@@ -28,7 +32,19 @@ namespace BookingApp.DependencyInjection
             { typeof(IImageRepository), new ImageRepository() },
             { typeof(IDriverStatsRepository), new DriverStatsRepository() },
             { typeof(IReservedDriveRepository), new ReservedDriveRepository() },
-            { typeof(ITourImageRepository), new TourImageRepository() }
+            { typeof(ITourImageRepository), new TourImageRepository() },
+            { typeof(IRenovationRepository), new RenovationRepository() },
+            { typeof(IGradeGuestRepository), new GradeGuestRepository() },
+            { typeof(IRequestRejectionCommentRepository), new RequestRejectionCommentRepository()  },
+            { typeof(ILocationRepository), new LocationRepository() },
+            { typeof(ISuperGuestRepository), new SuperGuestRepository() },
+            { typeof(IAccommodationEventRepository), new AccommodationEventRepository() },
+            { typeof(ITourRequestRepository), new TourRequestRepository() },
+            { typeof(ITourRequestSegmentRepository), new TourRequestSegmentRepository() },
+            { typeof(ITourRequestGuestRepository), new TourRequestGuestRepository() },
+            { typeof(IDriverUnreliableReportRepository), new DriverUnreliableReportRepository() },
+            { typeof(IDriveRepository), new DriveRepository() },
+            { typeof(IGroupDriveRepository), new GroupDriveRepository() }
         };
         public static T CreateInstance<T>()
         {

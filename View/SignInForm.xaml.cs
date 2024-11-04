@@ -9,6 +9,7 @@ using BookingApp.WPF.View.Tourist;
 using BookingApp.View.GuideView;
 using BookingApp.Service;
 using BookingApp.View.GuideView.Pages;
+using BookingApp.View.NGuest;
 
 namespace BookingApp.View
 {
@@ -65,8 +66,8 @@ namespace BookingApp.View
                             Close();
                             break;
                         case "Guest":
-                            Guest guest = new Guest(user);
-                            guest.Show();
+                            Home home = new Home(user);
+                            home.Show();
                             Close();
                             break;
                         case "Guide":
@@ -79,13 +80,13 @@ namespace BookingApp.View
                         case "Tourist":
                             TouristService touristService = new TouristService();
                             BookingApp.Model.Tourist tourist = touristService.GetTouristByUserId(user.Id);
-                            TouristFrontPage touristFrontPage = new TouristFrontPage(tourist);
-                            touristFrontPage.Show();
+                            TouristMainPage touristMainPage = new TouristMainPage(tourist);
+                            touristMainPage.Show();
                             Close();
                             break;
                         case "Driver":
-                            Driver.DriverFrontPage driverFrontPage = new Driver.DriverFrontPage(user);
-                            driverFrontPage.Show();
+                            Driver.Example example = new Driver.Example(user);
+                            example.Show();
                             Close();
                             break;
                         default:

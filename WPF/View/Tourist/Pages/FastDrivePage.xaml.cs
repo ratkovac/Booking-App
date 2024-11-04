@@ -18,17 +18,10 @@ namespace BookingApp.WPF.View.Tourist.Pages
 {
     public partial class FastDrivePage : Page
     {
-        private FastDriveViewModel viewModel;
         public FastDrivePage(FastDriveViewModel fastDriveViewModel)
         {
             InitializeComponent();
             this.DataContext = fastDriveViewModel;
-            viewModel = fastDriveViewModel;
-        }
-
-        private void Reservation_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show(viewModel.Reservation());
         }
     }
 }

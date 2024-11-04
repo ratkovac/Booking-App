@@ -30,6 +30,13 @@ namespace BookingApp.Repository
             return _tourReservations;
         }
 
+        public List<TourReservation> GetFinishedAndStartedReservations()
+        {
+            return _tourReservations
+                .Where(reservation => reservation.TourInstance.StartTime <= DateTime.Now)
+                .ToList();
+        }
+
         public TourReservation Save(TourReservation tourReservation)
         {
             tourReservation.Id = NextId();
@@ -89,6 +96,12 @@ namespace BookingApp.Repository
             return _serializer.FromCSV(FilePath).Where(tr => tr.TourInstanceId == tourInstanceId).ToList();
         }
 
+        public TourReservation GetReservationByTourInstanceId(int tourInstanceId)
+        {
+            TourReservation reservation = _tourReservations.Find(tr => tr.TourInstanceId == tourInstanceId);
+            return reservation;
+        }
+
         public List<TourReservation> GetReservationsByTourInstance(TourInstance tourInstance)
         {
             return _tourReservations.Where(r => r.TourInstanceId == tourInstance.Id).ToList();
@@ -112,6 +125,11 @@ namespace BookingApp.Repository
         {
             TourReservation tourReservation = _tourReservations.Find(r => r.TouristId == tourist.Id && r.TourInstanceId == tourInstance.Id);
             return tourReservation;
+        }
+        public void UsedForWinningVoucher(TourReservation reservation)
+        {
+            reservation.WonVoucher = true;
+            Update(reservation);
         }
         public List<int> FindTourInstanceIdsWhereTouristPresent(int touristId)
         {

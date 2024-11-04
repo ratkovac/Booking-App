@@ -23,6 +23,10 @@ namespace BookingApp.Service
         {
             return _repository.GetAllByUser(userId);
         }
+        public List<AccommodationReservation> GetAllByID(int accommodationId)
+        {
+            return _repository.GetAllByID(accommodationId);
+        }
         public List<AccommodationReservation> GetAll()
         {
             return _repository.GetAll();
@@ -40,6 +44,11 @@ namespace BookingApp.Service
         public void Update(AccommodationReservation AccommodationReservation)
         {
             _repository.Update(AccommodationReservation);
+        }
+
+        public void Add(AccommodationReservation entity)
+        {
+            _repository.Create(entity);
         }
 
         public void Subscribe(IObserver observer)

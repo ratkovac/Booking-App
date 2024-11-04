@@ -1,0 +1,23 @@
+﻿<Window x:Class="BookingApp.View.Owner.AccommodationStatistic"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BookingApp.View.ViewModel.Owner"
+        mc:Ignorable="d"
+        Title="Statistic by year" Background="#93DBEB" Height="450" Width="800" ResizeMode="NoResize" WindowStyle="SingleBorderWindow"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <TextBlock Text="{Binding SelectedAccommodation.Name}"
+                   HorizontalAlignment="Center" VerticalAlignment="Top" Width="130" Margin="0,34,0,0"/>
+        <DataGrid x:Name="Stats" ItemsSource="{Binding yearStatistic}" AutoGenerateColumns="False" Margin="192,55,192,115">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Year" Binding="{Binding Year}" />
+                <DataGridTextColumn Header="Reservations" Binding="{Binding NumberOfReservations}" />
+                <DataGridTextColumn Header="Moves" Binding="{Binding NumberOfMovedReservations}" />
+                <DataGridTextColumn Header="Cancellations" Binding="{Binding NumberOfCancelledReservations}" />
+                <DataGridTextColumn Header="Proposal for renovation" Binding="{Binding NumberOfRenovationProposal}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

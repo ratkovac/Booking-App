@@ -131,7 +131,51 @@ namespace BookingApp.DTO
                 }
             }
         }
+        private string frontImagePath;
+        public string FrontImagePath
+        {
+            get
+            {
+                return frontImagePath;
+            }
+            set
+            {
+                if (frontImagePath != value)
+                {
+                    frontImagePath = value;
+                    OnPropertyChanged("FrontImagePath");
+                }
+            }
+        }
 
+        private string suggest;
+
+        public string Suggest
+        {
+            get { return suggest; }
+            set
+            {
+                if (suggest != value)
+                {
+                    suggest = value;
+                    OnPropertyChanged(nameof(Suggest));
+                }
+            }
+        }
+
+        private RenovationUrgencyLevel urgencyLevel;
+        public RenovationUrgencyLevel UrgencyLevel
+        {
+            get { return urgencyLevel; }
+            set
+            {
+                if (urgencyLevel != value)
+                {
+                    urgencyLevel = value;
+                    OnPropertyChanged(nameof(UrgencyLevel));
+                }
+            }
+        }
         public GradeAccommodationDTO()
         {
         }
@@ -144,12 +188,14 @@ namespace BookingApp.DTO
             comment = gradeAccommodation.Comment;
             username = gradeAccommodation.AccommodationReservation.User.Username;
             accommodationName = gradeAccommodation.AccommodationReservation.Accommodation.Name;
+            suggest = gradeAccommodation.Suggest;
+            urgencyLevel = gradeAccommodation.UrgencyLevel ?? RenovationUrgencyLevel.Empty; 
 
 
         }
         public GradeAccommodation ToGradeAccommodation()
         {
-            GradeAccommodation gradeAccommodation = new GradeAccommodation(accommodationReservation.Id, cleanliness, correctness, comment);
+            GradeAccommodation gradeAccommodation = new GradeAccommodation(accommodationReservation, cleanliness, correctness, comment);
             return gradeAccommodation;
         }
         protected virtual void OnPropertyChanged(string name)

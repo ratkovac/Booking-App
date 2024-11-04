@@ -41,6 +41,11 @@ namespace BookingApp.Service
             }
         }
 
+        public List<TourReservation> GetAllByUserId(int userId)
+        {
+            return tourReservationRepository.GetAllByUserId(userId);
+        }
+
         public List<TourReservation> GetAllByTourInstanceId(int tourInstanceId)
         {
             return tourReservationRepository.GetAllByTourInstanceId(tourInstanceId);
@@ -116,6 +121,10 @@ namespace BookingApp.Service
         public List<TourReservation> GetReservationsForGuest(int touristId)
         {
             return GetAllReservations().Where(r => r.TouristId == touristId).ToList();
+        }
+        public void UsedForWinningVoucher(TourReservation reservation)
+        {
+            tourReservationRepository.UsedForWinningVoucher(reservation);
         }
         public void MarkTourReservationAsRated(int tourReservationId)
         {

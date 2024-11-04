@@ -38,16 +38,14 @@ namespace BookingApp.View.GuideView.Pages
 
         private void cbTour_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            viewModel.LoadReviews(viewModel.SelectedTourInstance.Id);
+            viewModel.LoadReviews(viewModel.SelectedTour.TourInstanceId);
         }
 
         private void btnReport_Click(object sender, RoutedEventArgs e)
         {
-            // Pristupamo DataContext-u dugmeta
             Button button = sender as Button;
             if (button != null && button.DataContext is TourReview tourReview)
             {
-                // Pristupamo GradeTourId i prosleđujemo ga u metodu Report()
                 int gradeTourId = tourReview.GradeTourId;
                 viewModel.Report(gradeTourId);
             }

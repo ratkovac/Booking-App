@@ -8,6 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="WPF\Styles\**" />
+    <EmbeddedResource Remove="WPF\Styles\**" />
+    <None Remove="WPF\Styles\**" />
+    <Page Remove="WPF\Styles\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="download %281%29.jpg" />
+    <None Remove="download %282%29.jpg" />
+    <None Remove="download.jpg" />
     <None Remove="Fonts\Poppins-Black.ttf" />
     <None Remove="Fonts\Poppins-BlackItalic.ttf" />
     <None Remove="Icon\back.png" />
@@ -17,12 +27,14 @@
     <None Remove="Icon\calendar %281%29ch.png" />
     <None Remove="Icon\calendar - Copy.png" />
     <None Remove="Icon\calendar.png" />
+    <None Remove="Icon\corrected.png" />
     <None Remove="Icon\dollar.png" />
     <None Remove="Icon\favorite - Copy.png" />
     <None Remove="Icon\favorite.png" />
     <None Remove="Icon\group - Copy.png" />
     <None Remove="Icon\group.png" />
     <None Remove="Icon\home.png" />
+    <None Remove="Icon\letter.png" />
     <None Remove="Icon\location.png" />
     <None Remove="Icon\logout - Copy.png" />
     <None Remove="Icon\logout.png" />
@@ -34,21 +46,53 @@
     <None Remove="Icon\star.png" />
     <None Remove="Icon\true.png" />
     <None Remove="Icon\trueBlue.png" />
+    <None Remove="Icon\user.png" />
+    <None Remove="Icon\washing-hands.png" />
+    <None Remove="Icon\x.png" />
     <None Remove="Icon\zoom.png" />
     <None Remove="Images\Accommodation.jpg" />
     <None Remove="Images\apartment1.jpg" />
     <None Remove="Images\apartment2.jpg" />
     <None Remove="Images\reserve.png" />
     <None Remove="Resources\Images\add.png" />
+    <None Remove="Resources\Images\bell.png" />
+    <None Remove="Resources\Images\bell1.png" />
+    <None Remove="Resources\Images\beograd.jpeg" />
+    <None Remove="Resources\Images\beograd1.jpg" />
+    <None Remove="Resources\Images\beograd2.jpg" />
+    <None Remove="Resources\Images\budimpesta1.jpg" />
+    <None Remove="Resources\Images\budimpesta2.jpg" />
     <None Remove="Resources\Images\delete.png" />
+    <None Remove="Resources\Images\doggo.jpg" />
     <None Remove="Resources\Images\edit.png" />
+    <None Remove="Resources\Images\language.png" />
+    <None Remove="Resources\Images\language1.png" />
+    <None Remove="Resources\Images\logo.jpg" />
+    <None Remove="Resources\Images\losangeles.jpg" />
+    <None Remove="Resources\Images\novisad.jpeg" />
+    <None Remove="Resources\Images\ny.jpg" />
+    <None Remove="Resources\Images\strpce.jpg" />
+    <None Remove="Resources\Images\theme.png" />
+    <None Remove="Resources\Images\theme1.png" />
+    <None Remove="Resources\Images\user.png" />
+    <None Remove="Resources\Images\user1.png" />
     <None Remove="Resources\Images\view.png" />
     <None Remove="View\GuideView\GuideImages\navigation.png" />
     <None Remove="View\GuideView\GuideImages\profile.png" />
     <None Remove="View\GuideView\Pages\pozadinaNebo.jpg" />
     <None Remove="View\NGuest\menu-svgrepo-com.png" />
+    <None Remove="View\Owner\accommodation.png" />
+    <None Remove="View\Owner\calendar.png" />
+    <None Remove="View\Owner\hotel.png" />
+    <None Remove="View\Owner\noimage.png" />
+    <None Remove="View\Owner\profile.png" />
+    <None Remove="View\Owner\resort.jpg" />
     <None Remove="View\Owner\star.png" />
+    <None Remove="View\Owner\star_empty.png" />
+    <None Remove="View\Owner\star_filled.png" />
     <None Remove="View\Owner\user.jpg" />
+    <None Remove="View\Owner\warning.png" />
+    <None Remove="View\ViewModel\Owner\DelayRequestsViewModel.cs~RF39835835.TMP" />
   </ItemGroup>
 
   <ItemGroup>
@@ -63,12 +107,14 @@
     <Resource Include="Icon\calendar (1)ch.png" />
     <Resource Include="Icon\calendar - Copy.png" />
     <Resource Include="Icon\calendar.png" />
+    <Resource Include="Icon\corrected.png" />
     <Resource Include="Icon\dollar.png" />
     <Resource Include="Icon\favorite - Copy.png" />
     <Resource Include="Icon\favorite.png" />
     <Resource Include="Icon\group - Copy.png" />
     <Resource Include="Icon\group.png" />
     <Resource Include="Icon\home.png" />
+    <Resource Include="Icon\letter.png" />
     <Resource Include="Icon\location.png" />
     <Resource Include="Icon\logout - Copy.png" />
     <Resource Include="Icon\logout.png" />
@@ -80,10 +126,76 @@
     <Resource Include="Icon\star.png" />
     <Resource Include="Icon\true.png" />
     <Resource Include="Icon\trueBlue.png" />
+    <Resource Include="Icon\user.png" />
+    <Resource Include="Icon\washing-hands.png" />
+    <Resource Include="Icon\x.png" />
     <Resource Include="Icon\zoom.png" />
     <Resource Include="Images\Accommodation.jpg" />
     <Resource Include="Images\apartment1.jpg" />
     <Resource Include="Images\apartment2.jpg" />
+    <Content Include="download (1).jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="download (2).jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="download.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\bell.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\bell1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\beograd.jpeg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\beograd1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\beograd2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\budimpesta2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\doggo.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\language.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\language1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\logo.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\losangeles.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\novisad.jpeg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\ny.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\strpce.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\theme.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\user.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\theme1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Images\user1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="View\GuideView\GuideImages\navigation.png" />
   </ItemGroup>
 
@@ -103,34 +215,60 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Resources\Images\budimpesta1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="LiveCharts" Version="0.9.7" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
+    <PackageReference Include="PdfSharpCore" Version="1.3.63" />
     <PackageReference Include="Syncfusion.Blazor.PivotTable" Version="25.1.40" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Images\reserve.png" />
     <Resource Include="View\NGuest\menu-svgrepo-com.png" />
+    <Resource Include="View\Owner\accommodation.png" />
+    <Resource Include="View\Owner\calendar.png" />
+    <Resource Include="View\Owner\noimage.png" />
+    <Resource Include="View\Owner\profile.png" />
+    <Resource Include="View\Owner\resort.jpg" />
     <Resource Include="View\Owner\star.png" />
+    <Resource Include="View\Owner\star_empty.png" />
+    <Resource Include="View\Owner\star_filled.png" />
     <Resource Include="View\Owner\user.jpg" />
+    <Resource Include="View\Owner\warning.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="WPF\View\Tourist\Pages\AvailableTours.xaml.cs">
-      <SubType>Code</SubType>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Update="WPF\View\Tourist\Pages\DriveReservation.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="WPF\View\Tourist\TouristFrontPage.xaml.cs">
-      <SubType>Code</SubType>
+    <Compile Update="Properties\Resources.sr-LATN.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.sr-LATN.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Domain\Model\" />
-    <Folder Include="WPF\Styles\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.sr-LATN.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.sr-LATN.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

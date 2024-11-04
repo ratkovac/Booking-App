@@ -1,4 +1,5 @@
 ﻿using BookingApp.Model;
+using BookingApp.Repository.RepositoryInterface;
 using BookingApp.Serializer;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Linq;
 
 namespace BookingApp.Repository
 {
-    public class LanguageRepository
+    public class LanguageRepository : ILanguageRepository
     {
         private const string FilePath = "../../../Resources/Data/languages.csv";
 
@@ -37,6 +38,13 @@ namespace BookingApp.Repository
             return language;
         }
 
+        public void Create(Language language)
+        {
+            language.Id = NextId();
+            _languages.Add(language);
+            _serializer.ToCSV(FilePath, _languages);
+        }
+
         public int NextId()
         {
             _languages = _serializer.FromCSV(FilePath);
@@ -55,18 +63,22 @@ namespace BookingApp.Repository
             _serializer.ToCSV(FilePath, _languages);
         }
 
-        public Language Update(Language language)
+        public void Update(Language language)
         {
-            _languages = _serializer.FromCSV(FilePath);
-            Language current = _languages.Find(c => c.Id == language.Id);
-            int index = _languages.IndexOf(current);
-            _languages.Remove(current);
-            _languages.Insert(index, language);       // keep ascending order of ids in file 
-            _serializer.ToCSV(FilePath, _languages);
-            return language;
+            int index = _languages.FindIndex(gd => language.Id == gd.Id);
+            if (index != -1)
+            {
+                _languages[index] = language;
+                _serializer.ToCSV(FilePath, _languages);
+            }
         }
 
         public Language? GetLanguageById(int languageId)
+        {
+            return _languages.Find(c => c.Id == languageId);
+        }
+
+        public Language? GetById(int languageId)
         {
             return _languages.Find(c => c.Id == languageId);
         }

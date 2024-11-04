@@ -63,6 +63,14 @@ using System.Threading.Tasks;
         {
             return _images.Find(c => c.Id == key);
         }
+        public Image? GetByAccommodationId(int accommodationId)
+        {
+            return _images.Find(c => c.AccomodationId == accommodationId);
+        }
+        public List<Image> GetByTourId(int tourId)
+        {
+            return _images.Where(c => c.TourId == tourId).ToList();
+        }
 
         public Image Update(Image image)
         {

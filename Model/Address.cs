@@ -56,7 +56,7 @@ namespace BookingApp.Model
             Id = Convert.ToInt32(values[0]);
             LocationId = Convert.ToInt32(values[1]);
             LocationRepository locationRepository = new LocationRepository();
-            Location = locationRepository.GetLocationById(LocationId);
+            Location = locationRepository.GetById(LocationId);
             Street = values[2];
             Number = values[3];
         }

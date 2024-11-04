@@ -21,6 +21,7 @@ namespace BookingApp.Model
         public User Guest { get; set; }
         public int DriveStatusId { get; set; }
         public double Delay { get; set; }
+        public User Driver { get; set; }
         public int DriverId { get; set; }
 
 
@@ -81,6 +82,7 @@ namespace BookingApp.Model
             UserRepository userRepository = new UserRepository();
             Guest = userRepository.GetByID(GuestId);
             DriverId = Convert.ToInt32(values[8]);
+            Driver = userRepository.GetByID(DriverId);
         }
     }
 }

@@ -15,17 +15,20 @@ namespace BookingApp.Service
     public class FastDriveService
     {
         private IFastDriveRepository fastDriveRepository;
-        private readonly VehicleRepository _vehicleRepository;
         private readonly DriveRepository _driveRepository;
         private LocationRepository _locationRepository { get; set; }
         private AddressRepository _addressRepository { get; set; }
+        private readonly DriverStatsRepository _driverStatsRepository;
+        private readonly DriverStatsUpdateRepository _driverStatsUpdateRepository;
+
         public FastDriveService()
         {
             fastDriveRepository = Injector.CreateInstance<IFastDriveRepository>();
-            _vehicleRepository = new VehicleRepository();
             _driveRepository = new DriveRepository();
             _locationRepository = new LocationRepository();
             _addressRepository = new AddressRepository();
+            _driverStatsRepository = new DriverStatsRepository();
+            _driverStatsUpdateRepository = new DriverStatsUpdateRepository();
         }
         public int NextId()
         {
@@ -64,11 +67,11 @@ namespace BookingApp.Service
             int hour = int.Parse(DepartureHour);
             int minute = int.Parse(SelectedMinute);
 
-            if (hour < 0 || hour > 23 || minute < 0 || minute > 59)
+            if (hour < 0 || hour > 23)
             {
-                throw new ArgumentException("Nevažeći sati ili minuti.");
+                return DateTime.MinValue;
             }
-
+            
             DateTime selectedDateTime = new DateTime(DepartureDate.Year, DepartureDate.Month, DepartureDate.Day, hour, minute, 0);
             return selectedDateTime;
         }
@@ -106,6 +109,48 @@ namespace BookingApp.Service
             _addressRepository.Save(newAddress);
 
             return newAddress.Id;
+        }
+
+        public bool CheckDuration(double duration)
+        {
+            if (duration > 6)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /*public int GetAvailableDriver()
+        {
+            return _driveRepository.GetAvailableDriverId();
+        }*/
+
+        public void AddBonusPoints(int id)
+        {
+            var driverStats = _driverStatsRepository.GetByDriverId(id);
+
+            DriverStatsUpdate update = new DriverStatsUpdate(id);
+            if (driverStats != null)
+            {
+                if (driverStats.FastDrives <= 15)
+                {
+                    driverStats.FastDrives += 1;
+                    update.FastDrivesUpdate += 1;
+                    _driverStatsUpdateRepository.Create(update);
+                }
+                else
+                {
+                    driverStats.BonusPoints += 5;
+                    update.BonusPointsUpdate += 5;
+                    _driverStatsUpdateRepository.Create(update);
+                }
+
+                _driverStatsRepository.Update(driverStats);
+            }
+        }
+        public Location GetLocationById(int id)
+        {
+            return _locationRepository.GetLocationById(id);
         }
     }
 }

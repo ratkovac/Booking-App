@@ -8,48 +8,113 @@
       d:DesignHeight="750" d:DesignWidth="430"
       Title="TourReviews">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
-        </Grid.RowDefinitions>
-        <StackPanel>
-            <StackPanel Grid.Row="0" Orientation="Horizontal">
-                <TextBlock Text="Tour: " FontSize="20" VerticalAlignment="Center" Margin="30,0,0,0"/>
-                <ComboBox Grid.Row="0" ItemsSource="{Binding TourInstances}" DisplayMemberPath="Id" 
-        SelectedItem="{Binding SelectedTourInstance}" SelectionChanged="cbTour_SelectionChanged" Margin="10" Width="200" Height="30"/>
-                <Button x:Name="btnTouristList" Content="Tourist List" Click="btnTouristList_Click" Margin="30, 20, 0, 20" Height="25"/>
+    <Page.Resources>
+        <!-- Include your resource dictionary here -->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+            <StackPanel>
+                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <TextBlock Text="Tour:" FontSize="20" VerticalAlignment="Center" Margin="50,20,0,0" Style="{StaticResource StyleForTextBlock}"/>
+                    <ComboBox Grid.Row="0" ItemsSource="{Binding ToursBind}" DisplayMemberPath="Name" 
+        SelectedItem="{Binding SelectedTour}" SelectionChanged="cbTour_SelectionChanged" Margin="10,25,0,0" Width="250" Height="25" Style="{StaticResource ComboBoxStyle}"/>
+                </StackPanel>
+                <StackPanel Grid.Row="1">
+                    <ItemsControl ItemsSource="{Binding TourReviews}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <GroupBox Margin="40,20,40,0" Style="{StaticResource StyleForGroupBox}">
+                                    <GroupBox.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="👤"/>
+                                            <TextBlock Text="{Binding TouristName}"/>
+                                        </StackPanel>
+                                    </GroupBox.Header>
+                                    <GroupBox.Background>
+                                        <SolidColorBrush Color="Gray" Opacity="0.25"/>
+                                    </GroupBox.Background>
+                                    <StackPanel Orientation="Vertical">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="Check Point: " Margin="10,10,0,0" FontSize="14"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding PointText}" Margin="10,10,0,0" FontSize="14"/>
+                                            <Button Name="btnReport" Grid.Column="2" FontSize="7" Click="btnReport_Click" Margin="5,0,10,0" Background="Transparent" BorderBrush="Transparent">
+                                                <!-- Samo slika -->
+                                                <Image Source="C:\Users\janic\FAX\SEMESTAR 6\SiMS\zipovan\ratkovac\ratkovac\sims-ra-2024-group-7-team-a\sims-ra-2024-group-7-team-a\View\GuideView\GuideImages\alert-icon.png" Width="25" Height="25"/>
+                                            </Button>
+                                        </Grid>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="Comment: "    Margin="10,5,0,0" FontSize="14"/>
+                                            <TextBlock Text="{Binding Comment}" Grid.Column="1" Margin="5,5,0,0" Grid.RowSpan="2" FontSize="14" TextWrapping="Wrap"/>
+                                        </Grid>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0" Text="Grade: " Margin="10,5,0,10" FontSize="14"/>
+                                            <TextBlock Grid.Column="1" Grid.ColumnSpan="2" Margin="5,5,0,10" Grid.RowSpan="2">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Text" Value="{Binding Grade}" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Grade}" Value="1">
+                                                                <Setter Property="Text" Value="★" />
+                                                                <Setter Property="Foreground" Value="red" />
+                                                                <Setter Property="FontSize" Value="14"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Grade}" Value="2">
+                                                                <Setter Property="Text" Value="★★" />
+                                                                <Setter Property="Foreground" Value="OrangeRed" />
+                                                                <Setter Property="FontSize" Value="14"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Grade}" Value="3">
+                                                                <Setter Property="Text" Value="★★★" />
+                                                                <Setter Property="Foreground" Value="Orange" />
+                                                                <Setter Property="FontSize" Value="14"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Grade}" Value="4">
+                                                                <Setter Property="Text" Value="★★★★" />
+                                                                <Setter Property="Foreground" Value="#FFC300" />
+                                                                <Setter Property="FontSize" Value="14"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Grade}" Value="5">
+                                                                <Setter Property="Text" Value="★★★★★" />
+                                                                <Setter Property="Foreground" Value="Yellow" />
+                                                                <Setter Property="FontSize" Value="14"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </Grid>
+                                    </StackPanel>
+                                </GroupBox>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
             </StackPanel>
-            <StackPanel Grid.Row="1">
-                <TextBlock Text="Gde" Height="40" Width="100"/>
-                <ItemsControl ItemsSource="{Binding TourReviews}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="60"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                <TextBlock Text="Check Point: "/>
-                                <TextBlock Grid.Row="1" Text="Comment: "/>
-                                <TextBlock Grid.Row="2" Text="Grade: "/>
-                                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding PointText}" Margin="10,0,0,0" />
-                                <TextBlock Text="{Binding Comment}" Grid.ColumnSpan="2" Margin="68,17,0,0" Grid.RowSpan="2" />
-                                <TextBlock Grid.Row="1" Text="{Binding Grade}" Grid.ColumnSpan="2" Margin="45,16,0,0" Grid.RowSpan="2" />
-                                <Button Name="btnReport" Grid.Column="2" Content="Report" FontSize="5" Click="btnReport_Click" Margin="5,0,8,4"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>
-        </StackPanel>
-        
-    </Grid>
+
+        </Grid>
+    </ScrollViewer>
 </Page>

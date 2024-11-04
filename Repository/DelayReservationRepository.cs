@@ -65,6 +65,18 @@ namespace BookingApp.Repository
             _serializer.ToCSV(FilePath, _delayReservations);
         }
 
+        public void DeleteById(int delayReservationId)
+        {
+            _delayReservations = _serializer.FromCSV(FilePath);
+            DelayReservation founded = _delayReservations.Find(c => c.Id == delayReservationId);
+            if (founded != null)
+            {
+                _delayReservations.Remove(founded);
+            }
+            DelayReservationSubject.NotifyObservers();
+            _serializer.ToCSV(FilePath, _delayReservations);
+        }
+
         public DelayReservation GetById(int key)
         {
             return _delayReservations.Find(c => c.Id == key);

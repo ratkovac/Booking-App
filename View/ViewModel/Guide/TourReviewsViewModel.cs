@@ -1,5 +1,6 @@
 ﻿using BookingApp.Model;
 using BookingApp.Service;
+using BookingApp.View.GuideView.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,14 +22,13 @@ namespace BookingApp.View.ViewModel.Guide
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private TourInstanceService tourInstanceService = new TourInstanceService();
-        private TourReservationService tourReservationService = new TourReservationService();
-        private TourGuestService tourGuestService = new TourGuestService();
-        private GradeTourService gradeTourService = new GradeTourService();
-        private CheckPointService checkPointService = new CheckPointService();
+        private TourInstanceService tourInstanceService;
+        private TourReservationService tourReservationService;
+        private TourGuestService tourGuestService;
+        private GradeTourService gradeTourService;
+        private CheckPointService checkPointService;
+        private TourService tourService;
 
-        List<CheckPoint> checkPoints = new List<CheckPoint>();
-        //List<TourGuest> tourGuests = new List<TourGuest>();
         List<GradeTour> gradeTours = new List<GradeTour>();
 
 
@@ -54,42 +54,106 @@ namespace BookingApp.View.ViewModel.Guide
             }
         }
 
-        private ObservableCollection<GradeTour> _gradeTours;
-        public ObservableCollection<GradeTour> GradeTours
+        private Tours _selectedTour;
+        public Tours SelectedTour
         {
-            get { return _gradeTours; }
+            get { return _selectedTour; }
             set
             {
-                _gradeTours = value;
-                OnPropertyChanged(nameof(GradeTours));
+                _selectedTour = value;
+                OnPropertyChanged(nameof(SelectedTour));
             }
         }
 
-        private ObservableCollection<CheckPoint> _checkPoints;
-        public ObservableCollection<CheckPoint> CheckPoints
+        private List<Tours> tours = new List<Tours>();
+        public struct Tours : INotifyPropertyChanged
         {
-            get { return _checkPoints; }
-            set
+            private string _name;
+            public string Name
             {
-                _checkPoints = value;
-                OnPropertyChanged(nameof(CheckPoints));
+                get { return _name; }
+                set
+                {
+                    if (_name != value)
+                    {
+                        _name = value;
+                        OnPropertyChanged(nameof(Name));
+                    }
+                }
+            }
+
+            private int _tourInstanceId;
+            public int TourInstanceId
+            {
+                get { return _tourInstanceId; }
+                set
+                {
+                    if (_tourInstanceId != value)
+                    {
+                        _tourInstanceId = value;
+                        OnPropertyChanged(nameof(TourInstanceId));
+                    }
+                }
+            }
+            
+            private int _tourId;
+            public int TourId
+            {
+                get { return _tourId; }
+                set
+                {
+                    if (_tourId != value)
+                    {
+                        _tourInstanceId = value;
+                        OnPropertyChanged(nameof(TourId));
+                    }
+                }
+            }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+            private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+
+            public Tours(string name, int tourInstanceId, int tourId)
+            {
+                _name = name;
+                _tourInstanceId = tourInstanceId;
+                _tourId = tourId;
+                PropertyChanged = null;
             }
         }
 
-        private CheckPoint _checkPoint;
-        public CheckPoint CheckPoint
+        private ObservableCollection<Tours> _toursBind;
+        public ObservableCollection<Tours> ToursBind
         {
-            get { return _checkPoint; }
+            get { return _toursBind; }
             set
             {
-                _checkPoint = value;
-                OnPropertyChanged(nameof(CheckPoint));
+                _toursBind = value;
+                OnPropertyChanged(nameof(ToursBind));
             }
         }
 
         private List<TourReview> tourReviews = new List<TourReview>();
         public struct TourReview : INotifyPropertyChanged
         {
+
+            private string _touristName;
+            public string TouristName
+            {
+                get { return _touristName; }
+                set
+                {
+                    if (_touristName != value)
+                    {
+                        _touristName = value;
+                        OnPropertyChanged(nameof(TouristName));
+                    }
+                }
+            }
+
             private int _gradeTourId;
             public int GradeTourId
             {
@@ -151,20 +215,19 @@ namespace BookingApp.View.ViewModel.Guide
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
 
-            public TourReview(string pointText, string comment, int grade, int gradeTourId)
+            public TourReview(string pointText, string comment, int grade, int gradeTourId, string touristName)
             {
                 _pointText = pointText;
                 _comment = comment;
                 _grade = grade;
                 _gradeTourId = gradeTourId;
+                _touristName = touristName;
                 PropertyChanged = null; 
             }
         }
 
 
-
         private ObservableCollection<TourReview> _tourReviews;
-
         public ObservableCollection<TourReview> TourReviews
         {
             get { return _tourReviews; }
@@ -179,20 +242,18 @@ namespace BookingApp.View.ViewModel.Guide
         {
 
             List<TourReservation> tourReservations = tourReservationService.GetAllByTourInstanceId(tourInstanceId);
-            List<GradeTour> tempGradeTours = new List<GradeTour>();
             gradeTours.Clear();
-            checkPoints.Clear();
             tourReviews.Clear();
+
             foreach (TourReservation tourReservation in tourReservations)
             {
                 GetTourGrades(tourReservation);
             }
 
-            GradeTours = new ObservableCollection<GradeTour>(gradeTours);
             GetCheckPoint(gradeTours);
 
             TourReviews = new ObservableCollection<TourReview>(tourReviews);
-            OnPropertyChanged(nameof(TourReviews));
+            //OnPropertyChanged(nameof(TourReviews));
 
 
         }
@@ -208,32 +269,35 @@ namespace BookingApp.View.ViewModel.Guide
 
         public void GetCheckPoint(List<GradeTour> tempGradeTours)
         {
-            foreach (GradeTour gradeTour in tempGradeTours)
+            foreach (var gradeTour in tempGradeTours)
             {
-                TourReservation tourReservation = tourReservationService.GetById(gradeTour.TourReservationId);
-                List<TourGuest> tourGuests = tourGuestService.GetByTouristAndReservationId(gradeTour.TourReservationId, gradeTour.TouristId);
-                foreach (TourGuest tourGuest in tourGuests)
-                {
-                    if(tourGuest.TouristId ==  gradeTour.TouristId)
-                    {
-                        CheckPoint checkPoint = checkPointService.GetById(tourGuest.CheckpointId);
-                        checkPoints.Add(checkPoint);
-                        TourReview tourReview = new TourReview(checkPoint.PointText, gradeTour.Comment, gradeTour.Grade, gradeTour.Id);
-                        tourReviews.Add(tourReview);
-                    }                   
-                }
+                ProcessGradeTour(gradeTour);
             }
         }
 
+        private void ProcessGradeTour(GradeTour gradeTour)
+        {
+            var tourGuests = tourGuestService.GetByTouristAndReservationId(gradeTour.TourReservationId, gradeTour.TouristId);
+            foreach (var tourGuest in tourGuests)
+            {
+
+                var checkPoint = checkPointService.GetById(tourGuest.CheckpointId);            
+                var tourReview = new TourReview(checkPoint.PointText, gradeTour.Comment, gradeTour.Grade, gradeTour.Id, gradeTour.Tourist.Name);
+                tourReviews.Add(tourReview);
+
+            }
+        }
+
+
         public void LoadReviews(int selectedTourInstanceId)
         {
-            if (SelectedTourInstance != null)
+            if (selectedTourInstanceId != null)
             {
                 Reviews(selectedTourInstanceId);
             }
             else
             {
-                TourReviews = null;
+                ToursBind = null;
             }
         }
 
@@ -244,9 +308,28 @@ namespace BookingApp.View.ViewModel.Guide
             gradeTourService.Update(gradeTour);
         }
 
+        private void GetNamesForTourInstances(List<TourInstance> tourInstances)
+        {
+            foreach (TourInstance tourInstance in tourInstances)
+            {
+                Tour tour = tourService.GetById(tourInstance.TourId);
+                Tours tourBind = new Tours(tour.Name + " " + tourInstance.StartTime.ToString(), tourInstance.Id, tour.Id);
+                tours.Add(tourBind);
+
+            }
+        }
         public TourReviewsViewModel(User user)
         {
-            TourInstances = new ObservableCollection<TourInstance>(tourInstanceService.GetFinishedByUserId(user.Id));
+            tourGuestService = new TourGuestService();
+            gradeTourService = new GradeTourService();
+            checkPointService = new CheckPointService();
+            tourGuestService = new TourGuestService();
+            tourReservationService = new TourReservationService();
+            tourInstanceService = new TourInstanceService();
+            tourService = new TourService();
+            GetNamesForTourInstances(tourInstanceService.GetFinishedByUserId(user.Id));
+            ToursBind = new ObservableCollection<Tours>(tours);
+            OnPropertyChanged(nameof(ToursBind));
         }
     }
 }

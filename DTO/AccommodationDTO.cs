@@ -193,6 +193,22 @@ namespace BookingApp.DTO
                 }
             }
         }
+        private Image frontImage;
+        public Image FrontImage
+        {
+            get
+            {
+                return frontImage;
+            }
+            set
+            {
+                if (frontImage != value)
+                {
+                    frontImage = value;
+                    OnPropertyChanged("FrontImage");
+                }
+            }
+        }
         public AccommodationDTO(Accommodation accommodation)
         {
             Id = accommodation.Id;

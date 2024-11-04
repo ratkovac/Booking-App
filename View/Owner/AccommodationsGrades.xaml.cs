@@ -1,14 +1,5 @@
-﻿using BookingApp.Model;
-using BookingApp.Repository;
-using System;
-using System.Collections.ObjectModel;
-using System.Windows;
-using System.Windows.Input;
+﻿using System.Windows;
 using BookingApp.View.ViewModel.Owner;
-using System.Windows.Media.Imaging;
-using System.Windows.Media;
-using BookingApp.View.ViewModel.Owner;
-using BookingApp.View.ViewModel.Guest;
 
 namespace BookingApp.View.Owner
 {
@@ -18,8 +9,7 @@ namespace BookingApp.View.Owner
         {
             InitializeComponent();
             this.DataContext = accommodationsGradesViewModel;
-            AccommodationGradesGrid.ItemsSource = accommodationsGradesViewModel.allGrades();
-            Avarage.Content = accommodationsGradesViewModel.AvarageGrade();
+            Average.Content = accommodationsGradesViewModel.AvarageGrade();
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
